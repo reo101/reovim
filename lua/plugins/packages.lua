@@ -94,6 +94,13 @@ packer.startup{
                 { "nvim-treesitter/nvim-treesitter" }
             },
         }
+        use {
+            "JoosepAlviste/nvim-ts-context-commentstring",
+            requires = {
+                { "nvim-treesitter/nvim-treesitter" }
+            },
+        }
+
 
         -- Compe
         use {
@@ -117,6 +124,14 @@ packer.startup{
 
         -- Better increment/decrement
         use { "monaqa/dial.nvim" }
+
+        -- Kommentary
+        use {
+            "b3nj5m1n/kommentary",
+            config = function()
+                require("rv-kommentary").config()
+            end
+        }
 
         -- Highlight comments
         use { "tjdevries/vim-inyoface" } -- TODO
