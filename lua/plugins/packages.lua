@@ -116,7 +116,7 @@ packer.startup{
         use { "kyazdani42/nvim-tree.lua" } -- TODO
 
         -- Better increment/decrement
-        use { "monaga/dial.nvim" }
+        use { "monaqa/dial.nvim" }
 
         -- Highlight comments
         use { "tjdevries/vim-inyoface" } -- TODO
