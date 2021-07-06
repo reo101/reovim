@@ -14,27 +14,39 @@ packer.startup{
 
         -- Telescope
         use {
-            "nvim-telescope/telescope.nvim", -- TODO
+            "nvim-telescope/telescope.nvim",
             requires = {{"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}},
+            after = {
+                "telescope-packer.nvim",
+                "telescope-fzf-native.nvim",
+                "telescope-github.nvim",
+                "telescope-media-files.nvim",
+                "telescope-symbols.nvim",
+            },
             config = function()
                 require("rv-telescope").config()
-            end
+            end,
         }
         use {
-            "nvim-telescope/telescope-packer.nvim"
+            "nvim-telescope/telescope-packer.nvim",
+            requires = {{"nvim-telescope/telescope.nvim"}},
         }
         use {
             "nvim-telescope/telescope-fzf-native.nvim",
-            run = "make"
+            requires = {{"nvim-telescope/telescope.nvim"}},
+            run = "make",
         }
         use {
-            "nvim-telescope/telescope-github.nvim"
+            "nvim-telescope/telescope-github.nvim",
+            requires = {{"nvim-telescope/telescope.nvim"}},
         }
         use {
-            "nvim-telescope/telescope-media-files.nvim"
+            "nvim-telescope/telescope-media-files.nvim",
+            requires = {{"nvim-telescope/telescope.nvim"}},
         }
         use {
-            "nvim-telescope/telescope-symbols.nvim"
+            "nvim-telescope/telescope-symbols.nvim",
+            requires = {{"nvim-telescope/telescope.nvim"}},
         }
 
         -- DevIcons
@@ -43,7 +55,7 @@ packer.startup{
             opt = true,
             config = function()
                 require("rv-devicons").setup()
-            end
+            end,
         }
         -- Treesitter
         use {
@@ -51,13 +63,19 @@ packer.startup{
         }
         use {
             "nvim-treesitter/nvim-treesitter-textobjects",
+            after = "nvim-treesitter",
+            requires = {{"nvim-treesitter/nvim-treesitter"}},
         }
         use {
             "nvim-treesitter/playground",
+            after = "nvim-treesitter",
+            requires = {{"nvim-treesitter/nvim-treesitter"}},
             as = "nvim-treesitter-playground",
         }
         use {
             "p00f/nvim-ts-rainbow",
+            after = "nvim-treesitter",
+            requires = {{"nvim-treesitter/nvim-treesitter"}},
             as = "nvim-treesitter-rainbow",
         }
 
@@ -68,6 +86,10 @@ packer.startup{
             config = function()
                 require("rv-compe").config()
             end,
+        }
+        use {
+            "GoldsteinE/compe-latex-symbols",
+            requires = {{"hrsh7th/nvim-compe"}},
         }
 
         -- File Tree
@@ -84,7 +106,7 @@ packer.startup{
         display = {
             open_fn = function()
                 return require("packer.util").float({ border = "single" })
-            end
-        }
-    }
+            end,
+        },
+    },
 }
