@@ -21,4 +21,10 @@
 --    \__\::::/      \__\/      \  \:\    
 --        ~~~~                   \__\/    
 
-require('plugins')
+require("plugins")
+
+require("settings")
+
+-- require("mappings")
+
+require("rv-treesitter").config()

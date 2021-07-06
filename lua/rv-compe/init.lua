@@ -7,7 +7,7 @@ M.config = function()
 		autocomplete = true,
 		debug = false,
 		min_length = 2, --TODO
-		preselect = "enable",
+		preselect = "disabled",
 		throttle_time = 80,
 		source_timeout = 200,
 		resolve_timeout = 800,
@@ -26,6 +26,7 @@ M.config = function()
 			vsnip = false,
 			ultisnips = false,
 			luasnip = false,
+            latex_symbols = true,
 		},
 	}
 
