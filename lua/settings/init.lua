@@ -23,8 +23,8 @@ cmd "au ColorScheme * hi SignColumn ctermbg=none guibg=none"
 
 --- COLORSCHEME ---
 
-require("monokai")
-vim.cmd("colorscheme monokai")
+-- require("monokai")
+vim.cmd("colorscheme sonokai")
 
 ---  SETTINGS  ---
 

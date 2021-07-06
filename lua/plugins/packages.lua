@@ -7,6 +7,7 @@ packer.startup{
 
         -- Colourscheme
         use { "tanvirtin/monokai.nvim" }
+        use { "sainnhe/sonokai" }
 
         -- LSP
         use { "neovim/nvim-lspconfig" }
