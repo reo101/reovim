@@ -95,9 +95,15 @@ M.config = function()
                 enable = false,
             }
         },
+        context = {
+            enable = true,
+        },
     }
 
     require("nvim-treesitter.configs").setup(opt)
+    -- require'treesitter-context.config'.setup{
+    --     enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+    -- }
 
 end
 
