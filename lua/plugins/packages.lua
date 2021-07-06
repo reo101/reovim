@@ -60,7 +60,7 @@ packer.startup{
             "kyazdani42/nvim-web-devicons",
             opt = true,
             config = function()
-                require("rv-devicons").setup()
+                require("rv-devicons").config()
             end,
         }
 
