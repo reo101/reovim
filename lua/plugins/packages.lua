@@ -63,6 +63,11 @@ packer.startup{
                 require("rv-devicons").config()
             end,
         }
+        use {
+            "yamatsum/nvim-nonicons",
+            requires = {"kyazdani42/nvim-web-devicons"},
+            after = { "nvim-web-devicons" },
+        }
 
         -- Shade
         use {
