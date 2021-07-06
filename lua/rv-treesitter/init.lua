@@ -24,27 +24,28 @@ M.config = function()
         },
         refactor = {
             highlight_definitions = {
-                enable = true
+                enable = true,
             },
             smart_rename = {
                 enable = true,
                 keymaps = {
-                    smart_rename = "grr"
-                }
+                    smart_rename = "grr",
+                },
             },
             navigation = {
                 enable = true,
                 keymaps = {
                     goto_definition = "gnd",
-                    list_definitions = "gnD"
-                }
-            }
+                    list_definitions = "gnD",
+                },
+            },
         },
         textobjects = {
             enable = true,
             disable = {},
             select = {
                 enable = true,
+                lookahead = true,
                 keymaps = {
                     ["af"] = "@function.outer",
                     ["if"] = "@function.inner",
@@ -60,8 +61,8 @@ M.config = function()
                     ["as"] = "@statement.outer",
                     ["ad"] = "@comment.outer",
                     ["am"] = "@call.outer",
-                    ["im"] = "@call.inner"
-                }
+                    ["im"] = "@call.inner",
+                },
             },
             swap = {
                 enable = true,
@@ -74,6 +75,7 @@ M.config = function()
             },
             move = {
                 enable = true,
+                set_jumps = true,
                 goto_next_start = {
                     ["]m"] = "@function.outer",
                     ["]]"] = "@class.outer",
@@ -93,17 +95,17 @@ M.config = function()
             },
             lsp_interop = {
                 enable = false,
-            }
+            },
         },
         context = {
             enable = true,
         },
+        context_commentstring = {
+            enable = true
+        },
     }
 
     require("nvim-treesitter.configs").setup(opt)
-    -- require'treesitter-context.config'.setup{
-    --     enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-    -- }
 
 end
 
