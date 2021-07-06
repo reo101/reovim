@@ -64,6 +64,14 @@ packer.startup{
             end,
         }
 
+        -- Shade
+        use {
+            "sunjon/shade.nvim",
+            config = function()
+                require("rv-shade").config()
+            end
+        }
+
         -- Treesitter
         use {
             "nvim-treesitter/nvim-treesitter",
