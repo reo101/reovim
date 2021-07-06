@@ -15,21 +15,36 @@ packer.startup{
         -- Telescope
         use {
             "nvim-telescope/telescope.nvim", -- TODO
-            requires = {{"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}}
+            requires = {{"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}},
+            config = function()
+                require("rv-telescope").config()
+            end
         }
         use {
             "nvim-telescope/telescope-packer.nvim"
         }
         use {
-            "nvim-telescope/telescope-fzf-native.nvim"
+            "nvim-telescope/telescope-fzf-native.nvim",
+            run = "make"
         }
         use {
             "nvim-telescope/telescope-github.nvim"
         }
         use {
+            "nvim-telescope/telescope-media-files.nvim"
+        }
+        use {
             "nvim-telescope/telescope-symbols.nvim"
         }
 
+        -- DevIcons
+        use {
+            "kyazdani42/nvim-web-devicons",
+            opt = true,
+            config = function()
+                require("rv-devicons").setup()
+            end
+        }
         -- Treesitter
         use {
             "nvim-treesitter/nvim-treesitter",
