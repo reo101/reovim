@@ -138,6 +138,15 @@ packer.startup{
         -- Better increment/decrement
         use { "monaqa/dial.nvim" }
 
+        -- Neogit
+        use {
+            "TimUntersberger/neogit",
+            requires = "nvim-lua/plenary.nvim",
+            config = function() -- TODO
+                require("neogit").setup()
+            end
+        }
+
         -- Kommentary
         use {
             "b3nj5m1n/kommentary",
