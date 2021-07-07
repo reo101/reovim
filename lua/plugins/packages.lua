@@ -148,6 +148,15 @@ packer.startup{
             end,
         }
 
+        -- Hop
+        use {
+            "phaazon/hop.nvim",
+            as = "hop",
+            config = function()
+                require("rv-hop").config()
+            end,
+        }
+
         -- Surround
         use {
             "blackCauldron7/surround.nvim",
