@@ -115,7 +115,6 @@ packer.startup{
             },
         }
 
-
         -- Compe
         use {
             "hrsh7th/nvim-compe",
