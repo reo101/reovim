@@ -64,7 +64,7 @@ opt.softtabstop = 4             -- more tab is 4 spaces config
 opt.shiftwidth = 4              -- the number of spaces inserted for each indentation
 opt.shortmess:append "c"        -- Hide "Pattern not found" when no completion is available
 opt.cursorline = true           -- highlight the current line
-opt.cursorcolumn = true         -- highlight the current column
+-- opt.cursorcolumn = true         -- highlight the current column
 opt.number = true               -- set numbered lines
 opt.relativenumber = true       -- set relatively numbered lines
 opt.signcolumn = "auto:1-5"     -- always show the sign column, otherwise it would shift the text each time
