@@ -198,6 +198,9 @@ packer.startup{
             end,
         }
 
+        -- Numbertoggle
+        use { "jeffkreeftmeijer/vim-numbertoggle" }
+
         -- Highlight comments
         use { "tjdevries/vim-inyoface" } -- TODO
 
