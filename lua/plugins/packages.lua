@@ -177,6 +177,9 @@ packer.startup{
         -- Cursorline
         use { "yamatsum/nvim-cursorline" }
 
+        -- Indentline
+        use { "lukas-reineke/indent-blankline.nvim" } -- TODO
+
     end,
     config = {
         display = {
