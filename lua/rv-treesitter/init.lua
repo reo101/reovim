@@ -106,6 +106,9 @@ M.config = function()
         autopairs = {
             enable = true,
         },
+        autotag = {
+            enable = true,
+        },
     }
 
     require("nvim-treesitter.configs").setup(opt)
