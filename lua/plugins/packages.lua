@@ -133,6 +133,13 @@ packer.startup{
                 { "hrsh7th/nvim-compe" }
             },
         }
+        use {
+            "windwp/nvim-autopairs",
+            after = { "nvim-compe" },
+            config = function()
+                require("rv-autopairs").config()
+            end
+        }
 
         -- File Tree
         use { "kyazdani42/nvim-tree.lua" } -- TODO
