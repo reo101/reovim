@@ -224,6 +224,15 @@ packer.startup{
         -- Collaborative Editing
         use { "jbyuki/instant.nvim" } -- TODO username
 
+        -- Beacon
+        use {
+            "edluffy/specs.nvim",
+            as = "beacon",
+            config = function()
+                require("rv-beacon").config()
+            end,
+        }
+
     end,
     config = {
         display = {
