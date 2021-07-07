@@ -148,6 +148,15 @@ packer.startup{
             end
         }
 
+        -- Surround
+        use {
+            "blackCauldron7/surround.nvim",
+            config = function()
+                require("rv-surround").config()
+            end,
+            disable = true,
+        }
+
         -- File Tree
         use { "kyazdani42/nvim-tree.lua" } -- TODO
 
