@@ -19,6 +19,9 @@ packer.startup{
                 { "nvim-lua/popup.nvim" },
                 { "nvim-lua/plenary.nvim" }
             },
+            cmd = {
+                "Telescope"
+            },
             config = function()
                 require("rv-telescope").config()
             end,
@@ -178,6 +181,14 @@ packer.startup{
             "famiu/nvim-reload",
             config = function()
                 require("rv-reload").config()
+            end
+        }
+
+        -- Quickfix List
+        use {
+            "kevinhwang91/nvim-bqf",
+            config = function()
+                require("rv-betterquickfix").config()
             end
         }
 
