@@ -30,7 +30,7 @@ M.config = function()
 		},
 	}
 
-    vim.opt.completeopt = "menuone,preview,noinsert"
+    vim.opt.completeopt = "menuone,preview,noinsert,noselect"
 	require("compe").setup(opt)
 
 end
