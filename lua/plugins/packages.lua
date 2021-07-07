@@ -150,6 +150,22 @@ packer.startup{
         -- Highlight comments
         use { "tjdevries/vim-inyoface" } -- TODO
 
+        -- Auto mkdir -p
+        use {
+            "jghauser/mkdir.nvim",
+            config = function()
+                require("mkdir")
+            end
+        }
+
+        -- Spellcheck
+        use {
+            "lewis6991/spellsitter.nvim",
+            config = function()
+                require("rv-spellsitter").config()
+            end
+        }
+
     end,
     config = {
         display = {
