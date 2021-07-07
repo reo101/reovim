@@ -77,7 +77,7 @@ packer.startup{
             "sunjon/shade.nvim",
             config = function()
                 require("rv-shade").config()
-            end
+            end,
         }
 
         -- Treesitter
@@ -122,7 +122,7 @@ packer.startup{
             requires = {
                 { "nvim-treesitter/nvim-treesitter" }
             },
-            as = "nvim-treesitter-autotag"
+            as = "nvim-treesitter-autotag",
         }
 
         -- Compe
@@ -145,7 +145,7 @@ packer.startup{
             after = { "nvim-compe" },
             config = function()
                 require("rv-autopairs").config()
-            end
+            end,
         }
 
         -- Surround
@@ -169,7 +169,7 @@ packer.startup{
             requires = "nvim-lua/plenary.nvim",
             config = function() -- TODO
                 require("neogit").setup()
-            end
+            end,
         }
 
         -- Kommentary
@@ -177,7 +177,7 @@ packer.startup{
             "b3nj5m1n/kommentary",
             config = function()
                 require("rv-kommentary").config()
-            end
+            end,
         }
 
         -- Highlight comments
@@ -188,7 +188,7 @@ packer.startup{
             "jghauser/mkdir.nvim",
             config = function()
                 require("mkdir")
-            end
+            end,
         }
 
         -- Spellcheck
@@ -196,7 +196,7 @@ packer.startup{
             "lewis6991/spellsitter.nvim",
             config = function()
                 require("rv-spellsitter").config()
-            end
+            end,
         }
 
         -- Reload
@@ -204,7 +204,7 @@ packer.startup{
             "famiu/nvim-reload",
             config = function()
                 require("rv-reload").config()
-            end
+            end,
         }
 
         -- Quickfix List
@@ -212,7 +212,7 @@ packer.startup{
             "kevinhwang91/nvim-bqf",
             config = function()
                 require("rv-betterquickfix").config()
-            end
+            end,
         }
 
         -- Cursorline
