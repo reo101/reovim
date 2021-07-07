@@ -103,6 +103,9 @@ M.config = function()
         context_commentstring = {
             enable = true
         },
+        autopairs = {
+            enable = true
+        },
     }
 
     require("nvim-treesitter.configs").setup(opt)
