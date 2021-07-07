@@ -179,6 +179,9 @@ packer.startup{
         -- Indentline
         use { "lukas-reineke/indent-blankline.nvim" } -- TODO
 
+        -- Collaborative Editing
+        use { "jbyuki/instant.nvim" } -- TODO username
+
     end,
     config = {
         display = {
