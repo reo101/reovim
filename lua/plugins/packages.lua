@@ -58,6 +58,15 @@ packer.startup{
             },
         }
 
+        -- Auto-session
+        use {
+            "rmagatti/auto-session",
+            as = "autosession",
+            config = function()
+                require("rv-autosession").config()
+            end,
+        }
+
         -- DevIcons
         use {
             "kyazdani42/nvim-web-devicons",
