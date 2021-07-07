@@ -237,7 +237,13 @@ packer.startup{
         use { "yamatsum/nvim-cursorline" }
 
         -- Indentline
-        use { "lukas-reineke/indent-blankline.nvim" } -- TODO
+        use {
+            "lukas-reineke/indent-blankline.nvim",
+            as = "indentline",
+            config = function()
+                require("rv-indentline").config()
+            end,
+        }
 
         -- Collaborative Editing
         use { "jbyuki/instant.nvim" } -- TODO username
