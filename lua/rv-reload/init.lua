@@ -28,6 +28,10 @@ M.config = function()
 
     reload.modules_reload_external = { "packer" }
 
+    reload.post_reload_hook = function()
+        require("indent-blankline").refresh()
+    end
+
     -- reload.post_reload_hook = function()
     --     require("feline").reset_highlights()
     -- end
