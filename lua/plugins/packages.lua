@@ -124,7 +124,6 @@ packer.startup{
                 require("rv-compe").config()
             end,
         }
-        
         use {
             "GoldsteinE/compe-latex-symbols",
             requires = {
