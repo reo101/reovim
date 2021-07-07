@@ -117,6 +117,13 @@ packer.startup{
                 { "nvim-treesitter/nvim-treesitter" }
             },
         }
+        use {
+            "windwp/nvim-ts-autotag",
+            requires = {
+                { "nvim-treesitter/nvim-treesitter" }
+            },
+            as = "nvim-treesitter-autotag"
+        }
 
         -- Compe
         use {
