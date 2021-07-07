@@ -101,10 +101,10 @@ M.config = function()
             enable = true,
         },
         context_commentstring = {
-            enable = true
+            enable = true,
         },
         autopairs = {
-            enable = true
+            enable = true,
         },
     }
 
