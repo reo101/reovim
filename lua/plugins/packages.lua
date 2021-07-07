@@ -166,6 +166,15 @@ packer.startup{
             end
         }
 
+        -- Reload
+        use {
+            "famiu/nvim-reload",
+            config = function()
+                require("rv-reload").config()
+            end
+        }
+
+
     end,
     config = {
         display = {
