@@ -174,6 +174,8 @@ packer.startup{
             end
         }
 
+        -- Cursorline
+        use { "yamatsum/nvim-cursorline" }
 
     end,
     config = {
