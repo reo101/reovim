@@ -56,6 +56,14 @@ packer.startup{
             },
         }
 
+        -- Which-key
+        use {
+            "folke/which-key.nvim",
+            config = function()
+                require("rv-whichkey").config()
+            end,
+        }
+
         -- Auto-session
         use {
             "rmagatti/auto-session",
