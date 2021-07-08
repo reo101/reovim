@@ -67,7 +67,6 @@ packer.startup{
         -- DevIcons
         use {
             "kyazdani42/nvim-web-devicons",
-            opt = true,
             config = function()
                 require("rv-devicons").config()
             end,
