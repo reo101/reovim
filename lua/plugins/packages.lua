@@ -19,9 +19,6 @@ packer.startup{
                 { "nvim-lua/popup.nvim" },
                 { "nvim-lua/plenary.nvim" }
             },
-            cmd = {
-                "Telescope"
-            },
             config = function()
                 require("rv-telescope").config()
             end,
