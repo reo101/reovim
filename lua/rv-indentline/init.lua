@@ -9,6 +9,17 @@ M.config = function()
     vim.g.indent_blankline_context_patterns = { "class", "function", "method", "while", "closure", "for" }
     vim.g.indent_blankline_viewport_buffer = 50
 
+    vim.g.indent_blankline_filetype_exclude = {
+        "help",
+        "terminal",
+        "dashboard",
+        "startify",
+        "packer",
+        "neogitstatus",
+    }
+
+    vim.g.indent_blankline_buftype_exclude = { "terminal" }
+
 end
 
 return M
