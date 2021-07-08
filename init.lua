@@ -28,3 +28,5 @@ require("settings")
 -- require("mappings")
 
 require("rv-treesitter").config()
+
+require("rv-lsp")
