@@ -11,6 +11,7 @@ packer.startup{
 
         -- LSP
         use { "neovim/nvim-lspconfig" }
+        use { "kabouzeid/nvim-lspinstall" }
 
         -- Telescope
         use {
