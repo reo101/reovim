@@ -92,6 +92,9 @@ packer.startup{
                 require("rv-lsp/trouble").config()
             end,
         }
+        use {
+            "ray-x/lsp_signature.nvim",
+        }
 
         -- Shade
         use {
