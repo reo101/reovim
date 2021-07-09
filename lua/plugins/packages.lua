@@ -190,8 +190,8 @@ packer.startup{
         use {
             "TimUntersberger/neogit",
             requires = "nvim-lua/plenary.nvim",
-            config = function() -- TODO
-                require("neogit").setup()
+            config = function()
+                require("rv-neogit").config()
             end,
         }
 
