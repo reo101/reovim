@@ -106,6 +106,13 @@ packer.startup{
             },
         }
         use {
+            "mfussenegger/nvim-ts-hint-textobject",
+            requires = {
+                { "nvim-treesitter/nvim-treesitter" }
+            },
+            as = "nvim-treesitter-hint-textobject",
+        }
+        use {
             "nvim-treesitter/playground",
             requires = {
                 { "nvim-treesitter/nvim-treesitter" }

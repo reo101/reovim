@@ -177,6 +177,13 @@ M.config = function()
     wk.register(motionMappings, { mode = "n", prefix = "" })
     wk.register(motionMappings, { mode = "o", prefix = "" })
 
+    local TSHopMappings = {
+        m = { function() require('tsht').nodes() end, "TS Hop" },
+    }
+
+    wk.register(TSHopMappings, { mode = "o", prefix = "" })
+    wk.register(TSHopMappings, { mode = "v", noremap = true, prefix = "" })
+
 end
 
 return M
