@@ -20,6 +20,17 @@ M.config = function()
 
     vim.g.indent_blankline_buftype_exclude = { "terminal" }
 
+    local wk = require("which-key")
+
+    local mappings = {
+        t = {
+            name = "Toggle",
+            i = { function() require("indent_blankline/commands").toggle() end, "IndentLine" },
+        },
+    }
+    
+    wk.register(mappings, { prefix = "<leader>" })
+
 end
 
 return M
