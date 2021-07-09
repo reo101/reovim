@@ -94,6 +94,15 @@ packer.startup{
             end,
         }
 
+        -- Transparency
+        use {
+            "xiyaowong/nvim-transparent",
+            as = "nvim-transparency",
+            config = function()
+                require("rv-transparency").config()
+            end
+        }
+
         -- Treesitter
         use {
             "nvim-treesitter/nvim-treesitter",
