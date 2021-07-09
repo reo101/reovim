@@ -95,6 +95,12 @@ packer.startup{
         use {
             "ray-x/lsp_signature.nvim",
         }
+        use {
+            "kosayoda/nvim-lightbulb",
+            config = function()
+                require("rv-lsp/lightbulb").config()
+            end,
+        }
 
         -- Shade
         use {
