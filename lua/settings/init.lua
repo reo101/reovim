@@ -28,7 +28,7 @@ vim.cmd("colorscheme sonokai")
 
 ---  SETTINGS  ---
 
-vim.g.mapleader = " "
+vim.g.mapleader = " "           -- maps the leader to space
 opt.backup = false              -- creates a backup file
 opt.clipboard = "unnamedplus"   -- allows neovim to access the system clipboard
 opt.cmdheight = 1               -- more space in the neovim command line for displaying messages
