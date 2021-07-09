@@ -137,6 +137,7 @@ packer.startup{
             requires = {
                 { "nvim-treesitter/nvim-treesitter" }
             },
+            as = "nvim-treesitter-context-commentstring",
         }
         use {
             "windwp/nvim-ts-autotag",
