@@ -68,6 +68,18 @@ M.config = function()
     require('telescope').load_extension('gh')
     require('telescope').load_extension('media_files')
 
+    local wk = require("which-key")
+
+    local mappings = {
+        f = {
+            name = "Files",
+            f = { "<Cmd>Telescope find_files<CR>", "Find File" },
+            r = { "<Cmd>Telescope oldfiles<CR>", "Open Recent File" },
+        },
+    }
+
+    wk.register(mappings, { prefix = "<leader>" })
+
 end
 
 return M
