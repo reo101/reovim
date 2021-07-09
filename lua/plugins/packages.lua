@@ -9,10 +9,6 @@ packer.startup{
         use { "tanvirtin/monokai.nvim" }
         use { "sainnhe/sonokai" }
 
-        -- LSP
-        use { "neovim/nvim-lspconfig" }
-        use { "kabouzeid/nvim-lspinstall" }
-
         -- Telescope
         use {
             "nvim-telescope/telescope.nvim",
@@ -82,8 +78,19 @@ packer.startup{
         }
         use {
             "yamatsum/nvim-nonicons",
-            requires = {"kyazdani42/nvim-web-devicons"},
+            requires = { "kyazdani42/nvim-web-devicons" },
             after = { "nvim-web-devicons" },
+        }
+
+        -- LSP
+        use { "neovim/nvim-lspconfig" }
+        use { "kabouzeid/nvim-lspinstall" }
+        use {
+            "folke/trouble.nvim",
+            requires = { "kyazdani42/nvim-web-devicons" },
+            conqig = function()
+                require("rv-lsp/trouble").config()
+            end,
         }
 
         -- Shade
