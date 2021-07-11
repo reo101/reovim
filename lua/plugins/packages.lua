@@ -213,6 +213,15 @@ packer.startup{
             disable = true,
         }
 
+        -- Navigator
+        use {
+            "numToStr/Navigator.nvim",
+            as = "navigator",
+            config = function()
+                require("rv-navigator").config()
+            end
+        }
+
         -- File Tree
         use { "kyazdani42/nvim-tree.lua" } -- TODO
 
