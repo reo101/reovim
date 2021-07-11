@@ -116,7 +116,7 @@ packer.startup{
             as = "nvim-transparency",
             config = function()
                 require("rv-transparency").config()
-            end
+            end,
         }
 
         -- Treesitter
