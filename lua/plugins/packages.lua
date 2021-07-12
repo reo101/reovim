@@ -57,6 +57,7 @@ packer.startup{
             "folke/which-key.nvim",
             config = function()
                 require("rv-whichkey").config()
+                require("rv-whichkey/presets").config()
             end,
         }
 
