@@ -78,6 +78,17 @@ M.config = function()
                 b = { function() require("gitsigns").blame_line(true) end, "Blame Line" },
             },
         },
+        t = {
+            name = "Toggle",
+            g = {
+                name = "Git",
+                s = { function() require("gitsigns").toggle_signs() end, "Signs" },
+                n = { function() require("gitsigns").toggle_numhl() end, "Number HL" },
+                l = { function() require("gitsigns").toggle_linehl() end, "Line HL" },
+                w = { function() require("gitsigns").toggle_word_diff() end, "Word Diff" },
+                b = { function() require("gitsigns").toggle_current_line_blame() end, "Current Line Blame" },
+            },
+        },
     }
 
     wk.register(mappings, { prefix = "<leader>" })
