@@ -236,6 +236,15 @@ packer.startup{
                 require("rv-neogit").config()
             end,
         }
+        use {
+            "lewis6991/gitsigns.nvim",
+            requires = {
+                "nvim-lua/plenary.nvim"
+            },
+            config = function()
+                require("rv-gitsigns").config()
+            end,
+        }
 
         -- Kommentary
         use {
