@@ -146,8 +146,8 @@ M.config = function()
                 r = { "<Cmd>TSBufToggle rainbow<CR>", "Rainbow Parenthesis" },
                 p = { "<Cmd>TSBufToggle autopairs<CR>", "Autopairs" },
                 t = { "<Cmd>TSBufToggle autotag<CR>", "Autotags" },
-            }    
-        }
+            },
+        },
     }
 
     wk.register(mappings, { prefix = "<leader>" })
