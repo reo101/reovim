@@ -137,6 +137,17 @@ M.config = function()
                 p = { "Swap previous" },
             },
         },
+        t = {
+            name = "Toggle",
+            s = {
+                name = "TreeSitter",
+                c = { function() require("treesitter-context").toggleEnabled() end, "Context" },
+                h = { "<Cmd>TSBufToggle highlight<CR>", "Highlighting" },
+                r = { "<Cmd>TSBufToggle rainbow<CR>", "Rainbow Parenthesis" },
+                p = { "<Cmd>TSBufToggle autopairs<CR>", "Autopairs" },
+                t = { "<Cmd>TSBufToggle autotag<CR>", "Autotags" },
+            }    
+        }
     }
 
     wk.register(mappings, { prefix = "<leader>" })

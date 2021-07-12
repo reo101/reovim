@@ -19,9 +19,9 @@ M.config = function()
     local mappings = {
         t = {
             name = "Toggle",
-            s = {
-                name = "Shade",
-                o = { function() require("shade").toggle() end, "On/Off" },
+            b = {
+                name = "Brightness/Shade",
+                o = { function() require("shade").toggle() end, "Shade On/Off" },
                 u = { function() require("shade").brightness_up() end, "Brightness up +10" },
                 d = { function() require("shade").brightness_down() end, "Brightness down -10" },
             },
