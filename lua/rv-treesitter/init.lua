@@ -199,7 +199,7 @@ M.config = function()
         ["]M"] = { "Next @function.outer end" },
         ["]["] = { "Next @class.outer end" },
         ["[m"] = { "Previous @function.outer start" },
-        ["[["] = { "Previous class.outer start" },
+        ["[["] = { "Previous @class.outer start" },
         ["[M"] = { "Previous @function.outer end" },
         ["[]"] = { "Previous @class.outer end" },
     }
