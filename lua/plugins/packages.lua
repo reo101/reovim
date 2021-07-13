@@ -76,6 +76,7 @@ packer.startup{
             config = function()
                 require("rv-autosession").config()
             end,
+            disable = true, -- TODO
         }
 
         -- DevIcons
