@@ -60,6 +60,14 @@ packer.startup{
                 require("rv-whichkey/presets").config()
             end,
         }
+        
+        -- Dashboard
+        use {
+            "glepnir/dashboard-nvim",
+            config = function()
+                require("rv-dashboard").config()
+            end,
+        }
 
         -- Auto-session
         use {
