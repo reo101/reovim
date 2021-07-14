@@ -283,6 +283,13 @@ packer.startup{
             end,
         }
 
+        use {
+            "famiu/bufdelete.nvim",
+            config = function()
+                require("rv-bufdelete").config()
+            end,
+        }
+
         -- Spellcheck
         use {
             "lewis6991/spellsitter.nvim",
