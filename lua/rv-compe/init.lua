@@ -33,6 +33,8 @@ M.config = function()
     vim.opt.completeopt = "menuone,preview,noinsert,noselect"
 	require("compe").setup(opt)
 
+    vim.api.nvim_set_keymap("i", "<CR>", [[ pumvisible() ? compe#confirm({ "keys": "<CR>", "select": v:true }) : compe#confirm(luaeval('require("nvim-autopairs").autopairs_cr()'))]], { expr = true })
+
 end
 
 return M
