@@ -21,11 +21,6 @@ cmd "set whichwrap+=<,>,[,],h,l"
 -- cmd "au ColorScheme * hi Normal ctermbg=none guibg=none"
 -- cmd "au ColorScheme * hi SignColumn ctermbg=none guibg=none"
 
---- COLORSCHEME ---
-
--- require("monokai")
-vim.cmd("colorscheme sonokai")
-
 ---  SETTINGS  ---
 
 vim.g.mapleader = " "           -- maps the leader to space
