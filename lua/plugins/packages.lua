@@ -191,7 +191,6 @@ packer.startup{
         use {
             "hrsh7th/nvim-compe",
             event = "InsertEnter",
-            after = { "compe-latex-symbols" },
             config = function()
                 require("rv-compe").config()
             end,
