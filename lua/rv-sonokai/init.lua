@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function()
+M.config = function()
 
     -- default, atlantis, andromeda, shusia, maia, espresso
     vim.g.sonokai_style = "maia"
