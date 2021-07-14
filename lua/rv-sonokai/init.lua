@@ -36,6 +36,8 @@ M.setup = function()
     -- Default value: grey background when not in transparent mode, bold when in transparent mode.
     --vim.g.sonokai_current_word
 
+    vim.cmd("colorscheme sonokai")
+
 end
 
 return M
