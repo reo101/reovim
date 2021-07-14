@@ -11,7 +11,7 @@ packer.startup{
             "sainnhe/sonokai",
             setup = function()
                 require("rv-sonokai").setup()
-            end
+            end,
         }
 
         -- Telescope
