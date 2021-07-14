@@ -103,6 +103,7 @@ packer.startup{
             "yamatsum/nvim-nonicons",
             requires = { "kyazdani42/nvim-web-devicons" },
             after = { "nvim-web-devicons" },
+            disable = true,
         }
 
         -- LSP
