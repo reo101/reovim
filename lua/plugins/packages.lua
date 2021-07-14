@@ -9,8 +9,8 @@ packer.startup{
         use { "tanvirtin/monokai.nvim" }
         use {
             "sainnhe/sonokai",
-            setup = function()
-                require("rv-sonokai").setup()
+            config = function()
+                require("rv-sonokai").config()
             end,
         }
 
