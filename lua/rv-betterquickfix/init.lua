@@ -2,7 +2,7 @@ local M = {}
 
 M.config = function()
 
-    opt = {
+    local opt = {
         -- auto_enable = {
             -- description = [[enable nvim-bqf in quickfix window automatically]],
             -- default = true

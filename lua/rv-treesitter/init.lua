@@ -2,7 +2,7 @@ local M = {}
 
 M.config = function()
     
-    opt = {
+    local opt = {
         ensure_installed = {"cpp", "lua", "javascript", "java", "php", "python", "comment"},
         highlight = {
             enable = true,
@@ -133,7 +133,7 @@ M.config = function()
 
     local wk = require("which-key")
 
-    local mappings = {  
+    local mappings = {
         s = {
             name = "TreeSitter",
             i = {

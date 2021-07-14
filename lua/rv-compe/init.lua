@@ -2,7 +2,7 @@ local M = {}
 
 M.config = function()
 
-	opt = {
+	local opt = {
 		enabled = true,
 		autocomplete = true,
 		debug = false,

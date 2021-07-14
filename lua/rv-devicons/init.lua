@@ -2,7 +2,7 @@ local M = {}
 
 M.config = function()
 
-    opt = {
+    local opt = {
         -- your personnal icons can go here (to override)
         -- DevIcon will be appended to `name`
         override = {
