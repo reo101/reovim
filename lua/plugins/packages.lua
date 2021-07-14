@@ -7,7 +7,12 @@ packer.startup{
 
         -- Colourscheme
         use { "tanvirtin/monokai.nvim" }
-        use { "sainnhe/sonokai" }
+        use {
+            "sainnhe/sonokai",
+            setup = function()
+                require("rv-sonokai").setup()
+            end
+        }
 
         -- Telescope
         use {
