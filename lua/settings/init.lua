@@ -24,6 +24,7 @@ cmd "set whichwrap+=<,>,[,],h,l"
 ---  SETTINGS  ---
 
 vim.g.mapleader = " "           -- maps the leader to space
+vim.g.maplocalleader = " "      -- maps the local leader to space
 opt.backup = false              -- creates a backup file
 opt.clipboard = "unnamedplus"   -- allows neovim to access the system clipboard
 opt.cmdheight = 1               -- more space in the neovim command line for displaying messages
