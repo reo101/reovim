@@ -74,6 +74,14 @@ packer.startup{
             end,
         }
 
+        -- Feline
+        use {
+            "famiu/feline.nvim",
+            config = function()
+                require("rv-feline").config()
+            end,
+        }
+
         -- Auto-session
         use {
             "rmagatti/auto-session",
