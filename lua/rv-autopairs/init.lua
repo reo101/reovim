@@ -13,7 +13,7 @@ M.config = function()
     }
 
     local optCompe = {
-        map_cr = true, --  map <CR> on insert mode
+        map_cr = false, --  map <CR> on insert mode
         map_complete = true -- it will auto insert `(` after select function or method item
     }
 
