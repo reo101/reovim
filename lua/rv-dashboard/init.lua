@@ -4,12 +4,13 @@ M.config = function()
 
     vim.g.dashboard_default_executive = "telescope"
 
-    local command = "stty size | cut -d' ' -f2" -- get terminal width
-    local handle = io.popen(command)
-    local result = handle:read("*a")
-    handle:close()   
+    -- local command = "stty size | cut -d' ' -f2" -- get terminal width
+    -- local handle = io.popen(command)
+    -- local result = handle:read("*a")
+    -- handle:close()   
 
-    local width = tonumber(result)
+    -- local width = tonumber(result)
+    local width = vim.o.columns
 
     if width < 52 then
         vim.g.dashboard_custom_header = {
