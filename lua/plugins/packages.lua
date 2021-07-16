@@ -82,6 +82,15 @@ packer.startup{
             end,
         }
 
+        -- Barbar
+        use {
+            "romgrk/barbar.nvim",
+            as = "barbar",
+            config = function()
+                require("rv-barbar").config()
+            end,
+        }
+
         -- Auto-session
         use {
             "rmagatti/auto-session",
@@ -296,6 +305,7 @@ packer.startup{
             config = function()
                 require("rv-bufdelete").config()
             end,
+            disable = true, -- TODO
         }
 
         -- Spellcheck
