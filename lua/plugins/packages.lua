@@ -69,6 +69,7 @@ packer.startup{
         -- Dashboard
         use {
             "glepnir/dashboard-nvim",
+            as = "dashboard",
             config = function()
                 require("rv-dashboard").config()
             end,
@@ -77,6 +78,7 @@ packer.startup{
         -- Feline
         use {
             "famiu/feline.nvim",
+            as = "feline",
             config = function()
                 require("rv-feline").config()
             end,
