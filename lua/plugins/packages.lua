@@ -257,7 +257,12 @@ packer.startup{
         }
 
         -- File Tree
-        use { "kyazdani42/nvim-tree.lua" } -- TODO
+        use {
+            "kyazdani42/nvim-tree.lua",
+            config = function()
+                require("rv-tree").config()
+            end,
+        }
 
         -- Better increment/decrement
         use { "monaqa/dial.nvim" }

@@ -28,7 +28,7 @@ M.config = function()
     local mappings = {
         t = {
             name = "Toggle",
-            t = { function() require("transparent").toggle_transparent() end, "Transparency" },
+            p = { function() require("transparent").toggle_transparent() end, "Transparency" },
         },
     }
     
