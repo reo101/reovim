@@ -12,9 +12,9 @@ M.config = function()
 		source_timeout = 200,
 		resolve_timeout = 800,
 		incomplete_delay = 400,
-		max_abbr_width = 100,
-		max_kind_width = 100,
-		max_menu_width = 100,
+		max_abbr_width = 50,
+		max_kind_width = 50,
+		max_menu_width = 50,
 		documentation = true,
 
 		source = { --TODO kinds/emojis
@@ -33,7 +33,22 @@ M.config = function()
     vim.opt.completeopt = "menuone,preview,noinsert,noselect"
 	require("compe").setup(opt)
 
-    vim.api.nvim_set_keymap("i", "<CR>", [[ pumvisible() ? compe#confirm({ "keys": "<CR>", "select": v:true }) : compe#confirm(luaeval('require("nvim-autopairs").autopairs_cr()'))]], { expr = true })
+    _G.cr_complete = function()
+        if vim.fn.pumvisible() == 1 then
+            return vim.fn["compe#confirm"]({
+                ["keys"] = "<CR>",
+                ["select"] = true,
+            })
+        else
+            return vim.fn["compe#confirm"](
+                require("nvim-autopairs").autopairs_cr()
+            )
+        end
+    end
+
+    require("which-key").register({
+        ["<CR>"] = { "v:lua.cr_complete()" , "CR" }
+    }, { mode = "i", expr = true })
 
 end
 
