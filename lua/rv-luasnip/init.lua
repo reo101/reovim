@@ -44,29 +44,22 @@ M.config = function()
         end
     end
 
-    vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-    vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-    vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-    vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-    vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
-    vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})
+    local wk = require("which-key")
 
-    -- local wk = require("which-key")
+    local tabMappings = {
+        ["<Tab>"] = {  "v:lua.tab_complete()", "Tab complete" },
+        ["<S-Tab>"] = {  "v:lua.s_tab_complete()", "S-Tab complete" },
+    }
 
-    -- local tabMappings = {
-    --     ["<Tab>"] = { function() _G.tab_complete() end, "Tab complete" },
-    --     ["<S-Tab>"] = { function() _G.s_tab_complete() end, "S-Tab complete" },
-    -- }
+    wk.register(tabMappings, { mode = "i", prefix = "", expr = true })
+    wk.register(tabMappings, { mode = "s", prefix = "", expr = true })
 
-    -- wk.register(tabMappings, { mode = "i", prefix = "", expr = true })
-    -- wk.register(tabMappings, { mode = "s", prefix = "", expr = true })
+    local scrollMappings = {
+        ["<C-E>"] = { "<Plug>luasnip-next-choice", "Next choice" },
+    }
 
-    -- local scrollMappings = {
-    --     ["<C-E>"] = { "<Plug>luasnip-next-choice", "Next choice" },
-    -- }
-
-    -- wk.register(scrollMappings, { mode = "i" })
-    -- wk.register(scrollMappings, { mode = "s" })
+    wk.register(scrollMappings, { mode = "i" })
+    wk.register(scrollMappings, { mode = "s" })
 
     require("luasnip").config.set_config({
         history = true,
