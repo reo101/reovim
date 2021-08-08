@@ -36,8 +36,8 @@ M.config = function()
     _G.cr_complete = function()
         if vim.fn.pumvisible() == 1 then
             return vim.fn["compe#confirm"]({
-                ["keys"] = "<CR>",
-                ["select"] = true,
+                keys = "<CR>",
+                select = true,
             })
         else
             return vim.fn["compe#confirm"](
