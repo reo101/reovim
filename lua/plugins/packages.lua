@@ -137,6 +137,14 @@ packer.startup{
             end,
         }
 
+        -- LuaSnip
+        use {
+            "L3MON4D3/LuaSnip",
+            config = function()
+                require("rv-luasnip").config()
+            end,
+        }
+
         -- Shade
         use {
             "sunjon/shade.nvim",
