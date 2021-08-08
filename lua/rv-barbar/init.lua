@@ -39,6 +39,7 @@ M.config = function()
             ["7"] = { "<Cmd>BufferGoto 7<CR>" , "7" },
             ["8"] = { "<Cmd>BufferGoto 8<CR>" , "8" },
             ["9"] = { "<Cmd>BufferLast<CR>" , "Last" },
+            s = { "<Cmd>w<CR>", "Save" },
             c = { "<Cmd>BufferClose<CR>", "Close" },
             m = {
                 name = "Mass Close",
@@ -47,8 +48,8 @@ M.config = function()
                 a = { "<Cmd>BufferCloseAllButCurrent<CR>", "All (but current)" },
             },
             h = { "<Cmd>BufferPick<CR>" , "Hop" },
-            s = {
-                name = "Sort",
+            o = {
+                name = "Order",
                 d = { "<Cmd>BufferOrderByDirectory<CR>" , "By Directory"},
                 l = { "<Cmd>BufferOrderByLanguage<CR>" , "By Language"},
             }
