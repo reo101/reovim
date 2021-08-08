@@ -58,6 +58,11 @@ M.config = function()
 
     wk.register(mappings, { prefix = "<leader>" })
 
+    wk.register({
+        ["<A-Left>"] = { "<Cmd>BufferPrevious<CR>", "Previous Buffer" },
+        ["<A-Right>"] = { "<Cmd>BufferNext<CR>", "Next Buffer" },
+    }, { prefix = "" })
+
 end
 
 return M
