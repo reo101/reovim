@@ -41,7 +41,7 @@ opt.mouse = "a"                 -- allow the mouse to be used in neovim
 opt.pumheight = 10              -- pop up menu height
 opt.scrolloff = 3               -- always keep the cursor 3 lines away from the edge
 opt.showmode = false            -- we don't need to see things like -- INSERT -- anymore
-opt.showtabline = 2             -- always show tabs
+-- opt.showtabline = 2             -- always show tabs
 opt.smartcase = true            -- smart case
 opt.smartindent = true          -- make indenting smarter again
 opt.splitbelow = true           -- force all horizontal splits to go below current window
@@ -64,5 +64,5 @@ opt.shortmess:append "c"        -- Hide "Pattern not found" when no completion i
 -- opt.cursorcolumn = true         -- highlight the current column
 opt.number = true               -- set numbered lines
 opt.relativenumber = true       -- set relatively numbered lines
-opt.signcolumn = "auto:1-5"     -- always show the sign column, otherwise it would shift the text each time
+opt.signcolumn = "auto:1-2"     -- always show the sign column, otherwise it would shift the text each time
 opt.wrap = true                 -- display lines as one long line
