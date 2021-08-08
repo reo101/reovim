@@ -26,8 +26,8 @@ M.config = function()
     local mappings = {
         b = {
             name = "Buffer",
-            p = { "<Cmd>BufferPrevious<CR>" , "Previous" },
-            n = { "<Cmd>BufferNext<CR>" , "Next" },
+            -- p = { "<Cmd>BufferPrevious<CR>" , "Previous" },
+            -- n = { "<Cmd>BufferNext<CR>" , "Next" },
             ["<lt>"] = { "<Cmd>BufferMovePrevious<CR>" , "Swap Previous" },
             [">"] = { "<Cmd>BufferMoveNext<CR>" , "Swap Next" },
             ["1"] = { "<Cmd>BufferGoto 1<CR>" , "1" },
@@ -41,17 +41,20 @@ M.config = function()
             ["9"] = { "<Cmd>BufferLast<CR>" , "Last" },
             s = { "<Cmd>w<CR>", "Save" },
             c = { "<Cmd>BufferClose<CR>", "Close" },
+            p = { "<Cmd>BufferPin<CR>", "Pin" },
             m = {
                 name = "Mass Close",
                 l = { "<Cmd>BufferCloseBuffersLeft<CR>", "Left" },
                 r = { "<Cmd>BufferCloseBuffersRight<CR>", "Right" },
                 a = { "<Cmd>BufferCloseAllButCurrent<CR>", "All (but current)" },
+                p = { "<Cmd>BufferCloseAllButPinned<CR>", "All (but pinned)"}
             },
             h = { "<Cmd>BufferPick<CR>" , "Hop" },
             o = {
                 name = "Order",
                 d = { "<Cmd>BufferOrderByDirectory<CR>" , "By Directory"},
                 l = { "<Cmd>BufferOrderByLanguage<CR>" , "By Language"},
+                w = { "<Cmd>BufferOrderByWindowNumber<CR>" , "By Window Number"},
             }
         },
     }
