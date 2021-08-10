@@ -152,6 +152,7 @@ packer.startup{
             config = function()
                 require("rv-shade").config()
             end,
+            disable = true,
         }
 
         -- Transparency
