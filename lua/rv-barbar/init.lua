@@ -14,6 +14,7 @@ M.config = function()
         icon_separator_inactive = "▎",
         icon_close_tab = "",
         icon_close_tab_modified = "●",
+        icon_pinned = "",
         maximum_padding = 4,
         maximum_length = 30,
         semantic_letters = true,
