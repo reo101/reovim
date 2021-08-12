@@ -145,6 +145,9 @@ packer.startup{
                 require("rv-luasnip").config()
             end,
         }
+        use {
+            "rafamadriz/friendly-snippets",
+        }
 
         -- Shade
         use {
