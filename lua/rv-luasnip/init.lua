@@ -25,22 +25,22 @@ M.config = function()
 
     _G.tab_complete = function()
         if vim.fn.pumvisible() == 1 then
-            return esc("<C-n>")
+            return esc([[<C-n>]])
         elseif luasnip and luasnip.expand_or_jumpable() then
-            return esc("<Plug>luasnip-expand-or-jump")
+            return esc([[<Cmd>lua require("luasnip").jump(1)<CR>]])
         elseif check_back_space() then
-            return esc("<Tab>")
+            return esc([[<Tab>]])
         else
             return vim.fn["compe#complete"]()
         end
     end
     _G.s_tab_complete = function()
         if vim.fn.pumvisible() == 1 then
-            return esc("<C-p>")
+            return esc([[<C-p>]])
         elseif luasnip and luasnip.jumpable(-1) then
-            return esc("<Plug>luasnip-jump-prev")
+            return esc([[<Cmd>lua require("luasnip").jump(-1)<CR>]])
         else
-            return esc("<S-Tab>")
+            return esc([[<S-Tab>]])
         end
     end
 
@@ -66,7 +66,11 @@ M.config = function()
         updateevents = "TextChanged,TextChangedI",
     })
 
-    require("rv-luasnip/snippets")
+    require("luasnip/loaders/from_vscode").lazy_load({
+        paths = {
+            vim.fn.stdpath("data") .. "/site/pack/packer/start/friendly-snippets"
+        }
+    })
 
 end
 
