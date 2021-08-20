@@ -3,7 +3,7 @@ local M = {}
 M.config = function()
     
     local opt = {
-        ensure_installed = {"cpp", "lua", "javascript", "java", "php", "python", "comment"},
+        ensure_installed = {"cpp", "lua", "javascript", "java", "php", "python", "norg", "comment"},
         highlight = {
             enable = true,
         },
@@ -126,6 +126,14 @@ M.config = function()
                 goto_node = '<cr>',
                 show_help = '?',
             },
+        },
+    }
+
+    require('nvim-treesitter.parsers').get_parser_configs().norg = {
+        install_info = {
+            url = "https://github.com/vhyrro/tree-sitter-norg",
+            files = { "src/parser.c" },
+            branch = "main",
         },
     }
 

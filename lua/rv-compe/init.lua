@@ -27,6 +27,7 @@ M.config = function()
 			ultisnips = false,
 			luasnip = true,
             latex_symbols = true,
+            neorg = true,
 		},
 	}
 

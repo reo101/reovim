@@ -57,6 +57,21 @@ packer.startup{
             },
         }
 
+        -- Neorg
+        use {
+            "vhyrro/neorg",
+            requires = {
+                { "nvim-lua/plenary.nvim" }
+            },
+            after = {
+                "telescope.nvim",
+                "nvim-compe",
+            },
+            config = function()
+                require("rv-neorg").config()
+            end,
+        }
+
         -- Which-key
         use {
             "folke/which-key.nvim",
