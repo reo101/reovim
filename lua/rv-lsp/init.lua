@@ -69,7 +69,7 @@ end
 local function setup_servers()
     require("lspinstall").setup()
     local servers = require("lspinstall").installed_servers()
-    local localConfigs = { "cpp" }
+    local localConfigs = { "cpp", "latex" }
     local opt
     for _, server in pairs(servers) do
         if vim.tbl_contains(localConfigs, server) then
