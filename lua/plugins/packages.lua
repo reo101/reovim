@@ -367,9 +367,6 @@ packer.startup{
             end,
         }
 
-        -- Cursorline
-        use { "yamatsum/nvim-cursorline" }
-
         -- Indentline
         use {
             "lukas-reineke/indent-blankline.nvim",
