@@ -2,7 +2,7 @@ local M = {}
 
 M.config = function()
 
-    cfg = {
+    local opt = {
         bind = true, -- This is mandatory, otherwise border config won't get registered.
         -- If you want to hook lspsaga or other signature handler, pls set to false
         doc_lines = 2, -- will show two lines of comment/doc(if there are more than two lines in doc, will be truncated);
@@ -29,7 +29,7 @@ M.config = function()
 
     }
 
-    require("lsp_signature").on_attach(cfg)
+    require("lsp_signature").on_attach(opt)
 
 end
 
