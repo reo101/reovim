@@ -132,6 +132,15 @@ packer.startup{
             disable = true,
         }
 
+        -- Colourizer
+        use {
+            "norcalli/nvim-colorizer.lua",
+            as = "colourizer",
+            config = function()
+                require("rv-colourizer").config()
+            end,
+        }
+
         -- LSP
         use { "neovim/nvim-lspconfig" }
         use { "kabouzeid/nvim-lspinstall" }
