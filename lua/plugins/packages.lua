@@ -322,11 +322,12 @@ packer.startup{
             end,
         }
 
-        -- Kommentary
+        -- Comments
         use {
-            "b3nj5m1n/kommentary",
+            "terrortylor/nvim-comment",
+            ad = "comments",
             config = function()
-                require("rv-kommentary").config()
+                require("rv-comments").config()
             end,
         }
 
