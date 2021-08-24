@@ -170,6 +170,9 @@ packer.startup{
                 require("rv-lsp/lightbulb").config()
             end,
         }
+        use {
+            "onsails/lspkind-nvim",
+        }
 
         -- LuaSnip
         use {
