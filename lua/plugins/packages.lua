@@ -1,7 +1,7 @@
 local packer = require("packer")
 
 packer.startup{
-    function(use) 
+    function(use)
         -- Packer
         use { "wbthomason/packer.nvim" }
 
@@ -80,7 +80,7 @@ packer.startup{
                 require("rv-whichkey/presets").config()
             end,
         }
-        
+
         -- Dashboard
         use {
             "glepnir/dashboard-nvim",
