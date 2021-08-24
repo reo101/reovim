@@ -90,6 +90,16 @@ packer.startup{
             end,
         }
 
+        -- TrueZen
+        use {
+            "Pocco81/TrueZen.nvim",
+            as = "zen",
+            config = function()
+                require("rv-zen").config()
+            end,
+            disable = true, -- TODO
+        }
+
         -- Feline
         use {
             "famiu/feline.nvim",
