@@ -1,9 +1,10 @@
 local M = {}
 
-M.setup = function(on_attach)
+M.setup = function(on_attach, capabilities)
 
     local opt = {
         on_attach = on_attach,
+        capabilities = capabilities,
         settings = {
             latex = {
                 rootDirectory = ".",

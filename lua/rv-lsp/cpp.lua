@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function(on_attach)
+M.setup = function(on_attach, capabilities)
 
     local configs = require("lspconfig/configs")
     local util = require("lspconfig/util")
@@ -79,12 +79,14 @@ M.setup = function(on_attach)
 
     configs.clangd.switch_source_header = switch_source_header
 
-    require("lspconfig")["clangd"].setup({on_attach = function(...)
-        on_attach(...)
-        require("which-key").register({
-            ["ls"] = { "<Cmd>ClangdSwitchSourceHeader<CR>", "Switch Header"}
-        }, { prefix = "<leader>" })
-    end})
+    require("lspconfig")["clangd"].setup({
+        on_attach = function(...)
+            on_attach(...)
+            require("which-key").register({
+                ["ls"] = { "<Cmd>ClangdSwitchSourceHeader<CR>", "Switch Header"}
+            }, { prefix = "<leader>" })
+        end,
+    })
 
 end
 
