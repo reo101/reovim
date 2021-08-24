@@ -66,6 +66,9 @@ end
 
 --------- LSPINSTALL ---------
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 local function setup_servers()
     require("lspinstall").setup()
     local servers = require("lspinstall").installed_servers()
@@ -73,10 +76,11 @@ local function setup_servers()
     local opt
     for _, server in pairs(servers) do
         if vim.tbl_contains(localConfigs, server) then
-            require("rv-lsp/" .. server).setup(on_attach)
+            require("rv-lsp/" .. server).setup(on_attach, capabilities)
         else
             opt = {
                 on_attach = on_attach,
+                capabilities = capabilities,
                 flags = {
                     debounce_text_changes = 150,
                 },
@@ -105,3 +109,19 @@ for _, lsp in ipairs(servers) do
         },
     }
 end ]]
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+   virtual_text = {
+      prefix = "",
+      spacing = 0,
+   },
+   signs = true,
+   underline = true,
+   update_in_insert = false, -- update diagnostics insert mode
+})
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+	border = "single",
+})
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+	border = "single",
+})
