@@ -62,6 +62,7 @@ local on_attach = function(client, bufnr)
     wk.register(motionMappings, { mode = "o", prefix = "" })
 
     require("rv-lsp/signature").config()
+    require("rv-lsp/kind").config()
 end
 
 --------- LSPINSTALL ---------
