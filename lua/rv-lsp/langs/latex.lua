@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function(on_attach, capabilities)
+M.config = function()
 
     local opt = {
         on_attach = on_attach,
@@ -22,7 +22,7 @@ M.setup = function(on_attach, capabilities)
         },
     }
 
-    require("lspconfig")["latex"].setup(opt)
+    require("lspconfig")["texlab"].setup(opt)
 end
 
 return M
