@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function(on_attach, capabilities)
+M.config = function()
 
     local configs = require("lspconfig/configs")
     local util = require("lspconfig/util")
@@ -38,7 +38,7 @@ M.setup = function(on_attach, capabilities)
 
     configs.clangd = {
         default_config = {
-            cmd = { "clangd", "--background-index" },
+            cmd = { "clangd", "--background-index", "--suggest-missing-includes" },
             filetypes = { "c", "cpp", "objc", "objcpp" },
             root_dir = function(fname)
                 local filename = util.path.is_absolute(fname) and fname or util.path.join(vim.loop.cwd(), fname)
@@ -59,6 +59,7 @@ M.setup = function(on_attach, capabilities)
                 description = "Switch between source/header",
             },
         },
+        switch_source_header = switch_source_header,
         docs = {
             description = [[
             https://clangd.llvm.org/installation.html
@@ -77,11 +78,9 @@ M.setup = function(on_attach, capabilities)
         },
     }
 
-    configs.clangd.switch_source_header = switch_source_header
-
     require("lspconfig")["clangd"].setup({
         on_attach = function(...)
-            on_attach(...)
+            require("rv-lsp/utils").lsp_on_attach(...)
             require("which-key").register({
                 ["ls"] = { "<Cmd>ClangdSwitchSourceHeader<CR>", "Switch Header"}
             }, { prefix = "<leader>" })

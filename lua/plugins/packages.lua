@@ -153,7 +153,6 @@ packer.startup{
 
         -- LSP
         use { "neovim/nvim-lspconfig" }
-        use { "kabouzeid/nvim-lspinstall" }
         use {
             "folke/trouble.nvim",
             requires = { "kyazdani42/nvim-web-devicons" },
