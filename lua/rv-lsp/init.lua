@@ -3,6 +3,7 @@ local servers = {
     lua = require("rv-lsp.langs.lua").config,
     latex = require("rv-lsp.langs.latex").config,
     diagnosticls = require("rv-lsp.langs.diagnosticls").config,
+    python = require("rv-lsp.langs.python").config,
 }
 
 local function setup_servers()
