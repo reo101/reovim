@@ -60,6 +60,7 @@ M.config = function()
     }
 
     require("lspconfig")["diagnosticls"].setup(opt)
+
 end
 
 return M
