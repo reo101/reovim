@@ -2,8 +2,8 @@ local M = {}
 
 M.config = function()
 
-    local configs = require("lspconfig/configs")
-    local util = require("lspconfig/util")
+    local configs = require("lspconfig.configs")
+    local util = require("lspconfig.util")
 
     -- https://clangd.llvm.org/extensions.html#switch-between-sourceheader
     local function switch_source_header(bufnr)
@@ -80,7 +80,7 @@ M.config = function()
 
     require("lspconfig")["clangd"].setup({
         on_attach = function(...)
-            require("rv-lsp/utils").lsp_on_attach(...)
+            require("rv-lsp.utils").lsp_on_attach(...)
             require("which-key").register({
                 ["ls"] = { "<Cmd>ClangdSwitchSourceHeader<CR>", "Switch Header"}
             }, { prefix = "<leader>" })

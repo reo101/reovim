@@ -1,3 +1,3 @@
-require("plugins/bootstrap")
+require("plugins.bootstrap")
 
-require("plugins/packages")
+require("plugins.packages")
