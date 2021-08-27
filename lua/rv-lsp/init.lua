@@ -1,8 +1,8 @@
 local servers = {
-    clangd = require("rv-lsp/langs/clangd").config,
-    lua = require("rv-lsp/langs/lua").config,
-    latex = require("rv-lsp/langs/latex").config,
-    diagnosticls = require("rv-lsp/langs/diagnosticls").config,
+    clangd = require("rv-lsp/langs.clangd").config,
+    lua = require("rv-lsp.langs.lua").config,
+    latex = require("rv-lsp.langs.latex").config,
+    diagnosticls = require("rv-lsp.langs.diagnosticls").config,
 }
 
 local function setup_servers()
@@ -13,9 +13,9 @@ local function setup_servers()
             local client = require("lspconfig")[name]
             client.setup(vim.tbl_extend("force", {
                 flags = { debounce_text_changes = 150 },
-                on_attach = require("rv-lsp/utils").lsp_on_attach,
-                on_init = require("rv-lsp/utils").lsp_on_init,
-                capabilities = require("rv-lsp/utils").lsp_capabilities,
+                on_attach = require("rv-lsp.utils").lsp_on_attach,
+                on_init = require("rv-lsp.utils").lsp_on_init,
+                capabilities = require("rv-lsp.utils").lsp_capabilities,
             }, opt))
         end
     end

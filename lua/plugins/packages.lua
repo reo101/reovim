@@ -77,7 +77,7 @@ packer.startup{
             "folke/which-key.nvim",
             config = function()
                 require("rv-whichkey").config()
-                require("rv-whichkey/presets").config()
+                require("rv-whichkey.presets").config()
             end,
         }
 
@@ -157,7 +157,7 @@ packer.startup{
             "folke/trouble.nvim",
             requires = { "kyazdani42/nvim-web-devicons" },
             conqig = function()
-                require("rv-lsp/trouble").config()
+                require("rv-lsp.trouble").config()
             end,
         }
         use {
@@ -166,7 +166,7 @@ packer.startup{
         use {
             "kosayoda/nvim-lightbulb",
             config = function()
-                require("rv-lsp/lightbulb").config()
+                require("rv-lsp.lightbulb").config()
             end,
         }
         use {

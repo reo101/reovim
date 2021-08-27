@@ -26,7 +26,7 @@ M.config = function()
     local mappings = {
         t = {
             name = "Toggle",
-            i = { function() require("indent_blankline/commands").toggle() end, "IndentLine" },
+            i = { function() require("indent_blankline.commands").toggle() end, "IndentLine" },
         },
     }
     

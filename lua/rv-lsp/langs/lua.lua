@@ -4,8 +4,8 @@ M.config = function()
 
     local opt = {
         cmd = { "lua-language-server", "--start-lsp" },
-        on_attach = require("rv-lsp/utils").lsp_on_attach,
-        capabilities = require("rv-lsp/utils").capabilities,
+        on_attach = require("rv-lsp.utils").lsp_on_attach,
+        capabilities = require("rv-lsp.utils").capabilities,
         settings = {
             Lua = {
                 completion = {
