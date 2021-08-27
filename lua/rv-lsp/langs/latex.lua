@@ -3,8 +3,8 @@ local M = {}
 M.config = function()
 
     local opt = {
-        on_attach = on_attach,
-        capabilities = capabilities,
+        on_attach = require("rv-lsp/utils").on_attach,
+        capabilities = require("rv-lsp/utils").capabilities,
         settings = {
             latex = {
                 rootDirectory = ".",
