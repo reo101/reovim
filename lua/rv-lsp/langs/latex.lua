@@ -23,6 +23,7 @@ M.config = function()
     }
 
     require("lspconfig")["texlab"].setup(opt)
+
 end
 
 return M
