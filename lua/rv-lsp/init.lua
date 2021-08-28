@@ -1,5 +1,6 @@
 local servers = {
     clangd = require("rv-lsp.langs.clangd").config,
+    cmake = require("rv-lsp.langs.cmake").config,
     lua = require("rv-lsp.langs.lua").config,
     latex = require("rv-lsp.langs.latex").config,
     diagnosticls = require("rv-lsp.langs.diagnosticls").config,
