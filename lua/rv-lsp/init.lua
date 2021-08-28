@@ -1,5 +1,5 @@
 local servers = {
-    clangd = require("rv-lsp/langs.clangd").config,
+    clangd = require("rv-lsp.langs.clangd").config,
     lua = require("rv-lsp.langs.lua").config,
     latex = require("rv-lsp.langs.latex").config,
     diagnosticls = require("rv-lsp.langs.diagnosticls").config,
@@ -24,4 +24,4 @@ end
 
 setup_servers()
 
-require("rv-lsp/utils").lsp_override_handlers()
+require("rv-lsp.utils").lsp_override_handlers()
