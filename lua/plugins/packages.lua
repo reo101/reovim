@@ -151,6 +151,15 @@ packer.startup{
             end,
         }
 
+        -- Discord Rich Presence
+        use {
+            "andweeb/presence.nvim",
+            as = "presence",
+            config = function()
+                require("rv-presence").config()
+            end,
+        }
+
         -- LSP
         use { "neovim/nvim-lspconfig" }
         use {
