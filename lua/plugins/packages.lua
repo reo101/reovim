@@ -191,6 +191,9 @@ packer.startup{
         use {
             "onsails/lspkind-nvim",
         }
+        use {
+            "nanotee/sqls.nvim",
+        }
 
         -- LuaSnip
         use {
