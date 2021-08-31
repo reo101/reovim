@@ -85,6 +85,8 @@ M.config = function()
                 ["ls"] = { "<Cmd>ClangdSwitchSourceHeader<CR>", "Switch Header"}
             }, { prefix = "<leader>" })
         end,
+        on_init = require("rv-lsp.utils").lsp_on_init,
+        capabilities = require("rv-lsp.utils").capabilities,
         cross_file_rename = true,
         header_insertion = "always",
     })
