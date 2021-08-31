@@ -3,7 +3,7 @@ local M = {}
 M.config = function()
 
     local opt = {
-        -- defaults = {
+        defaults = {
             -- vimgrep_arguments = {
                 -- 'rg',
                 -- '--color=never',
@@ -34,8 +34,8 @@ M.config = function()
             -- shorten_path = true,
             -- winblend = 0,
             -- border = {},
-            -- borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
-            -- color_devicons = true,
+            borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+            color_devicons = true,
             -- use_less = true,
             -- set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
             -- file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
@@ -44,7 +44,12 @@ M.config = function()
 
             -- -- Developer configurations: Not meant for general override
             -- buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
-        -- },
+            mappings = {
+                i = {
+                    ["<C-s>"] = require("trouble.providers.telescope").open_with_trouble,
+                }
+            },
+        },
         extensions = {
             fzf = {
                 fuzzy = true,                    -- false will only do exact matching
