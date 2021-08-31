@@ -1,7 +1,7 @@
 local M = {}
 
 M.config = function()
-    
+
     local opt = {
         ensure_installed = {"cpp", "lua", "javascript", "java", "php", "python", "norg", "comment"},
         highlight = {

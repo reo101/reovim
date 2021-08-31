@@ -7,7 +7,7 @@ M.config = function()
 
     -- 0, 1
     vim.g.sonokai_disable_italic_comment = 1
-    
+
     -- 1, 0
     vim.g.sonokai_enable_italic = 0
 
