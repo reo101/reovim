@@ -160,6 +160,15 @@ packer.startup{
             end,
         }
 
+        -- Notify
+        use {
+            "rcarriga/nvim-notify",
+            as = "notify",
+            config = function()
+                require("rv-notify").config()
+            end,
+        }
+
         -- LSP
         use { "neovim/nvim-lspconfig" }
         use {
