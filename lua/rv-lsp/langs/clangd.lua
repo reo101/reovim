@@ -85,6 +85,8 @@ M.config = function()
                 ["ls"] = { "<Cmd>ClangdSwitchSourceHeader<CR>", "Switch Header"}
             }, { prefix = "<leader>" })
         end,
+        cross_file_rename = true,
+        header_insertion = "always",
     })
 
 end
