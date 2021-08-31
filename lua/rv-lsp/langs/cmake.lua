@@ -19,6 +19,10 @@ M.config = function()
             }
             return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname) or util.path.dirname(fname)
         end,
+        formatter = {
+            exe = "clang-format",
+            args = {},
+        },
     }
 
     require("lspconfig")["cmake"].setup(opt)
