@@ -164,6 +164,7 @@ packer.startup{
         use {
             "rcarriga/nvim-notify",
             as = "notify",
+            after = { "sonokai" },
             config = function()
                 require("rv-notify").config()
             end,
