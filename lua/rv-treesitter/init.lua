@@ -67,10 +67,14 @@ M.config = function()
             swap = {
                 enable = true,
                 swap_next = {
-                    ["<leader>ssn"] = "@parameter.inner",
+                    ["<leader>ssnc"] = "@class.outer",
+                    ["<leader>ssnf"] = "@function.outer",
+                    ["<leader>ssnp"] = "@parameter.inner",
                 },
                 swap_previous = {
-                    ["<leader>ssp"] = "@parameter.inner",
+                    ["<leader>sspc"] = "@class.outer",
+                    ["<leader>sspf"] = "@function.outer",
+                    ["<leader>sspp"] = "@parameter.inner",
                 },
             },
             move = {
@@ -159,8 +163,18 @@ M.config = function()
             },
             s = {
                 name = "Swap",
-                n = { "Swap next" },
-                p = { "Swap previous" },
+                n = {
+                    name = "Swap next",
+                    c = { "Class" },
+                    f = { "Function" },
+                    p = { "Parameter" },
+                },
+                p = {
+                    name = "Swap previous",
+                    c = { "Class" },
+                    f = { "Function" },
+                    p = { "Parameter" },
+                },
             },
         },
         t = {
