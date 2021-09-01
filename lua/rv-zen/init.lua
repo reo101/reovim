@@ -57,7 +57,7 @@ M.config = function()
             vim_powerline = false,
             vim_signify = false,
             express_line = false,
-            lualine = false,
+            lualine = true,
         },
         misc = {
             on_off_commands = false,
