@@ -100,12 +100,12 @@ packer.startup{
             disable = true, -- TODO
         }
 
-        -- Feline
+        -- Lualine
         use {
-            "famiu/feline.nvim",
-            as = "feline",
+            'hoob3rt/lualine.nvim',
+            requires = { "kyazdani42/nvim-web-devicons", opt = true },
             config = function()
-                require("rv-feline").config()
+                require("rv-lualine").config()
             end,
         }
 
