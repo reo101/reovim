@@ -6,6 +6,7 @@ local servers = {
     diagnosticls = require("rv-lsp.langs.diagnosticls").config,
     python = require("rv-lsp.langs.python").config,
     sqls = require("rv-lsp.langs.sqls").config,
+    haskell = require("rv-lsp.langs.haskell").config,
 }
 
 local function setup_servers()
