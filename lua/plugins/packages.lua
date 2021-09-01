@@ -108,6 +108,10 @@ packer.startup{
                 require("rv-lualine").config()
             end,
         }
+        use {
+            "SmiteshP/nvim-gps",
+            requires = { "nvim-treesitter/nvim-treesitter" },
+        }
 
         -- Barbar
         use {
