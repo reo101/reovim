@@ -62,7 +62,7 @@ M.config = function()
     wk.register(scrollMappings, { mode = "s" })
 
     require("luasnip").config.set_config({
-        history = true,
+        history = false,
         updateevents = "TextChanged,TextChangedI",
     })
 
