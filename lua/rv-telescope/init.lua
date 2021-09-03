@@ -73,12 +73,21 @@ M.config = function()
     require('telescope').load_extension('gh')
     require('telescope').load_extension('media_files')
 
+    local functions = {}
+    functions.find_files = function()
+        if vim.o.columns < 128 then
+            require("telescope.builtin").find_files(require("telescope.themes").get_dropdown())
+        else
+            require("telescope.builtin").find_files()
+        end
+    end
+
     local wk = require("which-key")
 
     local mappings = {
         f = {
             name = "Files",
-            f = { "<Cmd>Telescope find_files<CR>", "Find File" },
+            f = { functions.find_files, "Find File" },
             r = { "<Cmd>Telescope oldfiles<CR>", "Open Recent File" },
         },
     }
