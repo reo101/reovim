@@ -71,7 +71,7 @@ packer.startup{
             },
             after = {
                 "telescope.nvim",
-                "nvim-compe",
+                "nvim-cmp",
             },
             config = function()
                 require("rv-neorg").config()
@@ -297,23 +297,67 @@ packer.startup{
             as = "nvim-treesitter-autotag",
         }
 
-        -- Compe
+        -- Cmp
         use {
-            "hrsh7th/nvim-compe",
+            "hrsh7th/nvim-cmp",
             event = "InsertEnter",
+            requires = {
+                "hrsh7th/cmp-buffer",
+                "hrsh7th/cmp-path",
+                "hrsh7th/cmp-nvim-lua",
+                "hrsh7th/cmp-nvim-lsp",
+                "saadparwaiz1/cmp_luasnip",
+            },
             config = function()
-                require("rv-compe").config()
+                require("rv-cmp").config()
             end,
         }
         use {
-            "GoldsteinE/compe-latex-symbols",
+            "hrsh7th/cmp-buffer",
+            after = { "nvim-cmp" },
+        }
+        use {
+            "hrsh7th/cmp-path",
+            after = { "nvim-cmp" },
+        }
+        use {
+            "f3fora/cmp-spell",
+            after = { "nvim-cmp" },
+        }
+        use {
+            "hrsh7th/cmp-calc",
+            after = { "nvim-cmp" },
+        }
+        use {
+            "hrsh7th/cmp-nvim-lua",
+            after = { "nvim-cmp" },
+        }
+        use {
+            "hrsh7th/cmp-nvim-lsp",
+            after = { "nvim-cmp" },
+        }
+        use {
+            "saadparwaiz1/cmp_luasnip",
+            after = { "nvim-cmp" },
+        }
+	use {
+            "andersevenrud/compe-tmux",
+            branch = "cmp",
+            after = { "nvim-cmp" },
             requires = {
-                { "hrsh7th/nvim-compe" }
+                { "hrsh7th/nvim-cmp" }
+            },
+        }
+        use {
+            "kdheepak/cmp-latex-symbols",
+            after = { "nvim-cmp" },
+            requires = {
+                { "hrsh7th/nvim-cmp" }
             },
         }
         use {
             "windwp/nvim-autopairs",
-            after = { "nvim-compe" },
+            after = { "nvim-cmp" },
             config = function()
                 require("rv-autopairs").config()
             end,

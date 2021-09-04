@@ -36,7 +36,7 @@ M.config = function()
         Rule("$", "$", "lua"):with_pair(ts_conds.is_not_ts_node({ "function" })),
     })
 
-    require("nvim-autopairs.completion.compe").setup(optCompe)
+    -- require("nvim-autopairs.completion.compe").setup(optCompe)
 
 end
 
