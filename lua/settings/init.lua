@@ -68,3 +68,5 @@ opt.number = true               -- set numbered lines
 opt.relativenumber = true       -- set relatively numbered lines
 opt.signcolumn = "auto:3"     -- always show the sign column, otherwise it would shift the text each time
 opt.wrap = true                 -- display lines as one long line
+opt.pumblend = 20               -- winblend for the autocompletion window
+opt.winblend = 20               -- winblend for floating windows
