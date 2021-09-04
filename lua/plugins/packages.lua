@@ -298,63 +298,41 @@ packer.startup{
         }
 
         -- Cmp
+        local cmp_sources = {
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-path",
+            "hrsh7th/cmp-calc",
+            "f3fora/cmp-spell",
+            "hrsh7th/cmp-nvim-lua",
+            "hrsh7th/cmp-nvim-lsp",
+            "saadparwaiz1/cmp_luasnip",
+            "andersevenrud/compe-tmux",
+            "kdheepak/cmp-latex-symbols",
+        }
         use {
             "hrsh7th/nvim-cmp",
             event = "InsertEnter",
-            requires = {
-                "hrsh7th/cmp-buffer",
-                "hrsh7th/cmp-path",
-                "hrsh7th/cmp-nvim-lua",
-                "hrsh7th/cmp-nvim-lsp",
-                "saadparwaiz1/cmp_luasnip",
-            },
+            requires = cmp_sources,
             config = function()
                 require("rv-cmp").config()
             end,
         }
-        use {
-            "hrsh7th/cmp-buffer",
-            after = { "nvim-cmp" },
-        }
-        use {
-            "hrsh7th/cmp-path",
-            after = { "nvim-cmp" },
-        }
-        use {
-            "f3fora/cmp-spell",
-            after = { "nvim-cmp" },
-        }
-        use {
-            "hrsh7th/cmp-calc",
-            after = { "nvim-cmp" },
-        }
-        use {
-            "hrsh7th/cmp-nvim-lua",
-            after = { "nvim-cmp" },
-        }
-        use {
-            "hrsh7th/cmp-nvim-lsp",
-            after = { "nvim-cmp" },
-        }
-        use {
-            "saadparwaiz1/cmp_luasnip",
-            after = { "nvim-cmp" },
-        }
-	use {
-            "andersevenrud/compe-tmux",
-            branch = "cmp",
-            after = { "nvim-cmp" },
-            requires = {
-                { "hrsh7th/nvim-cmp" }
-            },
-        }
-        use {
-            "kdheepak/cmp-latex-symbols",
-            after = { "nvim-cmp" },
-            requires = {
-                { "hrsh7th/nvim-cmp" }
-            },
-        }
+        for _, cmp_source in ipairs(cmp_sources) do
+            local opt = {
+                cmp_source,
+                after = { "nvim-cmp" },
+                requires = {
+                    { "hrsh7th/nvim-cmp" },
+                },
+            }
+            if cmp_source == "compe-tmux" then
+                opt = vim.tbl_deep_extend("force", {
+                    branch = "cmp",
+                }, opt)
+            end
+
+            use(opt)
+        end
         use {
             "windwp/nvim-autopairs",
             after = { "nvim-cmp" },
