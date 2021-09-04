@@ -10,7 +10,13 @@ packer.startup{
         use {
             "sainnhe/sonokai",
             config = function()
-                require("rv-sonokai").config()
+                -- require("rv-sonokai").config()
+            end,
+        }
+        use {
+            "EdenEast/nightfox.nvim",
+            config = function()
+                require("rv-nightfox").config()
             end,
         }
 
