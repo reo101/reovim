@@ -235,6 +235,15 @@ packer.startup{
             end,
         }
 
+        -- CursorHold
+        use {
+            "antoinemadec/FixCursorHold.nvim",
+            as = "cursorhold",
+            config = function()
+                require("rv-cursorhold").config()
+            end,
+        }
+
         -- Treesitter
         use {
             "nvim-treesitter/nvim-treesitter",
