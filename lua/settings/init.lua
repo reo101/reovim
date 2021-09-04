@@ -66,5 +66,5 @@ opt.shortmess:append "c"        -- Hide "Pattern not found" when no completion i
 -- opt.cursorcolumn = true         -- highlight the current column
 opt.number = true               -- set numbered lines
 opt.relativenumber = true       -- set relatively numbered lines
-opt.signcolumn = "auto:1-2"     -- always show the sign column, otherwise it would shift the text each time
+opt.signcolumn = "auto:3"     -- always show the sign column, otherwise it would shift the text each time
 opt.wrap = true                 -- display lines as one long line
