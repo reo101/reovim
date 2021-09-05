@@ -50,19 +50,6 @@ M.config = function()
                     fallback()
                 end
             end, { "i", "s" }),
-            -- ["<CR>"] = function(fallback)
-            --     if vim.fn.pumvisible() == 1 then
-            --         require("cmp").mapping.confirm({
-            --             behavior = require("cmp").ConfirmBehavior.Insert,
-            --             select = true,
-            --         })
-            --     else
-            --         fallback()
-            --         -- vim.fn.feedkeys(
-            --         --     require("nvim-autopairs").autopairs_cr()
-            --         -- )
-            --     end
-            -- end,
             ["<CR>"] = require("cmp").mapping.confirm({
                 behavior = require("cmp").ConfirmBehavior.Replace,
                 select = true,
@@ -77,6 +64,30 @@ M.config = function()
                 select = true,
             }),
             ["<C-Space>"] = require("cmp").mapping.complete(),
+        },
+        event = {
+            on_confirm_done = function(entry)
+                local line = require('nvim-autopairs.utils').text_get_current_line(0)
+                local _, col = require('nvim-autopairs.utils').get_cursor()
+                local prev_char, next_char = require('nvim-autopairs.utils').text_cusor_line(line, col, 1, 1, false)
+                local item = entry:get_completion_item()
+                if prev_char ~= '(' and next_char ~= '(' then
+                    if item.kind == require("cmp").lsp.CompletionItemKind.Method or item.kind == require("cmp").lsp.CompletionItemKind.Function then
+                        -- check insert text have ( from snippet
+                        if
+                            (
+                            item.textEdit
+                            and item.textEdit.newText
+                            and item.textEdit.newText:match('[%(%[]')
+                            )
+                            or (item.insertText and item.insertText:match('[%(%[]'))
+                        then
+                            return
+                        end
+                        vim.api.nvim_feedkeys('(', '', true)
+                    end
+                end
+            end,
         },
         completion = {
             completeopt = "menu,menuone,preview,noinsert",
@@ -121,6 +132,13 @@ M.config = function()
             { name = "latex_symbols" }
         },
     }
+
+    vim.api.nvim_set_keymap(
+        "i",
+        "<CR>",
+        "v:lua.MPairs.autopairs_cr()",
+        { expr = true, noremap = true }
+    )
 
     vim.opt.completeopt = "menuone,preview,noinsert,noselect"
     require("cmp").setup(opt)
