@@ -16,12 +16,15 @@ M.config = function()
         },
     }
 
-    local optCompe = {
+    require("nvim-autopairs").setup(opt)
+
+    local optCmp = {
         map_cr = false, --  map <CR> on insert mode
-        map_complete = true -- it will auto insert `(` after select function or method item
+        map_complete = false, -- it will auto insert `(` after select function or method item
+        auto_select = false, -- automatically select the first item
     }
 
-    require("nvim-autopairs").setup(opt)
+    require("nvim-autopairs.completion.cmp").setup(optCmp)
 
     local autopairs = require("nvim-autopairs")
     local Rule = require("nvim-autopairs.rule")
@@ -35,8 +38,6 @@ M.config = function()
         Rule("%", "%", "lua"):with_pair(ts_conds.is_ts_node({ "string", "comment" })),
         Rule("$", "$", "lua"):with_pair(ts_conds.is_not_ts_node({ "function" })),
     })
-
-    -- require("nvim-autopairs.completion.compe").setup(optCompe)
 
 end
 
