@@ -27,6 +27,8 @@ require("settings")
 
 -- require("mappings")
 
+require("rv-autocommands")
+
 require("rv-treesitter").config()
 
 require("rv-lsp")
