@@ -73,8 +73,13 @@ M.config = function()
     require('telescope').load_extension('gh')
     require('telescope').load_extension('media_files')
 
+    local actions = require("telescope.actions")
+    local action_state = require("telescope.actions.state")
+    local themes = require("telescope.themes")
+
     local functions = {}
-    functions.find_files = function()
+
+    function functions.find_files()
         if vim.o.columns < 128 then
             require("telescope.builtin").find_files(require("telescope.themes").get_dropdown())
         else
@@ -82,13 +87,105 @@ M.config = function()
         end
     end
 
+    function functions.buffer_git_files()
+        require("telescope.builtin").git_files(themes.get_dropdown {
+            cwd = vim.fn.expand "%:p:h",
+            winblend = 10,
+            border = true,
+            previewer = false,
+            shorten_path = false,
+        })
+    end
+
+    function functions.lsp_code_actions()
+        local opts = themes.get_cursor {
+            winblend = 10,
+            border = true,
+            previewer = false,
+            shorten_path = false,
+        }
+
+        require("telescope.builtin").lsp_code_actions(opts)
+    end
+
+    function functions.live_grep()
+        require("telescope.builtin").live_grep {
+            -- shorten_path = true,
+            previewer = false,
+            fzf_separator = "|>",
+        }
+    end
+
+    function functions.grep_prompt()
+        require("telescope.builtin").grep_string {
+            path_display = { "shorten" },
+            search = vim.fn.input "Grep String > ",
+        }
+    end
+
+    function functions.grep_last_search(opts)
+        opts = opts or {}
+
+        -- \<getreg\>\C
+        -- -> Subs out the search things
+        local register = vim.fn.getreg("/"):gsub("\\<", ""):gsub("\\>", ""):gsub("\\C", "")
+
+        opts.path_display = { "shorten" }
+        opts.word_match = "-w"
+        opts.search = register
+
+        require("telescope.builtin").grep_string(opts)
+    end
+
+    function functions.oldfiles()
+        -- require("telescope").extensions.frecency.frecency()
+        require("telescope.builtin").oldfiles()
+    end
+
+    function functions.installed_plugins()
+        require("telescope.builtin").find_files {
+            cwd = vim.fn.stdpath "data" .. "/site/pack/packer/start/",
+        }
+    end
+
+    function functions.buffers()
+        require("telescope.builtin").buffers {
+            shorten_path = false,
+        }
+    end
+
+    function functions.curbuf()
+        local opts = themes.get_dropdown {
+            winblend = 10,
+            border = true,
+            previewer = false,
+            shorten_path = false,
+        }
+
+        require("telescope.builtin").current_buffer_fuzzy_find(opts)
+    end
+
+    function functions.search_all_files()
+        require("telescope.builtin").find_files {
+            find_command = { "rg", "--no-ignore", "--files" },
+        }
+    end
+
     local wk = require("which-key")
 
     local mappings = {
         f = {
-            name = "Files",
+            name = "Find",
             f = { functions.find_files, "Find File" },
-            r = { "<Cmd>Telescope oldfiles<CR>", "Open Recent File" },
+            F = { functions.search_all_files, "All Files" },
+            r = { functions.oldfiles, "Recent Files" },
+            a = { functions.lsp_code_actions, "LSP Actions" },
+            p = { functions.installed_plugins, "Plugins" },
+            s = { functions.grep_promp, "Static grep" },
+            g = { functions.live_grep, "Live Grep" },
+            G = { functions.grep_last_search, "Last Grep" },
+            c = { functions.curbuf, "Current Buffer" },
+            b = { functions.buffers, "Buffers" },
         },
     }
 
