@@ -2,39 +2,22 @@ local M = {}
 
 M.config = function()
 
-    local function prequire(...)
-        local status, lib = pcall(require, ...)
-        if (status) then return lib end
-        return nil
-    end
-
-    local luasnip = prequire("luasnip")
-
     local esc = function(str)
         return vim.api.nvim_replace_termcodes(str, true, true, true)
     end
 
     local check_back_space = function()
         local col = vim.fn.col(".") - 1
-        if col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
-            return true
-        else
-            return false
-        end
+        return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
     end
 
     local opt = {
-        snippet = {
-            expand = function(args)
-                require("luasnip").lsp_expand(args.body)
-            end
-        },
         mapping = {
             ["<Tab>"] = require("cmp").mapping(function(fallback)
                 if vim.fn.pumvisible() == 1 then
                     vim.fn.feedkeys(esc([[<C-n>]]), "n")
-                elseif luasnip and luasnip.expand_or_jumpable() then
-                    vim.fn.feedkeys(esc([[<Cmd>lua require("luasnip").jump(1)<CR>]]), "")
+                elseif require("luasnip").expand_or_jumpable() then
+                    vim.fn.feedkeys(esc([[<Cmd>lua require("luasnip").expand_or_jump()<CR>]]), "")
                 elseif check_back_space() then
                     vim.fn.feedkeys(esc([[<Tab>]]), "n")
                 else
@@ -44,7 +27,7 @@ M.config = function()
             ["<S-Tab>"] = require("cmp").mapping(function(fallback)
                 if vim.fn.pumvisible() == 1 then
                     vim.fn.feedkeys(esc([[<C-p>]]), "n")
-                elseif luasnip and luasnip.jumpable(-1) then
+                elseif require("luasnip").jumpable(-1) then
                     vim.fn.feedkeys(esc([[<Cmd>lua require("luasnip").jump(-1)<CR>]]), "")
                 else
                     fallback()
@@ -90,14 +73,16 @@ M.config = function()
             end,
         },
         completion = {
-            completeopt = "menu,menuone,preview,noinsert",
-            -- autocomplete = true,
+            completeopt = "menuone,preview,noinsert",
         },
-        -- documentation = { },
-        -- sorting = {
-        --     priority_weight = 2.,
-        --     comparators = {  },
-        -- },
+        documentation = {
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        },
+        snippet = {
+            expand = function(args)
+                require("luasnip").lsp_expand(args.body)
+            end
+        },
         formatting = {
             format = function(entry, vim_item)
                 -- fancy icons and a name of kind
@@ -105,17 +90,35 @@ M.config = function()
 
                 -- set a name for each source
                 vim_item.menu = ({
+                    path = "[Path]",
+                    calc = "[Calc]",
+                    spell = "[Spell]",
                     buffer = "[Buffer]",
+                    nvim_lua = "[Lua]",
                     nvim_lsp = "[LSP]",
                     luasnip = "[LuaSnip]",
-                    nvim_lua = "[Lua]",
+                    tmux = "[Tmux]",
                     latex_symbols = "[Latex]",
                 })[entry.source.name]
+                vim_item.dup = ({
+                    buffer = 1,
+                    path = 1,
+                    nvim_lsp = 0,
+                })[entry.source.name] or 0
                 return vim_item
             end,
         },
         sources = {
-            { name = "buffer" },
+            {
+                name = "buffer",
+                get_bufnrs = function()
+                    local bufs = {}
+                    for _, win in ipairs(vim.api.nvim_list_wins()) do
+                        bufs[vim.api.nvim_win_get_buf(win)] = true
+                    end
+                    return vim.tbl_keys(bufs)
+                end,
+            },
             { name = "path" },
             { name = "calc" },
             { name = "spell" },
@@ -126,7 +129,6 @@ M.config = function()
                 name = "tmux",
                 opts = {
                     all_panes = false,
-                    label = "[tmux]",
                 },
             },
             { name = "latex_symbols" }
@@ -140,7 +142,7 @@ M.config = function()
         { expr = true, noremap = true }
     )
 
-    vim.opt.completeopt = "menuone,preview,noinsert,noselect"
+    require("luasnip/loaders/from_vscode").lazy_load()
     require("cmp").setup(opt)
 
 end
