@@ -24,7 +24,7 @@ M.config = function()
         auto_select = false, -- automatically select the first item
     }
 
-    require("nvim-autopairs.completion.cmp").setup(optCmp)
+    -- require("nvim-autopairs.completion.cmp").setup(optCmp)
 
     local autopairs = require("nvim-autopairs")
     local Rule = require("nvim-autopairs.rule")
