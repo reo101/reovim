@@ -204,6 +204,13 @@ packer.startup{
         use {
             "nanotee/sqls.nvim",
         }
+        use {
+            "simrat39/symbols-outline.nvim",
+            as = "outline",
+            config = function()
+                require("rv-outline").config()
+            end,
+        }
 
         -- LuaSnip
         use {
