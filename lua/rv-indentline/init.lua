@@ -2,34 +2,52 @@ local M = {}
 
 M.config = function()
 
-    vim.g.indent_blankline_char = "│"
-    vim.g.indent_blankline_use_treesitter = true
-    vim.g.indent_blankline_show_current_context = true
-    vim.g.indent_blankline_show_trailing_blankline_indent = false
-    vim.g.indent_blankline_context_patterns = { "class", "function", "method", "while", "do_statement", "closure", "for" }
-    vim.g.indent_blankline_viewport_buffer = 50
+    vim.opt.listchars = {
+        space = "",
+        trail = "",
+        eol = "↴",
+    }
+    vim.opt.list = true
 
-    vim.g.indent_blankline_filetype_exclude = {
-        "help",
-        "terminal",
-        "dashboard",
-        "startify",
-        "packer",
-        "neogitstatus",
-        "tsplayground",
+    -- vim.cmd [[ highlight ExtraWhitespace ctermbg=red guibg=red ]]
+    -- vim.cmd [[ match ExtraWhitespace /\s\+$/ ]]
+    -- vim.cmd [[ autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/ ]]
+
+    local opt = {
+        char = "│",
+        space_char_blankline = " ",
+        use_treesitter = true,
+        show_end_of_line = true,
+        show_current_context = true,
+        show_trailing_blankline_indent = false,
+        context_patterns = { "class", "function", "method", "while", "do_statement", "closure", "for" },
+        viewport_buffer = 50,
+        filetype_exclude = {
+            "help",
+            "terminal",
+            "dashboard",
+            "startify",
+            "packer",
+            "neogitstatus",
+            "tsplayground",
+        },
+        buftype_exclude = { "terminal" },
     }
 
-    vim.g.indent_blankline_buftype_exclude = { "terminal" }
+    require("indent_blankline").setup(opt)
 
     local wk = require("which-key")
 
     local mappings = {
         t = {
             name = "Toggle",
-            i = { function() require("indent_blankline.commands").toggle() end, "IndentLine" },
+            i = { function()
+                require("indent_blankline.commands").toggle()
+                vim.cmd [[ set list! ]]
+            end, "IndentLine" },
         },
     }
-    
+
     wk.register(mappings, { prefix = "<leader>" })
 
 end
