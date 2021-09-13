@@ -27,7 +27,8 @@ M.config = function()
     -- empty by default, don"t auto open tree on specific filetypes.
     vim.g.nvim_tree_auto_ignore_ft = {
         "startify",
-        "dashboard"
+        "dashboard",
+        "notify",
     }
 
     -- 0 by default, closes the tree when you open a file
