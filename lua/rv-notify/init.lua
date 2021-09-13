@@ -7,7 +7,7 @@ M.config = function()
         stages = "fade_in_slide_out",
 
         -- Default timeout for notifications
-        timeout = 5000,
+        timeout = 3000,
 
         -- For stages that change opacity this is treated as the highlight behind the window
         background_colour = "Normal",
