@@ -403,6 +403,24 @@ packer.startup{
                 require("rv-gitsigns").config()
             end,
         }
+        use {
+            "ThePrimeagen/git-worktree.nvim",
+            requires = {
+                "nvim-treesitter/nvim-treesitter",
+            },
+            config = function()
+                require("rv-gitworktrees").config()
+            end,
+        }
+        use {
+            "pwntester/octo.nvim",
+            requires = {
+                { "kyazdani42/nvim-web-devicons", opt = true, },
+            },
+            config = function()
+                require("rv-octo").config()
+            end,
+        }
 
         -- Comments
         use {
