@@ -256,53 +256,25 @@ packer.startup{
             "nvim-treesitter/nvim-treesitter",
             run = ":TSUpdate",
         }
-        use {
-            "nvim-treesitter/nvim-treesitter-textobjects",
-            requires = {
-                { "nvim-treesitter/nvim-treesitter" }
-            },
+        local treesitter_plugins = {
+            {"nvim-treesitter/nvim-treesitter-textobjects", { as = "treesitter-textobjects",}},
+            {"mfussenegger/nvim-ts-hint-textobject", { as = "treesitter-hint-textobject", }},
+            {"nvim-treesitter/playground", { as = "treesitter-playground", }},
+            {"p00f/nvim-ts-rainbow", { as = "treesitter-rainbow", }},
+            {"romgrk/nvim-treesitter-context", { as = "treesitter-context", }},
+            {"JoosepAlviste/nvim-ts-context-commentstring", { as = "treesitter-context-commentstring", }},
+            {"windwp/nvim-ts-autotag", { as = "treesitter-autotag", }},
         }
-        use {
-            "mfussenegger/nvim-ts-hint-textobject",
-            requires = {
-                { "nvim-treesitter/nvim-treesitter" }
-            },
-            as = "nvim-treesitter-hint-textobject",
-        }
-        use {
-            "nvim-treesitter/playground",
-            requires = {
-                { "nvim-treesitter/nvim-treesitter" }
-            },
-            as = "nvim-treesitter-playground",
-        }
-        use {
-            "p00f/nvim-ts-rainbow",
-            requires = {
-                { "nvim-treesitter/nvim-treesitter" }
-            },
-            as = "nvim-treesitter-rainbow",
-        }
-        use {
-            "romgrk/nvim-treesitter-context",
-            requires = {
-                { "nvim-treesitter/nvim-treesitter" }
-            },
-        }
-        use {
-            "JoosepAlviste/nvim-ts-context-commentstring",
-            requires = {
-                { "nvim-treesitter/nvim-treesitter" }
-            },
-            as = "nvim-treesitter-context-commentstring",
-        }
-        use {
-            "windwp/nvim-ts-autotag",
-            requires = {
-                { "nvim-treesitter/nvim-treesitter" }
-            },
-            as = "nvim-treesitter-autotag",
-        }
+        for _, treesitter_plugin in ipairs(treesitter_plugins) do
+            local opt = {
+                treesitter_plugin[1],
+                requires = {
+                    { "nvim-treesitter/nvim-treesitter" }
+                },
+            }
+            opt = vim.tbl_deep_extend("force", treesitter_plugin[2], opt)
+            use(opt)
+        end
 
         -- Cmp
         local cmp_sources = {
