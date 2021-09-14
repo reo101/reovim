@@ -3,7 +3,7 @@ local M = {}
 M.config = function()
 
     vim.opt.listchars = {
-        space = "",
+        space = "␣",
         trail = "",
         eol = "↴",
     }
