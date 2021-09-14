@@ -409,6 +409,13 @@ packer.startup{
                 require("rv-comments").config()
             end,
         }
+        use {
+            "folke/todo-comments.nvim",
+            requires = "nvim-lua/plenary.nvim",
+            config = function()
+                require("rv-todocomments").config()
+            end,
+        }
 
         -- Numbertoggle
         use { "jeffkreeftmeijer/vim-numbertoggle" }
