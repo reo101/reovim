@@ -393,6 +393,13 @@ packer.startup{
                 require("rv-octo").config()
             end,
         }
+        use {
+            "ruifm/gitlinker.nvim",
+            requires = { "nvim-lua/plenary.nvim" },
+            config = function()
+                require("rv-gitlinker").config()
+            end,
+        }
 
         -- Comments
         use {
