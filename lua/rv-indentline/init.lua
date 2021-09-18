@@ -3,9 +3,9 @@ local M = {}
 M.config = function()
 
     vim.opt.listchars = {
-        space = "␣",
+        -- space = "␣",
         trail = "",
-        eol = "↴",
+        -- eol = "↴",
     }
     vim.opt.list = true
 
