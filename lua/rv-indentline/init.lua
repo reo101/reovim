@@ -6,6 +6,7 @@ M.config = function()
         -- space = "␣",
         trail = "",
         -- eol = "↴",
+        tab = "  ",
     }
     vim.opt.list = true
 
@@ -16,8 +17,9 @@ M.config = function()
     local opt = {
         char = "│",
         space_char_blankline = " ",
+        max_indent_increase = 1,
         use_treesitter = true,
-        show_end_of_line = true,
+        show_end_of_line = false,
         show_current_context = true,
         show_trailing_blankline_indent = false,
         context_patterns = { "class", "function", "method", "while", "do_statement", "closure", "for" },
