@@ -44,7 +44,7 @@ M.config = function()
             ["n ]c"] = { expr = true, '&diff ? "]c" : "<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>"'},
             ["n [c"] = { expr = true, '&diff ? "[c" : "<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>"'},
         },
-        watch_index = {
+        watch_gitdir = {
             interval = 1000,
             follow_files = true
         },
