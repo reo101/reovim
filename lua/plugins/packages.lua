@@ -329,6 +329,14 @@ packer.startup{
             end,
         }
 
+        -- HLSlens
+        use {
+            "kevinhwang91/nvim-hlslens",
+            config = function()
+                require("rv-hlslens").config()
+            end,
+        }
+
         -- Surround
         use {
             "blackCauldron7/surround.nvim",
