@@ -7,6 +7,7 @@ local servers = {
     python = require("rv-lsp.langs.python").config,
     sqls = require("rv-lsp.langs.sqls").config,
     haskell = require("rv-lsp.langs.haskell").config,
+    rust = require("rv-lsp.langs.rust").config,
 }
 
 local function setup_servers()
