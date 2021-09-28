@@ -447,6 +447,14 @@ packer.startup{
             disable = true, -- TODO
         }
 
+        -- BufResize
+        use({
+            "kwkarlwang/bufresize.nvim",
+            config = function()
+                require("rv-bufresize").config()
+            end,
+        })
+
         -- Spellcheck
         use {
             "lewis6991/spellsitter.nvim",
