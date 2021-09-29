@@ -211,6 +211,13 @@ packer.startup{
                 require("rv-outline").config()
             end,
         }
+        use {
+            "Saecki/crates.nvim",
+            requires = { "nvim-lua/plenary.nvim" },
+            config = function()
+                require("rv-crates").config()
+            end,
+        }
 
         -- LuaSnip
         use {
