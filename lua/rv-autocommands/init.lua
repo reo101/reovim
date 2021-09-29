@@ -10,3 +10,4 @@ local function set_shiftwidth(filetype, shiftwidth)
 end
 
 set_shiftwidth("haskell", 2)
+set_shiftwidth("norg", 2)
