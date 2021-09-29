@@ -112,6 +112,7 @@ M.config = function()
         },
         autotag = {
             enable = true,
+            filetypes = { "html", "javascript", "javascriptreact", "typescriptreact", "svelte", "vue", "markdown" },
         },
         playground = {
             enable = true,
