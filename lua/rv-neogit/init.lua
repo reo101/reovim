@@ -18,7 +18,7 @@ M.config = function()
             section = { ">", "v" }
         },
         integrations = {
-            diffview = false
+            diffview = true
         },
         mappings = {
             status = {

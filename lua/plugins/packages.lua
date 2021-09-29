@@ -375,6 +375,12 @@ packer.startup{
             end,
         }
         use {
+            "sindrets/diffview.nvim",
+            config = function ()
+                require("rv-diffview").config()
+            end
+        }
+        use {
             "lewis6991/gitsigns.nvim",
             requires = {
                 "nvim-lua/plenary.nvim"
