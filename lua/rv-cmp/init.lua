@@ -99,6 +99,7 @@ M.config = function()
                     luasnip = "[LuaSnip]",
                     tmux = "[Tmux]",
                     latex_symbols = "[Latex]",
+                    crates = "[Crates]",
                 })[entry.source.name]
                 vim_item.dup = ({
                     buffer = 1,
@@ -131,7 +132,8 @@ M.config = function()
                     all_panes = false,
                 },
             },
-            { name = "latex_symbols" }
+            { name = "latex_symbols" },
+            { name = "crates" },
         },
     }
 
