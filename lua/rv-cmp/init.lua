@@ -124,7 +124,7 @@ M.config = function()
             { name = "spell" },
             { name = "nvim_lua" },
             { name = "nvim_lsp" },
-            { name = "luansip" },
+            { name = "luasnip" },
             {
                 name = "tmux",
                 opts = {
