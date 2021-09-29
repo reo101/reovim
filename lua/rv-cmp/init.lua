@@ -134,6 +134,7 @@ M.config = function()
             },
             { name = "latex_symbols" },
             { name = "crates" },
+            { name = "neorg" },
         },
     }
 

@@ -1,7 +1,7 @@
 local M = {}
 
 M.config = function()
-    
+
     local opt = {
         -- Tell Neorg what modules to load
         load = {
@@ -16,16 +16,20 @@ M.config = function()
             ["core.norg.dirman"] = { -- Manage your directories with Neorg
                 config = {
                     workspaces = {
-                        Notes = "~/neorg",
+                        Notes = "~/Notes",
                     },
                 },
             },
+            ["core.norg.completion"] = { -- Enable nvim-cmp completion
+                config = {
+                    engine = "nvim-cmp",
+                },
+            },
+            ["core.integrations.telescope"] = {}, -- Enable the telescope module
         },
         hook = function()
 
-            local neorg_leader = "<leader>o"
-
-            local neorg_callbacks = require('neorg.callbacks')
+            local neorg_callbacks = require("neorg.callbacks")
 
             local wk = require("which-key")
 

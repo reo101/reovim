@@ -51,8 +51,11 @@ packer.startup{
         -- Neorg
         use {
             "vhyrro/neorg",
+            branch = "unstable",
             requires = {
-                { "nvim-lua/plenary.nvim" }
+                { "hrsh7th/nvim-cmp" },
+                { "nvim-lua/plenary.nvim" },
+                { "vhyrro/neorg-telescope" },
             },
             after = {
                 "telescope.nvim",
@@ -61,6 +64,12 @@ packer.startup{
             config = function()
                 require("rv-neorg").config()
             end,
+        }
+        use {
+            "vhyrro/neorg-telescope",
+            requires = {
+                { "nvim-telescope/telescope.nvim" }
+            },
         }
 
         -- Which-key
@@ -282,7 +291,7 @@ packer.startup{
         }
         use {
             "hrsh7th/nvim-cmp",
-            event = "InsertEnter",
+            -- event = "InsertEnter",
             requires = cmp_sources,
             config = function()
                 require("rv-cmp").config()
@@ -291,7 +300,7 @@ packer.startup{
         for _, cmp_source in ipairs(cmp_sources) do
             local opt = {
                 cmp_source,
-                after = { "nvim-cmp" },
+                -- after = { "nvim-cmp" },
                 requires = {
                     { "hrsh7th/nvim-cmp" },
                 },
