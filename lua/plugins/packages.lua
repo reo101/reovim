@@ -31,37 +31,22 @@ packer.startup{
                 require("rv-telescope").config()
             end,
         }
-        use {
+        local telescope_plugins = {
             "nvim-telescope/telescope-packer.nvim",
-            requires = {
-                { "nvim-telescope/telescope.nvim" }
-            },
-        }
-        use {
             "nvim-telescope/telescope-fzf-native.nvim",
-            requires = {
-                { "nvim-telescope/telescope.nvim" }
-            },
-            run = "make",
-        }
-        use {
             "nvim-telescope/telescope-github.nvim",
-            requires = {
-                { "nvim-telescope/telescope.nvim" }
-            },
-        }
-        use {
             "nvim-telescope/telescope-media-files.nvim",
-            requires = {
-                { "nvim-telescope/telescope.nvim" }
-            },
-        }
-        use {
             "nvim-telescope/telescope-symbols.nvim",
-            requires = {
-                { "nvim-telescope/telescope.nvim" }
-            },
         }
+        for _, telescope_plugin in ipairs(telescope_plugins) do
+            local opt = {
+                telescope_plugin,
+                requires = {
+                    { "nvim-telescope/telescope.nvim" }
+                },
+            }
+            use(opt)
+        end
 
         -- Neorg
         use {
