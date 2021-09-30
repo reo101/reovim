@@ -72,6 +72,15 @@ packer.startup{
             },
         }
 
+        -- Markdown Preview
+        use {
+            "iamcco/markdown-preview.nvim",
+            run = vim.fn["mkdp#util#install"],
+            config = function ()
+                require("rv-mdpreview").config()
+            end
+        }
+
         -- Which-key
         use {
             "folke/which-key.nvim",
