@@ -309,7 +309,7 @@ packer.startup{
         for _, cmp_source in ipairs(cmp_sources) do
             local opt = {
                 cmp_source,
-                -- after = { "nvim-cmp" },
+                after = { "nvim-cmp" },
                 requires = {
                     { "hrsh7th/nvim-cmp" },
                 },
