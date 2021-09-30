@@ -4,6 +4,7 @@ M.config = function()
 
     vim.opt.listchars = {
         -- space = "␣",
+        nbsp = "␣",
         trail = "",
         -- eol = "↴",
         tab = "  ",
