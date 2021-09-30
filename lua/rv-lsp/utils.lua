@@ -73,7 +73,7 @@ local lsp_on_attach = function(client, bufnr)
     require("rv-lsp/kind").config()
 end
 
-local lsp_on_init = function()
+local lsp_on_init = function(client)
     vim.notify("Language Server Client successfully started!", "info", {
         title = client.name,
     })
