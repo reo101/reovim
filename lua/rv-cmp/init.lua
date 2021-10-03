@@ -98,7 +98,7 @@ M.config = function()
                     nvim_lsp = "[LSP]",
                     luasnip = "[LuaSnip]",
                     tmux = "[Tmux]",
-                    latex_symbols = "[Latex]",
+                    latex_symbols = "[LaTeX]",
                     crates = "[Crates]",
                 })[entry.source.name]
                 vim_item.dup = ({
