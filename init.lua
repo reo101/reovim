@@ -29,6 +29,4 @@ require("settings")
 
 require("rv-autocommands")
 
-require("rv-treesitter").config()
-
 require("rv-lsp")
