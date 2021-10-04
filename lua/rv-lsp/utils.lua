@@ -16,8 +16,8 @@ local lsp_mappings = function()
             },
             d = {
                 name = "Diagnostics",
-                n = { vim.lsp.diagnostic.goto_prev, "Next" },
-                p = { vim.lsp.diagnostic.goto_next, "Previous" },
+                p = { vim.lsp.diagnostic.goto_prev, "Previous" },
+                n = { vim.lsp.diagnostic.goto_next, "Next" },
                 l = { vim.lsp.diagnostic.show_line_diagnostics, "Line Diagnostics" },
                 q = { vim.lsp.diagnostic.set_loclist, "Send to loclist"},
             },
@@ -50,7 +50,7 @@ local lsp_mappings = function()
 
     local motionMappings = {
         ["[d"] = { vim.lsp.diagnostic.goto_prev, "Previous Diagnostic" },
-        ["]d"] = { vim.lsp.diagnostic.goto_prev, "Next Diagnostic" },
+        ["]d"] = { vim.lsp.diagnostic.goto_next, "Next Diagnostic" },
     }
 
     wk.register(motionMappings, { mode = "n", prefix = "" })
