@@ -265,6 +265,9 @@ packer.startup{
         use {
             "nvim-treesitter/nvim-treesitter",
             run = ":TSUpdate",
+            config = function()
+                require("rv-treesitter").config()
+            end,
         }
         local treesitter_plugins = {
             {"nvim-treesitter/nvim-treesitter-textobjects", { as = "treesitter-textobjects",}},
