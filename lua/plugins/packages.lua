@@ -200,6 +200,7 @@ packer.startup{
             config = function()
                 require("rv-lsp.lightbulb").config()
             end,
+            disable = true, -- TODO
         }
         use {
             "onsails/lspkind-nvim",
