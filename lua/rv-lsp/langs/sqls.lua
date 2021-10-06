@@ -23,7 +23,7 @@ M.config = function()
                     -- :SqlsShowSchemas: Shows a list of available schemas in a preview buffer.
                     s = { "<CMD>SqlsShowSchemas<CR>", "Schemas" },
                     -- :SqlsShowConnections: Shows a list of available database connections in a preview buffer.
-                    c = { "<CMD>SqlsShowConnections", "Connections" }
+                    c = { "<CMD>SqlsShowConnections<CR>", "Connections" }
                 },
                 w = {
                     name = "Switch",
