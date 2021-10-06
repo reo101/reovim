@@ -222,6 +222,13 @@ packer.startup{
                 require("rv-crates").config()
             end,
         }
+        use {
+            "NTBBloodbath/rest.nvim",
+            requires = { "nvim-lua/plenary.nvim" },
+            config = function()
+                require("rv-rest").config()
+            end,
+        }
 
         -- LuaSnip
         use {
