@@ -3,7 +3,7 @@ local M = {}
 M.config = function()
 
     local opt = {
-        ensure_installed = {"cpp", "lua", "javascript", "java", "php", "python", "norg", "markdown", "comment"},
+        ensure_installed = {"cpp", "lua", "javascript", "java", "php", "python", "html", "norg", "markdown", "comment"},
         highlight = {
             enable = true,
         },
@@ -131,6 +131,14 @@ M.config = function()
                 goto_node = "<cr>",
                 show_help = "?",
             },
+        },
+    }
+
+    require("nvim-treesitter.parsers").get_parser_configs().http = {
+        install_info = {
+            url = "https://github.com/NTBBloodbath/tree-sitter-http",
+            files = { "src/parser.c" },
+            branch = "main",
         },
     }
 
