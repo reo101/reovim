@@ -5,7 +5,7 @@ M.config = function()
     -- local opt = require("rv-lualine.evil-lualine")
     local opt = {
         options = {
-            theme = "nightfox"
+            theme = "tokyonight"
         }
     }
 

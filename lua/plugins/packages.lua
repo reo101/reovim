@@ -16,7 +16,13 @@ packer.startup{
         use {
             "EdenEast/nightfox.nvim",
             config = function()
-                require("rv-nightfox").config()
+                -- require("rv-nightfox").config()
+            end,
+        }
+        use {
+            "folke/tokyonight.nvim",
+            config = function()
+                require("rv-tokyonight").config()
             end,
         }
 
