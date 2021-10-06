@@ -179,6 +179,15 @@ packer.startup{
             end,
         }
 
+        -- Cheat.sh
+        use {
+            "RishabhRD/nvim-cheat.sh",
+            requires = { "RishabhRD/popfix" },
+            config = function()
+                require("rv-cheatsh").config()
+            end,
+        }
+
         -- Notify
         use {
             "rcarriga/nvim-notify",
