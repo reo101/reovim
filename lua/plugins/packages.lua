@@ -256,6 +256,28 @@ packer.startup{
             end,
         }
 
+        -- DAP
+        use {
+            "mfussenegger/nvim-dap",
+            config = function()
+                require("rv-dap").config()
+            end,
+        }
+        use {
+            "theHamsta/nvim-dap-virtual-text",
+            requires = { "mfussenegger/nvim-dap" },
+            config = function()
+                require("rv-dap.virttext").config()
+            end,
+        }
+        use {
+            "rcarriga/nvim-dap-ui",
+            requires = { "mfussenegger/nvim-dap" },
+            config = function()
+                require("rv-dap.dapui").config()
+            end,
+        }
+
         -- LuaSnip
         use {
             "L3MON4D3/LuaSnip",
