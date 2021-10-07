@@ -238,6 +238,11 @@ packer.startup{
             end,
         }
         use {
+            "weilbith/nvim-code-action-menu",
+            as = "code-action-menu",
+            cmd = "CodeActionMenu",
+        }
+        use {
             "NTBBloodbath/rest.nvim",
             requires = { "nvim-lua/plenary.nvim" },
             config = function()
