@@ -244,6 +244,12 @@ packer.startup{
                 require("rv-rest").config()
             end,
         }
+        use {
+            "simrat39/rust-tools.nvim",
+            config = function()
+                require("rv-lsp.langs.rust-tools").config()
+            end,
+        }
 
         -- LuaSnip
         use {
