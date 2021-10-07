@@ -7,7 +7,7 @@ local servers = {
     python = require("rv-lsp.langs.python").config,
     sqls = require("rv-lsp.langs.sqls").config,
     haskell = require("rv-lsp.langs.haskell").config,
-    rust = require("rv-lsp.langs.rust").config,
+    -- rust = require("rv-lsp.langs.rust").config,
     go = require("rv-lsp.langs.go").config,
     tsserver = require("rv-lsp.langs.tsserver").config,
 }
