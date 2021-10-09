@@ -101,11 +101,11 @@ M.config = function()
                     latex_symbols = "[LaTeX]",
                     crates = "[Crates]",
                 })[entry.source.name]
-                vim_item.dup = ({
-                    buffer = 1,
-                    path = 1,
-                    nvim_lsp = 0,
-                })[entry.source.name] or 0
+                -- vim_item.dup = ({
+                --     buffer = 1,
+                --     path = 1,
+                --     nvim_lsp = 0,
+                -- })[entry.source.name] or 0
                 return vim_item
             end,
         },
