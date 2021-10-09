@@ -17,7 +17,7 @@ M.config = function()
                 if require("cmp").visible() then
                     require("cmp").select_next_item()
                 elseif require("luasnip").expand_or_jumpable() then
-                    vim.fn.feedkeys(esc([[<Cmd>lua require("luasnip").expand_or_jump()<CR>]]), "")
+                    require("luasnip").expand_or_jump()
                 elseif check_back_space() then
                     vim.fn.feedkeys(esc([[<Tab>]]), "n")
                 else
@@ -28,7 +28,7 @@ M.config = function()
                 if require("cmp").visible() then
                     require("cmp").select_prev_item()
                 elseif require("luasnip").jumpable(-1) then
-                    vim.fn.feedkeys(esc([[<Cmd>lua require("luasnip").jump(-1)<CR>]]), "")
+                    require("luasnip").jump(-1)
                 else
                     fallback()
                 end
