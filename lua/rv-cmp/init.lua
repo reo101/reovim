@@ -100,6 +100,7 @@ M.config = function()
                     tmux = "[Tmux]",
                     latex_symbols = "[LaTeX]",
                     crates = "[Crates]",
+                    neorg = "[Neorg]",
                 })[entry.source.name]
                 -- vim_item.dup = ({
                 --     buffer = 1,
