@@ -14,8 +14,8 @@ M.config = function()
     local opt = {
         mapping = {
             ["<Tab>"] = require("cmp").mapping(function(fallback)
-                if vim.fn.pumvisible() == 1 then
-                    vim.fn.feedkeys(esc([[<C-n>]]), "n")
+                if require("cmp").visible() then
+                    require("cmp").select_next_item()
                 elseif require("luasnip").expand_or_jumpable() then
                     vim.fn.feedkeys(esc([[<Cmd>lua require("luasnip").expand_or_jump()<CR>]]), "")
                 elseif check_back_space() then
@@ -25,8 +25,8 @@ M.config = function()
                 end
             end, { "i", "s" }),
             ["<S-Tab>"] = require("cmp").mapping(function(fallback)
-                if vim.fn.pumvisible() == 1 then
-                    vim.fn.feedkeys(esc([[<C-p>]]), "n")
+                if require("cmp").visible() then
+                    require("cmp").select_prev_item()
                 elseif require("luasnip").jumpable(-1) then
                     vim.fn.feedkeys(esc([[<Cmd>lua require("luasnip").jump(-1)<CR>]]), "")
                 else
