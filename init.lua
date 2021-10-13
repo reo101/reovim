@@ -29,8 +29,6 @@ require("plugins")
 
 require("settings")
 
--- require("mappings")
-
 require("rv-autocommands")
 
 require("rv-lsp")
