@@ -21,8 +21,6 @@ cmd "set whichwrap+=<,>,[,],h,l"
 -- cmd "au ColorScheme * hi Normal ctermbg=none guibg=none"
 -- cmd "au ColorScheme * hi SignColumn ctermbg=none guibg=none"
 
-vim.cmd[[au TextYankPost * silent! lua vim.highlight.on_yank({timeout = 300})]]
-
 ---  SETTINGS  ---
 
 vim.g.mapleader = " "           -- maps the leader to space
