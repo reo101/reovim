@@ -337,7 +337,7 @@ packer.startup{
             {"mfussenegger/nvim-ts-hint-textobject", { as = "treesitter-hint-textobject", }},
             {"nvim-treesitter/playground", { as = "treesitter-playground", }},
             {"p00f/nvim-ts-rainbow", { as = "treesitter-rainbow", }},
-            {"romgrk/nvim-treesitter-context", { as = "treesitter-context", }},
+            {"romgrk/nvim-treesitter-context", { as = "treesitter-context", config = function() require("rv-treesitter.context").config() end, }},
             {"JoosepAlviste/nvim-ts-context-commentstring", { as = "treesitter-context-commentstring", }},
             {"windwp/nvim-ts-autotag", { as = "treesitter-autotag", }},
         }
