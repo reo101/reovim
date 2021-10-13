@@ -21,9 +21,16 @@
 --    \__\::::/      \__\/      \  \:\    
 --        ~~~~                   \__\/    
 
-require("impatient").enable_profile()
+local function prequire(...)
+    local status, lib = pcall(require, ...)
+    if (status) then return lib end
+    return nil
+end
 
-require("packer_compiled")
+if prequire("impatient") then
+    prequire("impatient").enable_profile()
+    prequire("packer_compiled")
+end
 
 require("plugins")
 
