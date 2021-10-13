@@ -86,6 +86,13 @@ packer.startup{
                 require("rv-mdpreview").config()
             end
         }
+        use {
+            "jghauser/follow-md-links.nvim",
+            requires = { "nvim-treesitter/nvim-treesitter" },
+            config = function()
+                require("rv-mdlinks").config()
+            end
+        }
 
         -- Which-key
         use {
