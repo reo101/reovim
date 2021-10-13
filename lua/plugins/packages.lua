@@ -5,6 +5,9 @@ packer.startup{
         -- Packer
         use { "wbthomason/packer.nvim" }
 
+        -- Impatient
+        use{ "lewis6991/impatient.nvim" }
+
         -- Colourscheme
         use { "tanvirtin/monokai.nvim" }
         use {
@@ -598,5 +601,6 @@ packer.startup{
                 return require("packer.util").float({ border = "single" })
             end,
         },
+        compile_path = vim.fn.stdpath("config").."/lua/packer_compiled.lua",
     },
 }
