@@ -440,7 +440,12 @@ packer.startup{
         }
 
         -- Better increment/decrement
-        use { "monaqa/dial.nvim" }
+        use {
+            "monaqa/dial.nvim",
+            config = function()
+                require("rv-dial").config()
+            end,
+        }
 
         -- Neogit
         use {
