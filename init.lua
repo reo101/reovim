@@ -21,6 +21,10 @@
 --    \__\::::/      \__\/      \  \:\    
 --        ~~~~                   \__\/    
 
+require("impatient").enable_profile()
+
+require("packer_compiled")
+
 require("plugins")
 
 require("settings")
