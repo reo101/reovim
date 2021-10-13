@@ -69,6 +69,16 @@ local lsp_on_attach = function(client, bufnr)
         ]]
     end
 
+    if client.resolved_capabilities.document_highlight then
+        vim.cmd [[
+        augroup LSPDocumentHighlight
+            autocmd! * <buffer>
+            autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+            autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+        augroup END
+        ]]
+    end
+
     require("rv-lsp/signature").config()
     require("rv-lsp/kind").config()
 end
