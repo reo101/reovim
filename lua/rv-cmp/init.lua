@@ -146,11 +146,6 @@ M.config = function()
         { expr = true, noremap = true }
     )
 
-    require("luasnip").config.setup({
-        history = false,
-        updateevents = "InsertLeave,TextChanged,TextChangedI",
-        region_check_events = "CursorMoved,CursorHold,InsertEnter",
-    })
     require("luasnip/loaders/from_vscode").lazy_load()
     require("cmp").setup(opt)
 

@@ -293,7 +293,7 @@ packer.startup{
             "L3MON4D3/LuaSnip",
             as = "luasnip",
             config = function()
-                -- require("rv-luasnip").config()
+                require("rv-luasnip").config()
             end,
         }
         use {
