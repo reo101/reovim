@@ -501,8 +501,8 @@ packer.startup{
 
         -- Comments
         use {
-            "terrortylor/nvim-comment",
-            ad = "comments",
+            'numToStr/Comment.nvim',
+            as = "comments",
             config = function()
                 require("rv-comments").config()
             end,
