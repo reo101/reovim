@@ -21,6 +21,8 @@
 --    \__\::::/      \__\/      \  \:\    
 --        ~~~~                   \__\/    
 
+require("settings")
+
 local function prequire(...)
     local status, lib = pcall(require, ...)
     if (status) then return lib end
@@ -33,8 +35,6 @@ if prequire("impatient") then
 end
 
 require("plugins")
-
-require("settings")
 
 require("rv-autocommands")
 
