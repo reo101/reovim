@@ -2,25 +2,42 @@ local M = {}
 
 M.config = function()
 
-    local wk = require("which-key")
-
-    local mappings = {
-        d = {
-            name = "DAP",
-            b = {
-                name = "Breakpoint",
-                t = { require("dap").toggle_breakpoint, "Toggle"}
-            },
-            c = { require("dap").continue, "Continue" },
-            s = {
-                name = "Step",
-                o = { require("dap").step_over, "Over" },
-                i = { require("dap").step_into, "Into" },
-            },
-        },
+    local adapters = {
+        lldb = require("rv-dap.adapters.lldb").config
     }
 
-    wk.register(mappings, { prefix = "<leader>" })
+    local configurations = {
+        cpp = require("rv-dap.configurations.cpp").config,
+        c = require("rv-dap.configurations.c").config,
+        -- rust = require("rv-dap.configurations.rust").config,
+    }
+
+    local function setup_adapters()
+        for name, opt in pairs(adapters) do
+            if type(opt) == "function" then
+                opt()
+            else
+                require("dap").adapters[name] = opt
+            end
+        end
+    end
+
+    local function setup_configurations()
+        for name, opt in pairs(configurations) do
+            if type(opt) == "function" then
+                opt()
+            else
+                require("dap").configurations[name] = opt
+            end
+        end
+    end
+
+    setup_adapters()
+    setup_configurations()
+
+    require("rv-dap.utils").dap_mappings()
+    require("rv-dap.utils").dap_override_icons()
+    require("rv-dap.utils").dap_set_repl()
 
 end
 
