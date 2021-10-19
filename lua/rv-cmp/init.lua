@@ -41,7 +41,15 @@ M.config = function()
             ["<C-p>"] = require("cmp").mapping.select_prev_item(),
             ["<C-d>"] = require("cmp").mapping.scroll_docs(-4),
             ["<C-f>"] = require("cmp").mapping.scroll_docs(4),
-            ["<C-e>"] = require("cmp").mapping.close(),
+            ["<C-e>"] = require("cmp").mapping(function(fallback)
+                if require("cmp").visible() then
+                    require("cmp").close()
+                elseif require("luasnip").choice_active() then
+                    require("luasnip").change_choice(1)
+                else
+                    fallback()
+                end
+            end, { "i", "s" }),
             ["<C-y>"] = require("cmp").mapping.confirm({
                 behavior = require("cmp").ConfirmBehavior.Insert,
                 select = true,
