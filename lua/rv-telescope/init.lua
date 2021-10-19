@@ -72,6 +72,7 @@ M.config = function()
     require('telescope').load_extension('fzf')
     require('telescope').load_extension('gh')
     require('telescope').load_extension('media_files')
+    require("telescope").load_extension("notify")
 
     local actions = require("telescope.actions")
     local action_state = require("telescope.actions.state")
