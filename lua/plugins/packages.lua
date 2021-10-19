@@ -97,6 +97,14 @@ packer.startup{
             end
         }
 
+        -- Silicon
+        use {
+            "segeljakt/vim-silicon",
+            config = function()
+                require("rv-silicon").config()
+            end,
+        }
+
         -- Which-key
         use {
             "folke/which-key.nvim",
