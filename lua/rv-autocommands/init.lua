@@ -50,3 +50,4 @@ end
 
 set_shiftwidth("haskell", 2)
 set_shiftwidth("norg", 2)
+set_shiftwidth("xml", 2)
