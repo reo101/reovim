@@ -23,7 +23,7 @@ M.config = function()
                 else
                     fallback()
                 end
-            end, { "i", "s" }),
+            end, { "i", "s", "c" }),
             ["<S-Tab>"] = require("cmp").mapping(function(fallback)
                 if require("cmp").visible() then
                     require("cmp").select_prev_item()
@@ -32,24 +32,41 @@ M.config = function()
                 else
                     fallback()
                 end
-            end, { "i", "s" }),
-            ["<CR>"] = require("cmp").mapping.confirm({
-                behavior = require("cmp").ConfirmBehavior.Replace,
-                select = true,
+            end, { "i", "s", "c" }),
+            ["<CR>"] = require("cmp").mapping({
+                i = require("cmp").mapping.confirm({
+                    behavior = require("cmp").ConfirmBehavior.Replace,
+                    select = true,
+                }),
+                c = require("cmp").mapping.confirm({
+                    select = false,
+                }),
+            }) ,
+            ["<C-n>"] = require("cmp").mapping(require("cmp").mapping.select_next_item(), { "i", "c" }),
+            ["<C-p>"] = require("cmp").mapping(require("cmp").mapping.select_prev_item(), { "i", "c" }),
+            ["<C-d>"] = require("cmp").mapping(require("cmp").mapping.scroll_docs(-4), { "i", "c" }),
+            ["<C-f>"] = require("cmp").mapping(require("cmp").mapping.scroll_docs(4), { "i", "c" }),
+            ["<C-e>"] = require("cmp").mapping({
+                i = require("cmp").mapping(function(fallback)
+                    if require("cmp").visible() then
+                        require("cmp").abort()
+                    elseif require("luasnip").choice_active() then
+                        require("luasnip").change_choice(1)
+                    else
+                        fallback()
+                    end
+                end),
+                s = require("cmp").mapping(function(fallback)
+                    if require("cmp").visible() then
+                        require("cmp").abort()
+                    elseif require("luasnip").choice_active() then
+                        require("luasnip").change_choice(1)
+                    else
+                        fallback()
+                    end
+                end),
+                c = require("cmp").mapping.close(),
             }),
-            ["<C-n>"] = require("cmp").mapping.select_next_item(),
-            ["<C-p>"] = require("cmp").mapping.select_prev_item(),
-            ["<C-d>"] = require("cmp").mapping.scroll_docs(-4),
-            ["<C-f>"] = require("cmp").mapping.scroll_docs(4),
-            ["<C-e>"] = require("cmp").mapping(function(fallback)
-                if require("cmp").visible() then
-                    require("cmp").close()
-                elseif require("luasnip").choice_active() then
-                    require("luasnip").change_choice(1)
-                else
-                    fallback()
-                end
-            end, { "i", "s" }),
             ["<C-y>"] = require("cmp").mapping.confirm({
                 behavior = require("cmp").ConfirmBehavior.Insert,
                 select = true,
@@ -61,6 +78,10 @@ M.config = function()
         },
         completion = {
             completeopt = "menuone,preview,noinsert",
+        },
+        experimental = {
+            native_menu = false,
+            ghost_text = true,
         },
         documentation = {
             border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
@@ -85,7 +106,7 @@ M.config = function()
                     nvim_lsp = "[LSP]",
                     luasnip = "[LuaSnip]",
                     tmux = "[Tmux]",
-                    latex_symbols = "[LaTeX]",
+                --    latex_symbols = "[LaTeX]",
                     crates = "[Crates]",
                     neorg = "[Neorg]",
                 })[entry.source.name]
@@ -120,20 +141,38 @@ M.config = function()
                     all_panes = false,
                 },
             },
-            { name = "latex_symbols" },
+            -- { name = "latex_symbols" },
             { name = "crates" },
             { name = "neorg" },
         },
     }
 
-    vim.api.nvim_set_keymap(
-        "i",
-        "<CR>",
-        "v:lua.MPairs.autopairs_cr()",
-        { expr = true, noremap = true }
-    )
+    -- Use buffer source for `/`.
+    require("cmp").setup.cmdline('/', {
+        sources = {
+            { name = 'buffer' }
+        }
+    })
 
-    require("luasnip/loaders/from_vscode").lazy_load()
+    -- Use buffer source for `?`.
+    require("cmp").setup.cmdline('?', {
+        sources = {
+            { name = 'buffer' }
+        }
+    })
+
+    -- Use cmdline & path source for ':'.
+    require("cmp").setup.cmdline(':', {
+        sources = require("cmp").config.sources(
+            {
+                { name = "path" }
+            }, {
+                { name = "cmdline" }
+            }
+        )
+    })
+
+    require("luasnip.loaders.from_vscode").lazy_load()
     require("cmp").setup(opt)
 
 end
