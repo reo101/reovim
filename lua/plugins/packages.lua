@@ -366,6 +366,7 @@ packer.startup{
         -- Cmp
         local cmp_sources = {
             "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-cmdline",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-calc",
             "f3fora/cmp-spell",
