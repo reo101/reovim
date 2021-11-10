@@ -431,7 +431,6 @@ packer.startup{
             config = function()
                 require("rv-surround").config()
             end,
-            disable = true,
         }
 
         -- Navigator
