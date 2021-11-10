@@ -2,28 +2,63 @@ local M = {}
 
 M.config = function()
 
-    -- uses globals
-    local opt = { }
+    local opt = {
+        prefix = "s",
+        context_offset = 100,
+        load_autogroups = false,
+        mappings_style = "surround",
+        map_insert_mode = false,
+        quotes = {[[']], [["]]},
+        brackets = {"(", '{', '['},
+        pairs = {
+            nestable = {
+                {"(", ")"},
+                {"[", "]"},
+                {"{", "}"},
+            },
+            linear = {
+                {"'", "'"},
+                {"`", "`"},
+                {'"', '"'},
+            },
+        },
+    }
 
     require("surround").setup(opt)
 
-    vim.g.surround_prefix = "s"
-    vim.g.surround_pairs = {
-        nestable = {
-            {"(", ")"},
-            {"[", "]"},
-            {"{", "}"} },
-        linear = {
-            {"'", "'"},
-            {'"', '"'}
-        }
+    local wk = require("which-key")
+
+
+    -- Normal Mode - Sandwich Mode
+    --
+    --     Provides key mapping to add surrounding characters.( visually select then press s<char> or press sa{motion}{char})
+    --     Provides key mapping to replace surrounding characters.( sr<from><to> )
+    --     Provides key mapping to delete surrounding characters.( sd<char> )
+    --     ss repeats last surround command. (Doesn't work with add)
+    --
+    -- Normal Mode - Surround Mode
+    --
+    --     Provides key mapping to add surrounding characters.( visually select then press s<char> or press ys{motion}{char})
+    --     Provides key mapping to replace surrounding characters.( cs<from><to> )
+    --     Provides key mapping to delete surrounding characters.( ds<char> )
+
+    local mappings = {
+        ["sandwich"] =  {
+            s = {
+                name = "Sandwich",
+                a = { "Add" },
+                r = { "Replace" },
+                d = { "Delete" },
+            },
+        },
+        ["surround"] = {
+            ["ys"] = { "Surround" },
+            ["cs"] = { "Surround" },
+            ["ds"] = { "Surround" },
+        },
     }
-    vim.g.surround_context_offset = 100
-    vim.g.surround_load_autogroups = false
-    vim.g.surround_mappings_style = "surround"
-    vim.g.surround_load_keymaps = true
-    vim.g.surround_quotes = {"'", '"'}
-    vim.g.surround_brackets = {"(", "{", "["}
+
+    wk.register(mappings[opt.mappings_style], { prefix = "" })
 
 end
 
