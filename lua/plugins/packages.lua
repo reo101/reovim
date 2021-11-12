@@ -553,6 +553,14 @@ packer.startup{
             end,
         })
 
+        -- Stabilize
+        use {
+            "luukvbaal/stabilize.nvim",
+            config = function()
+                require("rv-stabilize").config()
+            end
+        }
+
         -- Spellcheck
         use {
             "lewis6991/spellsitter.nvim",
