@@ -292,9 +292,8 @@ M.config = function ()
     -- ---------------------------------------------------------------
 
     local opt = {
-        cmd = {
-            vim.fn.stdpath("config") .. "/lua/rv-lsp/langs/java-lsp.sh",
-        },
+        -- https://github.com/eruizc-dev/jdtls-launcher
+        cmd = { "jdtls" },
         filetypes = { "java" },
         on_attach = require("rv-lsp.utils").lsp_on_attach,
         on_init = require("rv-lsp.utils").lsp_on_init,
