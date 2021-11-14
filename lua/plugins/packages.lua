@@ -239,6 +239,13 @@ packer.startup{
             "onsails/lspkind-nvim",
         }
         use {
+            "jose-elias-alvarez/null-ls.nvim",
+            requires = {
+                "nvim-lua/plenary.nvim",
+                "neovim/nvim-lspconfig",
+            },
+        }
+        use {
             "nanotee/sqls.nvim",
         }
         use {
