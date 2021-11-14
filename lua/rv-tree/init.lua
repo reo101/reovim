@@ -156,7 +156,7 @@ M.config = function()
     local mappings = {
         t = {
             name = "Toggle",
-            t = { tree.toggle, "Tree" },
+            f = { tree.toggle, "FileTree" },
         },
     }
 
