@@ -454,6 +454,15 @@ packer.startup{
             end
         }
 
+        -- ToggleTerm
+        use {
+            "akinsho/toggleterm.nvim",
+            as = "toggleterm",
+            config = function()
+                require("rv-toggleterm").config()
+            end,
+        }
+
         -- File Tree
         use {
             "kyazdani42/nvim-tree.lua",
