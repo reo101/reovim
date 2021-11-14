@@ -37,5 +37,3 @@ end
 require("plugins")
 
 require("rv-autocommands")
-
-require("rv-lsp")

@@ -217,7 +217,12 @@ packer.startup{
         }
 
         -- LSP
-        use { "neovim/nvim-lspconfig" }
+        use {
+            "neovim/nvim-lspconfig",
+            config = function()
+                require("rv-lsp").config()
+            end,
+        }
         use {
             "folke/trouble.nvim",
             requires = { "kyazdani42/nvim-web-devicons" },
