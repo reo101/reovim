@@ -31,18 +31,18 @@ M.config = function()
         ---@type table
         toggler = {
             ---line-comment keymap
-            line = "<leader>ccc",
+            line = "<leader>cc",
             ---block-comment keymap
-            block = "<leader>cbc",
+            block = "<leader>cb",
         },
 
         ---LHS of operator-pending mapping in NORMAL + VISUAL mode
         ---@type table
         opleader = {
             ---line-comment keymap
-            line = "<leader>cc",
+            line = "<leader>cC",
             ---block-comment keymap
-            block = "<leader>cb",
+            block = "<leader>cB",
         },
 
         ---Pre-hook, called before commenting the line
@@ -70,14 +70,10 @@ M.config = function()
     local mappings = {
         c = {
             name = "Comment",
-            c = {
-                name = "Line",
-                c  = "Toggle",
-            },
-            b = {
-                name = "Block",
-                c  = "Toggle",
-            },
+            c = "Toggle Line",
+            C = "Toggle Line Op",
+            b = "Toggle Block",
+            B = "Toggle Block Op",
             o = { function() E.norm_o(U.ctype.line, opt) end, "o" },
             O = { function() E.norm_O(U.ctype.line, opt) end, "O" },
             A = { function() E.norm_A(U.ctype.line, opt) end, "A" },
@@ -85,16 +81,6 @@ M.config = function()
     }
 
     wk.register(mappings, { prefix = "<leader>" })
-
-    local operatorMappings = {
-        c = {
-            name = "Comment",
-            c = { "Line" },
-            b = { "Block" },
-        },
-    }
-
-    wk.register(operatorMappings, { prefix = "<leader>", mode = "o" })
 
 end
 
