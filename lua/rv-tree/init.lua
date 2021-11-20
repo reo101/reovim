@@ -87,6 +87,12 @@ M.config = function()
         ["MAKEFILE"] = 1,
     }
 
+    -- 0 by default, this option shows indent markers when folders are open
+    vim.g.nvim_tree_indent_markers = 1
+
+    -- 0 by default, compact folders that only contain a single folder into one node in the file tree
+    vim.g.nvim_tree_group_empty = 1
+
     -- If 0, do not show the icons for one of "git" "folder" and "files"
     -- 1 by default, notice that if "files" is 1, it will only display
     -- if nvim-web-devicons is installed and on your runtimepath.
@@ -94,9 +100,9 @@ M.config = function()
     -- but this will not work when you set indent_markers (because of UI conflict)
     vim.g.nvim_tree_show_icons = {
         ["git"] = 1,
-        ["folders"] = 0,
-        ["files"] = 0,
-        ["folder_arrows"] = 0,
+        ["folders"] = 1,
+        ["files"] = 1,
+        ["folder_arrows"] = 1,
     }
 
     --  default will show icon by default if no icon is provided
@@ -127,36 +133,12 @@ M.config = function()
 
     require("nvim-tree").setup(opt)
 
-    local tree = {}
-    function tree.toggle()
-        local view = require("nvim-tree.view")
-        local lib = require("nvim-tree.lib")
-
-        if view.win_open() then
-            require("bufferline.state").set_offset(0)
-            view.close()
-        else
-            if vim.g.nvim_tree_follow == 1 then
-                require("bufferline.state").set_offset(vim.g.nvim_tree_width, "FileTree")
-                require("nvim-tree").find_file(true)
-            end
-            if not view.win_open() then
-                lib.open()
-            end
-        end
-    end
-
-    -- TODO % in tree and barbar offset
-
-    -- TEST
-    -- require("nvim-tree").toggle = tree.toggle
-
     local wk = require("which-key")
 
     local mappings = {
         t = {
             name = "Toggle",
-            f = { tree.toggle, "FileTree" },
+            f = { require("nvim-tree").toggle, "FileTree" },
         },
     }
 
