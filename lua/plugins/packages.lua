@@ -329,6 +329,14 @@ packer.startup{
             disable = true,
         }
 
+        -- Twilight
+        use {
+            "folke/twilight.nvim",
+            config = function()
+                require("rv-twilight").config()
+            end
+        }
+
         -- Transparency
         use {
             "xiyaowong/nvim-transparent",
