@@ -590,6 +590,14 @@ packer.startup{
             end
         }
 
+        -- WinShift
+        use {
+            "sindrets/winshift.nvim",
+            config = function()
+                require("rv-winshift").config()
+            end
+        }
+
         -- Spellcheck
         use {
             "lewis6991/spellsitter.nvim",
