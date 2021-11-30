@@ -385,16 +385,16 @@ packer.startup{
 
         -- Cmp
         local cmp_sources = {
+            "hrsh7th/cmp-nvim-lsp",
+            "saadparwaiz1/cmp_luasnip",
             "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-cmdline",
+            "hrsh7th/cmp-nvim-lua",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-calc",
             "f3fora/cmp-spell",
-            "hrsh7th/cmp-nvim-lua",
-            "hrsh7th/cmp-nvim-lsp",
-            "saadparwaiz1/cmp_luasnip",
             "andersevenrud/compe-tmux",
-            "kdheepak/cmp-latex-symbols",
+            -- "kdheepak/cmp-latex-symbols",
+            "hrsh7th/cmp-cmdline",
         }
         use {
             "hrsh7th/nvim-cmp",
