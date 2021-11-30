@@ -87,14 +87,14 @@ packer.startup{
             run = vim.fn["mkdp#util#install"],
             config = function ()
                 require("rv-mdpreview").config()
-            end
+            end,
         }
         use {
             "jghauser/follow-md-links.nvim",
             requires = { "nvim-treesitter/nvim-treesitter" },
             config = function()
                 require("rv-mdlinks").config()
-            end
+            end,
         }
 
         -- Silicon
@@ -333,7 +333,7 @@ packer.startup{
             "folke/twilight.nvim",
             config = function()
                 require("rv-twilight").config()
-            end
+            end,
         }
 
         -- Transparency
@@ -458,7 +458,7 @@ packer.startup{
             as = "navigator",
             config = function()
                 require("rv-navigator").config()
-            end
+            end,
         }
 
         -- ToggleTerm
@@ -498,7 +498,7 @@ packer.startup{
             "sindrets/diffview.nvim",
             config = function ()
                 require("rv-diffview").config()
-            end
+            end,
         }
         use {
             "lewis6991/gitsigns.nvim",
@@ -586,7 +586,7 @@ packer.startup{
             "luukvbaal/stabilize.nvim",
             config = function()
                 require("rv-stabilize").config()
-            end
+            end,
         }
 
         -- WinShift
@@ -594,7 +594,7 @@ packer.startup{
             "sindrets/winshift.nvim",
             config = function()
                 require("rv-winshift").config()
-            end
+            end,
         }
 
         -- Spellcheck
