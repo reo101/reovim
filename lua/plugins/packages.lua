@@ -254,10 +254,9 @@ packer.startup{
             "nanotee/sqls.nvim",
         }
         use {
-            "simrat39/symbols-outline.nvim",
-            as = "outline",
+            "stevearc/aerial.nvim",
             config = function()
-                require("rv-outline").config()
+                require("rv-aerial").config()
             end,
         }
         use {
