@@ -284,6 +284,12 @@ packer.startup{
                 require("rv-lsp.langs.rust-tools").config()
             end,
         }
+        use {
+            "github/copilot.vim",
+            config = function()
+                require("rv-copilot").config()
+            end,
+        }
 
         -- DAP
         use {
