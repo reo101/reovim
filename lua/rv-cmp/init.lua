@@ -47,7 +47,7 @@ M.config = function()
             ["<C-d>"] = require("cmp").mapping(require("cmp").mapping.scroll_docs(-4), { "i", "c" }),
             ["<C-f>"] = require("cmp").mapping(require("cmp").mapping.scroll_docs(4), { "i", "c" }),
             ["<C-e>"] = require("cmp").mapping({
-                i = require("cmp").mapping(function(fallback)
+                i = function(fallback)
                     if require("cmp").visible() then
                         require("cmp").abort()
                     elseif require("luasnip").choice_active() then
@@ -55,8 +55,8 @@ M.config = function()
                     else
                         fallback()
                     end
-                end),
-                s = require("cmp").mapping(function(fallback)
+                end,
+                s = function(fallback)
                     if require("cmp").visible() then
                         require("cmp").abort()
                     elseif require("luasnip").choice_active() then
@@ -64,7 +64,7 @@ M.config = function()
                     else
                         fallback()
                     end
-                end),
+                end,
                 c = require("cmp").mapping.close(),
             }),
             ["<C-y>"] = require("cmp").mapping.confirm({
