@@ -15,7 +15,7 @@ M.config = function()
             prerelease = "   %s",
             yanked     = "   %s",
             nomatch    = "   No match",
-            update     = "   %s",
+            upgrade    = "   %s",
             error      = "   Error fetching crate",
         },
         highlight = {
@@ -24,7 +24,7 @@ M.config = function()
             prerelease = "CratesNvimPreRelease",
             yanked     = "CratesNvimYanked",
             nomatch    = "CratesNvimNoMatch",
-            update     = "CratesNvimUpdate",
+            upgrade    = "CratesNvimUpgrade",
             error      = "CratesNvimError",
         },
         popup = {
@@ -42,6 +42,8 @@ M.config = function()
                 yanked     = "  %s ",
                 feature    = "   %s ",
                 date       = " %s ",
+                enabled    = "  %s ",
+                transitive = "  %s ",
             },
             highlight = {
                 title      = "CratesNvimPopupTitle",
@@ -49,12 +51,18 @@ M.config = function()
                 prerelease = "CratesNvimPopupPreRelease",
                 yanked     = "CratesNvimPopupYanked",
                 feature    = "CratesNvimPopupFeature",
+                enabled    = "CratesNvimPopupEnabled",
+                transitive = "CratesNvimPopupTransitive",
             },
             keys = {
-                hide = { "q", "<esc>" },
-                select = { "<F5>" },
-                select_dumb = { "s" },
-                copy_version = { "yy" },
+                hide                 = { "q", "<ESC>" },
+                select               = { "<CR>" },
+                select_alt           = { "s" },
+                copy_version         = { "yy" },
+                toggle_feature       = { "<CR>" },
+                goto_feature         = { "gd", "K" },
+                jump_forward_feature = { "<C-i>" },
+                jump_back_feature    = { "<C-o>" },
             },
         },
         cmp = {
@@ -74,16 +82,25 @@ M.config = function()
             name = "Crates",
             t = { require("crates").toggle , "Toggle" },
             r = { require("crates").reload , "Reload" },
-            u = { require("crates").update_crate , "Update_crate" },
-            u = { require("crates").update_crates , "Update_crates" },
-            a = { require("crates").update_all_crates , "Update_all_crates" },
-            U = { require("crates").upgrade_crate , "Upgrade_crate" },
-            U = { require("crates").upgrade_crates , "Upgrade_crates" },
-            A = { require("crates").upgrade_all_crates , "Upgrade_all_crates" },
+            v = { require("crates").show_versions_popup , "Versions popup" },
+            f = { require("crates").show_features_popup , "Versions popup" },
+            u = { require("crates").update_crate , "Update crate" },
+            a = { require("crates").update_all_crates , "Update all crates" },
+            U = { require("crates").upgrade_crate , "Upgrade crate" },
+            A = { require("crates").upgrade_all_crates , "Upgrade all crates" },
         },
     }
 
+    local visualMappings = {
+        ["lc"] = {
+            name = "Crates",
+            u = { require("crates").update_crates , "Update crates" },
+            U = { require("crates").upgrade_crates , "Upgrade crates" },
+        }
+    }
+
     wk.register(mappings, { prefix = "<leader>" })
+    wk.register(visualMappings, { mode = "v", prefix = "<leader>" })
 
 end
 
