@@ -46,6 +46,7 @@ packer.startup{
             "nvim-telescope/telescope-github.nvim",
             "nvim-telescope/telescope-media-files.nvim",
             "nvim-telescope/telescope-symbols.nvim",
+            "nvim-telescope/telescope-ui-select.nvim",
         }
         for _, telescope_plugin in ipairs(telescope_plugins) do
             local opt = {
