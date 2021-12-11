@@ -69,6 +69,14 @@ M.config = function()
                 filetypes = {},
                 -- find_cmd = "rg" -- find command (defaults to `fd`)
             },
+            ["ui-select"] = {
+                require("telescope.themes").get_cursor({
+                    winblend = 10,
+                    border = true,
+                    previewer = false,
+                    shorten_path = false,
+                })
+            },
         },
     }
 
@@ -78,6 +86,7 @@ M.config = function()
     require('telescope').load_extension('gh')
     require('telescope').load_extension('media_files')
     require("telescope").load_extension("notify")
+    require("telescope").load_extension("ui-select")
 
     local actions = require("telescope.actions")
     local action_state = require("telescope.actions.state")
@@ -101,17 +110,6 @@ M.config = function()
             previewer = false,
             shorten_path = false,
         })
-    end
-
-    function functions.lsp_code_actions()
-        local opts = themes.get_cursor {
-            winblend = 10,
-            border = true,
-            previewer = false,
-            shorten_path = false,
-        }
-
-        require("telescope.builtin").lsp_code_actions(opts)
     end
 
     function functions.live_grep()
@@ -185,7 +183,6 @@ M.config = function()
             f = { functions.find_files, "Find File" },
             F = { functions.search_all_files, "All Files" },
             r = { functions.oldfiles, "Recent Files" },
-            a = { functions.lsp_code_actions, "LSP Actions" },
             p = { functions.installed_plugins, "Plugins" },
             s = { functions.grep_promp, "Static grep" },
             g = { functions.live_grep, "Live Grep" },
