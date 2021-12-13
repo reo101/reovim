@@ -132,6 +132,11 @@ M.config = function()
                 show_help = "?",
             },
         },
+        query_linter = {
+            enable = true,
+            use_virtual_text = true,
+            lint_events = { "BufWrite", "CursorHold" },
+        },
     }
 
     require("nvim-treesitter.parsers").get_parser_configs().http = {
