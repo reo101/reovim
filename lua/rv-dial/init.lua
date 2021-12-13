@@ -87,6 +87,12 @@ M.config = function()
     })
     table.insert(dial.config.searchlist.normal, "custom#boolean")
 
+    dial.augends["custom#haskell_boolean"] = dial.common.enum_cyclic({
+        name = "haskell_boolean",
+        strlist = {"True", "False"},
+    })
+    table.insert(dial.config.searchlist.normal, "custom#haskell_boolean")
+
     -- local function feedkeys(str)
     --     vim.fn.feedkeys(vim.api.nvim_replace_termcodes(str, true, true, true), "n")
     -- end
