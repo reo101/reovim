@@ -291,6 +291,9 @@ packer.startup{
                 require("rv-copilot").config()
             end,
         }
+        use {
+            "aklt/plantuml-syntax",
+        }
 
         -- DAP
         use {
