@@ -2,7 +2,7 @@ local M = {}
 
 M.config = function()
 
-    require("lspconfig")["clangd"].setup({
+    local opt = {
         cmd = {
             "clangd",
             "--background-index",
@@ -24,7 +24,9 @@ M.config = function()
         end,
         on_init = require("rv-lsp.utils").lsp_on_init,
         capabilities = require("rv-lsp.utils").capabilities,
-    })
+    }
+
+    require("lspconfig")["clangd"].setup(opt)
 
 end
 
