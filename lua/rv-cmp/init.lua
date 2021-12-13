@@ -151,6 +151,11 @@ M.config = function()
             { name = "crates" },
             { name = "neorg" },
         },
+        sorting = {
+            comparators = {
+                function(...) return require("cmp_buffer"):compare_locality(...) end,
+            },
+        },
     }
 
     -- Use buffer source for `/`.
