@@ -91,7 +91,7 @@ M.config = function()
 
     -- recognized filetypes
     -- these filetypes will have MarkdownPreview... commands
-    vim.g.mkdp_filetypes = { "markdown" }
+    vim.g.mkdp_filetypes = { "markdown", "plantuml" }
 
 end
 
