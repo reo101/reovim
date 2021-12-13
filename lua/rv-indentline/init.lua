@@ -33,6 +33,7 @@ M.config = function()
             "packer",
             "neogitstatus",
             "tsplayground",
+            "aerial",
         },
         buftype_exclude = { "terminal" },
     }
