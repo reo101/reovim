@@ -2,7 +2,7 @@ local M = {}
 
 M.config = function()
 
-    local null_lsopt = {
+    local opt = {
         sources = {
             require("null-ls").builtins.formatting.stylua,
             require("null-ls").builtins.formatting.shellcheck,
@@ -12,16 +12,12 @@ M.config = function()
 
             require("null-ls").builtins.diagnostics.cppcheck,
         },
-    }
-
-    local opt = {
         on_attach = require("rv-lsp.utils").lsp_on_attach,
         on_init = require("rv-lsp.utils").lsp_on_init,
         capabilities = require("rv-lsp.utils").lsp_capabilities,
     }
 
-    require("null-ls").config(null_lsopt)
-    require("lspconfig")["null-ls"].setup(opt)
+    require("null-ls").setup(opt)
 
 end
 
