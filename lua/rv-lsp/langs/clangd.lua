@@ -24,6 +24,11 @@ M.config = function()
         end,
         on_init = require("rv-lsp.utils").lsp_on_init,
         capabilities = require("rv-lsp.utils").capabilities,
+        init_options = {
+            fallbackFlags = {
+                "-std=c++20",
+            },
+        },
     }
 
     require("lspconfig")["clangd"].setup(opt)
