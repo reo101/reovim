@@ -295,6 +295,9 @@ packer.startup{
             rtp = "editors/vim",
         }
         use {
+            "shirk/vim-gas",
+        }
+        use {
             "aklt/plantuml-syntax",
         }
 
