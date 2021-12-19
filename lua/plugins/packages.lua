@@ -291,6 +291,10 @@ packer.startup{
             end,
         }
         use {
+            "mlochbaum/BQN",
+            rtp = "editors/vim",
+        }
+        use {
             "aklt/plantuml-syntax",
         }
 
