@@ -61,7 +61,6 @@ packer.startup{
         -- Neorg
         use {
             "vhyrro/neorg",
-            branch = "unstable",
             requires = {
                 { "hrsh7th/nvim-cmp" },
                 { "nvim-lua/plenary.nvim" },
