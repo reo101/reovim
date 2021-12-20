@@ -267,6 +267,7 @@ packer.startup{
         }
         use {
             "Saecki/crates.nvim",
+            event = { "BufRead Cargo.toml" },
             requires = { "nvim-lua/plenary.nvim" },
             config = function()
                 require("rv-crates").config()
@@ -279,6 +280,7 @@ packer.startup{
         }
         use {
             "NTBBloodbath/rest.nvim",
+            ft = { "http" },
             requires = { "nvim-lua/plenary.nvim" },
             config = function()
                 require("rv-rest").config()
