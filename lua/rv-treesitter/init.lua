@@ -3,7 +3,7 @@ local M = {}
 M.config = function()
 
     local opt = {
-        ensure_installed = {"cpp", "lua", "javascript", "java", "php", "python", "html", "norg", "markdown", "comment"},
+        ensure_installed = {"cpp", "lua", "javascript", "java", "php", "python", "html", "norg", "norg_meta", "norg_table", "markdown", "comment"},
         highlight = {
             enable = true,
         },
@@ -151,6 +151,22 @@ M.config = function()
         install_info = {
             url = "https://github.com/nvim-neorg/tree-sitter-norg",
             files = { "src/parser.c", "src/scanner.cc" },
+            branch = "main"
+        },
+    }
+
+    require("nvim-treesitter.parsers").get_parser_configs().norg_meta = {
+        install_info = {
+            url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
+            files = { "src/parser.c" },
+            branch = "main"
+        },
+    }
+
+    require("nvim-treesitter.parsers").get_parser_configs().norg_table = {
+        install_info = {
+            url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
+            files = { "src/parser.c" },
             branch = "main"
         },
     }
