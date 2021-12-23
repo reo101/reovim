@@ -9,6 +9,7 @@ M.config = function()
         null_ls = require("rv-lsp.langs.null-ls").config,
         python = require("rv-lsp.langs.python").config,
         sqls = require("rv-lsp.langs.sqls").config,
+        racket = require("rv-lsp.langs.racket").config,
         haskell = require("rv-lsp.langs.haskell").config,
         -- rust = require("rv-lsp.langs.rust").config,
         go = require("rv-lsp.langs.go").config,
