@@ -10,6 +10,7 @@ M.config = function()
         cpp = require("rv-dap.configurations.cpp").config,
         c = require("rv-dap.configurations.c").config,
         -- rust = require("rv-dap.configurations.rust").config,
+        scala = require("rv-dap.configurations.scala").config,
     }
 
     local function setup_adapters()
