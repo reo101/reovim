@@ -8,7 +8,8 @@ local dap_mappings = function()
             name = "DAP",
             b = {
                 name = "Breakpoint",
-                t = { require("dap").toggle_breakpoint, "Toggle"}
+                t = { require("dap").toggle_breakpoint, "Toggle"},
+                c = { function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, "Set conditional" },
             },
             c = { require("dap").continue, "Continue" },
             C = { require("dap").run_to_cursor, "Run to Cursor" },
@@ -34,21 +35,28 @@ local dap_override_icons = function()
     local signs = {
         Breakpoint = {
             text = "",
-            texthl = "LspDiagnosticsSignError",
+            texthl = "DiagnosticSignError",
+            linehl = "",
+            numhl = "",
+        },
+        -- TODO: da
+        BreakpointCondition = {
+            text = "",
+            texthl = "DiagnosticSignHint",
             linehl = "",
             numhl = "",
         },
         BreakpointRejected = {
             text = "",
-            texthl = "LspDiagnosticsSignHint",
+            texthl = "DiagnosticSignHint",
             linehl = "",
             numhl = "",
         },
         Stopped = {
             text = "",
-            texthl = "LspDiagnosticsSignInformation",
+            texthl = "DiagnosticSignInformation",
             linehl = "DiagnosticUnderlineInfo",
-            numhl = "LspDiagnosticsSignInformation",
+            numhl = "DiagnosticSignInformation",
         },
     }
 
@@ -60,6 +68,9 @@ end
 
 local dap_set_repl = function()
     require("dap").defaults.fallback.terminal_win_cmd = "50vsplit new"
+    vim.cmd([[
+          au FileType dap-repl lua require("dap.ext.autocompl").attach()
+    ]])
 end
 
 M.dap_mappings = dap_mappings
