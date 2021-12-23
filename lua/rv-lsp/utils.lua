@@ -16,10 +16,18 @@ local lsp_mappings = function()
             },
             d = {
                 name = "Diagnostics",
-                p = { vim.lsp.diagnostic.goto_prev, "Previous" },
-                n = { vim.lsp.diagnostic.goto_next, "Next" },
-                l = { vim.lsp.diagnostic.show_line_diagnostics, "Line Diagnostics" },
-                q = { vim.lsp.diagnostic.set_loclist, "Send to loclist"},
+                p = { vim.diagnostic.goto_prev, "Previous" },
+                n = { vim.diagnostic.goto_next, "Next" },
+                l = { vim.diagnostic.open_float, "Line Diagnostics" },
+                q = { vim.diagnostic.set_loclist, "Send to loclist"},
+            },
+            c = {
+                name = "Codelens",
+                r = { vim.lsp.codelens.run, "Run" },
+                f = { vim.lsp.codelens.refresh, "Refresh" },
+                s = { vim.lsp.codelens.save, "Save" },
+                g = { vim.lsp.codelens.get, "Get" },
+                a = { vim.lsp.codelens.display, "Display"},
             },
             r = { vim.lsp.buf.rename, "Rename" },
             a = { vim.lsp.buf.code_action, "Code Action" },
@@ -49,8 +57,8 @@ local lsp_mappings = function()
     wk.register(directMappings, { mode = "n", prefix = "" })
 
     local motionMappings = {
-        ["[d"] = { vim.lsp.diagnostic.goto_prev, "Previous Diagnostic" },
-        ["]d"] = { vim.lsp.diagnostic.goto_next, "Next Diagnostic" },
+        ["[d"] = { vim.diagnostic.goto_prev, "Previous Diagnostic" },
+        ["]d"] = { vim.diagnostic.goto_next, "Next Diagnostic" },
     }
 
     wk.register(motionMappings, { mode = "n", prefix = "" })
