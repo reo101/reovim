@@ -29,6 +29,19 @@ M.config = function()
             hi! link LspReferenceWrite CursorColumn
         ]]
 
+        local wk = require("which-key")
+
+        local mappings = {
+            ["fm"] = { require("telescope").extensions.metals.commands, "Metals Commands" },
+        }
+
+        local visualMappings = {
+            ["K"] = { require("metals").type_of_range, "Type of Range" },
+
+        }
+
+        wk.register(mappings, { prefix = "<leader>" })
+        wk.register(visualMappings, { mode = "v", prefix = "" })
 
         require("metals").initialize_or_attach(metals_config)
 
