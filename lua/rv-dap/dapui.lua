@@ -44,6 +44,17 @@ M.config = function()
 
     require("dapui").setup(opt)
 
+    local wk = require("which-key")
+
+    local mappings = {
+        d = {
+            name = "DAP",
+            t = { require("dapui").toggle, "Toggle dap-ui" },
+        },
+    }
+
+    wk.register(mappings, { prefix = "<leader>" })
+
 end
 
 return M
