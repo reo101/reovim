@@ -59,7 +59,9 @@ opt.expandtab = true            -- convert tabs to spaces
 opt.tabstop = 4                 -- insert 4 spaces for a tab
 opt.softtabstop = 4             -- more tab is 4 spaces config
 opt.shiftwidth = 4              -- the number of spaces inserted for each indentation
-opt.shortmess:append "c"        -- Hide "Pattern not found" when no completion is available
+opt.shortmess
+    :remove("F")                -- Ensure autocmd works for Filetype
+    :append("c")                -- Hide "Pattern not found" when no completion is available
 -- opt.cursorline = true           -- highlight the current line
 -- opt.cursorcolumn = true         -- highlight the current column
 opt.number = true               -- set numbered lines
