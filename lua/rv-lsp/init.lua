@@ -16,6 +16,7 @@ M.config = function()
         tsserver = require("rv-lsp.langs.tsserver").config,
         java = require("rv-lsp.langs.java").config,
         bash = require("rv-lsp.langs.bash").config,
+        erlang = require("rv-lsp.langs.erlang").config,
     }
 
     local function setup_servers()
