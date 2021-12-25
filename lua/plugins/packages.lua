@@ -61,6 +61,12 @@ packer.startup{
                     { "nvim-telescope/telescope.nvim" }
                 },
             }
+            if telescope_plugin == "nvim-telescope/telescope-fzf-native" then
+                opt = vim.tbl_deep_extend("force", {
+                    run = "make",
+                }, opt)
+            end
+
             use(opt)
         end
 
