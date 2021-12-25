@@ -297,6 +297,7 @@ packer.startup{
             config = function()
                 require("rv-copilot").config()
             end,
+            disable = true, -- TODO
         }
         use {
             "mlochbaum/BQN",
