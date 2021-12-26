@@ -32,6 +32,7 @@ local lsp_mappings = function()
             r = { vim.lsp.buf.rename, "Rename" },
             a = { vim.lsp.buf.code_action, "Code Action" },
             f = { vim.lsp.buf.formatting, "Format" },
+            s = { vim.lsp.buf.signature_help, "Signature Help" },
             w = {
                 name = "Workspace",
                 a = { vim.lsp.buf.add_workspace_folder , "Add" },
