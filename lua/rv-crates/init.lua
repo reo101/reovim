@@ -78,7 +78,7 @@ M.config = function()
     local wk = require("which-key")
 
     local mappings = {
-        ["lc"] = {
+        r = {
             name = "Crates",
             t = { require("crates").toggle , "Toggle" },
             r = { require("crates").reload , "Reload" },
@@ -92,7 +92,7 @@ M.config = function()
     }
 
     local visualMappings = {
-        ["lc"] = {
+        r = {
             name = "Crates",
             u = { require("crates").update_crates , "Update crates" },
             U = { require("crates").upgrade_crates , "Upgrade crates" },
