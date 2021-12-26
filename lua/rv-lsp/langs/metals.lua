@@ -8,6 +8,8 @@ M.config = function()
 
         metals_config.settings = {
             showImplicitArguments = true,
+            showImplicitConversionsAndClasses = true,
+            showInferredType = true,
         }
 
         metals_config.init_options.statusBarProvider = "on"
