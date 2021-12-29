@@ -490,6 +490,17 @@ packer.startup{
             end,
         }
 
+        -- Tabout
+        use {
+            "abecodes/tabout.nvim",
+            requires = { "nvim-treesitter/nvim-treesitter" },
+            after = { "nvim-cmp" },
+            as = "tabout",
+            config = function()
+                require("rv-tabout").config()
+            end,
+        }
+
         -- Navigator
         use {
             "numToStr/Navigator.nvim",
