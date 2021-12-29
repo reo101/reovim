@@ -501,6 +501,14 @@ packer.startup{
             end,
         }
 
+        -- Lastplace
+        use {
+            "ethanholz/nvim-lastplace",
+            config = function()
+                require("rv-lastplace").config()
+            end,
+        }
+
         -- Navigator
         use {
             "numToStr/Navigator.nvim",

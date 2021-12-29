@@ -18,9 +18,9 @@ local autocmds = {
         { "TermOpen", "*", "startinsert" },
         { "TermOpen", "*", "setlocal listchars= nonumber norelativenumber" },
     },
-    restore_cursor = {
-        { 'BufRead', '*', [[call setpos(".", getpos("'\""))]] },
-    },
+    -- restore_cursor = {
+    --     { 'BufRead', '*', [[call setpos(".", getpos("'\""))]] },
+    -- },
     save_shada = {
         {"VimLeave", "*", "wshada!"},
     },
