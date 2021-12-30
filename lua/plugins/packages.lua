@@ -543,6 +543,14 @@ packer.startup{
             end,
         }
 
+        -- EasyAlign
+        use {
+            "junegunn/vim-easy-align",
+            config = function()
+                require("rv-easyalign").config()
+            end,
+        }
+
         -- Neogit
         use {
             "TimUntersberger/neogit",
