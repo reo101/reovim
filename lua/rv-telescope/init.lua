@@ -86,7 +86,6 @@ M.config = function()
     require('telescope').load_extension('gh')
     require('telescope').load_extension('media_files')
     require("telescope").load_extension("notify")
-    require("telescope").load_extension("ui-select")
 
     local actions = require("telescope.actions")
     local action_state = require("telescope.actions.state")
