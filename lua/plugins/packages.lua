@@ -514,6 +514,14 @@ packer.startup{
             end,
         }
 
+        -- Sort
+        use({
+            "sQVe/sort.nvim",
+            config = function()
+                require("rv-sort").config()
+            end
+        })
+
         -- Navigator
         use {
             "numToStr/Navigator.nvim",
