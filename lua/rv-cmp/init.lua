@@ -152,9 +152,9 @@ M.config = function()
             { name = "neorg" },
         },
         sorting = {
-            comparators = {
-                function(...) return require("cmp_buffer"):compare_locality(...) end,
-            },
+            -- comparators = {
+            --     function(...) return require("cmp_buffer"):compare_locality(...) end,
+            -- },
         },
     }
 
