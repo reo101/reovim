@@ -121,6 +121,22 @@ git clone https://www.github.com/reo101/reovim "${HOME}/.config/nvim"
 - [Aerial](https://www.github.com/stevearc/aerial.nvim)
 - [Dressing](https://www.github.com/stevearc/dressing.nvim)
 
+#### Languages
+- [Bash](./lua/rv-lsp/langs/bash.lua)
+- [C, CPP](./lua/rv-lsp/langs/clangd.lua)
+- [CMake](./lua/rv-lsp/langs/cmake.lua)
+- [Erlang](./lua/rv-lsp/langs/erlang.lua)
+- [Go](./lua/rv-lsp/langs/go.lua)
+- [Haskell](./lua/rv-lsp/langs/haskell.lua)
+- [Java](./lua/rv-lsp/langs/java.lua)
+- [Javascript, Typescript](./lua/rv-lsp/langs/tsserver.lua)
+- [LaTeX](./lua/rv-lsp/langs/latex.lua)
+- [Lua](./lua/rv-lsp/langs/lua.lua)
+- [Python](./lua/rv-lsp/langs/python.lua)
+- [SQL](./lua/rv-lsp/langs/sqls.lua)
+- [Scheme, Racket](./lua/rv-lsp/langs/racket.lua)
+- [Zig](./lua/rv-lsp/langs/zig.lua)
+
 #### Additional Language Server plugins
 
 - [Null LS](https://www.github.com/jose-elias-alvarez/null-ls.nvim)
