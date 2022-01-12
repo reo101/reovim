@@ -97,6 +97,7 @@ M.config = function()
     require("telescope").load_extension("gh")
     require("telescope").load_extension("media_files")
     require("telescope").load_extension("notify")
+    require("telescope").load_extension("aerial")
     require("telescope").load_extension("file_browser")
 
     local actions = require("telescope.actions")
