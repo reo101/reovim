@@ -76,6 +76,7 @@ git clone https://www.github.com/reo101/reovim "${HOME}/.config/nvim"
 - [Github extension](https://www.github.com/nvim-telescope/telescope-github.nvim)
 - [Media Files extension](https://www.github.com/nvim-telescope/telescope-media-files.nvim)
 - [Symbols extension](https://www.github.com/nvim-telescope/telescope-symbols.nvim)
+- [File Browser extension](https://www.github.com/nvim-telescope/telescope-file-browser.nvim)
 
 ### Neorg
 
