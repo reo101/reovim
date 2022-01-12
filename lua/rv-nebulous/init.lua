@@ -5,7 +5,7 @@ M.config = function()
     local opt = {
         variant = "midnight",
         disable = {
-            background = true,
+            background = false,
             endOfBuffer = true,
         },
         italic = {
