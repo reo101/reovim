@@ -3,7 +3,7 @@ local M = {}
 M.config = function()
 
     local opt = {
-        disable_filetype = { "norg", "TelescopePrompt" },
+        disable_filetype = { "norg", "scheme", "TelescopePrompt" },
         ignored_next_char = string.gsub([[ [%w%%%'%[%"%.] ]],"%s+", ""),
         enable_moveright = true,
         enable_afterquote = true,  -- add bracket pairs after quote
