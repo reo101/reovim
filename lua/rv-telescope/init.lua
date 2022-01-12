@@ -77,6 +77,17 @@ M.config = function()
                     shorten_path = false,
                 })
             },
+            file_browser = {
+                theme = "ivy",
+                mappings = {
+                    ["i"] = {
+                        -- your custom insert mode mappings
+                    },
+                    ["n"] = {
+                        -- your custom normal mode mappings
+                    },
+                },
+            },
         },
     }
 
@@ -86,6 +97,7 @@ M.config = function()
     require('telescope').load_extension('gh')
     require('telescope').load_extension('media_files')
     require("telescope").load_extension("notify")
+    require("telescope").load_extension("file_browser")
 
     local actions = require("telescope.actions")
     local action_state = require("telescope.actions.state")
