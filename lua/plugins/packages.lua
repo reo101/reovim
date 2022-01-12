@@ -323,6 +323,13 @@ packer.startup{
             end,
         }
         use {
+            "eraserhd/parinfer-rust",
+            run = "cargo build --release",
+            config = function()
+                require("rv-parinfer").config()
+            end,
+        }
+        use {
             "stevearc/dressing.nvim",
             config = function()
                 require("rv-dressing").config()
