@@ -23,7 +23,7 @@ M.config = function()
     local mappings = {
         r = {
             name = "REST",
-            r = { function() require("rest-nvim").run()     end, "Run under cursor"},
+            r = { function() require("rest-nvim").run()     end, "Run under cursor" },
             p = { function() require("rest-nvim").run(true) end, "Preview current" },
             l = { function() require("rest-nvim").last()    end, "Last request" },
         }
