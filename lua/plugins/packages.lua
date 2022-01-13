@@ -165,6 +165,17 @@ packer.startup{
             config = function()
                 require("rv-barbar").config()
             end,
+            opt = true,
+        }
+
+        -- BufferLine
+        use {
+            "akinsho/bufferline.nvim",
+            as = "bufferline",
+            requires = { "kyazdani42/nvim-web-devicons" },
+            config = function()
+                require("rv-bufferline").config()
+            end
         }
 
         -- Auto-session
