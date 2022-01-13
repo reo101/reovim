@@ -41,6 +41,7 @@ M.config = function()
             ["8"] = { "<Cmd>BufferGoto 8<CR>" , "8" },
             ["9"] = { "<Cmd>BufferLast<CR>" , "Last" },
             s = { "<Cmd>w<CR>", "Save" },
+            e = { "<Cmd>e<CR>", "Edit" },
             c = { "<Cmd>BufferClose<CR>", "Close" },
             p = { "<Cmd>BufferPin<CR>", "Pin" },
             m = {
