@@ -662,12 +662,12 @@ packer.startup{
             end,
         }
 
+        -- BufDelete
         use {
             "famiu/bufdelete.nvim",
             config = function()
                 require("rv-bufdelete").config()
             end,
-            disable = true, -- TODO
         }
 
         -- BufResize
