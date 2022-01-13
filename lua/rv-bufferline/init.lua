@@ -5,7 +5,9 @@ M.config = function()
     local opt = {
         options = {
             -- numbers = "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
-            numbers = "both",
+            numbers = function(opts)
+                return string.format('%s·%s', opts.ordinal, opts.lower(opts.id))
+            end,
             --- @deprecated, please specify numbers as a function to customize the styling
             -- number_style = "superscript" | "subscript" | "" | { "none", "subscript" }, -- buffer_id at index 1, ordinal at index 2
             -- number_style = "",
@@ -67,6 +69,11 @@ M.config = function()
                     filetype = "NvimTree",
                     text = "File Explorer",
                     text_align  = "center",
+                },
+                {
+                    filetype = "aerial",
+                    text = "Aerial",
+                    text_align = "center",
                 },
             },
             -- show_buffer_icons = true | false, -- disable filetype icons for buffers
