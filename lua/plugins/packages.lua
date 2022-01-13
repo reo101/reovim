@@ -562,6 +562,7 @@ packer.startup{
         -- File Tree
         use {
             "kyazdani42/nvim-tree.lua",
+            keys = { "<leader>tf" },
             config = function()
                 require("rv-tree").config()
             end,
@@ -587,12 +588,14 @@ packer.startup{
         use {
             "TimUntersberger/neogit",
             requires = "nvim-lua/plenary.nvim",
+            keys = { "<leader>gs" },
             config = function()
                 require("rv-neogit").config()
             end,
         }
         use {
             "sindrets/diffview.nvim",
+            after = { "neogit" },
             config = function ()
                 require("rv-diffview").config()
             end,
@@ -623,6 +626,7 @@ packer.startup{
             config = function()
                 require("rv-octo").config()
             end,
+            opt = true,
         }
         use {
             "ruifm/gitlinker.nvim",
