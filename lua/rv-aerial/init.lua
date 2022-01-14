@@ -153,7 +153,7 @@ M.config = function()
         close_on_select = false,
 
         -- Show box drawing characters for the tree hierarchy
-        show_guides = false,
+        show_guides = true,
 
         -- Options for opening aerial in a floating win
         float = {
