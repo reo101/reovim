@@ -16,7 +16,7 @@ M.config = function()
             ["<Tab>"] = require("cmp").mapping(function(fallback)
                 if require("cmp").visible() then
                     require("cmp").select_next_item()
-                elseif require("luasnip").expand_or_jumpable() then
+                elseif require("luasnip").expand_or_locally_jumpable() then
                     require("luasnip").expand_or_jump()
                 elseif check_back_space() then
                     vim.fn.feedkeys(esc([[<Tab>]]), "n")
