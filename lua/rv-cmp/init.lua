@@ -183,7 +183,6 @@ M.config = function()
         )
     })
 
-    require("luasnip.loaders.from_vscode").lazy_load()
     require("cmp").setup(opt)
 
 end
