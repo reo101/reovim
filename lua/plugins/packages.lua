@@ -346,6 +346,12 @@ packer.startup{
                 require("rv-dressing").config()
             end,
         }
+        use  {
+            "mfussenegger/nvim-jdtls",
+            config = function()
+                require("rv-lsp.langs.jdtls").config()
+            end,
+        }
 
         -- DAP
         use {
