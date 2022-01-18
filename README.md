@@ -128,7 +128,6 @@ git clone https://www.github.com/reo101/reovim "${HOME}/.config/nvim"
 - [Erlang](./lua/rv-lsp/langs/erlang.lua)
 - [Go](./lua/rv-lsp/langs/go.lua)
 - [Haskell](./lua/rv-lsp/langs/haskell.lua)
-- [Java](./lua/rv-lsp/langs/java.lua)
 - [Javascript, Typescript](./lua/rv-lsp/langs/tsserver.lua)
 - [LaTeX](./lua/rv-lsp/langs/latex.lua)
 - [Lua](./lua/rv-lsp/langs/lua.lua)
@@ -143,6 +142,7 @@ git clone https://www.github.com/reo101/reovim "${HOME}/.config/nvim"
 - [Rust Tools](https://www.github.com/simrat39/rust-tools.nvim)
   - [Crates](https://www.github.com/saecki/crates.nvim)
 - [Metals](https://www.github.com/scalameta/nvim-metals)
+- [JDTLS](./lua/rv-lsp/langs/jdtls.lua)
 
 ### DAP
 
