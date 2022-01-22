@@ -37,13 +37,6 @@ M.config = function()
         },
         numhl = false,
         linehl = false,
-        keymaps = {
-            noremap = true,
-            buffer = true,
-
-            ["n ]c"] = { expr = true, '&diff ? "]c" : "<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>"'},
-            ["n [c"] = { expr = true, '&diff ? "[c" : "<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>"'},
-        },
         watch_gitdir = {
             interval = 1000,
             follow_files = true
@@ -60,9 +53,7 @@ M.config = function()
     require("gitsigns").setup(opt)
 
     local wk = require("which-key")
-    
-            -- ["]c"] = { expr = true, "&diff ? "]c" : "<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>""},
-            -- ["n [c"] = { expr = true, "&diff ? "[c" : "<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>""},
+
     local mappings = {
         g = {
             name = "Git",
@@ -105,6 +96,13 @@ M.config = function()
 
     wk.register(operatorMappings, { mode = "o", prefix = "<leader>" })
     wk.register(operatorMappings, { mode = "x", prefix = "<leader>" })
+
+    local directMappings = {
+        ["]c"] = { require("gitsigns.actions").next_hunk, "Next Hunk" },
+        ["[c"] = { require("gitsigns.actions").prev_hunk, "Prev Hunk" },
+    }
+
+    wk.register(directMappings, { prefix = "" })
 
 end
 
