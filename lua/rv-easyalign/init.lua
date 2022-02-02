@@ -11,6 +11,13 @@ M.config  = function()
     wk.register(mappings, { prefix = "" })
     wk.register(mappings, { mode = "v", prefix = "" })
 
+    local visualMappings ={
+        ["<"] = { "<gv", "Deindent" },
+        [">"] = { ">gv", "Indent" },
+    }
+
+    wk.register(visualMappings, { mode = "v",  prefix = "" })
+
 end
 
 return M
