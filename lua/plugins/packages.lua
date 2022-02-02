@@ -352,6 +352,12 @@ packer.startup{
                 require("rv-lsp.langs.jdtls").config()
             end,
         }
+        use {
+            "jakewvincent/texmagic.nvim",
+            config = function()
+                require("rv-lsp/langs/texmagic").config()
+            end
+        }
 
         -- DAP
         use {
