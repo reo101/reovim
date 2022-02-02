@@ -58,7 +58,7 @@ M.config = function()
         }, function(item, idx)
             -- selection aborted -> idx == nil
             if idx then
-                vim.cmd("edit ~/.config/nvim/lua/snippets/"..item..".lua")
+                vim.cmd("edit ~/.config/nvim/lua/snippets/" .. item .. ".lua")
             end
         end)
     end
