@@ -8,18 +8,21 @@ M.config = function()
         load_autogroups = false,
         mappings_style = "surround",
         map_insert_mode = false,
+        prompt = false,
         quotes = {[[']], [["]]},
-        brackets = {"(", '{', '['},
+        brackets = {"(", "{", "["},
         pairs = {
             nestable = {
-                {"(", ")"},
-                {"[", "]"},
-                {"{", "}"},
+                b = {"(", ")"},
+                s = {"[", "]"},
+                B = {"{", "}"},
+                a = {"<", ">"},
             },
             linear = {
-                {"'", "'"},
-                {"`", "`"},
-                {'"', '"'},
+                q = {"'", "'"},
+                t = {"`", "`"},
+                d = {'"', '"'},
+                p = {"|", "|"},
             },
         },
     }
