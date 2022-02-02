@@ -107,7 +107,7 @@ M.config = function()
 
     local operatorMappings = {
         ["c"] = { comment_api.toggle_linewise_op },
-        ["C"] = { comment_api.toggle_linewise_op },
+        ["C"] = { comment_api.toggle_blockwise_op },
     }
 
     wk.register(mappings, { prefix = "<leader>" })
