@@ -102,7 +102,33 @@ M.config = function()
         formatting = {
             format = function(entry, vim_item)
                 -- fancy icons and a name of kind
-                vim_item.kind = require("lspkind").presets.default[vim_item.kind] .. " " .. vim_item.kind
+                vim_item.kind = ({
+                    Class = " ",
+                    Color = " ",
+                    Constant = "ﲀ ",
+                    Constructor = " ",
+                    Enum = "練",
+                    EnumMember = " ",
+                    Event = " ",
+                    Field = " ",
+                    File = "",
+                    Folder = " ",
+                    Function = " ",
+                    Interface = "ﰮ ",
+                    Keyword = " ",
+                    Method = " ",
+                    Module = " ",
+                    Operator = "",
+                    Property = " ",
+                    Reference = " ",
+                    Snippet = " ",
+                    Struct = " ",
+                    Text = " ",
+                    TypeParameter = " ",
+                    Unit = "塞",
+                    Value = " ",
+                    Variable = " ",
+                })[vim_item.kind] .. " " .. vim_item.kind
 
                 -- set a name for each source
                 vim_item.menu = ({
@@ -118,11 +144,15 @@ M.config = function()
                     crates = "[Crates]",
                     neorg = "[Neorg]",
                 })[entry.source.name]
-                -- vim_item.dup = ({
-                --     buffer = 1,
-                --     path = 1,
-                --     nvim_lsp = 0,
-                -- })[entry.source.name] or 0
+
+                -- allow duplicates for certain sources
+                vim_item.dup = ({
+                    buffer = 1,
+                    path = 1,
+                    nvim_lsp = 0,
+                    luasnip = 1,
+                })[entry.source.name] or 0
+
                 return vim_item
             end,
         },
