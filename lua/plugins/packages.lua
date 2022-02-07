@@ -264,9 +264,6 @@ packer.startup{
             disable = true, -- TODO
         }
         use {
-            "onsails/lspkind-nvim",
-        }
-        use {
             "jose-elias-alvarez/null-ls.nvim",
             requires = {
                 "nvim-lua/plenary.nvim",
