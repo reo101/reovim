@@ -1,6 +1,6 @@
 --- GLOBALS ---
 
-HOME_PATH   = "/home/reo101"
+HOME_PATH   = vim.fn.expand("$HOME")
 CONFIG_PATH = vim.fn.stdpath("config")
 DATA_PATH   = vim.fn.stdpath("data")
 CACHE_PATH  = vim.fn.stdpath("cache")
