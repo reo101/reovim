@@ -1,72 +1,73 @@
----  HELPERS  ---
-
-local fn = vim.fn
-local cmd = vim.cmd
-local opt = vim.opt
-
 --- GLOBALS ---
 
-CONFIG_PATH = fn.stdpath "config"
-DATA_PATH = fn.stdpath "data"
-CACHE_PATH = fn.stdpath "cache"
-TERMINAL = fn.expand "$TERMINAL"
+HOME_PATH   = "/home/reo101"
+CONFIG_PATH = vim.fn.stdpath("config")
+DATA_PATH   = vim.fn.stdpath("data")
+CACHE_PATH  = vim.fn.stdpath("cache")
+TERMINAL    = vim.fn.expand("$TERMINAL")
 
 ---  VIM ONLY COMMANDS  ---
 
-cmd "filetype plugin on"
-cmd('let &titleold="' .. TERMINAL .. '"')
-cmd "set inccommand=split"
-cmd "set iskeyword+=-"
-cmd "set whichwrap+=<,>,[,],h,l"
--- cmd "au ColorScheme * hi Normal ctermbg=none guibg=none"
--- cmd "au ColorScheme * hi SignColumn ctermbg=none guibg=none"
+vim.cmd("filetype plugin on")
+vim.cmd('let &titleold="' .. TERMINAL .. '"')
+vim.cmd("set inccommand=split")
+vim.cmd("set iskeyword+=-")
+vim.cmd("set whichwrap+=<,>,[,],h,l")
+-- vim.cmd("au ColorScheme * hi Normal ctermbg=none guibg=none")
+-- vim.cmd("au ColorScheme * hi SignColumn ctermbg=none guibg=none")
 
 ---  SETTINGS  ---
 
-vim.g.mapleader = " "           -- maps the leader to space
-vim.g.maplocalleader = " "      -- maps the local leader to space
-opt.backup = false              -- creates a backup file
-opt.clipboard = "unnamedplus"   -- allows neovim to access the system clipboard
-opt.cmdheight = 1               -- more space in the neovim command line for displaying messages
--- opt.colorcolumn = "80"       -- visual reminder for 80 char line limit
-opt.completeopt = { "menuone", "noselect" }
-opt.concealcursor = "nc"        -- only conceal when in normal or command mode
-opt.conceallevel = 2            -- completely hidden conceals
-opt.fileencoding = "utf-8"      -- the encoding written to a file
-opt.guifont = "monospace:h17"   -- the font used in graphical neovim applications
-opt.hidden = true               -- required to keep multiple buffers and open multiple buffers
-opt.hlsearch = true             -- highlight all matches on previous search pattern
-opt.ignorecase = true           -- ignore case in search patterns
-opt.mouse = "a"                 -- allow the mouse to be used in neovim
-opt.pumheight = 10              -- pop up menu height
-opt.scrolloff = 3               -- always keep the cursor 3 lines away from the edge
-opt.showmode = false            -- we don't need to see things like -- INSERT -- anymore
--- opt.showtabline = 2             -- always show tabs
-opt.smartcase = true            -- smart case
-opt.smartindent = true          -- make indenting smarter again
-opt.splitbelow = true           -- force all horizontal splits to go below current window
-opt.splitright = true           -- force all vertical splits to go to the right of current window
-opt.swapfile = false            -- creates a swapfile
-opt.termguicolors = true        -- set term gui colors (most terminals support this)
-opt.timeoutlen = 300            -- time to wait for a mapped sequence to complete (in milliseconds)
-opt.title = true                -- set the title of window to the value of the titlestring
-opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
-opt.undodir = CACHE_PATH .. "/undo" -- set an undo directory
-opt.undofile = true             -- enable persistent undo
-opt.updatetime = 300            -- faster completion
-opt.writebackup = false         -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
-opt.expandtab = true            -- convert tabs to spaces
-opt.tabstop = 4                 -- insert 4 spaces for a tab
-opt.softtabstop = 4             -- more tab is 4 spaces config
-opt.shiftwidth = 4              -- the number of spaces inserted for each indentation
-opt.shortmess
-    :remove("F")                -- Ensure autocmd works for Filetype
-    :append("c")                -- Hide "Pattern not found" when no completion is available
--- opt.cursorline = true           -- highlight the current line
--- opt.cursorcolumn = true         -- highlight the current column
-opt.number = true               -- set numbered lines
-opt.relativenumber = true       -- set relatively numbered lines
-opt.signcolumn = "auto:3"     -- always show the sign column, otherwise it would shift the text each time
-opt.wrap = true                 -- display lines as one long line
-opt.pumblend = 20               -- winblend for the autocompletion window
-opt.winblend = 20               -- winblend for floating windows
+vim.g.mapleader        = " "                            -- maps the leader to space
+vim.g.maplocalleader   = " "                            -- maps the local leader to space
+vim.opt.backup         = false                          -- creates a backup file
+vim.opt.clipboard      = "unnamedplus"                  -- allows neovim to access the system clipboard
+vim.opt.cmdheight      = 1                              -- more space in the neovim command line for displaying messages
+-- vim.opt.colorcolumn    = "80"                           -- visual reminder for 80 char line limit
+vim.opt.completeopt    = { "menuone", "noselect" }
+vim.opt.concealcursor  = "nc"                           -- only conceal when in normal or command mode
+vim.opt.conceallevel   = 2                              -- completely hidden conceals
+-- vim.opt.cursorcolumn   = true                           -- highlight the current column
+-- vim.opt.cursorline     = true                           -- highlight the current line
+vim.opt.expandtab      = true                           -- convert tabs to spaces
+vim.opt.fileencoding   = "utf-8"                        -- the encoding written to a file
+vim.opt.guifont        = "Fira Code Mono Nerd Font:h17" -- the font used in graphical neovim applications
+vim.opt.hidden         = true                           -- required to keep multiple buffers and open multiple buffers
+vim.opt.hlsearch       = true                           -- highlight all matches on previous search pattern
+vim.opt.ignorecase     = true                           -- ignore case in search patterns
+vim.opt.mouse          = "a"                            -- allow the mouse to be used in neovim
+vim.opt.number         = true                           -- set numbered lines
+vim.opt.pumblend       = 20                             -- winblend for the autocompletion window
+vim.opt.pumheight      = 10                             -- pop up menu height
+vim.opt.relativenumber = true                           -- set relatively numbered lines
+vim.opt.scrolloff      = 3                              -- always keep the cursor 3 lines away from the edge
+vim.opt.shiftwidth     = 4                              -- the number of spaces inserted for each indentation
+vim.opt.shortmess
+    :append("c")                                        -- Hide "Pattern not found" when no completion is available
+    :remove("F")                                        -- Ensure autocmd works for Filetype
+vim.opt.showmode       = false                          -- we don't need to see things like -- INSERT -- anymore
+-- vim.opt.showtabline    = 2                              -- always show tabs
+vim.opt.signcolumn     = "auto:3"                       -- always show the sign column, otherwise it would shift the text each time
+vim.opt.smartcase      = true                           -- smart case
+vim.opt.smartindent    = true                           -- make indenting smarter again
+vim.opt.softtabstop    = 4                              -- more tab is 4 spaces config
+vim.opt.splitbelow     = true                           -- force all horizontal splits to go below current window
+vim.opt.splitright     = true                           -- force all vertical splits to go to the right of current window
+vim.opt.swapfile       = false                          -- creates a swapfile
+vim.opt.tabstop        = 4                              -- insert 4 spaces for a tab
+vim.opt.termguicolors  = true                           -- set term gui colors (most terminals support this)
+vim.opt.timeoutlen     = 300                            -- time to wait for a mapped sequence to complete (in milliseconds)
+vim.opt.title          = true                           -- set the title of window to the value of the titlestring
+vim.opt.titlestring    = "%<%F%=%l/%L - nvim"           -- what the title of the window will be set to
+vim.opt.undodir        = CACHE_PATH .. "/undo"          -- set an undo directory
+vim.opt.undofile       = true                           -- enable persistent undo
+vim.opt.updatetime     = 300                            -- faster completion
+vim.opt.winblend       = 20                             -- winblend for floating windows
+vim.opt.wrap           = true                           -- display lines as one long line
+vim.opt.writebackup    = false                          -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
+-- vim.wo.fillchars = "fold: "
+-- vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.wo.foldmethod = "expr"
+-- vim.wo.foldminlines = 1
+-- vim.wo.foldnestmax = 3
+-- vim.wo.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) ]]
