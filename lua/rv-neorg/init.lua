@@ -26,6 +26,11 @@ M.config = function()
                 },
             },
             ["core.integrations.telescope"] = {}, -- Enable the telescope module
+            ["core.norg.esupports.metagen"] = {
+                config = {
+                    type = "auto",
+                }
+            },
         },
         hook = function()
 
