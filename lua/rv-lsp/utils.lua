@@ -90,7 +90,6 @@ local lsp_on_attach = function(client, bufnr)
 
     require("aerial").on_attach(client, bufnr)
     require("rv-lsp/signature").config()
-    require("rv-lsp/kind").config()
 end
 
 local lsp_on_init = function(client)
