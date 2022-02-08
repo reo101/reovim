@@ -9,7 +9,7 @@ TERMINAL    = vim.fn.expand("$TERMINAL")
 ---  VIM ONLY COMMANDS  ---
 
 vim.cmd("filetype plugin on")
-vim.cmd('let &titleold="' .. TERMINAL .. '"')
+vim.cmd(string.format([[let &titleold="%s"]], TERMINAL))
 vim.cmd("set inccommand=split")
 vim.cmd("set iskeyword+=-")
 vim.cmd("set whichwrap+=<,>,[,],h,l")
