@@ -73,7 +73,7 @@ M.config = function()
                 picker = "telescope",
             })
         end,
-        capabilities =require("rv-lsp.utils").capabilities,
+        capabilities =require("rv-lsp.utils").lsp_capabilities,
 
     }
 

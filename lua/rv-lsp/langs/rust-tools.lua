@@ -101,7 +101,7 @@ M.config = function()
         server = {
             on_attach = require("rv-lsp.utils").lsp_on_attach,
             on_init = require("rv-lsp.utils").lsp_on_init,
-            capabilities = require("rv-lsp.utils").capabilities,
+            capabilities = require("rv-lsp.utils").lsp_capabilities,
         }, -- rust-analyer options
 
         -- debugging stuff

@@ -9,7 +9,7 @@ M.config = function()
             buildDirectory = "build"
         },
         on_attach = require("rv-lsp.utils").lsp_on_attach,
-        capabilities = require("rv-lsp.utils").capabilities,
+        capabilities = require("rv-lsp.utils").lsp_capabilities,
         root_dir = function(fname)
             local util = require("lspconfig.util")
             local root_files = {
