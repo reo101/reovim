@@ -23,7 +23,7 @@ M.config = function()
             }, { prefix = "<leader>" })
         end,
         on_init = require("rv-lsp.utils").lsp_on_init,
-        capabilities = require("rv-lsp.utils").capabilities,
+        capabilities = require("rv-lsp.utils").lsp_capabilities,
         init_options = {
             fallbackFlags = {
                 "-std=c++20",
