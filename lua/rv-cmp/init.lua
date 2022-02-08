@@ -76,10 +76,12 @@ M.config = function()
             ["<C-Space>"] = require("cmp").mapping.complete(),
         },
         enabled = function()
-            -- disable completion in comments
-            local context = require("cmp.config.context")
-            return not context.in_treesitter_capture("comment")
-                and not context.in_syntax_group("Comment")
+            -- -- disable completion in comments
+            -- local context = require("cmp.config.context")
+            -- return not context.in_treesitter_capture("comment")
+            --     and not context.in_syntax_group("Comment")
+
+            return true
         end,
         event = {
             on_confirm_done = require("nvim-autopairs.completion.cmp").on_confirm_done({  map_char = { tex = '' } }),
