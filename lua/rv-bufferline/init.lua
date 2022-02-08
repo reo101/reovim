@@ -124,7 +124,7 @@ M.config = function()
             e = { "<Cmd>e<CR>", "Edit" },
             c = { function(bufnum)
                 require("bufdelete").bufdelete(bufnum, true)
-            end, "This" },
+            end, "Close" },
             m = {
                 name = "Mass Close",
                 l = { function() require("bufferline").close_in_direction("left") end, "Left" },
