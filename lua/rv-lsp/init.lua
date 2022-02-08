@@ -18,6 +18,7 @@ M.config = function()
         bash = require("rv-lsp.langs.bash").config,
         erlang = require("rv-lsp.langs.erlang").config,
         zig = require("rv-lsp.langs.zig").config,
+        json = require("rv-lsp.langs.json").config,
     }
 
     local function setup_servers()

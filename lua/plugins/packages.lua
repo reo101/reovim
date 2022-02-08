@@ -355,6 +355,9 @@ packer.startup{
                 require("rv-lsp/langs/texmagic").config()
             end
         }
+        use {
+            "b0o/schemastore.nvim",
+        }
 
         -- DAP
         use {
