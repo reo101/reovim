@@ -358,6 +358,12 @@ packer.startup{
         use {
             "b0o/schemastore.nvim",
         }
+        use {
+            "j-hui/fidget.nvim",
+            config = function()
+                require("rv-fidget").config()
+            end,
+        }
 
         -- DAP
         use {
