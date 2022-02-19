@@ -30,6 +30,7 @@ M.config = function()
             "terminal",
             "dashboard",
             "startify",
+            "alpha",
             "packer",
             "neogitstatus",
             "tsplayground",
