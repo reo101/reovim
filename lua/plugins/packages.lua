@@ -126,12 +126,12 @@ packer.startup{
             end,
         }
 
-        -- Dashboard
+        --Alpha
         use {
-            "glepnir/dashboard-nvim",
-            as = "dashboard",
+            "goolord/alpha-nvim",
+            as = "alpha",
             config = function()
-                require("rv-dashboard").config()
+                require("rv-alpha").config()
             end,
         }
 
