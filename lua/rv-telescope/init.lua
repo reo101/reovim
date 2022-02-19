@@ -37,6 +37,7 @@ M.config = function()
                 -- "absolute",
                 -- "shorten",
             },
+            wrap_results = true,
             winblend = 20,
             -- border = {},
             borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
