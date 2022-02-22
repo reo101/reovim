@@ -25,13 +25,13 @@ packer.startup{
         use {
             "folke/tokyonight.nvim",
             config = function()
-                -- require("rv-tokyonight").config()
+                require("rv-tokyonight").config()
             end,
         }
         use {
             "Yagua/nebulous.nvim",
             config = function()
-                require("rv-nebulous").config()
+                -- require("rv-nebulous").config()
             end,
         }
 
