@@ -160,18 +160,25 @@ M.config = function()
             -- Controls border appearance. Passed to nvim_open_win
             border = "rounded",
 
-            -- Controls row offset from cursor. Passed to nvim_open_win
-            row = 1,
+            -- Enum: cursor, editor, win
+            --   cursor - Opens float on top of the cursor
+            --   editor - Opens float centered in the editor
+            --   win    - Opens float centered in the window
+            relative = "cursor",
 
-            -- Controls col offset from cursor. Passed to nvim_open_win
-            col = 0,
+            -- These control the height of the floating window.
+            -- They can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+            -- min_height and max_height can be a list of mixed types.
+            -- min_value = {8, 0.1} means "the greater of 8 rows or 10% of total"
+            max_height = 0.9,
+            height = nil,
+            min_height = { 8, 0.1 },
 
-            -- The maximum height of the floating aerial window
-            max_height = 100,
-
-            -- The minimum height of the floating aerial window
-            -- To disable dynamic resizing, set this to be equal to max_height
-            min_height = 4,
+            override = function(conf)
+                -- This is the config that will be passed to nvim_open_win.
+                -- Change values here to customize the layout
+                return conf
+            end,
         },
 
         lsp = {
