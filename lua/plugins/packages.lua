@@ -739,6 +739,12 @@ packer.startup{
                 require("rv-betterquickfix").config()
             end,
         }
+        use {
+            "https://gitlab.com/yorickpeterse/nvim-pqf.git",
+            config = function()
+                require("rv-prettyquickfix").config()
+            end,
+        }
 
         -- Indentline
         use {
