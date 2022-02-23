@@ -80,11 +80,11 @@ local lsp_on_attach = function(client, bufnr)
 
     if client.resolved_capabilities.document_highlight then
         vim.cmd [[
-        augroup LSPDocumentHighlight
-            autocmd! * <buffer>
-            autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-            autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-        augroup END
+            augroup LSPDocumentHighlight
+                autocmd! * <buffer>
+                autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+                autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+            augroup END
         ]]
     end
 
@@ -100,23 +100,26 @@ end
 
 local lsp_capabilities = (function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.textDocument.completion.completionItem.snippetSupport = true
-    capabilities.textDocument.completion.completionItem.preselectSupport = true
-    capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-    capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-    capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-    capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-    capabilities.textDocument.completion.completionItem.tagSupport = {
-        valueSet = { 1 },
-    }
-    capabilities.textDocument.completion.completionItem.documentationFormat = {
-        "markdown",
-    }
-    capabilities.textDocument.completion.completionItem.resolveSupport = {
-        properties = {
-            "documentation",
-            "detail",
-            "additionalTextEdits",
+
+    capabilities.textDocument.completion.completionItem = {
+        snippetSupport = true,
+        preselectSupport = true,
+        insertReplaceSupport = true,
+        labelDetailsSupport = true,
+        deprecatedSupport = true,
+        commitCharactersSupport = true,
+        tagSupport = {
+            valueSet = { 1 },
+        },
+        documentationFormat = {
+            "markdown",
+        },
+        resolveSupport = {
+            properties = {
+                "documentation",
+                "detail",
+                "additionalTextEdits",
+            },
         },
     }
 
@@ -124,20 +127,24 @@ local lsp_capabilities = (function()
 end)()
 
 local lsp_override_handlers = function()
+    local border = "single"
+
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = border,
+    })
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+        border = border,
+    })
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
         virtual_text = {
             prefix = "",
             spacing = 0,
+            source = "always",  -- Or "if_many"
         },
         signs = true,
         underline = true,
         update_in_insert = false, -- update diagnostics insert mode
-    })
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "single",
-    })
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = "single",
+        severity_sort = false,
     })
 
     local signs = {
@@ -150,6 +157,45 @@ local lsp_override_handlers = function()
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
+
+    -- Capture real implementation of function that sets signs
+    local orig_set_signs = vim.lsp.diagnostic.set_signs
+    local set_signs_limited = function(diagnostics, bufnr, client_id, sign_ns, opts)
+
+        -- -- original func runs some checks, which I think is worth doing
+        -- -- but maybe overkill
+        -- if not diagnostics then
+        --     diagnostics = diagnostic_cache[bufnr][client_id]
+        -- end
+
+        -- early escape
+        if not diagnostics then
+            return
+        end
+
+        -- Work out max severity diagnostic per line
+        local max_severity_per_line = {}
+        for _,d in pairs(diagnostics) do
+            if max_severity_per_line[d.range.start.line] then
+                local current_d = max_severity_per_line[d.range.start.line]
+                if d.severity < current_d.severity then
+                    max_severity_per_line[d.range.start.line] = d
+                end
+            else
+                max_severity_per_line[d.range.start.line] = d
+            end
+        end
+
+        -- map to list
+        local filtered_diagnostics = {}
+        for i,v in pairs(max_severity_per_line) do
+            table.insert(filtered_diagnostics, v)
+        end
+
+        -- call original function
+        orig_set_signs(filtered_diagnostics, bufnr, client_id, sign_ns, opts)
+    end
+    vim.lsp.diagnostic.set_signs = set_signs_limited
 end
 
 M.lsp_mappings = lsp_mappings
