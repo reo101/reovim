@@ -324,6 +324,9 @@ packer.startup{
             "aklt/plantuml-syntax",
         }
         use {
+            "McSinyx/vim-octave",
+        }
+        use {
             "scalameta/nvim-metals",
             requires = { "nvim-lua/plenary.nvim" },
             config = function()
