@@ -188,6 +188,7 @@ M.config = function()
             -- { name = "latex_symbols" },
             { name = "crates" },
             { name = "neorg" },
+            { name = "omni" },
         },
         sorting = {
             -- comparators = {
@@ -195,6 +196,9 @@ M.config = function()
             -- },
         },
     }
+
+    -- TODO:
+    vim.o.omnifunc="syntaxcomplete#Complete"
 
     -- Use buffer source for `/`.
     require("cmp").setup.cmdline('/', {
