@@ -477,6 +477,7 @@ packer.startup{
             "andersevenrud/compe-tmux",
             -- "kdheepak/cmp-latex-symbols",
             "hrsh7th/cmp-cmdline",
+            "hrsh7th/cmp-omni",
         }
         use {
             "hrsh7th/nvim-cmp",
