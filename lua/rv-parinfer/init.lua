@@ -3,7 +3,7 @@ local M = {}
 M.config = function()
 
     vim.g.parinfer_mode = "smart"
-    vim.g.parinfer_enabled = 1
+    vim.g.parinfer_enabled = 0
     vim.g.parinfer_force_balance = 0
     vim.g.parinfer_comment_char = ";"
     vim.g.parinfer_string_delimiters = {
