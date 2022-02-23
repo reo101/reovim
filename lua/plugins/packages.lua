@@ -579,9 +579,15 @@ packer.startup{
 
         -- File Tree
         use {
-            "kyazdani42/nvim-tree.lua",
-            keys = { "<leader>tf" },
-            config = function()
+            "nvim-neo-tree/neo-tree.nvim",
+            as = "tree",
+            branch = "v1.x",
+            requires = {
+                "nvim-lua/plenary.nvim",
+                "kyazdani42/nvim-web-devicons",
+                "MunifTanjim/nui.nvim"
+            },
+            config = function ()
                 require("rv-tree").config()
             end,
         }
