@@ -1,51 +1,68 @@
 local packer = require("packer")
 
-packer.startup{
-    function(use)
+require("packer.luarocks").install_commands()
+
+packer.startup({
+    function(use, use_rocks)
         -- Packer
-        use { "wbthomason/packer.nvim" }
+        use({ "wbthomason/packer.nvim" })
+
+        -- Functional library
+        use_rocks({
+            "fun",
+        })
+        local fun = require("fun")
 
         -- Impatient
-        use{ "lewis6991/impatient.nvim" }
+        use({ "lewis6991/impatient.nvim" })
 
-        -- Colourscheme
-        use { "tanvirtin/monokai.nvim" }
-        use {
-            "sainnhe/sonokai",
-            config = function()
-                -- require("rv-sonokai").config()
-            end,
+        local function load_config(path)
+            return function()
+                require(path).config()
+            end
+        end
+
+        -- Colourschemes
+        local colourschemes = {
+            -- name, repo[, active]
+            { "monokai", "tanvirtin/monokai.nvim" },
+            { "sonokai", "sainnhe/sonokai" },
+            { "nightfox", "EdenEast/nightfox.nvim" },
+            { "tokyonight", "folke/tokyonight.nvim", true },
+            { "nebulous", "Yagua/nebulous.nvim" },
         }
-        use {
-            "EdenEast/nightfox.nvim",
-            config = function()
-                -- require("rv-nightfox").config()
-            end,
-        }
-        use {
+
+        use({
             "folke/tokyonight.nvim",
             config = function()
                 require("rv-tokyonight").config()
             end,
-        }
-        use {
-            "Yagua/nebulous.nvim",
-            config = function()
-                -- require("rv-nebulous").config()
-            end,
-        }
+        })
+
+        -- TODO:
+        -- fun.iter(colourschemes)
+        --     :map(function(colourscheme)
+        --         local opt = {
+        --             colourscheme[2],
+        --             config = load_config("rv-" .. colourscheme[1]),
+        --         }
+        --
+        --         return opt
+        --     end)
+        --     :each(use)
 
         -- Telescope
-        use {
+        use({
             "nvim-telescope/telescope.nvim",
             requires = {
                 { "nvim-lua/popup.nvim" },
-                { "nvim-lua/plenary.nvim" }
+                { "nvim-lua/plenary.nvim" },
             },
             config = function()
                 require("rv-telescope").config()
             end,
-        }
+        })
+
         local telescope_plugins = {
             "nvim-telescope/telescope-packer.nvim",
             "nvim-telescope/telescope-fzf-native.nvim",
@@ -54,24 +71,34 @@ packer.startup{
             "nvim-telescope/telescope-symbols.nvim",
             "nvim-telescope/telescope-file-browser.nvim",
         }
-        for _, telescope_plugin in ipairs(telescope_plugins) do
+
+        local function convert_to_telescope_opt(telescope_plugin)
             local opt = {
                 telescope_plugin,
                 requires = {
-                    { "nvim-telescope/telescope.nvim" }
+                    { "nvim-telescope/telescope.nvim" },
                 },
             }
-            if telescope_plugin == "nvim-telescope/telescope-fzf-native" then
+
+            return opt
+        end
+        local function modify_fzf_native(opt)
+            if opt[1] == "nvim-telescope/telescope-fzf-native" then
                 opt = vim.tbl_deep_extend("force", {
                     run = "make",
                 }, opt)
             end
 
-            use(opt)
+            return opt
         end
 
+        fun.iter(telescope_plugins)
+            :map(convert_to_telescope_opt)
+            :map(modify_fzf_native)
+            :each(use)
+
         -- Neorg
-        use {
+        use({
             "vhyrro/neorg",
             requires = {
                 { "hrsh7th/nvim-cmp" },
@@ -85,385 +112,384 @@ packer.startup{
             config = function()
                 require("rv-neorg").config()
             end,
-        }
-        use {
+        })
+        use({
             "vhyrro/neorg-telescope",
             requires = {
-                { "nvim-telescope/telescope.nvim" }
+                { "nvim-telescope/telescope.nvim" },
             },
-        }
+        })
 
         -- Markdown Preview
-        use {
+        use({
             "iamcco/markdown-preview.nvim",
             run = vim.fn["mkdp#util#install"],
-            config = function ()
+            config = function()
                 require("rv-mdpreview").config()
             end,
-        }
-        use {
+        })
+        use({
             "jghauser/follow-md-links.nvim",
             requires = { "nvim-treesitter/nvim-treesitter" },
             config = function()
                 require("rv-mdlinks").config()
             end,
-        }
+        })
 
         -- Silicon
-        use {
+        use({
             "segeljakt/vim-silicon",
             config = function()
                 require("rv-silicon").config()
             end,
-        }
+        })
 
         -- Which-key
-        use {
+        use({
             "folke/which-key.nvim",
             config = function()
                 require("rv-whichkey").config()
                 require("rv-whichkey.presets").config()
             end,
-        }
+        })
 
         --Alpha
-        use {
+        use({
             "goolord/alpha-nvim",
             as = "alpha",
             config = function()
                 require("rv-alpha").config()
             end,
-        }
-
-        -- TrueZen
-        use {
-            "Pocco81/TrueZen.nvim",
-            as = "zen",
-            config = function()
-                require("rv-zen").config()
-            end,
-            disable = true, -- TODO
-        }
+        })
 
         -- Lualine
-        use {
-            'hoob3rt/lualine.nvim',
+        use({
+            "hoob3rt/lualine.nvim",
             requires = { "kyazdani42/nvim-web-devicons", opt = true },
             config = function()
                 require("rv-lualine").config()
             end,
-        }
-        use {
+        })
+        use({
             "SmiteshP/nvim-gps",
             requires = { "nvim-treesitter/nvim-treesitter" },
-        }
+        })
 
         -- Barbar
-        use {
+        use({
             "romgrk/barbar.nvim",
             as = "barbar",
             config = function()
                 require("rv-barbar").config()
             end,
             opt = true,
-        }
+        })
 
         -- BufferLine
-        use {
+        use({
             "akinsho/bufferline.nvim",
             as = "bufferline",
             requires = { "kyazdani42/nvim-web-devicons" },
             config = function()
                 require("rv-bufferline").config()
-            end
-        }
-
-        -- Auto-session
-        use {
-            "rmagatti/auto-session",
-            as = "autosession",
-            config = function()
-                require("rv-autosession").config()
             end,
-            disable = true, -- TODO
-        }
+        })
 
         -- DevIcons
-        use {
+        use({
             "kyazdani42/nvim-web-devicons",
             config = function()
                 require("rv-devicons").config()
             end,
-        }
-        use {
+        })
+        use({
             "yamatsum/nvim-nonicons",
             requires = { "kyazdani42/nvim-web-devicons" },
             after = { "nvim-web-devicons" },
             disable = true,
-        }
+        })
 
         -- Colourizer
-        use {
+        use({
             "norcalli/nvim-colorizer.lua",
             as = "colourizer",
             config = function()
                 require("rv-colourizer").config()
             end,
-        }
+        })
 
         -- Discord Rich Presence
-        use {
+        use({
             "andweeb/presence.nvim",
             as = "presence",
             config = function()
                 require("rv-presence").config()
             end,
-        }
+        })
 
         -- Cheat.sh
-        use {
+        use({
             "RishabhRD/nvim-cheat.sh",
             requires = { "RishabhRD/popfix" },
             config = function()
                 require("rv-cheatsh").config()
             end,
-        }
+        })
 
         -- Notify
-        use {
+        use({
             "rcarriga/nvim-notify",
             as = "notify",
-            after = { "sonokai" },
             config = function()
                 require("rv-notify").config()
             end,
-        }
+        })
 
         -- LSP
-        use {
+        use({
             "neovim/nvim-lspconfig",
             config = function()
                 require("rv-lsp").config()
             end,
-        }
-        use {
+        })
+        use({
             "folke/trouble.nvim",
             requires = { "kyazdani42/nvim-web-devicons" },
             conqig = function()
                 require("rv-lsp.trouble").config()
             end,
-        }
-        use {
+        })
+        use({
             "ray-x/lsp_signature.nvim",
-        }
-        use {
+        })
+        use({
             "kosayoda/nvim-lightbulb",
             config = function()
                 require("rv-lsp.lightbulb").config()
             end,
             disable = true, -- TODO
-        }
-        use {
+        })
+        use({
             "jose-elias-alvarez/null-ls.nvim",
             requires = {
                 "nvim-lua/plenary.nvim",
                 "neovim/nvim-lspconfig",
             },
-        }
-        use {
+        })
+        use({
             "nanotee/sqls.nvim",
-        }
-        use {
+        })
+        use({
             "stevearc/aerial.nvim",
             config = function()
                 require("rv-aerial").config()
             end,
-        }
-        use {
+        })
+        use({
             "saecki/crates.nvim",
             event = { "BufRead Cargo.toml" },
             requires = { "nvim-lua/plenary.nvim" },
             config = function()
                 require("rv-crates").config()
             end,
-        }
-        use {
+        })
+        use({
             "weilbith/nvim-code-action-menu",
             as = "code-action-menu",
             cmd = "CodeActionMenu",
-        }
-        use {
+        })
+        use({
             "NTBBloodbath/rest.nvim",
             ft = { "http" },
             requires = { "nvim-lua/plenary.nvim" },
             config = function()
                 require("rv-rest").config()
             end,
-        }
-        use {
+        })
+        use({
             "simrat39/rust-tools.nvim",
             config = function()
                 require("rv-lsp.langs.rust-tools").config()
             end,
-        }
-        use {
-            "github/copilot.vim",
-            config = function()
-                require("rv-copilot").config()
-            end,
-            disable = true, -- TODO
-        }
-        use {
+        })
+        use({
             "mlochbaum/BQN",
             rtp = "editors/vim",
-        }
-        use {
+        })
+        use({
             "shirk/vim-gas",
-        }
-        use {
+        })
+        use({
             "aklt/plantuml-syntax",
-        }
-        use {
+        })
+        use({
             "McSinyx/vim-octave",
-        }
-        use {
+        })
+        use({
             "scalameta/nvim-metals",
             requires = { "nvim-lua/plenary.nvim" },
             config = function()
                 require("rv-lsp.langs.metals").config()
             end,
-        }
-        use {
-            "eraserhd/parinfer-rust",
-            run = "cargo build --release",
-            config = function()
-                require("rv-parinfer").config()
-            end,
-        }
-        use {
+        })
+        -- use({
+        --     "eraserhd/parinfer-rust",
+        --     run = "cargo build --release",
+        --     config = function()
+        --         require("rv-parinfer").config()
+        --     end,
+        -- })
+        use({
             "stevearc/dressing.nvim",
             config = function()
                 require("rv-dressing").config()
             end,
-        }
-        use  {
+        })
+        use({
             "mfussenegger/nvim-jdtls",
             config = function()
                 require("rv-lsp.langs.jdtls").config()
             end,
-        }
-        use {
+        })
+        use({
             "jakewvincent/texmagic.nvim",
             config = function()
                 require("rv-lsp/langs/texmagic").config()
-            end
-        }
-        use {
+            end,
+        })
+        use({
             "b0o/schemastore.nvim",
-        }
-        use {
+        })
+        use({
             "j-hui/fidget.nvim",
             config = function()
                 require("rv-fidget").config()
             end,
-        }
+        })
 
         -- DAP
-        use {
+        use({
             "mfussenegger/nvim-dap",
             config = function()
                 require("rv-dap").config()
             end,
-        }
-        use {
+        })
+        use({
             "theHamsta/nvim-dap-virtual-text",
             requires = { "mfussenegger/nvim-dap" },
             config = function()
                 require("rv-dap.virttext").config()
             end,
-        }
-        use {
+        })
+        use({
             "rcarriga/nvim-dap-ui",
             requires = { "mfussenegger/nvim-dap" },
             config = function()
                 require("rv-dap.dapui").config()
             end,
-        }
+        })
 
         -- LuaSnip
-        use {
+        use({
             "L3MON4D3/LuaSnip",
             as = "luasnip",
             config = function()
                 require("rv-luasnip").config()
             end,
-        }
-        use {
+        })
+        use({
             "rafamadriz/friendly-snippets",
-        }
+        })
 
         -- Shade
-        use {
+        use({
             "sunjon/shade.nvim",
             config = function()
                 require("rv-shade").config()
             end,
             disable = true,
-        }
+        })
 
         -- Twilight
-        use {
+        use({
             "folke/twilight.nvim",
             config = function()
                 require("rv-twilight").config()
             end,
-        }
+        })
 
         -- Transparency
-        use {
+        use({
             "xiyaowong/nvim-transparent",
             as = "nvim-transparency",
             config = function()
                 require("rv-transparency").config()
             end,
-        }
+        })
 
         -- CursorHold
-        use {
+        use({
             "antoinemadec/FixCursorHold.nvim",
             as = "cursorhold",
             config = function()
                 require("rv-cursorhold").config()
             end,
-        }
+        })
 
         -- Treesitter
-        use {
+        use({
             "nvim-treesitter/nvim-treesitter",
             run = ":TSUpdate",
             config = function()
                 require("rv-treesitter").config()
             end,
-        }
+        })
+
         local treesitter_plugins = {
-            {"nvim-treesitter/nvim-treesitter-textobjects", { as = "treesitter-textobjects",}},
-            {"mfussenegger/nvim-ts-hint-textobject", { as = "treesitter-hint-textobject", }},
-            {"nvim-treesitter/playground", { as = "treesitter-playground", }},
-            {"p00f/nvim-ts-rainbow", { as = "treesitter-rainbow", }},
-            {"romgrk/nvim-treesitter-context", { as = "treesitter-context", config = function() require("rv-treesitter.context").config() end, }},
-            {"JoosepAlviste/nvim-ts-context-commentstring", { as = "treesitter-context-commentstring", }},
-            {"windwp/nvim-ts-autotag", { as = "treesitter-autotag", }},
+            {
+                "nvim-treesitter/nvim-treesitter-textobjects",
+                { as = "treesitter-textobjects" },
+            },
+            {
+                "mfussenegger/nvim-ts-hint-textobject",
+                { as = "treesitter-hint-textobject" },
+            },
+            {
+                "nvim-treesitter/playground",
+                { as = "treesitter-playground" },
+            },
+            { "p00f/nvim-ts-rainbow", { as = "treesitter-rainbow" } },
+            {
+                "romgrk/nvim-treesitter-context",
+                {
+                    as = "treesitter-context",
+                    config = function()
+                        require("rv-treesitter.context").config()
+                    end,
+                },
+            },
+            {
+                "JoosepAlviste/nvim-ts-context-commentstring",
+                { as = "treesitter-context-commentstring" },
+            },
+            { "windwp/nvim-ts-autotag", { as = "treesitter-autotag" } },
         }
-        for _, treesitter_plugin in ipairs(treesitter_plugins) do
+
+        local function convert_to_treesitter_opt(treesitter_plugin)
             local opt = {
                 treesitter_plugin[1],
                 requires = {
-                    { "nvim-treesitter/nvim-treesitter" }
+                    { "nvim-treesitter/nvim-treesitter" },
                 },
             }
             opt = vim.tbl_deep_extend("force", treesitter_plugin[2], opt)
-            use(opt)
+
+            return opt
         end
+
+        fun.iter(treesitter_plugins)
+            :map(convert_to_treesitter_opt)
+            :each(use)
 
         -- Cmp
         local cmp_sources = {
@@ -479,15 +505,17 @@ packer.startup{
             "hrsh7th/cmp-cmdline",
             "hrsh7th/cmp-omni",
         }
-        use {
+
+        use({
             "hrsh7th/nvim-cmp",
             -- event = "InsertEnter",
             requires = cmp_sources,
             config = function()
                 require("rv-cmp").config()
             end,
-        }
-        for _, cmp_source in ipairs(cmp_sources) do
+        })
+
+        local function convert_to_cmp_opt(cmp_source)
             local opt = {
                 cmp_source,
                 after = { "nvim-cmp" },
@@ -495,49 +523,59 @@ packer.startup{
                     { "hrsh7th/nvim-cmp" },
                 },
             }
-            if cmp_source == "compe-tmux" then
+
+            return opt
+        end
+        local function modify_compe_tmux(opt)
+            if opt[1] == "compe-tmux" then
                 opt = vim.tbl_deep_extend("force", {
                     branch = "cmp",
                 }, opt)
             end
 
-            use(opt)
+            return opt
         end
-        use {
+
+        fun.iter(cmp_sources)
+            :map(convert_to_cmp_opt)
+            :map(modify_compe_tmux)
+            :each(use)
+
+        use({
             "windwp/nvim-autopairs",
             after = { "nvim-cmp" },
             config = function()
                 require("rv-autopairs").config()
             end,
-        }
+        })
 
         -- Hop
-        use {
+        use({
             "phaazon/hop.nvim",
             as = "hop",
             config = function()
                 require("rv-hop").config()
             end,
-        }
+        })
 
         -- HLSlens
-        use {
+        use({
             "kevinhwang91/nvim-hlslens",
             config = function()
                 require("rv-hlslens").config()
             end,
-        }
+        })
 
         -- Surround
-        use {
+        use({
             "blackCauldron7/surround.nvim",
             config = function()
                 require("rv-surround").config()
             end,
-        }
+        })
 
         -- Tabout
-        use {
+        use({
             "abecodes/tabout.nvim",
             requires = { "nvim-treesitter/nvim-treesitter" },
             after = { "nvim-cmp" },
@@ -545,99 +583,99 @@ packer.startup{
             config = function()
                 require("rv-tabout").config()
             end,
-        }
+        })
 
         -- Lastplace
-        use {
+        use({
             "ethanholz/nvim-lastplace",
             config = function()
                 require("rv-lastplace").config()
             end,
-        }
+        })
 
         -- Sort
         use({
             "sQVe/sort.nvim",
             config = function()
                 require("rv-sort").config()
-            end
+            end,
         })
 
         -- Navigator
-        use {
+        use({
             "numToStr/Navigator.nvim",
             as = "navigator",
             config = function()
                 require("rv-navigator").config()
             end,
-        }
+        })
 
         -- ToggleTerm
-        use {
+        use({
             "akinsho/toggleterm.nvim",
             as = "toggleterm",
             config = function()
                 require("rv-toggleterm").config()
             end,
-        }
+        })
 
         -- File Tree
-        use {
+        use({
             "nvim-neo-tree/neo-tree.nvim",
             as = "tree",
             branch = "v1.x",
             requires = {
                 "nvim-lua/plenary.nvim",
                 "kyazdani42/nvim-web-devicons",
-                "MunifTanjim/nui.nvim"
+                "MunifTanjim/nui.nvim",
             },
-            config = function ()
+            config = function()
                 require("rv-tree").config()
             end,
-        }
+        })
 
         -- Better increment/decrement
-        use {
+        use({
             "monaqa/dial.nvim",
             config = function()
                 require("rv-dial").config()
             end,
-        }
+        })
 
         -- EasyAlign
-        use {
+        use({
             "junegunn/vim-easy-align",
             config = function()
                 require("rv-easyalign").config()
             end,
-        }
+        })
 
         -- Neogit
-        use {
+        use({
             "TimUntersberger/neogit",
             requires = "nvim-lua/plenary.nvim",
             keys = { "<leader>gs" },
             config = function()
                 require("rv-neogit").config()
             end,
-        }
-        use {
+        })
+        use({
             "sindrets/diffview.nvim",
             after = { "neogit" },
-            config = function ()
+            config = function()
                 require("rv-diffview").config()
             end,
-        }
-        use {
+        })
+        use({
             "lewis6991/gitsigns.nvim",
             requires = {
-                "nvim-lua/plenary.nvim"
+                "nvim-lua/plenary.nvim",
             },
             config = function()
                 require("rv-gitsigns").config()
             end,
-        }
-        use {
+        })
+        use({
             "ThePrimeagen/git-worktree.nvim",
             requires = {
                 "nvim-treesitter/nvim-treesitter",
@@ -645,62 +683,59 @@ packer.startup{
             config = function()
                 require("rv-gitworktrees").config()
             end,
-        }
-        use {
+        })
+        use({
             "pwntester/octo.nvim",
             requires = {
-                { "kyazdani42/nvim-web-devicons", opt = true, },
+                { "kyazdani42/nvim-web-devicons", opt = true },
             },
             config = function()
                 require("rv-octo").config()
             end,
             opt = true,
-        }
-        use {
+        })
+        use({
             "ruifm/gitlinker.nvim",
             requires = { "nvim-lua/plenary.nvim" },
             config = function()
                 require("rv-gitlinker").config()
             end,
-        }
+        })
 
         -- Comments
-        use {
-            'numToStr/Comment.nvim',
+        use({
+            "numToStr/Comment.nvim",
             as = "comments",
             config = function()
                 require("rv-comments").config()
             end,
-        }
-        use {
+        })
+        use({
             "folke/todo-comments.nvim",
             requires = "nvim-lua/plenary.nvim",
             config = function()
                 require("rv-todocomments").config()
             end,
-        }
+        })
 
         -- Numbertoggle
-        use { "jeffkreeftmeijer/vim-numbertoggle" }
-
-        -- Highlight comments
-        use { "tjdevries/vim-inyoface" } -- TODO
+        use({ "jeffkreeftmeijer/vim-numbertoggle" })
 
         -- Auto mkdir -p
-        use {
+        use({
             "jghauser/mkdir.nvim",
             config = function()
                 require("mkdir")
             end,
-        }
+        })
 
         -- BufDelete
-        use {
+        use({
             "famiu/bufdelete.nvim",
             config = function()
                 require("rv-bufdelete").config()
             end,
-        }
+        })
 
         -- BufResize
         use({
@@ -711,72 +746,68 @@ packer.startup{
         })
 
         -- Stabilize
-        use {
+        use({
             "luukvbaal/stabilize.nvim",
             config = function()
                 require("rv-stabilize").config()
             end,
-        }
+        })
 
         -- WinShift
-        use {
+        use({
             "sindrets/winshift.nvim",
             config = function()
                 require("rv-winshift").config()
             end,
-        }
+        })
 
         -- Spellcheck
-        use {
+        use({
             "lewis6991/spellsitter.nvim",
             config = function()
                 require("rv-spellsitter").config()
             end,
-        }
+        })
 
         -- Reload
-        use {
+        use({
             "famiu/nvim-reload",
             config = function()
                 require("rv-reload").config()
             end,
-        }
+        })
 
         -- Quickfix List
-        use {
+        use({
             "kevinhwang91/nvim-bqf",
             config = function()
                 require("rv-betterquickfix").config()
             end,
-        }
-        use {
+        })
+        use({
             "https://gitlab.com/yorickpeterse/nvim-pqf.git",
             config = function()
                 require("rv-prettyquickfix").config()
             end,
-        }
+        })
 
         -- Indentline
-        use {
+        use({
             "lukas-reineke/indent-blankline.nvim",
             as = "indentline",
             config = function()
                 require("rv-indentline").config()
             end,
-        }
-
-        -- Collaborative Editing
-        use { "jbyuki/instant.nvim" } -- TODO username
+        })
 
         -- Beacon
-        use {
+        use({
             "edluffy/specs.nvim",
             as = "beacon",
             config = function()
                 require("rv-beacon").config()
             end,
-        }
-
+        })
     end,
     config = {
         profile = {
@@ -788,6 +819,6 @@ packer.startup{
                 return require("packer.util").float({ border = "single" })
             end,
         },
-        compile_path = vim.fn.stdpath("config").."/lua/packer_compiled.lua",
+        compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",
     },
-}
+})
