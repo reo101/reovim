@@ -278,6 +278,9 @@ packer.startup({
         })
         use({
             "nanotee/sqls.nvim",
+            requires = {
+                "vim-scripts/dbext.vim",
+            },
         })
         use({
             "stevearc/aerial.nvim",
