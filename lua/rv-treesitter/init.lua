@@ -62,6 +62,8 @@ M.config = function()
                     ["ad"] = "@comment.outer",
                     ["am"] = "@call.outer",
                     ["im"] = "@call.inner",
+                    ["ar"] = "@parameter.outer",
+                    ["ir"] = "@parameter.inner",
                 },
             },
             swap = {
@@ -278,6 +280,8 @@ M.config = function()
         ["ad"] = { "@comment.outer" },
         ["am"] = { "@call.outer" },
         ["im"] = { "@call.inner" },
+        ["ar"] = { "@parameter.outer" },
+        ["ir"] = { "@parameter.inner" },
     }
 
     wk.register(operatorMappings, { mode = "o", prefix = "" })
