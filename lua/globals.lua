@@ -1,4 +1,6 @@
--- Global Functions
+----------------------
+-- Global Functions --
+----------------------
 
 -- General print using inspect
 P = function(v)
@@ -16,4 +18,19 @@ end
 R = function(name, all_submodules)
   local reload = require("plenary.reload").reload_module
   reload(name, all_submodules)
+end
+
+
+----------------------
+-- Helper Functions --
+----------------------
+local M = {}
+
+-- Safe require
+M.prequire = function(...)
+	local status, lib = pcall(require, ...)
+	if status then
+		return lib
+	end
+	return nil
 end

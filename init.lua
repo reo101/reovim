@@ -25,15 +25,11 @@ require("globals")
 
 require("settings")
 
-local function prequire(...)
-    local status, lib = pcall(require, ...)
-    if (status) then return lib end
-    return nil
-end
+local prequire = require("globals").prequire;
 
 if prequire("impatient") then
-    prequire("impatient").enable_profile()
-    prequire("packer_compiled")
+	prequire("impatient").enable_profile()
+	prequire("packer_compiled")
 end
 
 require("plugins")
