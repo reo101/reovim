@@ -19,7 +19,7 @@ local lsp_mappings = function()
                 p = { vim.diagnostic.goto_prev, "Previous" },
                 n = { vim.diagnostic.goto_next, "Next" },
                 l = { vim.diagnostic.open_float, "Line Diagnostics" },
-                q = { vim.diagnostic.set_loclist, "Send to loclist"},
+                q = { vim.diagnostic.set_loclist, "Send to loclist" },
             },
             c = {
                 name = "Codelens",
@@ -27,7 +27,7 @@ local lsp_mappings = function()
                 f = { vim.lsp.codelens.refresh, "Refresh" },
                 s = { vim.lsp.codelens.save, "Save" },
                 g = { vim.lsp.codelens.get, "Get" },
-                a = { vim.lsp.codelens.display, "Display"},
+                a = { vim.lsp.codelens.display, "Display" },
             },
             r = { vim.lsp.buf.rename, "Rename" },
             a = { vim.lsp.buf.code_action, "Code Action" },
@@ -35,9 +35,14 @@ local lsp_mappings = function()
             s = { vim.lsp.buf.signature_help, "Signature Help" },
             w = {
                 name = "Workspace",
-                a = { vim.lsp.buf.add_workspace_folder , "Add" },
-                r = { vim.lsp.buf.remove_workspace_folder , "Remove" },
-                l = { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end , "List" },
+                a = { vim.lsp.buf.add_workspace_folder, "Add" },
+                r = { vim.lsp.buf.remove_workspace_folder, "Remove" },
+                l = {
+                    function()
+                        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+                    end,
+                    "List",
+                },
             },
         },
     }
@@ -52,7 +57,12 @@ local lsp_mappings = function()
             r = { vim.lsp.buf.references, "References" },
             i = { vim.lsp.buf.implementation, "Implementation" },
         },
-        K = { function() vim.lsp.buf.hover() end, "Hover" },
+        K = {
+            function()
+                vim.lsp.buf.hover()
+            end,
+            "Hover",
+        },
     }
 
     wk.register(directMappings, { mode = "n", prefix = "" })
@@ -129,73 +139,201 @@ end)()
 local lsp_override_handlers = function()
     local border = "single"
 
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = border,
-    })
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = border,
-    })
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = {
-            prefix = "",
-            spacing = 0,
-            source = "always",  -- Or "if_many"
-        },
-        signs = true,
-        underline = true,
-        update_in_insert = false, -- update diagnostics insert mode
-        severity_sort = false,
-    })
+    vim.lsp.handlers["textDocument/hover"] =
+        vim.lsp.with(
+            vim.lsp.handlers.hover,
+            {
+                border = border,
+            }
+        )
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+        vim.lsp.handlers.signature_help,
+        {
+            border = border,
+        }
+    )
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+        vim.lsp.diagnostic.on_publish_diagnostics,
+        {
+            virtual_text = {
+                prefix = "",
+                spacing = 0,
+                source = "always", -- Or "if_many"
+            },
+            signs = true,
+            underline = true,
+            update_in_insert = false, -- update diagnostics insert mode
+            severity_sort = false,
+        }
+    )
 
-    local signs = {
-        Error = "",
-        Warn = "",
-        Hint = "",
-        Info = "",
-    }
-    for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-    end
+    if require("globals").custom.lsp_progress == "notify" then
+        -------------------------------
+        -- LSP Progress notification --
+        -------------------------------
+        local client_notifs = {}
 
-    -- Capture real implementation of function that sets signs
-    local orig_set_signs = vim.lsp.diagnostic.set_signs
-    local set_signs_limited = function(diagnostics, bufnr, client_id, sign_ns, opts)
+        local spinner_frames = {
+            "◜",
+            "◠",
+            "◝",
+            "◞",
+            "◡",
+            "◟",
+        }
 
-        -- -- original func runs some checks, which I think is worth doing
-        -- -- but maybe overkill
-        -- if not diagnostics then
-        --     diagnostics = diagnostic_cache[bufnr][client_id]
-        -- end
+        -- local spinner_frames = {
+        --     "⣾",
+        --     "⣽",
+        --     "⣻",
+        --     "⢿",
+        --     "⡿",
+        --     "⣟",
+        --     "⣯",
+        --     "⣷",
+        -- }
 
-        -- early escape
-        if not diagnostics then
-            return
-        end
-
-        -- Work out max severity diagnostic per line
-        local max_severity_per_line = {}
-        for _,d in pairs(diagnostics) do
-            if max_severity_per_line[d.range.start.line] then
-                local current_d = max_severity_per_line[d.range.start.line]
-                if d.severity < current_d.severity then
-                    max_severity_per_line[d.range.start.line] = d
-                end
-            else
-                max_severity_per_line[d.range.start.line] = d
+        local function update_spinner(client_id, token)
+            local notif_data = client_notifs[client_id][token]
+            if notif_data and notif_data.spinner then
+                local new_spinner = (notif_data.spinner + 1) % #spinner_frames
+                local new_notif = vim.notify(nil, nil, {
+                    hide_from_history = true,
+                    icon = spinner_frames[new_spinner],
+                    replace = notif_data.notification,
+                })
+                client_notifs[client_id][token] = {
+                    notification = new_notif,
+                    spinner = new_spinner,
+                }
+                vim.defer_fn(function()
+                    update_spinner(client_id, token)
+                end, 100)
             end
         end
 
-        -- map to list
-        local filtered_diagnostics = {}
-        for i,v in pairs(max_severity_per_line) do
-            table.insert(filtered_diagnostics, v)
+        local function format_title(title, client)
+            return client.name .. (#title > 0 and ": " .. title or "")
         end
 
-        -- call original function
-        orig_set_signs(filtered_diagnostics, bufnr, client_id, sign_ns, opts)
+        local function format_message(message, percentage)
+            return (percentage and percentage .. "%\t" or "") .. (message or "")
+        end
+
+        local function lsp_progress_notification(_, result, ctx)
+            local client_id = ctx.client_id
+            local val = result.value
+            if val.kind then
+                if not client_notifs[client_id] then
+                    client_notifs[client_id] = {}
+                end
+                local notif_data = client_notifs[client_id][result.token]
+                if val.kind == "begin" then
+                    local message = format_message(val.message, val.percentage)
+                    local notification = vim.notify(message, "info", {
+                        title = format_title(
+                            val.title,
+                            vim.lsp.get_client_by_id(client_id)
+                        ),
+                        icon = spinner_frames[1],
+                        timeout = false,
+                        hide_from_history = true,
+                    })
+                    client_notifs[client_id][result.token] = {
+                        notification = notification,
+                        spinner = 1,
+                    }
+                    update_spinner(client_id, result.token)
+                elseif val.kind == "report" and notif_data then
+                    local new_notif = vim.notify(
+                        format_message(val.message, val.percentage),
+                        "info",
+                        {
+                            replace = notif_data.notification,
+                            hide_from_history = false,
+                        }
+                    )
+                    client_notifs[client_id][result.token] = {
+                        notification = new_notif,
+                        spinner = notif_data.spinner,
+                    }
+                elseif val.kind == "end" and notif_data then
+                    local new_notif = vim.notify(
+                        val.message and format_message(val.message)
+                            or "Complete",
+                        "info",
+                        {
+                            icon = "",
+                            replace = notif_data.notification,
+                            timeout = 3000,
+                        }
+                    )
+                    client_notifs[client_id][result.token] = {
+                        notification = new_notif,
+                    }
+                end
+            end
+        end
+
+        vim.lsp.handlers["$/progress"] = lsp_progress_notification
+
+        local signs = {
+            Error = "",
+            Warn = "",
+            Hint = "",
+            Info = "",
+        }
+        for type, icon in pairs(signs) do
+            local hl = "DiagnosticSign" .. type
+            vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+        end
+
+        -- Capture real implementation of function that sets signs
+        local orig_set_signs = vim.lsp.diagnostic.set_signs
+        local set_signs_limited =
+            function(diagnostics, bufnr, client_id, sign_ns, opts)
+                -- -- original func runs some checks, which I think is worth doing
+                -- -- but maybe overkill
+                -- if not diagnostics then
+                --     diagnostics = diagnostic_cache[bufnr][client_id]
+                -- end
+
+                -- early escape
+                if not diagnostics then
+                    return
+                end
+
+                -- Work out max severity diagnostic per line
+                local max_severity_per_line = {}
+                for _, d in pairs(diagnostics) do
+                    if max_severity_per_line[d.range.start.line] then
+                        local current_d =
+                            max_severity_per_line[d.range.start.line]
+                        if d.severity < current_d.severity then
+                            max_severity_per_line[d.range.start.line] = d
+                        end
+                    else
+                        max_severity_per_line[d.range.start.line] = d
+                    end
+                end
+
+                -- map to list
+                local filtered_diagnostics = {}
+                for _, v in pairs(max_severity_per_line) do
+                    table.insert(filtered_diagnostics, v)
+                end
+
+                -- call original function
+                orig_set_signs(
+                    filtered_diagnostics,
+                    bufnr,
+                    client_id,
+                    sign_ns,
+                    opts
+                )
+            end
+        vim.lsp.diagnostic.set_signs = set_signs_limited
     end
-    vim.lsp.diagnostic.set_signs = set_signs_limited
 end
 
 M.lsp_mappings = lsp_mappings
