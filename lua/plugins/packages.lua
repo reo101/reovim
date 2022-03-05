@@ -365,9 +365,11 @@ packer.startup({
         })
         use({
             "j-hui/fidget.nvim",
+            as = "fidget",
             config = function()
                 require("rv-fidget").config()
             end,
+            cond = require("globals").custom.lsp_progress == "fidget",
         })
 
         -- DAP
