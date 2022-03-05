@@ -329,6 +329,16 @@ packer.startup({
             "McSinyx/vim-octave",
         })
         use({
+            "ThePrimeagen/refactoring.nvim",
+            requires = {
+                { "nvim-lua/plenary.nvim" },
+                { "nvim-treesitter/nvim-treesitter" },
+            },
+            config = function()
+                require("rv-refactoring").config()
+            end,
+        })
+        use({
             "scalameta/nvim-metals",
             requires = { "nvim-lua/plenary.nvim" },
             config = function()
