@@ -34,3 +34,14 @@ M.prequire = function(...)
 	end
 	return nil
 end
+
+-- Table with all high-level configuration options
+M.custom = {
+    ---@type '"fidget"'|'"notify"'
+    ["lsp_progress"] = "fidget",
+
+    ---@type boolean
+    ["lua_index_plugins"] = true,
+}
+
+return M
