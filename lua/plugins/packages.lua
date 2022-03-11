@@ -733,6 +733,15 @@ packer.startup({
             end,
         })
 
+        -- Regexplainer
+        use({
+            "bennypowers/nvim-regexplainer",
+            as = "regexplainer",
+            config = function()
+                require("rv-regexplainer").config()
+            end,
+        })
+
         -- Numbertoggle
         use({ "jeffkreeftmeijer/vim-numbertoggle" })
 
