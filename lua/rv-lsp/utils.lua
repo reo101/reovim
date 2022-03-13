@@ -277,17 +277,6 @@ local lsp_override_handlers = function()
 
         vim.lsp.handlers["$/progress"] = lsp_progress_notification
 
-        local signs = {
-            Error = "",
-            Warn = "",
-            Hint = "",
-            Info = "",
-        }
-        for type, icon in pairs(signs) do
-            local hl = "DiagnosticSign" .. type
-            vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-        end
-
         -- Capture real implementation of function that sets signs
         local orig_set_signs = vim.lsp.diagnostic.set_signs
         local set_signs_limited =
@@ -333,6 +322,17 @@ local lsp_override_handlers = function()
                 )
             end
         vim.lsp.diagnostic.set_signs = set_signs_limited
+    end
+
+    local signs = {
+        Error = "",
+        Warn = "",
+        Hint = "",
+        Info = "",
+    }
+    for type, icon in pairs(signs) do
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
 end
 
