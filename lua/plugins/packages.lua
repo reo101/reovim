@@ -570,6 +570,16 @@ packer.startup({
             end,
         })
 
+        -- HLArgs
+        use({
+            "m-demare/hlargs.nvim",
+            as = "hlargs",
+            requires = { "nvim-treesitter/nvim-treesitter" },
+            config = function()
+                require("rv-hlargs").config()
+            end,
+        })
+
         -- Hop
         use({
             "phaazon/hop.nvim",
