@@ -371,6 +371,12 @@ packer.startup({
             end,
         })
         use({
+            "jbyuki/nabla.nvim",
+            config = function()
+                require("rv-nabla").config()
+            end,
+        })
+        use({
             "b0o/schemastore.nvim",
         })
         use({
