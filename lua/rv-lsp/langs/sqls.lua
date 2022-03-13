@@ -35,7 +35,7 @@ M.config = function()
                     -- ands using a preview buffer also support modifiers like :vertical or :tab.
                     c = { "<CMD>SqlsSwitchConnection<CR>", "Connection" },
                 },
-           },
+            },
         }
 
         wk.register(mappings, { prefix = "<leader>" })
@@ -69,7 +69,7 @@ M.config = function()
         on_attach = function(client)
             require("rv-lsp.utils").lsp_on_attach(client)
 
-           client.resolved_capabilities.execute_command = true
+            client.resolved_capabilities.execute_command = true
 
             registerMappings()
 
