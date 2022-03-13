@@ -1,20 +1,22 @@
 local M = {}
 
 M.config = function()
-
     local function registerMappings()
         -- Available commands:
         local wk = require("which-key")
 
         local mappings = {
-            ["ls"] = {
+            q = {
                 name = "SQL",
                 q = {
                     name = "Query",
                     -- :SqlsExecuteQuery: In normal mode, executes the query in the current buffer. In visual mode, executes the selected query (only works line-wise). Shows the results in a preview buffer.
                     e = { "<CMD>SqlsExecuteQuery<CR>", "Execute" },
                     -- :SqlsExecuteQueryVertical: Same as :SqlsExecuteQuery, but the results are displayed vertically.
-                    v = { "<CMD>SqlsExecuteQueryVertical<CR>", "Execute (Vertical)" },
+                    v = {
+                        "<CMD>SqlsExecuteQueryVertical<CR>",
+                        "Execute (Vertical)",
+                    },
                 },
                 s = {
                     name = "Show",
@@ -23,7 +25,7 @@ M.config = function()
                     -- :SqlsShowSchemas: Shows a list of available schemas in a preview buffer.
                     s = { "<CMD>SqlsShowSchemas<CR>", "Schemas" },
                     -- :SqlsShowConnections: Shows a list of available database connections in a preview buffer.
-                    c = { "<CMD>SqlsShowConnections<CR>", "Connections" }
+                    c = { "<CMD>SqlsShowConnections<CR>", "Connections" },
                 },
                 w = {
                     name = "Switch",
@@ -32,8 +34,8 @@ M.config = function()
                     -- :SqlsSwitchConnection {connection_index}: Switches to a different database connection. If {connection_index} is omitted, displays an interactive prompt to select a connection.
                     -- ands using a preview buffer also support modifiers like :vertical or :tab.
                     c = { "<CMD>SqlsSwitchConnection<CR>", "Connection" },
-                }
-            }
+                },
+           },
         }
 
         wk.register(mappings, { prefix = "<leader>" })
@@ -44,17 +46,17 @@ M.config = function()
         -- <Plug>(sqls-execute-query-vertical): same as <Plug>(sqls-execute-query), but the results are displayed vertically
 
         local operatorMappings = {
-            l = {
-                name = "LSP",
-                s = {
-                    name = "SQL",
-                    q = {
-                        name = "Query",
-                        e = { "<Plug>(sqls-execute-query)", "Execute"},
-                        v = { "<Plug>(sqls-execute-query-vertical)", "Execute (Vertical)"},
+            q = {
+                name = "SQL",
+                q = {
+                    name = "Query",
+                    e = { "<Plug>(sqls-execute-query)", "Execute" },
+                    v = {
+                        "<Plug>(sqls-execute-query-vertical)",
+                        "Execute (Vertical)",
                     },
                 },
-            }
+            },
         }
 
         wk.register(operatorMappings, { mode = "o", prefix = "<leader>" })
@@ -62,10 +64,12 @@ M.config = function()
     end
 
     local opt = {
+        cmd = { "sqls" },
+        filetypes = { "sql", "mysql" },
         on_attach = function(client)
             require("rv-lsp.utils").lsp_on_attach(client)
 
-            client.resolved_capabilities.execute_command = true
+           client.resolved_capabilities.execute_command = true
 
             registerMappings()
 
@@ -73,12 +77,19 @@ M.config = function()
                 picker = "telescope",
             })
         end,
-        capabilities =require("rv-lsp.utils").lsp_capabilities,
-
+        capabilities = require("rv-lsp.utils").lsp_capabilities,
+        settings = {
+            sqls = {
+                connections = {
+                },
+            },
+        },
+        single_file_support = true,
     }
 
-    require("lspconfig")["sqls"].setup(opt)
+    vim.g.dbext_default_usermaps = 0
 
+    require("lspconfig")["sqls"].setup(opt)
 end
 
 return M
