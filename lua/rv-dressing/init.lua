@@ -48,12 +48,9 @@ M.config = function()
             backend = { "telescope", "fzf_lua", "fzf", "builtin", "nui" },
 
             -- Options for telescope selector
-            telescope = {
-                -- can be 'dropdown', 'cursor', or 'ivy'
-                -- or you can use a configuration directly:
-                -- theme = require('telescope.themes').get_ivy({...})
-                theme = "cursor",
-            },
+            -- These are passed into the telescope picker directly. Can be used like:
+            -- telescope = require('telescope.themes').get_ivy({...})
+            telescope = require("telescope.themes").get_cursor({}),
 
             -- Options for fzf selector
             fzf = {
