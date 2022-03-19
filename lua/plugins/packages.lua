@@ -749,6 +749,14 @@ packer.startup({
             end,
         })
 
+        -- Pretty folds
+        use({
+            "anuvyklack/pretty-fold.nvim",
+            config = function()
+                require("rv-prettyfold").config()
+            end,
+        })
+
         -- Regexplainer
         use({
             "bennypowers/nvim-regexplainer",
