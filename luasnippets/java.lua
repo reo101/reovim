@@ -138,16 +138,22 @@ local snippets = {
         t({ "", "}" }),
     }),
 
+    -- System
+    -- out, err
     -- println, printf, print
     s("sout", {
-        t("System.out."),
+        t("System"),
         c(1, {
-            t("println"),
-            t("printf"),
-            t("print"),
+            t(".out"),
+            t(".err"),
+        }),
+        c(2, {
+            t(".println"),
+            t(".printf"),
+            t(".print"),
         }),
         t("("),
-        i(0, [["Hello Gaguri"]]),
+        i(3, [["Hello Gaguri"]]),
         t(");"),
     }),
 }
