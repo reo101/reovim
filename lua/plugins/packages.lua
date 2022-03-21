@@ -211,7 +211,7 @@ packer.startup({
 
         -- Colourizer
         use({
-            "norcalli/nvim-colorizer.lua",
+            "br1anchen/nvim-colorizer.lua",
             as = "colourizer",
             config = function()
                 require("rv-colourizer").config()
