@@ -1,27 +1,37 @@
 local M = {}
 
 M.config = function()
-
     local opt = {
-        fox = "nightfox", -- change the colorscheme to use nordfox
-        styles = {
-            comments = "italic", -- change style of comments to be italic
-            keywords = "bold", -- change style of keywords to be bold
-            functions = "italic,bold" -- styles can be a comma separated list
+        options = {
+            -- Compiled file's destination location
+            compile_path = require("nightfox.util").join_paths(vim.fn.stdpath("cache"), "nightfox"),
+            compile_file_suffix = "_compiled", -- Compiled file suffix
+            transparent = false, -- Disable setting background
+            terminal_colors = true, -- Set terminal colors (vim.g.terminal_color_*)
+            dim_inactive = true, -- Non focused panes set to alternative background
+            -- styles = { -- Style to be applied to different syntax groups
+            --     comments = "NONE",
+            --     functions = "NONE",
+            --     keywords = "NONE",
+            --     numbers = "NONE",
+            --     strings = "NONE",
+            --     types = "NONE",
+            --     variables = "NONE",
+            -- },
+            inverse = { -- Inverse highlight for different types
+                match_paren = false,
+                visual = false,
+                search = false,
+            },
+            modules = { -- List of various plugins and additional options
+                -- ...
+            },
         },
-        colors = {
-            red = "#FF000", -- Override the red color for MAX POWER
-            bg_alt = "#000000",
-        },
-        hlgroups = {
-            TSPunctDelimiter = { fg = "${red}" }, -- Override a highlight group with the color red
-            LspCodeLens = { bg = "#000000", style = "italic" },
-        }
     }
 
     require("nightfox").setup(opt)
-    require("nightfox").load()
 
+    vim.cmd("colorscheme nightfox")
 end
 
 return M
