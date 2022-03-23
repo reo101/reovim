@@ -21,6 +21,7 @@ M.config = function()
         json = require("rv-lsp.langs.json").config,
         emmet_ls = require("rv-lsp.langs.emmet-ls").config,
         nim = require("rv-lsp.langs.nim").config,
+        docker = require("rv-lsp.langs.docker").config,
     }
 
     local function setup_servers()
