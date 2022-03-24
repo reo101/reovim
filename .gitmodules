@@ -1,0 +1,3 @@
+[submodule "lua/luafun"]
+	path = lua/luafun
+	url = https://github.com/luafun/luafun

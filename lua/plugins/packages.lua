@@ -11,7 +11,7 @@ packer.startup({
         use_rocks({
             "fun",
         })
-        local fun = require("fun")
+        local fun = require("luafun.fun")
 
         -- Impatient
         use({ "lewis6991/impatient.nvim" })
