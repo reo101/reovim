@@ -521,7 +521,7 @@ packer.startup({
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-calc",
             "f3fora/cmp-spell",
-            "andersevenrud/compe-tmux",
+            "andersevenrud/cmp-tmux",
             -- "kdheepak/cmp-latex-symbols",
             "hrsh7th/cmp-cmdline",
             "hrsh7th/cmp-omni",
@@ -547,19 +547,9 @@ packer.startup({
 
             return opt
         end
-        local function modify_compe_tmux(opt)
-            if opt[1] == "compe-tmux" then
-                opt = vim.tbl_deep_extend("force", {
-                    branch = "cmp",
-                }, opt)
-            end
-
-            return opt
-        end
 
         fun.iter(cmp_sources)
             :map(convert_to_cmp_opt)
-            :map(modify_compe_tmux)
             :each(use)
 
         use({
