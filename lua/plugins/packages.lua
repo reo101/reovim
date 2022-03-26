@@ -387,6 +387,12 @@ packer.startup({
             end,
             cond = require("globals").custom.lsp_progress == "fidget",
         })
+        use({
+            "nanotee/luv-vimdocs",
+        })
+        use({
+            "milisims/nvim-luaref",
+        })
 
         -- DAP
         use({
