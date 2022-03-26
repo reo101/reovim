@@ -367,7 +367,7 @@ packer.startup({
         use({
             "jakewvincent/texmagic.nvim",
             config = function()
-                require("rv-lsp/langs/texmagic").config()
+                require("rv-lsp.langs.texmagic").config()
             end,
         })
         use({
