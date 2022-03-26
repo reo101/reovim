@@ -589,7 +589,7 @@ packer.startup({
 
         -- Surround
         use({
-            "blackCauldron7/surround.nvim",
+            "ur4ltz/surround.nvim",
             config = function()
                 require("rv-surround").config()
             end,
