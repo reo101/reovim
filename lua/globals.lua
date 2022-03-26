@@ -41,7 +41,7 @@ M.custom = {
     ["lsp_progress"] = "fidget",
 
     ---@type boolean
-    ["lua_index_plugins"] = true,
+    ["lua_index_plugins"] = false,
 }
 
 return M
