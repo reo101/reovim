@@ -654,6 +654,12 @@ packer.startup({
                 require("rv-tree").config()
             end,
         })
+        use({
+            "elihunter173/dirbuf.nvim",
+            config = function()
+                require("rv-dirbuf").config()
+            end,
+        })
 
         -- Better increment/decrement
         use({

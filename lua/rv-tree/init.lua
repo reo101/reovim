@@ -45,7 +45,7 @@ M.config = function()
             -- time the current file is changed while the tree is open.
             use_libuv_file_watcher = true, -- This will use the OS level file watchers
             -- to detect changes instead of relying on nvim autocmd events.
-            hijack_netrw_behavior = "open_split",
+            hijack_netrw_behavior = "disabled", -- "open_split",
             -- "open_default", -- netrw disabled, opening a directory opens neo-tree
             -- in whatever position is specified in window.position
             -- "open_split",  -- netrw disabled, opening a directory opens within the
