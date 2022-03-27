@@ -35,7 +35,14 @@ packer.startup({
         use({
             "folke/tokyonight.nvim",
             config = function()
-                require("rv-tokyonight").config()
+                -- require("rv-tokyonight").config()
+            end,
+        })
+
+        use({
+            "EdenEast/nightfox.nvim",
+            config = function()
+                require("rv-nightfox").config()
             end,
         })
 
@@ -165,14 +172,20 @@ packer.startup({
         -- Lualine
         use({
             "hoob3rt/lualine.nvim",
+            as = "lualine",
             requires = { "kyazdani42/nvim-web-devicons", opt = true },
+            after = { "gps" },
             config = function()
                 require("rv-lualine").config()
             end,
         })
         use({
             "SmiteshP/nvim-gps",
+            as = "gps",
             requires = { "nvim-treesitter/nvim-treesitter" },
+            config = function()
+                require("rv-gps").config()
+            end,
         })
 
         -- Barbar
