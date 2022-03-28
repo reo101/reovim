@@ -7,6 +7,9 @@ packer.startup({
         -- Packer
         use({ "wbthomason/packer.nvim" })
 
+        -- HotPot
+        use({ "rktjmp/hotpot.nvim" })
+
         -- Functional library
         use_rocks({
             "fun",
