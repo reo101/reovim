@@ -358,6 +358,18 @@ packer.startup({
                 require("rv-lsp.langs.metals").config()
             end,
         })
+        use({
+            "Olical/aniseed",
+            config = function()
+                require("rv-aniseed").config()
+            end,
+        })
+        use({
+            "Olical/conjure",
+            config = function()
+                require("rv-conjure").config()
+            end,
+        })
         -- use({
         --     "eraserhd/parinfer-rust",
         --     run = "cargo build --release",
