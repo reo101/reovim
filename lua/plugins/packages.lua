@@ -373,13 +373,14 @@ packer.startup({
                 require("rv-conjure").config()
             end,
         })
-        -- use({
-        --     "eraserhd/parinfer-rust",
-        --     run = "cargo build --release",
-        --     config = function()
-        --         require("rv-parinfer").config()
-        --     end,
-        -- })
+        use({
+            "eraserhd/parinfer-rust",
+            run = "cargo build --release",
+            config = function()
+                require("rv-parinfer").config()
+            end,
+            cond = vim.fn.executable("cargo") == 1,
+        })
         use({
             "stevearc/dressing.nvim",
             config = function()
