@@ -1,7 +1,6 @@
 local M = {}
 
 M.config = function()
-
     -- Prefix
     vim.g["conjure#mappings#prefix"]                   = "<leader>j"
 
@@ -31,8 +30,67 @@ M.config = function()
     vim.g["conjure#mapping#eval_motion"]               = "jE"
 
     -- Pseudo-LSP
-    vim.g["conjure#mapping#def_word"]                  = "gd"
-    vim.g["conjure#mapping#doc_word"]                  = "K"
+    vim.g["conjure#mapping#def_word"]                  = "jgd"
+    vim.g["conjure#mapping#doc_word"]                  = "jK"
+
+    local wk = require("which-key")
+
+    local mappings = {
+        j = {
+            name = "Conjure",
+            l = {
+                name = "Log",
+                s = { "Split" },
+                v = { "VSplit" },
+                t = { "Tab" },
+                b = { "Buffer" },
+                g = { "Toggle" },
+                r = { "Reset Soft" },
+                R = { "Reset Hard" },
+                l = { "Jump To Latest" },
+                q = { "Close Visible" },
+            },
+            e = {
+                name = "Eval",
+                e = { "Current Form" },
+                r = { "Root Form" },
+                w = { "Word" },
+                c = {
+                    name = "Comment",
+                    e = { "Current Form" },
+                    r = { "Root Form" },
+                    w = { "Word" },
+                },
+                ["!"] = { "Replace Form" },
+                m = { "Marked Form" },
+                f = { "File" },
+                b = { "Buffer" },
+            },
+            ["gd"] = { "Def Word" },
+            ["K"] = { "Doc Word" },
+        },
+    }
+
+    wk.register(mappings, { prefix = "<leader>" })
+
+    local visual_mappings = {
+        j = {
+            name = "Conjure",
+            ["E"] = { "Eval Visual" },
+        },
+    }
+
+    wk.register(visual_mappings, { mode = "v", prefix = "<leader>" })
+
+    local motion_mappings = {
+        j = {
+            name = "Conjure",
+            ["E"] = { "Eval Motion" },
+        },
+    }
+
+    wk.register(motion_mappings, { mode = "x", prefix = "<leader>" })
+    wk.register(motion_mappings, { mode = "o", prefix = "<leader>" })
 
     -- Remove "Sponsored by" message in log
     vim.api.nvim_create_augroup("ConjureRemoveSponsor", {
@@ -43,7 +101,6 @@ M.config = function()
         pattern = "conjure-log-*",
         command = "silent s/; Sponsored by @.*//e",
     })
-
 end
 
 return M
