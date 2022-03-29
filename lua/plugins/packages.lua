@@ -589,7 +589,6 @@ packer.startup({
 
         use({
             "windwp/nvim-autopairs",
-            after = { "nvim-cmp" },
             config = function()
                 require("rv-autopairs").config()
             end,
