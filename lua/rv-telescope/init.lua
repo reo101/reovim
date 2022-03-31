@@ -94,9 +94,15 @@ M.config = function()
 
     require("telescope").setup(opt)
 
-    require("telescope").load_extension("fzf")
-    require("telescope").load_extension("gh")
-    require("telescope").load_extension("media_files")
+    if vim.fn.executable("fzf") == 1 then
+        require("telescope").load_extension("fzf")
+    end
+    if vim.fn.executable("gh") == 1 then
+        require("telescope").load_extension("gh")
+    end
+    if vim.fn.executable("ueberzug") == 1 then
+        require("telescope").load_extension("media_files")
+    end
     require("telescope").load_extension("notify")
     require("telescope").load_extension("aerial")
     require("telescope").load_extension("file_browser")
