@@ -21,17 +21,6 @@
 --      \__\::::/      \__\/      \  \:\       --
 --          ~~~~                   \__\/       --
 
-require("globals")
+require("bootstrap")
 
-require("settings")
-
-local prequire = require("globals").prequire;
-
-if prequire("impatient") then
-	prequire("impatient").enable_profile()
-	prequire("packer_compiled")
-end
-
-require("plugins")
-
-require("rv-autocommands")
+require("finit")

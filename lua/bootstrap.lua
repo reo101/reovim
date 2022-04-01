@@ -44,4 +44,3 @@ ensure("rktjmp", "hotpot.nvim", function(hotpot_path)
 end)
 
 require("hotpot")
-require("fenneled_init")
