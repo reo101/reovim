@@ -11,7 +11,10 @@
        (use {1 :wbthomason/packer.nvim})
        (use {1 :rktjmp/hotpot.nvim})
        ;; (use-rocks {1 :fun})
-       (local fun (require :luafun.fun))
+       (local {:iter fun-iter
+               :map fun-map
+               :each fun-each} 
+         (require :luafun.fun))
        (use {1 :lewis6991/impatient.nvim})
 
        (local colourschemes
@@ -28,7 +31,6 @@
                 :Yagua/nebulous.nvim]])
        (use {1 :folke/tokyonight.nvim 
              :config (rv :tokyonight)})
-       ;; 
        (use {1 :EdenEast/nightfox.nvim
              :config (rv :nightfox)})
        (use {1 :nvim-telescope/telescope.nvim
@@ -56,7 +58,7 @@
          opt)
 
        ;; TODO: Macro this VVV
-       (: (: (: (fun.iter telescope-plugins) :map
+       (: (: (: (fun-iter telescope-plugins) :map
                 convert-to-telescope-opt)
              :map modify-fzf-native)
           :each use)
@@ -74,7 +76,7 @@
              :run (. vim.fn "mkdp#util#install")
              :config (rv :mdpreview)})
        (use {1 :jghauser/follow-md-links.nvim
-             :requires {1 :nvim-treesitter/nvim-treesitter}
+             :requires [[:nvim-treesitter/nvim-treesitter]]
              :config (rv :mdlinks)})
        (use {1 :segeljakt/vim-silicon
              :config (rv :silicon)})
@@ -88,13 +90,13 @@
        (use {1 :hoob3rt/lualine.nvim
              :as :lualine
              :config (rv :lualine)
-             :requires {1 :kyazdani42/nvim-web-devicons
-                        :opt true}
+             :requires [{1 :kyazdani42/nvim-web-devicons
+                         :opt true}]
              :after {1 :gps}})
        (use {1 :SmiteshP/nvim-gps
              :as :gps
              :config (rv :gps)
-             :requires {1 :nvim-treesitter/nvim-treesitter}})
+             :requires [[:nvim-treesitter/nvim-treesitter]]})
        (use {1 :romgrk/barbar.nvim
              :as :barbar
              :config (rv :barbar)
@@ -102,13 +104,13 @@
        (use {1 :akinsho/bufferline.nvim
              :as :bufferline
              :config (rv :bufferline)
-             :requires {1 :kyazdani42/nvim-web-devicons}})
+             :requires [[:kyazdani42/nvim-web-devicons]]})
        (use {1 :kyazdani42/nvim-web-devicons
              :config (rv :devicons)})
        (use {1 :yamatsum/nvim-nonicons
              :disable true
-             :requires {1 :kyazdani42/nvim-web-devicons}
-             :after {1 :nvim-web-devicons}})
+             :requires [[:kyazdani42/nvim-web-devicons]]
+             :after [:nvim-web-devicons]})
        (use {1 :br1anchen/nvim-colorizer.lua
              :as :colourizer
              :config (rv :colourizer)})
@@ -116,7 +118,7 @@
              :as :presence
              :config (rv :presence)})
        (use {1 :RishabhRD/nvim-cheat.sh
-             :requires {1 :RishabhRD/popfix}
+             :requires [[:RishabhRD/popfix]]
              :config (rv :cheatsh)})
        (use {1 :rcarriga/nvim-notify
              :as :notify
@@ -124,30 +126,30 @@
        (use {1 :neovim/nvim-lspconfig
              :config (rv :lsp)})
        (use {1 :folke/trouble.nvim
-             :requires {1 :kyazdani42/nvim-web-devicons}
+             :requires [[:kyazdani42/nvim-web-devicons]]
              :conqig (rv :lsp.trouble)})
        (use {1 :ray-x/lsp_signature.nvim})
        (use {1 :kosayoda/nvim-lightbulb
              :disable true
              :config (rv :lsp.lightbulb)})
        (use {1 :jose-elias-alvarez/null-ls.nvim
-             :requires [:nvim-lua/plenary.nvim
-                        :neovim/nvim-lspconfig]})
+             :requires [[:nvim-lua/plenary.nvim]
+                        [:neovim/nvim-lspconfig]]})
        (use {1 :nanotee/sqls.nvim
-             :requires {1 :vim-scripts/dbext.vim}})
+             :requires [[:vim-scripts/dbext.vim]]})
        (use {1 :stevearc/aerial.nvim
              :config (rv :aerial)})
        (use {1 :saecki/crates.nvim
-             :event {1 "BufRead Cargo.toml"}
-             :requires {1 :nvim-lua/plenary.nvim}
+             :event ["BufRead Cargo.toml"]
+             :requires [[:nvim-lua/plenary.nvim]]
              :config (rv :crates)})
        (use {1 :weilbith/nvim-code-action-menu
              :as :code-action-menu
              :cmd :CodeActionMenu})
        (use {1 :NTBBloodbath/rest.nvim
+             :requires [[:nvim-lua/plenary.nvim]]
              :config (rv :rest)
-             :ft {1 :http}
-             :requires {1 :nvim-lua/plenary.nvim}})
+             :ft [:http]})
        (use {1 :simrat39/rust-tools.nvim
              :config (rv :tools)})
        (use {1 :mlochbaum/BQN :rtp :editors/vim})
@@ -162,7 +164,7 @@
                         [:nvim-treesitter/nvim-treesitter]]
              :config (rv :refactoring)})
        (use {1 :scalameta/nvim-metals
-             :requires {1 :nvim-lua/plenary.nvim}
+             :requires [[:nvim-lua/plenary.nvim]]
              :config (rv :lsp.langs.metals)})
        (use {1 :Olical/aniseed
              :config (rv :aniseed)})
@@ -192,10 +194,10 @@
        (use {1 :mfussenegger/nvim-dap
              :config (rv :dap)})
        (use {1 :theHamsta/nvim-dap-virtual-text
-             :requires {1 :mfussenegger/nvim-dap}
+             :requires [[:mfussenegger/nvim-dap]]
              :config (rv :dap.virttext)})
        (use {1 :rcarriga/nvim-dap-ui
-             :requires {1 :mfussenegger/nvim-dap}
+             :requires [[:mfussenegger/nvim-dap]]
              :config (rv :dap.dapui)})
        (use {1 :L3MON4D3/LuaSnip
              :as :luasnip
@@ -235,14 +237,14 @@
        (fn convert-to-treesitter-opt [treesitter-plugin]
          (var opt
               {1 (. treesitter-plugin 1)
-               :requires {1 {1 :nvim-treesitter/nvim-treesitter}}})
+               :requires [[:nvim-treesitter/nvim-treesitter]]})
          (set opt
               (vim.tbl_deep_extend :force (. treesitter-plugin 2)
                                    opt))
          opt)
 
        ;; TODO: Macro this VVV
-       (: (: (fun.iter treesitter-plugins) :map
+       (: (: (fun-iter treesitter-plugins) :map
              convert-to-treesitter-opt)
           :each use)
 
@@ -263,12 +265,12 @@
 
        (fn convert-to-cmp-opt [cmp-source]
          (let [opt {1 cmp-source
-                    :requires {1 {1 :hrsh7th/nvim-cmp}}
-                    :after {1 :nvim-cmp}}]
+                    :requires [[:hrsh7th/nvim-cmp]]
+                    :after [:nvim-cmp]}]
            opt))
 
        ;; TODO: Macro this VVV
-       (: (: (fun.iter cmp-sources) :map convert-to-cmp-opt)
+       (: (: (fun-iter cmp-sources) :map convert-to-cmp-opt)
           :each use)
 
        (use {1 :windwp/nvim-autopairs
@@ -276,7 +278,7 @@
        (use {1 :m-demare/hlargs.nvim
              :as :hlargs
              :config (rv :hlargs)
-             :requires {1 :nvim-treesitter/nvim-treesitter}})
+             :requires [[:nvim-treesitter/nvim-treesitter]]})
        (use {1 :phaazon/hop.nvim
              :as :hop
              :config (rv :hop)})
@@ -288,8 +290,8 @@
        (use {1 :abecodes/tabout.nvim
              :as :tabout
              :config (rv :tabout)
-             :requires {1 :nvim-treesitter/nvim-treesitter}
-             :after {1 :nvim-cmp}})
+             :requires [[:nvim-treesitter/nvim-treesitter]]
+             :after [:nvim-cmp]})
        (use {1 :ethanholz/nvim-lastplace
              :config (rv :lastplace)})
        (use {1 :sQVe/sort.nvim
@@ -302,9 +304,9 @@
              :config (rv :toggleterm)})
        (use {1 :nvim-neo-tree/neo-tree.nvim
              :as :tree
-             :requires [:nvim-lua/plenary.nvim
-                        :kyazdani42/nvim-web-devicons
-                        :MunifTanjim/nui.nvim]
+             :requires [[:nvim-lua/plenary.nvim]
+                        [:kyazdani42/nvim-web-devicons]
+                        [:MunifTanjim/nui.nvim]]
              :branch :v1.x
              :config (rv :tree)})
        (use {1 :elihunter173/dirbuf.nvim
@@ -314,17 +316,17 @@
        (use {1 :junegunn/vim-easy-align
              :config (rv :easyalign)})
        (use {1 :TimUntersberger/neogit
-             :keys {1 :<leader>gs}
-             :requires :nvim-lua/plenary.nvim
+             :keys [:<leader>gs]
+             :requires [[:nvim-lua/plenary.nvim]]
              :config (rv :neogit)})
        (use {1 :sindrets/diffview.nvim
-             :after {1 :neogit}
+             :after [:neogit]
              :config (rv :diffview)})
        (use {1 :lewis6991/gitsigns.nvim
-             :requires {1 :nvim-lua/plenary.nvim}
+             :requires [[:nvim-lua/plenary.nvim]]
              :config (rv :gitsigns)})
        (use {1 :ThePrimeagen/git-worktree.nvim
-             :requires {1 :nvim-treesitter/nvim-treesitter}
+             :requires [[:nvim-treesitter/nvim-treesitter]]
              :config (rv :gitworktrees)})
        (use {1 :pwntester/octo.nvim
              :requires [{1 :kyazdani42/nvim-web-devicons
@@ -332,13 +334,13 @@
              :config (rv :octo)
              :opt true})
        (use {1 :ruifm/gitlinker.nvim
-             :requires {1 :nvim-lua/plenary.nvim}
+             :requires [[:nvim-lua/plenary.nvim]]
              :config (rv :gitlinker)})
        (use {1 :numToStr/Comment.nvim
              :as :comments
              :config (rv :comments)})
        (use {1 :folke/todo-comments.nvim
-             :requires :nvim-lua/plenary.nvim
+             :requires [[:nvim-lua/plenary.nvim]]
              :config (rv :todocomments)})
        (use {1 :anuvyklack/pretty-fold.nvim
              :config (rv :prettyfold)})
