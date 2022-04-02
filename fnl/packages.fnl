@@ -3,8 +3,12 @@
 ((. (require :packer.luarocks) 
     :install_commands))
 
-(lambda rv [path]
-  #(. (: (require (.. "rv-" path)) :config)))
+(macro rv [path]
+  (assert-compile
+    (= (type path) "string")
+    "Path must be a string" path)
+  `(hashfn
+     (. (require ,(.. "rv-" path)) :config)))
 
 (packer.startup
   {1 (fn [use use-rocks]
