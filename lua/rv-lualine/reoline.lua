@@ -1,7 +1,7 @@
 local config = {}
 
 local gps = require("nvim-gps")
-local pallet = require("nightfox.pallet").load("nightfox")
+local palette = require("nightfox.palette").load("nightfox")
 local Color = require("nightfox.lib.color")
 
 local function diff_source()
