@@ -1,14 +1,9 @@
+(import-macros {: rv} :macros)
+
 (local packer (require :packer))
 
 ((. (require :packer.luarocks) 
     :install_commands))
-
-(macro rv [path]
-  (assert-compile
-    (= (type path) "string")
-    "Path must be a string" path)
-  `(hashfn
-     (. (require ,(.. "rv-" path)) :config)))
 
 (packer.startup
   {1 (fn [use use-rocks]
@@ -17,7 +12,7 @@
        ;; (use-rocks {1 :fun})
        (local {:iter fun-iter
                :map fun-map
-               :each fun-each} 
+               :each fun-each}
          (require :luafun.fun))
        (use {1 :lewis6991/impatient.nvim})
 
@@ -58,7 +53,8 @@
          (when (= (. opt 1) :nvim-telescope/telescope-fzf-native)
            (set-forcibly! opt
                           (vim.tbl_deep_extend :force
-                                               {:run :make} opt)))
+                                               {:run :make}
+                                               opt)))
          opt)
 
        ;; TODO: Macro this VVV
@@ -68,13 +64,13 @@
           :each use)
 
        (use {1 :vhyrro/neorg
-             :requires [[:1hrsh7th/nvim-cmp]
-                        [:1nvim-lua/plenary.nvim]
-                        [:1vhyrro/neorg-telescope]]
-             :after [:telescope.nvim-lua
+             :requires [[:hrsh7th/nvim-cmp]
+                        [:nvim-lua/plenary.nvim]
+                        [:nvim-neorg/neorg-telescope]]
+             :after [:telescope.nvim
                      :nvim-cmp]
              :config (rv :neorg)})
-       (use {1 :vhyrro/neorg-telescope
+       (use {1 :nvim-neorg/neorg-telescope
              :requires [[:nvim-telescope/telescope.nvim]]})
        (use {1 :iamcco/markdown-preview.nvim
              :run (. vim.fn "mkdp#util#install")
@@ -86,8 +82,8 @@
              :config (rv :silicon)})
        (use {1 :folke/which-key.nvim
              :config (fn []
-                       ((. (require :rv-whichkey) :config))
-                       ((. (require :rv-whichkey.presets) :config)))})
+                       ((rv :whichkey))
+                       ((rv :whichkey.presets)))})
        (use {1 :goolord/alpha-nvim
              :as :alpha
              :config (rv :alpha)})
@@ -155,7 +151,7 @@
              :config (rv :rest)
              :ft [:http]})
        (use {1 :simrat39/rust-tools.nvim
-             :config (rv :tools)})
+             :config (rv :lsp.langs.rust-tools)})
        (use {1 :mlochbaum/BQN :rtp :editors/vim})
        (use {1 :shirk/vim-gas})
        (use {1 :aklt/plantuml-syntax})
@@ -352,10 +348,8 @@
              :as :regexplainer
              :config (rv :regexplainer)})
        (use {1 :jeffkreeftmeijer/vim-numbertoggle})
-      ;; TODO: rv-fy mkdir.nvim
        (use {1 :jghauser/mkdir.nvim
-             :config (fn []
-                       (require :mkdir))})
+             :config (rv :mkdir)})
        (use {1 :famiu/bufdelete.nvim
              :config (rv :bufdelete)})
        (use {1 :kwkarlwang/bufresize.nvim
