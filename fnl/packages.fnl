@@ -1,4 +1,15 @@
-(import-macros {: rv} :macros)
+(import-macros
+  {: rv
+   : apply : call
+   : >=> : filter
+   : i>=> : ifilter
+   : |>
+   : ||> : o : compose
+   : >== : foreach
+   : i>== : forieach
+   : map
+   : imap}
+  :macros)
 
 (local packer (require :packer))
 
@@ -9,11 +20,6 @@
   {1 (fn [use use-rocks]
        (use {1 :wbthomason/packer.nvim})
        (use {1 :rktjmp/hotpot.nvim})
-       ;; (use-rocks {1 :fun})
-       (local {:iter fun-iter
-               :map fun-map
-               :each fun-each}
-         (require :luafun.fun))
        (use {1 :lewis6991/impatient.nvim})
 
        (local colourschemes
@@ -57,11 +63,11 @@
                                                opt)))
          opt)
 
-       ;; TODO: Macro this VVV
-       (: (: (: (fun-iter telescope-plugins) :map
-                convert-to-telescope-opt)
-             :map modify-fzf-native)
-          :each use)
+       (i>== telescope-plugins
+             (||>
+               convert-to-telescope-opt
+               modify-fzf-native
+               use))
 
        (use {1 :vhyrro/neorg
              :requires [[:hrsh7th/nvim-cmp]
@@ -243,10 +249,10 @@
                                    opt))
          opt)
 
-       ;; TODO: Macro this VVV
-       (: (: (fun-iter treesitter-plugins) :map
-             convert-to-treesitter-opt)
-          :each use)
+       (i>== treesitter-plugins
+           (||>
+             convert-to-treesitter-opt
+             use))
 
        (local cmp-sources
               [:hrsh7th/cmp-nvim-lsp
@@ -269,9 +275,10 @@
                     :after [:nvim-cmp]}]
            opt))
 
-       ;; TODO: Macro this VVV
-       (: (: (fun-iter cmp-sources) :map convert-to-cmp-opt)
-          :each use)
+       (i>== cmp-sources
+           (||>
+             convert-to-cmp-opt
+             use))
 
        (use {1 :windwp/nvim-autopairs
              :config (rv :autopairs)})
