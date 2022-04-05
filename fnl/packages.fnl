@@ -314,7 +314,7 @@
              :requires [[:nvim-lua/plenary.nvim]
                         [:kyazdani42/nvim-web-devicons]
                         [:MunifTanjim/nui.nvim]]
-             :branch :v1.x
+             :branch :v2.x
              :config (rv :tree)})
        (use {1 :elihunter173/dirbuf.nvim
              :config (rv :dirbuf)})
