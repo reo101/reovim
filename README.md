@@ -1,14 +1,24 @@
-<div align="center"><p>
-    <a href="https://github.com/neovim/neovim">
-        <img src="https://img.shields.io/badge/requires-neovim%200.6%2B-green?style=flat-square&logo=neovim" alt="Neovim Requirement"/>
-    </a>
-    <a href="https://github.com/lunarvim/LunarVim/pulse">
-        <img alt="Last Commit" src="https://img.shields.io/github/last-commit/reo101/reovim"/>
-    </a>
-    <a href="https://github.com/lunarvim/LunarVim/blob/main/LICENSE">
-        <img src="https://img.shields.io/github/license/reo101/reovim?style=flat-square&logo=GNU&label=License" alt="License"/>
-    </a>
-</p></div>
+<div align="center">
+    <p>
+        <a href="https://github.com/neovim/neovim">
+            <img src="https://img.shields.io/badge/requires-neovim%200.6%2B-green?style=flat-square&logo=neovim" alt="Neovim Requirement"/>
+        </a>
+        <a href="https://github.com/lunarvim/LunarVim/pulse">
+            <img alt="Last Commit" src="https://img.shields.io/github/last-commit/reo101/reovim"/>
+        </a>
+        <a href="https://github.com/lunarvim/LunarVim/blob/main/LICENSE">
+            <img src="https://img.shields.io/github/license/reo101/reovim?style=flat-square&logo=GNU&label=License" alt="License"/>
+        </a>
+    </p>
+    <p>
+        <a href="https://fennel-lang.org/">
+            <img src="https://img.shields.io/badge/Made%20with%20Fennel-darkgreen.svg?style=for-the-badge&logo=fennel" alt="Lua"/>
+        </a>
+        <a href="https://www.lua.org/">
+            <img src="https://img.shields.io/badge/Made%20with%20Lua-blue.svg?style=for-the-badge&logo=lua" alt="Lua"/>
+        </a>
+    </p>
+</div>
 
 ```
      ___           ___           ___                                    ___
@@ -28,11 +38,19 @@
 
 # Showcase
 
-![ReoVim Demo](./media/scrot.png)
+![Start Screen](./media/nightfox_start_screen.png)
+
+# Dependencies
+
+- `git`
+- A `C/C++` compiler for the treesitter parsers (`gcc/g++`, `clang/clang++`, `zig`)
+- (Optional) `cargo` for `parinfer-rust`
+- (Optional) `fzf` and `rg` for `Telescope`
+- (Optional) any of the required Language Servers for the languages mentioned [here](#languages)
 
 # Installation
 
-- Firstly install `neovim`:
+- Firstly get a `nvim` binary:
 
   - [Installing NeoVim](https://github.com/neovim/neovim/wiki/Installing-Neovim) (Official Wiki)
 
@@ -40,33 +58,56 @@
   - Assuming `$XDG_CONFIG_HOME` is `$HOME/.config` and `$XDG_DATA_HOME` is `$HOME/.local/share`
 
 ```bash
-mv "${HOME}/.config/nvim" "${HOME}/.config/nvim_backup"
-mv "${HOME}/.local/share/nvim" "${HOME}/.local/share/nvim_backup"
-git clone https://www.github.com/reo101/reovim "${HOME}/.config/nvim"
+mv "~/.config/nvim" "~/.config/nvim_backup"
+mv "~/.local/share/nvim" "~/.local/share/nvim_backup"
+git clone https://www.github.com/reo101/reovim "~/.config/nvim"
 ```
 
-- On the first run, neovim will bootstrap the `Packer` package manager
+- Run `nvim`. On the first run, NeoVim will bootstrap the `HotPot` Fennel Loader and `Packer` package manager
 
-- Run `:PackerInstall` once to install all the packages
+- From inside NeoVim run `:PackerInstall` once to install all the packages
 
-# Packages
+# Screenshots
 
-- Packages are located at [`./lua/plugins/packages.lua`](./lua/plugins/packages.lua) with separate package-specific config in `./lua/rv-*package*/init.lua`
+## Start Screen
+![Start Screen](./media/nightfox_start_screen.png)
 
-## Noteable packages:
+## Telescope Files
+![Telescope Files](./media/nightfox_telescope_files.png)
 
-### Themes:
+## Rust Project
+![Rust Loading](./media/nightfox_rust_loading.png)
+![Rust Project](./media/nightfox_rust_working.png)
 
-- [monokai](https://www.github.com/tanvirtin/monokai.nvim)
-  ![monokai scrot](./media/monokai.png)
-- [sonokai](https://www.github.com/sainnhe/sonokai)
-  ![sonokai scrot](./media/sonokai.png)
-- [nightfox](https://www.github.com/EdenEast/nightfox.nvim)
-  ![nightfox scrot](./media/nightfox.png)
-- [tokyonight](https://www.github.com/folke/tokyonight.nvim)
-  ![tokyonight scrot](./media/scrot.png)
-- [nebulous](https://www.github.com/Yagua/nebulous.nvim)
-  ![nebulous scrot](./media/nebulous.png)
+# Directory overview
+
+- [`init.lua`](./init.lua) - Entry point for Neovim
+- [`lua/`](./lua/) - Lua config files
+    - [`bootstrap-hotpot.lua`](./lua/bootstrap-hotpot.lua) - HotPot bootstrapper
+    - [`settings/init.lua`](./lua/settings/init.lua) - `vim.g`, `vim.opt` and `vim.wo` options
+    - [`globals.lua`](./lua/globals.lua) - Global Lua helper functions and values
+    - [`utils.lua`](./lua/utils.lua) - Utility functions (not used)
+    - `rv-*package*/init.lua` - Package configurations
+- [`fnl/`](./fnl/) - Fennel config files
+    - [`bootstrap.fnl`](./fnl/bootstrap.fnl) - Packer bootstrapper
+    - [`init.fnl`](./fnl/init.fnl) - Entry point for Fennel config
+    - [`macros.fnl`](./fnl/macros.fnl) - Fennel macros used throughout the Fennel config
+    - [`packages.fnl`](./fnl/packages.fnl) - Packages' definition location
+    - `rv-*package*/init.fnl` - Package configurations
+- [`luasnippets/`](./luasnippets/) - LuaSnip snippets
+- [`queries/`](./queries/) - Custom Treesitter queries
+
+---
+
+## Notable packages
+
+### Package Manager
+
+- [Packer](https://github.com/wbthomason/packer.nvim)
+
+### Fennel Loader
+
+- [HotPot](https://github.com/rktjmp/hotpot.nvim)
 
 ### Telescope
 
@@ -92,9 +133,9 @@ git clone https://www.github.com/reo101/reovim "${HOME}/.config/nvim"
 
 - [Which-key](https://www.github.com/folke/which-key.nvim)
 
-### Dashboard
+### Alpha
 
-- [Dashboard](https://www.github.com/glepnir/dashboard.nvim)
+- [Alpha](https://github.com/goolord/alpha-nvim)
 
 ### Statusline
 
@@ -102,7 +143,7 @@ git clone https://www.github.com/reo101/reovim "${HOME}/.config/nvim"
 
 ### Tabline
 
-- [BarBar](https://www.github.com/romgrk/barbar.nvim)
+- [Bufferline](https://github.com/akinsho/bufferline.nvim)
 
 ### Discord RPC
 
@@ -122,27 +163,36 @@ git clone https://www.github.com/reo101/reovim "${HOME}/.config/nvim"
 - [Dressing](https://www.github.com/stevearc/dressing.nvim)
 
 #### Languages
-- [Bash](./lua/rv-lsp/langs/bash.lua)
-- [C, CPP](./lua/rv-lsp/langs/clangd.lua)
-- [CMake](./lua/rv-lsp/langs/cmake.lua)
-- [Erlang](./lua/rv-lsp/langs/erlang.lua)
-- [Go](./lua/rv-lsp/langs/go.lua)
-- [Haskell](./lua/rv-lsp/langs/haskell.lua)
-- [Javascript, Typescript](./lua/rv-lsp/langs/tsserver.lua)
-- [LaTeX](./lua/rv-lsp/langs/latex.lua)
-- [Lua](./lua/rv-lsp/langs/lua.lua)
-- [Python](./lua/rv-lsp/langs/python.lua)
-- [SQL](./lua/rv-lsp/langs/sqls.lua)
-- [Scheme, Racket](./lua/rv-lsp/langs/racket.lua)
-- [Zig](./lua/rv-lsp/langs/zig.lua)
+- [Ansible](./fnl/rv-lsp/langs/ansible.fnl)
+- [Bash](./fnl/rv-lsp/langs/bash.fnl)
+- [C, CPP](./fnl/rv-lsp/langs/clangd.fnl)
+- [CMake](./fnl/rv-lsp/langs/cmake.fnl)
+- [Dockerfile](./fnl/rv-lsp/langs/docker.fnl)
+- [Erlang](./fnl/rv-lsp/langs/erlang.fnl)
+- [Go](./fnl/rv-lsp/langs/go.fnl)
+- [Haskell](./fnl/rv-lsp/langs/haskell.fnl)
+- [JSON](./fnl/rv-lsp/langs/json.fnl)
+- [Javascript, Typescript](./fnl/rv-lsp/langs/tsserver.fnl)
+- [LaTeX](./fnl/rv-lsp/langs/latex.fnl)
+- [Lua](./fnl/rv-lsp/langs/lua.fnl)
+- [Nim](./fnl/rv-lsp/langs/nim.fnl)
+- [Python](./fnl/rv-lsp/langs/python.fnl)
+- [SQL](./fnl/rv-lsp/langs/sqls.fnl)
+- [Scheme, Racket](./fnl/rv-lsp/langs/racket.fnl)
+- [Zig](./fnl/rv-lsp/langs/zig.fnl)
 
 #### Additional Language Server plugins
 
 - [Null LS](https://www.github.com/jose-elias-alvarez/null-ls.nvim)
+- [Pair LS](https://www.github.com/stevearc/pair-ls.nvim)
 - [Rust Tools](https://www.github.com/simrat39/rust-tools.nvim)
   - [Crates](https://www.github.com/saecki/crates.nvim)
 - [Metals](https://www.github.com/scalameta/nvim-metals)
 - [JDTLS](./lua/rv-lsp/langs/jdtls.lua)
+
+### Fennel
+
+- [Conjure](https://github.com/Olical/conjure)
 
 ### DAP
 
@@ -193,15 +243,19 @@ git clone https://www.github.com/reo101/reovim "${HOME}/.config/nvim"
 - [Lastplace](https://www.github.com/ethanholz/nvim-lastplace)
 - [Sort](https://www.github.com/sQVe/sort.nvim)
 - [Navigator](https://www.github.com/numToStr/Navigator.nvim)
+- [Dirbuf](https://www.github.com/elihunter173/dirbuf.nvim)
 - [Dial](https://www.github.com/monaqa/dial.nvim)
 - [EasyAlign](https://www.github.com/junegunn/vim-easy-align)
+- [PrettyFold](https://www.github.com/anuvyklack/pretty-fold.nvim)
+- [RegexPlainer](https://www.github.com/bennypowers/nvim-regexplainer)
 - [NumberToggle](https://www.github.com/jeffkreeftmeijer/vim-numbertoggle)
 - [Mkdir](https://www.github.com/jghauser/mkdir.nvim)
 - [BufDelete](https://www.github.com/famiu/bufdelete.nvim)
 - [BufResize](https://www.github.com/kwkarlwang/bufresize.nvim)
 - [Stabilize](https://www.github.com/luukvbaal/stabilize.nvim)
 - [WinShift](https://www.github.com/sindrets/winshift.nvim)
-- [QFList](https://www.github.com/kevinhwang91/nvim-bqf)
+- [BetterQFList](https://www.github.com/kevinhwang91/nvim-bqf)
+- [PrettyQFList](https://gitlab.com/yorickpeterse/nvim-pqf.git)
 - [IndentLine](https://www.github.com/lukas-reineke/indent-blankline.nvim)
 
 ### Terminal Manager
@@ -210,7 +264,7 @@ git clone https://www.github.com/reo101/reovim "${HOME}/.config/nvim"
 
 ### File Explorer
 
-- [Tree](https://www.github.com/kyazdani42/nvim-tree.lua)
+- [Neotree](https://www.github.com/nvim-neo-tree/neo-tree.nvim)
 
 ### Git
 
@@ -225,7 +279,3 @@ git clone https://www.github.com/reo101/reovim "${HOME}/.config/nvim"
 
 - [Comment](https://www.github.com/numToStr/Comment.nvim)
 - [TODO Comments](https://www.github.com/folke/todo-comments.nvim)
-
----
-
-![Lua](https://img.shields.io/badge/Made%20with%20Lua-blue.svg?style=for-the-badge&logo=lua)
