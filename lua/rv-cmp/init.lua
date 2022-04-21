@@ -91,8 +91,10 @@ M.config = function()
             native_menu = false,
             ghost_text = true,
         },
-        documentation = {
-            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        window = {
+            documentation = {
+                border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+            },
         },
         snippet = {
             expand = function(args)
