@@ -25,8 +25,6 @@
   (assert-seq)
   `(,func ,(table.unpack args)))
 
-(local call apply)
-
 (fn >=> [tbl predicate? ?res]
   "Filter through a table and optionally append to a predefined result table
   NOTE: `predicate?` can take the key as a second argument"
@@ -47,8 +45,6 @@
          (if (,predicate? v# k#)
           (values k# v#)))))
 
-(local filter >=>)
-
 (fn i>=> [seq predicate? ?res]
   "Filter through a sequence and optionally append to a predefined result sequence"
   (assert-seq seq)
@@ -65,8 +61,6 @@
       `(icollect [i# v# (ipairs ,seq)
                   :into (or ,?res [])]
          (if (,predicate? v#) v#))))
-
-(local ifilter i>=>)
 
 (fn |> [val ...]
   "Pipeline a value/values through a series of functions"
@@ -85,9 +79,6 @@
     (set res (list v res)))
   `(fn [,_VARARG] ,res))
 
-(local o ||>)
-(local compose ||>)
-
 (fn >== [tbl fun]
   "Consume a table by passing every element to a function"
   (assert-tbl tbl)
@@ -101,8 +92,6 @@
       `(each [i# v# (pairs ,tbl)]
          (,fun v#))))
 
-(local foreach >==)
-
 (fn i>== [seq fun]
   "Consume a sequence by passing every element to a function"
   (assert-seq seq)
@@ -115,8 +104,6 @@
       (sym? seq)
       `(each [i# v# (ipairs ,seq)]
          (,fun v#))))
-
-(local forieach i>==)
 
 (fn map [tbl ...]
   "Map a table using a series of functions"
@@ -153,12 +140,12 @@
 {: rv
  : assert-tbl
  : assert-seq
- : apply : call
- : >=> : filter
- : i>=> : ifilter
- : |>
- : ||> : o : compose
- : >== : foreach
- : i>== : forieach
+ : apply :call apply
+ : >=> :filter >=>
+ : i>=> :ifilter i>=>
+ : |> :pipe |>
+ : ||> :o ||> :compose ||>
+ : >== :foreach >==
+ : i>== :forieach i>==
  : map
  : imap}
