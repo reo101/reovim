@@ -24,7 +24,8 @@
          (. (require :globals) :custom))
 
        (use {1 :wbthomason/packer.nvim})
-       (use {1 :rktjmp/hotpot.nvim})
+       (use {1 :rktjmp/hotpot.nvim
+             :config (rv :hotpot)})
        (use {1 :lewis6991/impatient.nvim})
 
        ;; (local colourschemes
