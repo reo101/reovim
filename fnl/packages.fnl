@@ -282,6 +282,7 @@
              use))
 
        (use {1 :windwp/nvim-autopairs
+             :as :autopairs
              :config (rv :autopairs)})
        (use {1 :m-demare/hlargs.nvim
              :as :hlargs
@@ -294,6 +295,7 @@
              :disable true
              :config (rv :hlslens)})
        (use {1 :ur4ltz/surround.nvim
+             :as :surround
              :config (rv :surround)})
        (use {1 :abecodes/tabout.nvim
              :as :tabout
@@ -301,8 +303,10 @@
              :requires [[:nvim-treesitter/nvim-treesitter]]
              :after [:nvim-cmp]})
        (use {1 :ethanholz/nvim-lastplace
+             :as :lastplace
              :config (rv :lastplace)})
        (use {1 :sQVe/sort.nvim
+             :ad :sort
              :config (rv :sort)})
        (use {1 :numToStr/Navigator.nvim
              :as :navigator
@@ -318,6 +322,7 @@
              :branch :v2.x
              :config (rv :tree)})
        (use {1 :elihunter173/dirbuf.nvim
+             :as :dirbuf
              :config (rv :dirbuf)})
        (use {1 :monaqa/dial.nvim
              :config (rv :dial)})
