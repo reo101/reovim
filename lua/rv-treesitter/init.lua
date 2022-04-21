@@ -1,9 +1,21 @@
 local M = {}
 
 M.config = function()
-
     local opt = {
-        ensure_installed = {"cpp", "lua", "javascript", "java", "php", "python", "html", "norg", "norg_meta", "norg_table", "markdown", "comment"},
+        ensure_installed = {
+            "cpp",
+            "lua",
+            "javascript",
+            "java",
+            "php",
+            "python",
+            "html",
+            "norg",
+            "norg_meta",
+            "norg_table",
+            "markdown",
+            "comment",
+        },
         highlight = {
             enable = true,
         },
@@ -20,7 +32,7 @@ M.config = function()
                 scope_incremental = "<leader>sis",
                 node_incremental = "<leader>sii",
                 node_decremental = "<leader>sid",
-            }
+            },
         },
         refactor = {
             highlight_definitions = {
@@ -170,6 +182,8 @@ M.config = function()
         },
     }
 
+    require("nvim-treesitter.install").prefer_git = true
+
     require("nvim-treesitter.parsers").get_parser_configs().http = {
         install_info = {
             url = "https://github.com/NTBBloodbath/tree-sitter-http",
@@ -178,19 +192,11 @@ M.config = function()
         },
     }
 
-    require("nvim-treesitter.parsers").get_parser_configs().norg = {
-        install_info = {
-            url = "https://github.com/nvim-neorg/tree-sitter-norg",
-            files = { "src/parser.c", "src/scanner.cc" },
-            branch = "main"
-        },
-    }
-
     require("nvim-treesitter.parsers").get_parser_configs().norg_meta = {
         install_info = {
             url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
             files = { "src/parser.c" },
-            branch = "main"
+            branch = "main",
         },
     }
 
@@ -198,7 +204,7 @@ M.config = function()
         install_info = {
             url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
             files = { "src/parser.c" },
-            branch = "main"
+            branch = "main",
         },
     }
 
@@ -250,7 +256,7 @@ M.config = function()
             name = "Toggle",
             s = {
                 name = "TreeSitter",
-                c = { function() require("treesitter-context").toggleEnabled() end, "Context" },
+                c = { require("treesitter-context").toggleEnabled, "Context" },
                 h = { "<Cmd>TSBufToggle highlight<CR>", "Highlighting" },
                 r = { "<Cmd>TSBufToggle rainbow<CR>", "Rainbow Parenthesis" },
                 p = { "<Cmd>TSBufToggle autopairs<CR>", "Autopairs" },
@@ -301,12 +307,11 @@ M.config = function()
     wk.register(motionMappings, { mode = "o", prefix = "" })
 
     local TSHopMappings = {
-        m = { function() require("tsht").nodes() end, "TS Hop" },
+        m = { require("tsht").nodes, "TS Hop" },
     }
 
     wk.register(TSHopMappings, { mode = "o", prefix = "" })
     wk.register(TSHopMappings, { mode = "v", noremap = true, prefix = "" })
-
 end
 
 return M
