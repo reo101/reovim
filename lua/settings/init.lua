@@ -18,6 +18,9 @@ vim.cmd("set whichwrap+=<,>,[,],h,l")
 
 ---  SETTINGS  ---
 
+vim.g.do_filetype_lua = 1    -- Enable filetype.lua
+vim.g.did_load_filetypes = 0 -- Disable filetype.vim
+
 vim.g.mapleader        = " "                            -- maps the leader to space
 vim.g.maplocalleader   = " "                            -- maps the local leader to space
 vim.opt.backup         = false                          -- creates a backup file
