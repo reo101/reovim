@@ -18,6 +18,11 @@
 
 (packer.startup
   {1 (fn [use use-rocks]
+       (local
+         {: lsp_progress
+          : lua_index_plugins}
+         (. (require :globals) :custom))
+
        (use {1 :wbthomason/packer.nvim})
        (use {1 :rktjmp/hotpot.nvim})
        (use {1 :lewis6991/impatient.nvim})
@@ -178,9 +183,9 @@
        (use {1 :Olical/conjure
              :config (rv :conjure)})
        (use {1 :eraserhd/parinfer-rust
-             :cond (= (vim.fn.executable :cargo) 1)
              :config (rv :parinfer)
-             :run "cargo build --release"})
+             :run "cargo build --release"
+             :cond (= (vim.fn.executable :cargo) 1)})
        (use {1 :stevearc/dressing.nvim
              :config (rv :dressing)})
        (use {1 :mfussenegger/nvim-jdtls
@@ -193,9 +198,7 @@
        (use {1 :j-hui/fidget.nvim
              :as :fidget
              :config (rv :fidget)
-             :cond (= (. (. (require :globals) :custom)
-                         :lsp_progress)
-                      :fidget)})
+             :cond (= lsp_progress :fidget)})
        (use {1 :nanotee/luv-vimdocs})
        (use {1 :milisims/nvim-luaref})
        (use {1 :mfussenegger/nvim-dap
