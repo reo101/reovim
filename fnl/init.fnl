@@ -33,4 +33,5 @@
 
 (require :packages)
 
+(require :keymaps)
 (require :rv-autocommands)
