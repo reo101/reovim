@@ -13,7 +13,7 @@
 
 (local packer (require :packer))
 
-((. (require :packer.luarocks) 
+((. (require :packer.luarocks)
     :install_commands))
 
 (packer.startup
@@ -22,18 +22,18 @@
        (use {1 :rktjmp/hotpot.nvim})
        (use {1 :lewis6991/impatient.nvim})
 
-       (local colourschemes
-              [[:monokai
-                :tanvirtin/monokai.nvim]
-               [:sonokai
-                :sainnhe/sonokai]
-               [:nightfox 
-                :EdenEast/nightfox.nvim]
-               [:tokyonight 
-                :folke/tokyonight.nvim 
-                true]
-               [:nebulous 
-                :Yagua/nebulous.nvim]])
+       ;; (local colourschemes
+       ;;        [[:monokai
+       ;;          :tanvirtin/monokai.nvim]
+       ;;         [:sonokai
+       ;;          :sainnhe/sonokai]
+       ;;         [:nightfox 
+       ;;          :EdenEast/nightfox.nvim]
+       ;;         [:tokyonight 
+       ;;          :folke/tokyonight.nvim 
+       ;;          true]
+       ;;         [:nebulous 
+       ;;          :Yagua/nebulous.nvim]])
        (use {1 :folke/tokyonight.nvim
              :config (rv :tokyonight)})
        ;; (use {1 :EdenEast/nightfox.nvim
