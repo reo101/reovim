@@ -63,12 +63,12 @@
            opt))
 
        (fn modify-fzf-native [opt]
-         (when (= (. opt 1) :nvim-telescope/telescope-fzf-native)
-           (set-forcibly! opt
-                          (vim.tbl_deep_extend :force
-                                               {:run :make}
-                                               opt)))
-         opt)
+         (if (= (. opt 1) :nvim-telescope/telescope-fzf-native)
+           (vim.tbl_deep_extend :force
+                                {:run :make}
+                                opt)
+           ;; else
+           opt))
 
        (i>== telescope-plugins
              (||>
