@@ -81,6 +81,7 @@
                         [:nvim-lua/plenary.nvim]
                         [:nvim-neorg/neorg-telescope]]
              :after [:telescope.nvim
+                     :nvim-treesitter
                      :nvim-cmp]
              :config (rv :neorg)})
        (use {1 :nvim-neorg/neorg-telescope
