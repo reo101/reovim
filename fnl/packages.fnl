@@ -34,10 +34,11 @@
                 true]
                [:nebulous 
                 :Yagua/nebulous.nvim]])
-       (use {1 :folke/tokyonight.nvim 
+       (use {1 :folke/tokyonight.nvim
              :config (rv :tokyonight)})
-       (use {1 :EdenEast/nightfox.nvim
-             :config (rv :nightfox)})
+       ;; (use {1 :EdenEast/nightfox.nvim
+       ;;       :config (rv :nightfox)})
+
        (use {1 :nvim-telescope/telescope.nvim
              :requires [[:nvim-lua/popup.nvim]
                         [:nvim-lua/plenary.nvim]]

@@ -1,8 +1,8 @@
 local config = {}
 
 local gps = require("nvim-gps")
-local palette = require("nightfox.palette").load("nightfox")
-local Color = require("nightfox.lib.color")
+-- local palette = require("nightfox.palette").load("nightfox")
+-- local Color = require("nightfox.lib.color")
 
 local function diff_source()
     local gitsigns = vim.b.gitsigns_status_dict
@@ -58,7 +58,7 @@ end
 
 config.options = {
     icons_enabled = true,
-    theme = "nightfox",
+    theme = "tokyonight",
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     disabled_filetypes = {},
