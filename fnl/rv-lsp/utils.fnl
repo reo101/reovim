@@ -1,36 +1,34 @@
 (fn lsp-mappings []
   (let [wk (require :which-key)
-        mappings {:l {:w {:r [vim.lsp.buf.remove_workspace_folder :Remove]
+        mappings {:l {:name :LSP
+                      :w {:name :Workspace
+                          :a [vim.lsp.buf.add_workspace_folder    :Add]
+                          :r [vim.lsp.buf.remove_workspace_folder :Remove]
                           :l [(fn []
                                (print (vim.inspect (vim.lsp.buf.list_workspace_folders))))
-                              :List]
-                          :a [vim.lsp.buf.add_workspace_folder :Add]
-                          :name :Workspace}
+                              :List]}
                       :s [vim.lsp.buf.signature_help "Signature Help"]
-                      :a [vim.lsp.buf.code_action "Code Action"]
-                      :g {:d [vim.lsp.buf.definition :Definition]
-                          :i [vim.lsp.buf.implementation :Implementation]
-                          :r [vim.lsp.buf.references :References]
-                          :name :Go
-                          :D [vim.lsp.buf.declaration :Decaration]
-                          :y [vim.lsp.buf.type_definition
-                              "Type Definition"]}
-                      :c {:s [vim.lsp.codelens.save :Save]
+                      :a [vim.lsp.buf.code_action    "Code Action"]
+                      :g {:name :Go
+                          :d [vim.lsp.buf.definition      :Definition]
+                          :i [vim.lsp.buf.implementation  :Implementation]
+                          :r [vim.lsp.buf.references      :References]
+                          :D [vim.lsp.buf.declaration     :Decaration]
+                          :y [vim.lsp.buf.type_definition "Type Definition"]}
+                      :c {:name :Codelens
+                          :s [vim.lsp.codelens.save    :Save]
                           :a [vim.lsp.codelens.display :Display]
-                          :g [vim.lsp.codelens.get :Get]
-                          :r [vim.lsp.codelens.run :Run]
-                          :f [vim.lsp.codelens.refresh :Refresh]
-                          :name :Codelens}
-                      :name :LSP
-                      :d {:l [vim.diagnostic.open_float "Line Diagnostics"]
-                          :n [vim.diagnostic.goto_next :Next]
-                          :p [vim.diagnostic.goto_prev :Previous]
-                          :q [vim.diagnostic.set_loclist "Send to loclist"]
-                          :name :Diagnostics}
+                          :g [vim.lsp.codelens.get     :Get]
+                          :r [vim.lsp.codelens.run     :Run]
+                          :f [vim.lsp.codelens.refresh :Refresh]}
+                      :d {:name :Diagnostics
+                          :l [vim.diagnostic.open_float  "Line Diagnostics"]
+                          :n [vim.diagnostic.goto_next   :Next]
+                          :p [vim.diagnostic.goto_prev   :Previous]
+                          :q [vim.diagnostic.set_loclist "Send to loclist"]}
                       :f [vim.lsp.buf.formatting :Format]
-                      :r [vim.lsp.buf.rename :Rename]}}
-        direct-mappings {:K [#(vim.lsp.buf.hover)
-                             :Hover]
+                      :r [vim.lsp.buf.rename     :Rename]}}
+        direct-mappings {:K [#(vim.lsp.buf.hover) :Hover]
                          :g {:d [vim.lsp.buf.definition :Definition]
                              :i [vim.lsp.buf.implementation :Implementation]
                              :r [vim.lsp.buf.references :References]
@@ -80,9 +78,6 @@
                                  :insertReplaceSupport true
                                  :preselectSupport true
                                  :tagSupport {:valueSet [1]}})
-                           (set capabilities
-                                ((. (require :cmp_nvim_lsp)
-                                    :update_capabilities) capabilities))
                            capabilities)))
 
 (fn lsp-override-handlers []
