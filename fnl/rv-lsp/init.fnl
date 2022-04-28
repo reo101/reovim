@@ -17,7 +17,8 @@
                  :go       (. (require :rv-lsp.langs.go)       :config)
                  :erlang   (. (require :rv-lsp.langs.erlang)   :config)
                  :lua      (. (require :rv-lsp.langs.lua)      :config)
-                 :clojure  (. (require :rv-lsp.langs.clojure)  :config)}]
+                 :clojure  (. (require :rv-lsp.langs.clojure)  :config)
+                 :angular  (. (require :rv-lsp.langs.angular)  :config)}]
     (fn setup-servers []
       (each [name opt (pairs servers)]
         (if (= (type opt) :function)
