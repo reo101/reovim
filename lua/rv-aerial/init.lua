@@ -1,14 +1,13 @@
-local M  = {}
+local M = {}
 
 M.config = function()
-
     local opt = {
         -- Priority list of preferred backends for aerial
         -- backends = { "lsp", "treesitter", "markdown" },
         -- backends can also be specified as a filetype map.
         backends = {
             -- use underscore to specify the default behavior
-            ["_"]  = { "lsp", "treesitter", "markdown" },
+            ["_"] = { "lsp", "treesitter", "markdown" },
             -- python = {"treesitter"},
             -- rust   = {"lsp"},
         },
@@ -34,7 +33,7 @@ M.config = function()
         -- filter_kind can also be specified as a filetype map.
         filter_kind = {
             -- use underscore to specify the default behavior
-            ["_"]  = {
+            ["_"] = {
                 "Class",
                 "Constructor",
                 "Enum",
@@ -57,6 +56,12 @@ M.config = function()
         --               marked in the aerial buffer.
         -- none          Do not show the cursor locations in the aerial window.
         highlight_mode = "split_width",
+
+        -- Highlight the closest symbol if the cursor is not exactly on one.
+        highlight_closest = true,
+
+        -- Highlight the symbol in the source buffer when cursor is in the aerial win
+        highlight_on_hover = true,
 
         -- When jumping to a symbol, highlight the line for this many ms
         -- Set to 0 or false to disable
@@ -112,14 +117,14 @@ M.config = function()
 
         -- Use symbol tree for folding. Set to true or false to enable/disable
         -- "auto" will manage folds if your previous foldmethod was "manual"
-        manage_folds = "auto",
+        manage_folds = true, -- "auto",
 
         -- The maximum width of the aerial window
-        max_width = 40,
+        max_width = 35,
 
         -- The minimum width of the aerial window.
         -- To disable dynamic resizing, set this to be equal to max_width
-        min_width = 10,
+        min_width = 20,
 
         -- Set default symbol icons to use Nerd Font icons (see https://www.nerdfonts.com/)
         nerd_font = "auto",
@@ -213,7 +218,6 @@ M.config = function()
     }
 
     wk.register(mappings, { prefix = "<leader>" })
-
 end
 
 return M
