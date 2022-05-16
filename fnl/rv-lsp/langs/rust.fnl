@@ -10,7 +10,7 @@
              :capabilities lsp-capabilities
              :root_dir (lsp-root-dir
                          [:Cargo.toml
-                          :rust-project.json]) 
+                          :rust-project.json])
              :settings {:rust-analyzer {}}
              :single_file_support true}]
     ((. (. (require :lspconfig) :rust_analyzer) :setup) opt)))

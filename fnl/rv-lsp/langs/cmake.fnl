@@ -10,7 +10,9 @@
              :capabilities lsp-capabilities
              :root_dir (lsp-root-dir
                          [:compile_commands
-                          :build]) 
+                          :build
+                          :CMakeLists.txt
+                          :cmake])
              :init_options {:buildDirectory :build}
              :formatter {:args {}
                          :exe :clang-format}

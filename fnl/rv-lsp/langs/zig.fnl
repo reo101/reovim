@@ -10,7 +10,7 @@
              :on_attach lsp-on-attach
              :capabilities lsp-capabilities
              :root_dir (lsp-root-dir
-                         [:zls.json]) 
+                         [:zls.json])
              :single_file_support true}]
     ((. (. (require :lspconfig) :zls) :setup) opt)))
 

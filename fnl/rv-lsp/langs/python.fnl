@@ -8,7 +8,7 @@
              :on_init lsp-on-init
              :on_attach lsp-on-attach
              :capabilities lsp-capabilities
-             :root_dir (lsp-root-dir 
+             :root_dir (lsp-root-dir
                          [:pyproject.toml
                           :setup.py
                           :setup.cfg

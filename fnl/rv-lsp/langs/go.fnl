@@ -10,7 +10,7 @@
              :on_attach lsp-on-attach
              :capabilities lsp-capabilities
              :root_dir (lsp-root-dir
-                         [:go.mod]) 
+                         [:go.mod])
              :single_file_support true}]
     ((. (. (require :lspconfig) :gopls) :setup) opt)))
 

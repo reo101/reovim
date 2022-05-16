@@ -12,7 +12,7 @@
              :on_init lsp-on-init
              :on_attach lsp-on-attach
              :capabilities lsp-capabilities
-             :root_dir (lsp-root-dir []) 
+             :root_dir (lsp-root-dir [])
              :single_file_support true}]
     ((. (. (require :lspconfig) :bashls) :setup) opt)))
 

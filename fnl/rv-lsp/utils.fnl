@@ -26,13 +26,13 @@
                           :n [vim.diagnostic.goto_next   :Next]
                           :p [vim.diagnostic.goto_prev   :Previous]
                           :q [vim.diagnostic.set_loclist "Send to loclist"]}
-                      :f [vim.lsp.buf.formatting :Format]
-                      :r [vim.lsp.buf.rename     :Rename]}}
+                      :f [#(vim.lsp.buf.format {:async true}) :Format]
+                      :r [vim.lsp.buf.rename                  :Rename]}}
         direct-mappings {:K [#(vim.lsp.buf.hover) :Hover]
-                         :g {:d [vim.lsp.buf.definition :Definition]
-                             :i [vim.lsp.buf.implementation :Implementation]
-                             :r [vim.lsp.buf.references :References]
-                             :D [vim.lsp.buf.declaration :Decaration]
+                         :g {:d [vim.lsp.buf.definition      :Definition]
+                             :i [vim.lsp.buf.implementation  :Implementation]
+                             :r [vim.lsp.buf.references      :References]
+                             :D [vim.lsp.buf.declaration     :Decaration]
                              :y [vim.lsp.buf.type_definition "Type Definition"]}}
         motion-mappings {"]d" [vim.diagnostic.goto_next "Next Diagnostic"]
                          "[d" [vim.diagnostic.goto_prev "Previous Diagnostic"]}]
@@ -43,13 +43,14 @@
 
 (fn lsp-on-attach [client bufnr]
   (lsp-mappings)
-  (when client.resolved_capabilities.code_lens
+  ;; TODO: Lua Autocommands + server_capabilities
+  (when client.server_capabilities.code_lens
     (vim.cmd "        augroup CodeLens
             au!
             au InsertEnter,InsertLeave * lua vim.lsp.codelens.refresh()
         augroup END
         "))
-  (when client.resolved_capabilities.document_highlight
+  (when client.server_capabilities.document_highlight
     (vim.cmd "            augroup LSPDocumentHighlight
                 autocmd! * <buffer>
                 autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
@@ -98,9 +99,9 @@
     (when (= (. (. (require :globals) :custom) :lsp_progress) :notify)
       (local client-notifs [])
       (local spinner-frames ["◜"
-                             "◠" 
-                             "◝" 
-                             "◞" 
+                             "◠"
+                             "◝"
+                             "◞"
                              "◡"
                              "◟"])
 
@@ -168,7 +169,7 @@
 
       (fn set-signs-limited [diagnostics bufnr client-id sign-ns opts]
         (when (not diagnostics)
-          (lua "return "))
+          (lua "return"))
         (local max-severity-per-line {})
         (each [_ d (pairs diagnostics)]
           (if (. max-severity-per-line d.range.start.line)
@@ -187,12 +188,12 @@
       (local hl (.. :DiagnosticSign type))
       (vim.fn.sign_define hl {:numhl "" :text icon :texthl hl}))))
 
-(fn lsp-root-dir [root-files]
+(fn lsp-root-dir [root-files git?]
   (fn [fname]
       (local util (require :lspconfig.util))
       (or (or ((util.root_pattern (unpack root-files)) fname)
-              (util.find_git_ancestor fname))
-          (util.path.dirname fname))))
+              (and git? (util.find_git_ancestor fname))))))
+          ;; (util.path.dirname fname))))
 
 {: lsp-mappings
  : lsp-on-attach

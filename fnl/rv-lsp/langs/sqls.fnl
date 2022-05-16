@@ -39,7 +39,7 @@
              :on_init lsp-on-init
              :on_attach (fn [client]
                           (lsp-on-attach client)
-                          (set client.resolved_capabilities.execute_command
+                          (set client.server_capabilities.execute_command
                                true)
                           (register-mappings)
                           ((. (require :sqls) :setup) {:picker :telescope}))

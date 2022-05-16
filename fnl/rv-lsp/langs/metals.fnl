@@ -13,7 +13,7 @@
                                                                bufnr)
                    ((. (require :rv-lsp.utils) :lsp_on_init) client)
                    ((. (require :metals) :setup_dap))))
-            (vim.cmd 
+            (vim.cmd
               " hi! link LspCodeLens CursorColumn
                 hi! link LspReferenceText CursorColumn
                 hi! link LspReferenceRead CursorColumn
@@ -32,7 +32,7 @@
             (wk.register mappings {:prefix :<leader>})
             (wk.register visual-mappings {:mode :v :prefix ""})
             ((. (require :metals) :initialize_or_attach) metals-config))))
-   (vim.cmd 
+   (vim.cmd
      "  augroup lsp
           au!
           au FileType scala,sbt lua _G.setup_metals()

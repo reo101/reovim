@@ -11,7 +11,7 @@
              :on_attach lsp-on-attach
              :capabilities lsp-capabilities
              :root_dir (lsp-root-dir
-                         []) 
+                         [])
              :init_options {:provideFormatter true}
              :settings {:json {:schemas ((. (. (require :schemastore)
                                                :json)

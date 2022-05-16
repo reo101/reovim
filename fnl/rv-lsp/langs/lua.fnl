@@ -3,6 +3,7 @@
          : lsp-on-attach
          : lsp-capabilities
          : lsp-root-dir} (require :rv-lsp.utils)
+        lua_index_plugins (. (require :globals) :custom :lua_index_plugins)
         opt {:cmd [:lua-language-server
                    :--start-lsp]
              :filetypes [:lua]
@@ -10,7 +11,10 @@
              :on_attach lsp-on-attach
              :capabilities lsp-capabilities
              :root_dir (lsp-root-dir
-                         []) 
+                         [:.luarc.json
+                          :.luacheckrc
+                          :.stylua.toml
+                          :selene.toml])
              :settings {:Lua {:runtime {:path ((fn []
                                                  (local runtime-path
                                                         (vim.split package.path
@@ -24,11 +28,8 @@
                               :workspace {:preloadFileSize 10000
                                           :maxPreload 100000
                                           :library ((fn []
-                                                      (if (. (. (require :globals)
-                                                                :custom)
-                                                             :lua_index_plugins)
-                                                          (vim.api.nvim_get_runtime_file ""
-                                                                                         true)
+                                                      (if :lua_index_plugins
+                                                          (vim.api.nvim_get_runtime_file "" true)
                                                           {(vim.fn.expand :$VIMRUNTIME/lua) true
                                                            (vim.fn.expand :$VIMRUNTIME/lua/vim/lsp) true})))}
                               :completion {:callSnippet :Replace
