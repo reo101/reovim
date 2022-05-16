@@ -5,13 +5,12 @@
          : lsp-root-dir} (require :rv-lsp.utils)
         opt {:cmd [:ansible-language-server
                    :--stdio]
-             :filetypes [:yaml
-                         :yaml.ansible]
+             :filetypes [:yaml.ansible]
              :on_init lsp-on-init
              :on_attach lsp-on-attach
              :capabilities lsp-capabilities
              :root_dir (lsp-root-dir [:ansible.cfg
-                                      :.ansible-lint]) 
+                                      :.ansible-lint])
              :settings {:ansible {:python {:interpreterPath :python}
                                   :ansible {:path :ansible}
                                   :executionEnvironment {:enabled false}

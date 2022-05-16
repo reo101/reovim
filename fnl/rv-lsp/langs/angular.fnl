@@ -15,8 +15,7 @@
                :--tsProbeLocations
                probe-dir
                :--ngProbeLocations
-               probe-dir
-               :--stdio])
+               probe-dir])
         opt {
              :cmd (cmd default-probe-dir)
              :on_new_config (fn [new-config new-root-dir]
