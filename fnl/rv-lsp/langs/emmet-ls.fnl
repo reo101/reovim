@@ -11,7 +11,7 @@
              :on_attach lsp-on-attach
              :capabilities lsp-capabilities
              :root_dir (lsp-root-dir
-                         []) 
+                         [])
              :single_file_support true}]
     ((. (. (require :lspconfig) :emmet_ls) :setup) opt)))
 

@@ -17,7 +17,7 @@
              :root_dir (lsp-root-dir
                          [:package.json
                           :jsconfig.json
-                          :tsconfig.json]) 
+                          :tsconfig.json])
              :init_options {:hostInfo :neovim}
              :single_file_support true}]
     ((. (. (require :lspconfig) :tsserver) :setup) opt)))

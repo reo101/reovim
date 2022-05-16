@@ -7,12 +7,21 @@
                                           :-outdir=.build
                                           :-pv
                                           "%f"]}
+                        :luatex {:isContinuous false
+                                 :onSave true
+                                 :executable :latexmk
+                                 :args [:-pdflua
+                                        :-interaction=nonstopmode
+                                        :-synctex=1
+                                        :-pv
+                                        "%f"]}
                         :lualatex {:isContinuous false
-                                   :executable :latexmk
-                                   :args [:-pdflua
-                                          :-interaction=nonstopmode
+                                   :onSave true
+                                   :executable :lualatex
+                                   :args [:-interaction=nonstopmode
                                           :-synctex=1
-                                          :-pv
+                                          :-shell-escape
+                                          :-pvc
                                           "%f"]}
                         :xelatex {:isContinuous false
                                   :executable :latexmk

@@ -10,7 +10,7 @@
              :capabilities lsp-capabilities
              :root_dir (lsp-root-dir
                          [:rebar.config
-                          :erlang.mk]) 
+                          :erlang.mk])
              :single_file_support true}]
     ((. (. (require :lspconfig) :erlangls) :setup) opt)))
 

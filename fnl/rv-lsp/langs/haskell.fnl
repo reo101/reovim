@@ -15,7 +15,7 @@
                           :stack.yaml
                           :cabal.project
                           :package.yaml
-                          :hie.yaml]) 
+                          :hie.yaml])
              :lspinfo (fn []
                         (local extra {})
 

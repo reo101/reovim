@@ -26,8 +26,13 @@
                                  "Switch Header"]}
                            {:prefix :<leader>}))
              :capabilities lsp-capabilities
-             :init_options {:fallbackFlags [:-std=c++20]}
-             :root_dir (lsp-root-dir [:.clang-format]) 
+             ;; :init_options {:fallbackFlags [:-std=c++20]}
+             :root_dir (lsp-root-dir [:.clang-format
+                                      :.clang-tidy
+                                      :.clang-format
+                                      :compile_commands.json
+                                      :compile_flags.txt
+                                      :configure.ac])
              :single_file_support true}]
     ((. (. (require :lspconfig) :clangd) :setup) opt)))
 
