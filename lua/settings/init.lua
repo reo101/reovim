@@ -8,13 +8,18 @@ TERMINAL    = vim.fn.expand("$TERMINAL")
 
 ---  VIM ONLY COMMANDS  ---
 
-vim.cmd("filetype plugin on")
 vim.cmd(string.format([[let &titleold="%s"]], TERMINAL))
 vim.cmd("set inccommand=split")
 vim.cmd("set iskeyword+=-")
+vim.cmd("set iskeyword-=:")
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 -- vim.cmd("au ColorScheme * hi Normal ctermbg=none guibg=none")
 -- vim.cmd("au ColorScheme * hi SignColumn ctermbg=none guibg=none")
+
+--- EXPERIMENTAL ---
+
+-- vim.g.do_filetype_lua = 1
+-- vim.g.did_load_filetypes = 0
 
 ---  SETTINGS  ---
 
@@ -75,3 +80,31 @@ vim.opt.writebackup    = false                          -- if a file is being ed
 -- vim.wo.foldminlines = 1
 -- vim.wo.foldnestmax = 3
 -- vim.wo.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) ]]
+
+-- disable builtin plugins
+local disabled_plugins = {
+    "2html_plugin",
+    "getscript",
+    "getscriptPlugin",
+    "gzip",
+    "logipat",
+    "netrw",
+    "netrwPlugin",
+    "netrwSettings",
+    "netrwFileHandlers",
+    "matchit",
+    "matchparen",
+    "spec",
+    "tar",
+    "tarPlugin",
+    "rrhelper",
+    "spellfile_plugin",
+    "vimball",
+    "vimballPlugin",
+    "zip",
+    "zipPlugin"
+}
+
+for _, plugin in ipairs(disabled_plugins) do
+    vim.g["loaded_" .. plugin] = 1
+end
