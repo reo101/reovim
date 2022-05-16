@@ -17,13 +17,22 @@ M.config = function()
 
     local opt = {
         char = "│",
+        char_list_blankline = { "|", "┊", "┆", "¦"},
         space_char_blankline = " ",
         max_indent_increase = 1,
         use_treesitter = true,
         show_end_of_line = false,
         show_current_context = true,
         show_trailing_blankline_indent = false,
-        context_patterns = { "class", "function", "method", "while", "do_statement", "closure", "for" },
+        context_patterns = {
+            "class",
+            "function",
+            "method",
+            "while",
+            "do_statement",
+            "closure",
+            "for",
+        },
         viewport_buffer = 50,
         filetype_exclude = {
             "help",
@@ -46,15 +55,17 @@ M.config = function()
     local mappings = {
         t = {
             name = "Toggle",
-            i = { function()
-                require("indent_blankline.commands").toggle()
-                vim.cmd [[ set list! ]]
-            end, "IndentLine" },
+            i = {
+                function()
+                    require("indent_blankline.commands").toggle()
+                    vim.cmd([[ set list! ]])
+                end,
+                "IndentLine",
+            },
         },
     }
 
     wk.register(mappings, { prefix = "<leader>" })
-
 end
 
 return M
