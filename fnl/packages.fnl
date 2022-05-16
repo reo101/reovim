@@ -95,9 +95,9 @@
        (use {1 :segeljakt/vim-silicon
              :config (rv :silicon)})
        (use {1 :folke/which-key.nvim
-             :config (fn []
-                       ((rv :whichkey))
-                       ((rv :whichkey.presets)))})
+             :config (||>
+                       (rv :whichkey)
+                       (rv :whichkey.presets))})
        (use {1 :goolord/alpha-nvim
              :as :alpha
              :config (rv :alpha)})
@@ -141,7 +141,7 @@
              :config (rv :lsp)})
        (use {1 :folke/trouble.nvim
              :requires [[:kyazdani42/nvim-web-devicons]]
-             :conqig (rv :lsp.trouble)})
+             :config (rv :lsp.trouble)})
        (use {1 :ray-x/lsp_signature.nvim})
        (use {1 :kosayoda/nvim-lightbulb
              :disable true
@@ -169,10 +169,11 @@
        (use {1 :mlochbaum/BQN :rtp :editors/vim})
        (use {1 :shirk/vim-gas})
        (use {1 :aklt/plantuml-syntax})
-       (use {1 :alaviss/nim.nvim 
+       (use {1 :alaviss/nim.nvim
              :rtp :syntax
              :disable true})
        (use {1 :McSinyx/vim-octave})
+       (use {1 :kmonad/kmonad-vim})
        (use {1 :ThePrimeagen/refactoring.nvim
              :requires [[:nvim-lua/plenary.nvim]
                         [:nvim-treesitter/nvim-treesitter]]
@@ -244,8 +245,11 @@
                [:JoosepAlviste/nvim-ts-context-commentstring
                 {:as :treesitter-context-commentstring}]
                [:windwp/nvim-ts-autotag
-                {:as :treesitter-autotag}]])
-
+                {:as :treesitter-autotag}]
+               [:RRethy/nvim-treesitter-textsubjects
+                {:as :treesitter-textsubjects}]
+               [:nvim-treesitter/nvim-treesitter-angular
+                {:as :treesitter-angular}]])
        (fn convert-to-treesitter-opt [treesitter-plugin]
          (var opt
               {1 (. treesitter-plugin 1)
@@ -358,7 +362,8 @@
              :as :comments
              :config (rv :comments)})
        (use {1 :folke/todo-comments.nvim
-             :requires [[:nvim-lua/plenary.nvim]]
+             :requires [[:nvim-lua/plenary.nvim]
+                        [:anuvyklack/nvim-keymap-amend]]
              :config (rv :todocomments)})
        (use {1 :anuvyklack/pretty-fold.nvim
              :config (rv :prettyfold)})
