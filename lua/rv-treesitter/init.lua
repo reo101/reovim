@@ -7,8 +7,10 @@ M.config = function()
             "lua",
             "javascript",
             "java",
+            "scala",
             "php",
             "python",
+            "sql",
             "html",
             "norg",
             "norg_meta",
@@ -24,6 +26,8 @@ M.config = function()
         },
         rainbow = {
             enable = true,
+            extended_mode = true,
+            max_file_lines = nil,
         },
         incremental_selection = {
             enable = true,
@@ -180,9 +184,27 @@ M.config = function()
             use_virtual_text = true,
             lint_events = { "BufWrite", "CursorHold" },
         },
+        textsubjects = {
+            enable = true,
+            prev_selection = ",", -- (Optional) keymap to select the previous selection
+            keymaps = {
+                ["."] = "textsubjects-smart",
+                [";"] = "textsubjects-container-outer",
+                ["i;"] = "textsubjects-container-inner",
+            },
+        },
     }
 
     require("nvim-treesitter.install").prefer_git = true
+
+    vim.api.nvim_create_user_command("TSFullNodeUnderCursor", function()
+        require("nvim-treesitter-playground.hl-info").show_ts_node({
+            full_path = true,
+            show_range = false,
+            include_anonymous = true,
+            highlight_node = true,
+        })
+    end, {})
 
     require("nvim-treesitter.parsers").get_parser_configs().http = {
         install_info = {
@@ -203,6 +225,14 @@ M.config = function()
     require("nvim-treesitter.parsers").get_parser_configs().norg_table = {
         install_info = {
             url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
+            files = { "src/parser.c" },
+            branch = "main",
+        },
+    }
+
+    require("nvim-treesitter.parsers").get_parser_configs().sql = {
+        install_info = {
+            url = "https://github.com/m-novikov/tree-sitter-sql",
             files = { "src/parser.c" },
             branch = "main",
         },
@@ -269,8 +299,8 @@ M.config = function()
     wk.register(mappings, { prefix = "<leader>" })
 
     local operatorMappings = {
-        a = { name = "around" },
-        i = { name = "inside" },
+        ["a"]  = { name = "around" },
+        ["i"]  = { name = "inside" },
         ["af"] = { "@function.outer" },
         ["if"] = { "@function.inner" },
         ["aC"] = { "@class.outer" },
@@ -288,6 +318,10 @@ M.config = function()
         ["im"] = { "@call.inner" },
         ["ar"] = { "@parameter.outer" },
         ["ir"] = { "@parameter.inner" },
+        [","]  = { "textsubjects-last" },
+        ["."]  = { "textsubjects-smart" },
+        [";"]  = { "textsubjects-container-outer" },
+        ["i;"] = { "textsubjects-container-inner" },
     }
 
     wk.register(operatorMappings, { mode = "o", prefix = "" })
