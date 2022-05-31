@@ -4,8 +4,7 @@
                       :w {:name :Workspace
                           :a [vim.lsp.buf.add_workspace_folder    :Add]
                           :r [vim.lsp.buf.remove_workspace_folder :Remove]
-                          :l [(fn []
-                               (print (vim.inspect (vim.lsp.buf.list_workspace_folders))))
+                          :l [#(print (vim.inspect (vim.lsp.buf.list_workspace_folders)))
                               :List]}
                       :s [vim.lsp.buf.signature_help "Signature Help"]
                       :a [vim.lsp.buf.code_action    "Code Action"]
@@ -43,22 +42,27 @@
 
 (fn lsp-on-attach [client bufnr]
   (lsp-mappings)
-  ;; TODO: Lua Autocommands + server_capabilities
-  (when client.server_capabilities.code_lens
-    (vim.cmd "        augroup CodeLens
-            au!
-            au InsertEnter,InsertLeave * lua vim.lsp.codelens.refresh()
-        augroup END
-        "))
-  (when client.server_capabilities.document_highlight
-    (vim.cmd "            augroup LSPDocumentHighlight
-                autocmd! * <buffer>
-                autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-                autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-            augroup END
-        "))
+
+  (when client.server_capabilities.codeLensProvider
+    ;; TODO; buffer *
+    (vim.api.nvim_create_augroup :LspCodeLens {:clear true})
+    (vim.api.nvim_create_autocmd [:InsertEnter
+                                  :InsertLeave]
+                                 {:pattern  :*
+                                  :group    :LspCodeLens
+                                  :callback vim.lsp.codelens.refresh}))
+  (when client.server_capabilities.documentHighlightProvider
+    (vim.api.nvim_create_augroup :LspDocumentHighlight {:clear true})
+    (vim.api.nvim_create_autocmd [:CursorHold]
+                                 {:buffer   0
+                                  :group    :LspDocumentHighlight
+                                  :callback vim.lsp.buf.document_highlight})
+    (vim.api.nvim_create_autocmd [:CursorMoved]
+                                 {:buffer   0
+                                  :group    :LspDocumentHighlight
+                                  :callback vim.lsp.buf.clear_references}))
   ((. (require :aerial) :on_attach) client bufnr)
-  ((. (require :rv-lsp/signature) :config)))
+  ((. (require :rv-lsp.signature) :config)))
 
 (fn lsp-on-init [client]
   (vim.notify "Language Server Client successfully started!" :info
@@ -71,14 +75,14 @@
                                 {:resolveSupport {:properties [:documentation
                                                                :detail
                                                                :additionalTextEdits]}
-                                 :documentationFormat [:markdown]
-                                 :deprecatedSupport true
-                                 :snippetSupport true
+                                 :documentationFormat     [:markdown]
+                                 :deprecatedSupport       true
+                                 :snippetSupport          true
                                  :commitCharactersSupport true
-                                 :labelDetailsSupport true
-                                 :insertReplaceSupport true
-                                 :preselectSupport true
-                                 :tagSupport {:valueSet [1]}})
+                                 :labelDetailsSupport     true
+                                 :insertReplaceSupport    true
+                                 :preselectSupport        true
+                                 :tagSupport              {:valueSet [1]}})
                            capabilities)))
 
 (fn lsp-override-handlers []
@@ -137,8 +141,10 @@
             (if (= val.kind :begin)
                 (let [message (format-message val.message val.percentage)
                       notification (vim.notify message :info
-                                               {:title (format-title val.title
-                                                                     (vim.lsp.get_client_by_id client-id))
+                                               {:title (format-title
+                                                         val.title
+                                                         (vim.lsp.get_client_by_id
+                                                           client-id))
                                                 :icon (. spinner-frames 1)
                                                 :hide_from_history true
                                                 :timeout false})]
@@ -183,7 +189,10 @@
         (orig-set-signs filtered-diagnostics bufnr client-id sign-ns opts))
 
       (set vim.lsp.diagnostic.set_signs set-signs-limited))
-    (local signs {:Info "" :Warn "" :Error "" :Hint ""})
+    (local signs {:Info  ""
+                  :Warn  ""
+                  :Error ""
+                  :Hint  ""})
     (each [type icon (pairs signs)]
       (local hl (.. :DiagnosticSign type))
       (vim.fn.sign_define hl {:numhl "" :text icon :texthl hl}))))
