@@ -5,7 +5,12 @@
           : lsp-root-dir} (require :rv-lsp.utils)
          opt {:server {:capabilities lsp-capabilities
                        :on_init lsp-on-init
-                       :on_attach lsp-on-attach}
+                       :on_attach lsp-on-attach
+                       :settings {:rust-analyzer {:procMacro {:enable true}
+                                                  :checkOnSave {:command :clippy}}
+                                  :assist {:importGranularity :module
+                                           :importPrefix :self}
+                                  :cargo {:loadOutDirsFromCheck true}}}
               :dap {:adapter {:type :executable
                               :name :rt_lldb
                               :command :lldb-vscode}}
