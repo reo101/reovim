@@ -44,6 +44,7 @@ vim.opt.guifont        = "Fira Code Mono Nerd Font:h17" -- the font used in grap
 vim.opt.hidden         = true                           -- required to keep multiple buffers and open multiple buffers
 vim.opt.hlsearch       = true                           -- highlight all matches on previous search pattern
 vim.opt.ignorecase     = true                           -- ignore case in search patterns
+vim.opt.laststatus     = 3                              -- global statusline
 vim.opt.mouse          = "a"                            -- allow the mouse to be used in neovim
 vim.opt.number         = true                           -- set numbered lines
 vim.opt.pumblend       = 20                             -- winblend for the autocompletion window
