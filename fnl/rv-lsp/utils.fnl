@@ -62,6 +62,7 @@
                                   :group    :LspDocumentHighlight
                                   :callback vim.lsp.buf.clear_references}))
   ((. (require :aerial) :on_attach) client bufnr)
+  ((. (require :nvim-navic) :attach) client bufnr)
   ((. (require :rv-lsp.signature) :config)))
 
 (fn lsp-on-init [client]

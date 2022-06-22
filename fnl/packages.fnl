@@ -101,15 +101,20 @@
        (use {1 :goolord/alpha-nvim
              :as :alpha
              :config (rv :alpha)})
-       (use {1 :hoob3rt/lualine.nvim
-             :as :lualine
-             :config (rv :lualine)
-             :requires [{1 :kyazdani42/nvim-web-devicons
-                         :opt true}]
-             :after {1 :gps}})
+       (use {1 :rebelot/heirline.nvim
+             :as :heirline
+             :config (rv :heirline)
+             :requires [[:kyazdani42/nvim-web-devicons]
+                        [:lewis6991/gitsigns.nvim]]
+             :after [:navic
+                     :gitsigns]})
        (use {1 :SmiteshP/nvim-gps
              :as :gps
              :config (rv :gps)
+             :requires [[:nvim-treesitter/nvim-treesitter]]})
+       (use {1 :SmiteshP/nvim-navic
+             :as :navic
+             :config (rv :navic)
              :requires [[:nvim-treesitter/nvim-treesitter]]})
        (use {1 :romgrk/barbar.nvim
              :as :barbar
@@ -345,6 +350,7 @@
              :after [:neogit]
              :config (rv :diffview)})
        (use {1 :lewis6991/gitsigns.nvim
+             :as :gitsigns
              :requires [[:nvim-lua/plenary.nvim]]
              :config (rv :gitsigns)})
        (use {1 :ThePrimeagen/git-worktree.nvim
