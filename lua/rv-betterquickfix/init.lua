@@ -80,6 +80,38 @@ M.config = function()
     }
 
     require("bqf").setup(opt)
+
+    local wk = require("which-key")
+
+    local function check(want)
+        return function()
+            for _, info in ipairs(vim.fn.getwininfo()) do
+                if want == "quickfix" then
+                    if info.quickfix == 0 then
+                        vim.cmd([[copen]])
+                    else
+                        vim.cmd([[cclose]])
+                    end
+                elseif want == "loclist" then
+                    if info.loclist == 0 then
+                        vim.cmd([[lopen]])
+                    else
+                        vim.cmd([[lclose]])
+                    end
+                end
+            end
+        end
+    end
+
+    local mappings = {
+        t = {
+            name = "Toggle",
+            q = { check("quickfix"), "Quickfix" },
+            l = { check("loclist"), "Loclist" },
+        }
+    }
+
+    wk.register(mappings, { mode = "n", prefix = "<leader>" })
 end
 
 return M
