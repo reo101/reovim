@@ -9,6 +9,7 @@ M.config = function()
         -- eol = "↴",
         tab = "  ",
     }
+    vim.opt.showbreak = " ☇ " -- "↪"
     vim.opt.list = true
 
     -- vim.cmd [[ highlight ExtraWhitespace ctermbg=red guibg=red ]]
