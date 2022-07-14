@@ -5,16 +5,16 @@
 
    ```fennel
    (def-keymaps :n
-     {:a {:name :AloDa
+     {:a {:name :abc
           :hydra true
-          :b [#(print :alo) :Testis]
-          :c #(print :da)}}
+          :b [#(print :ab) \"Print ab\"]
+          :c #(print :ac)}}
      :<leader>)
    ```
 
    The above example defines two keybinds:
-   <leader>s1 - prints 'alo', (has custom description, for hydra)
-   <leader>s2 - prints 'da'
+   <leader>ab - prints 'ab', (has custom description, for hydra and which-key)
+   <leader>ac - prints 'ac'
 
    A group of keymaps can be 'hydrated' using `:hydra true` and its friends
    "
@@ -28,7 +28,6 @@
          :config    config?
          :docs      docs?
          :which-key which-key?} keymaps
-        ;; which-key? false ;; FIXME: weird overriding
         keymaps (collect [lhs rhs (pairs keymaps)]
                   (if (not (vim.tbl_contains
                              [:hydra
