@@ -9,7 +9,7 @@
    : i>== : forieach
    : map
    : imap}
-  :macros)
+  :init-macros)
 
 (local packer (require :packer))
 
