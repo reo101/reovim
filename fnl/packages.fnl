@@ -98,6 +98,7 @@
              :config (||>
                        (rv :whichkey)
                        (rv :whichkey.presets))})
+       (use {1 :anuvyklack/hydra.nvim})
        (use {1 :goolord/alpha-nvim
              :as :alpha
              :config (rv :alpha)})
