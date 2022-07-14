@@ -6,7 +6,17 @@
         opt {:cmd [:emmet-ls
                    :--stdio]
              :filetypes [:html
-                         :css]
+                         :svelte
+                         :vue
+                         :javascriptreact
+                         :typescriptreact
+                         :php
+                         :xml
+                         :css
+                         :less
+                         :postcss
+                         :sass
+                         :scss]
              :on_init lsp-on-init
              :on_attach lsp-on-attach
              :capabilities lsp-capabilities
