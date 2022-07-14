@@ -25,13 +25,16 @@
 
 (require :settings)
 
-(let [{: prequire} (require :globals)
+(let [{: prequire
+       :impatient impatient?} (require :globals)
       impatient (prequire :impatient)]
-  (when impatient
-    (impatient.enable_profile)
-    (prequire :packer_compiled)))
+  (when (and impatient?
+             impatient)
+    (impatient.enable_profile))
+  (prequire :packer_compiled))
+
+;; (require :packer_compiled)
 
 (require :packages)
 
-(require :keymaps)
 (require :rv-autocommands)

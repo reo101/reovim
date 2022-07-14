@@ -1,7 +1,7 @@
 local M = {}
 
 local dap_mappings = function()
-    local wk = require("which-key")
+    local dk = require("def-keymaps")
 
     local mappings = {
         d = {
@@ -14,6 +14,7 @@ local dap_mappings = function()
             c = { require("dap").continue, "Continue" },
             C = { require("dap").run_to_cursor, "Run to Cursor" },
             s = {
+                hydra = true,
                 name = "Step",
                 o = { require("dap").step_over, "Over" },
                 i = { require("dap").step_into, "Into" },
@@ -28,7 +29,7 @@ local dap_mappings = function()
         },
     }
 
-    wk.register(mappings, { prefix = "<leader>" })
+    dk("n", mappings, "<leader>")
 end
 
 local dap_override_icons = function()

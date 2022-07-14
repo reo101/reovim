@@ -42,6 +42,9 @@ M.custom = {
 
     ---@type boolean
     ["lua_index_plugins"] = false,
+
+    --@type boolean
+    ["impatient"] = false,
 }
 
 return M

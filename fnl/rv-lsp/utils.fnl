@@ -1,5 +1,5 @@
 (fn lsp-mappings []
-  (let [wk (require :which-key)
+  (let [dk (require :def-keymaps)
         mappings {:l {:name :LSP
                       :w {:name :Workspace
                           :a [vim.lsp.buf.add_workspace_folder    :Add]
@@ -24,7 +24,7 @@
                           :l [vim.diagnostic.open_float  "Line Diagnostics"]
                           :n [vim.diagnostic.goto_next   :Next]
                           :p [vim.diagnostic.goto_prev   :Previous]
-                          :q [vim.diagnostic.set_loclist "Send to loclist"]}
+                          :q [vim.diagnostic.setloclist  "Send to loclist"]}
                       :f [#(vim.lsp.buf.format {:async true}) :Format]
                       :r [vim.lsp.buf.rename                  :Rename]}}
         direct-mappings {:K [#(vim.lsp.buf.hover) :Hover]
@@ -35,10 +35,9 @@
                              :y [vim.lsp.buf.type_definition "Type Definition"]}}
         motion-mappings {"]d" [vim.diagnostic.goto_next "Next Diagnostic"]
                          "[d" [vim.diagnostic.goto_prev "Previous Diagnostic"]}]
-    (wk.register mappings {:prefix :<leader>})
-    (wk.register direct-mappings {:mode :n :prefix ""})
-    (wk.register motion-mappings {:mode :n :prefix ""})
-    (wk.register motion-mappings {:mode :o :prefix ""})))
+    (dk :n mappings :<leader>)
+    (dk :n direct-mappings)
+    (dk [:n :o] motion-mappings :<leader>)))
 
 (fn lsp-on-attach [client bufnr]
   (lsp-mappings)
