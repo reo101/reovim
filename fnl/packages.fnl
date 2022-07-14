@@ -179,10 +179,6 @@
              :disable true})
        (use {1 :McSinyx/vim-octave})
        (use {1 :kmonad/kmonad-vim})
-       (use {1 :ThePrimeagen/refactoring.nvim
-             :requires [[:nvim-lua/plenary.nvim]
-                        [:nvim-treesitter/nvim-treesitter]]
-             :config (rv :refactoring)})
        (use {1 :scalameta/nvim-metals
              :requires [[:nvim-lua/plenary.nvim]]
              :config (rv :lsp.langs.metals)})
