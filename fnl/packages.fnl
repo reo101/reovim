@@ -308,7 +308,7 @@
        (use {1 :kevinhwang91/nvim-hlslens
              :disable true
              :config (rv :hlslens)})
-       (use {1 :ur4ltz/surround.nvim
+       (use {1 :kylechui/nvim-surround
              :as :surround
              :config (rv :surround)})
        (use {1 :abecodes/tabout.nvim
