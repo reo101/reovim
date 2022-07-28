@@ -368,8 +368,10 @@
              :requires [[:nvim-lua/plenary.nvim]
                         [:anuvyklack/nvim-keymap-amend]]
              :config (rv :todocomments)})
-       (use {1 :anuvyklack/pretty-fold.nvim
-             :config (rv :prettyfold)})
+       (use {1 :kevinhwang91/nvim-ufo
+             :as :ufo
+             :config (rv :ufo)
+             :requires [[:kevinhwang91/promise-async]]})
        (use {1 :bennypowers/nvim-regexplainer
              :as :regexplainer
              :config (rv :regexplainer)})
