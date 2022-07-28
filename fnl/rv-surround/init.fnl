@@ -1,8 +1,6 @@
 (fn config []
  (let [utils (require :nvim-surround.utils)
-       opt {:keymaps {:insert      :ys
-                      :insert_line :yss
-                      :visual      :S
+       opt {:keymaps {:visual      :S
                       :delete      :ds
                       :change      :cs}
             :delimiters {:pairs {"(" ["( " " )"] ")" ["("   ")"]
