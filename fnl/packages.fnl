@@ -92,6 +92,14 @@
        (use {1 :jghauser/follow-md-links.nvim
              :requires [[:nvim-treesitter/nvim-treesitter]]
              :config (rv :mdlinks)})
+       ;; (use {1 :nvim-orgmode/orgmode
+       ;;       :requires [[:nvim-treesitter/nvim-treesitter]]
+       ;;       :config (rv :orgmode)})
+       ;; (use {1 :lukas-reineke/headlines.nvim
+       ;;       :as :headlines
+       ;;       :requires [[:nvim-orgmode/orgmode]
+       ;;                  [:nvim-treesitter/nvim-treesitter]]
+       ;;       :config (rv :headlines)})
        (use {1 :segeljakt/vim-silicon
              :config (rv :silicon)})
        (use {1 :folke/which-key.nvim
@@ -101,7 +109,8 @@
        (use {1 :anuvyklack/hydra.nvim})
        (use {1 :goolord/alpha-nvim
              :as :alpha
-             :config (rv :alpha)})
+             :config (rv :alpha)
+             :disable true})
        (use {1 :rebelot/heirline.nvim
              :as :heirline
              :config (rv :heirline)
@@ -184,9 +193,11 @@
              :requires [[:nvim-lua/plenary.nvim]]
              :config (rv :lsp.langs.metals)})
        (use {1 :Olical/aniseed
-             :config (rv :aniseed)})
+             :config (rv :aniseed)
+             :disable true})
        (use {1 :Olical/conjure
-             :config (rv :conjure)})
+             :config (rv :conjure)
+             :disable true})
        (use {1 :eraserhd/parinfer-rust
              :config (rv :parinfer)
              :run "cargo build --release"
@@ -229,6 +240,8 @@
        (use {1 :antoinemadec/FixCursorHold.nvim
              :as :cursorhold
              :config (rv :cursorhold)})
+
+       ;; Treesitter
        (use {1 :nvim-treesitter/nvim-treesitter
              :config (rv :treesitter)
              :run ":TSUpdate"})
@@ -257,7 +270,8 @@
               {1 (. treesitter-plugin 1)
                :requires [[:nvim-treesitter/nvim-treesitter]]})
          (set opt
-              (vim.tbl_deep_extend :force (. treesitter-plugin 2)
+              (vim.tbl_deep_extend :force
+                                   (. treesitter-plugin 2)
                                    opt))
          opt)
 
