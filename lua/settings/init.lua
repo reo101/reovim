@@ -16,15 +16,7 @@ vim.cmd("set whichwrap+=<,>,[,],h,l")
 -- vim.cmd("au ColorScheme * hi Normal ctermbg=none guibg=none")
 -- vim.cmd("au ColorScheme * hi SignColumn ctermbg=none guibg=none")
 
---- EXPERIMENTAL ---
-
--- vim.g.do_filetype_lua = 1
--- vim.g.did_load_filetypes = 0
-
 ---  SETTINGS  ---
-
-vim.g.do_filetype_lua = 1    -- Enable filetype.lua
-vim.g.did_load_filetypes = 0 -- Disable filetype.vim
 
 vim.g.mapleader        = " "                            -- maps the leader to space
 vim.g.maplocalleader   = " "                            -- maps the local leader to space
