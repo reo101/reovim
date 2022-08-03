@@ -6,7 +6,7 @@
         get-probe-dir (fn [root-dir]
                         (let [project-root ((. (require :lspconfig.util)
                                                :find_node_modules_ancestor)
-                                            root_dir)]
+                                            root-dir)]
                           (or (and project-root (.. project-root :/node_modules)) "")))
         default-probe-dir (get-probe-dir (vim.fn.getcwd))
         cmd (fn [probe-dir]
