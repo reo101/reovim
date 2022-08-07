@@ -399,6 +399,9 @@
              :config (rv :bufresize)})
        (use {1 :luukvbaal/stabilize.nvim
              :config (rv :stabilize)})
+       (use {1 :gbprod/stay-in-place.nvim
+             :as :stay
+             :config (rv :stay)})
        (use {1 :sindrets/winshift.nvim
              :config (rv :winshift)})
        (use {1 :lewis6991/spellsitter.nvim
