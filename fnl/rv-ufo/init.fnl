@@ -1,5 +1,6 @@
 (fn config []
   (let [dk  (require :def-keymaps)
+        ufo (require :ufo)
         ft-map {:fennel [:treesitter
                          :indent]
                 ""      ""}
@@ -48,15 +49,21 @@
                                              ""
                                              ""]
                                     :winhighlight "Normal:Folded"}}
-             :provider_selector (fn [bufnr filetype]
+             :provider_selector (fn [bufnr filetype buftype]
                                   (or (. ft-map filetype)
-                                      [:lsp
-                                       :treesitter
+                                      [:treesitter
                                        :indent]))
              :fold_virt_text_handler handler}]
-
+    (set vim.o.foldcolumn     :0)
+    (set vim.o.foldlevel      99)
+    (set vim.o.foldlevelstart 99)
+    (set vim.o.foldenable     true)
     (dk :n
-        {:K (fn []
+        {:zR [ufo.openAllFolds
+              "Open all folds"]
+         :zM [ufo.closeAllFolds
+              "Close all folds"]
+         :K (fn []
               (let [winid ((. (require :ufo)
                               :peekFoldedLinesUnderCursor))]
                 (when (not winid)
