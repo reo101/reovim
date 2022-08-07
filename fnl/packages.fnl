@@ -349,7 +349,8 @@
              :config (rv :tree)})
        (use {1 :elihunter173/dirbuf.nvim
              :as :dirbuf
-             :config (rv :dirbuf)})
+             :config (rv :dirbuf)
+             :disable true})
        (use {1 :monaqa/dial.nvim
              :config (rv :dial)})
        (use {1 :junegunn/vim-easy-align
