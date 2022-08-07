@@ -319,7 +319,15 @@
              :requires [[:nvim-treesitter/nvim-treesitter]]})
        (use {1 :phaazon/hop.nvim
              :as :hop
-             :config (rv :hop)})
+             :config (rv :hop)
+             :disable true})
+       (use {1 :ggandor/leap.nvim
+             :as :leap
+             :config (rv :leap)})
+       (use {1 :ggandor/leap-ast.nvim
+             :as :leap-ast
+             :config (rv :leap.ast)
+             :requires [[:ggandor/leap.nvim]]})
        (use {1 :kevinhwang91/nvim-hlslens
              :disable true
              :config (rv :hlslens)})
