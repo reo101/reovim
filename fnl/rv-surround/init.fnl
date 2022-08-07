@@ -164,7 +164,20 @@
                                                                                          : char}))}
                                                :delete (fn [char]
                                                          (utils.get_selections {:pattern "^(.)().-(.)()$"
-                                                                                : char}))}}
+                                                                                : char}))}
+                        :l {:find "%b[]%b()"
+                            :add (fn []
+                                   (local clipboard (: (vim.fn.getreg "+") :gsub "\n" ""))
+                                   [["["]
+                                    [(.. "](" clipboard ")")]])
+                            :change {:target "^()()%b[]%((.-)()%)$"
+                                     :replacement (fn []
+                                                    (local clipboard
+                                                           (: (vim.fn.getreg "+") :gsub
+                                                              "\n" ""))
+                                                    [[""]
+                                                     [clipboard]])}
+                            :delete "^(%[)().-(%]%b())()$"}}
             :aliases {:a ">"
                       :b ")"
                       :B "}"
