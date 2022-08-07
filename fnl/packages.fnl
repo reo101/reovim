@@ -161,6 +161,9 @@
        (use {1 :kosayoda/nvim-lightbulb
              :disable true
              :config (rv :lsp.lightbulb)})
+       (use {1 "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
+             :as :lsp-lines
+             :config (rv :lsp.lines)})
        (use {1 :jose-elias-alvarez/null-ls.nvim
              :requires [[:nvim-lua/plenary.nvim]
                         [:neovim/nvim-lspconfig]]})
