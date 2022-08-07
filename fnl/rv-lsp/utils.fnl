@@ -96,10 +96,10 @@
                         {:underline true
                          :update_in_insert false
                          :severity_sort false
-                         :signs true
-                         :virtual_text {:spacing 0
-                                        :source :always
-                                        :prefix ""}}))
+                         :signs true}))
+                         ;; :virtual_text {:spacing 0
+                         ;;                :source :always
+                         ;;                :prefix ""}}))
     (when (= (. (. (require :globals) :custom) :lsp_progress) :notify)
       (local client-notifs [])
       (local spinner-frames ["◜"
