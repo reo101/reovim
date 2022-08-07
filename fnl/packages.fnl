@@ -167,7 +167,8 @@
        (use {1 :nanotee/sqls.nvim
              :requires [[:vim-scripts/dbext.vim]]})
        (use {1 :stevearc/aerial.nvim
-             :config (rv :aerial)})
+             :config (rv :aerial)
+             :disable true})
        (use {1 :saecki/crates.nvim
              :event ["BufRead Cargo.toml"]
              :requires [[:nvim-lua/plenary.nvim]]
