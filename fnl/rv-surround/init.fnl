@@ -1,5 +1,5 @@
 (fn config []
- (let [utils (require :nvim-surround.utils)
+ (let [utils (require :nvim-surround.config)
        opt {:keymaps {:insert          :<C-g>s
                       :insert_line     :<C-g>S
                       :normal          :ys
@@ -152,9 +152,10 @@
                                      :target "^.-([%w_]+)()%b()()()$"}
                             :delete "^([%w%-_:.>]+%()().-(%))()$"}
                         :invalid_key_behavior {:find (fn [char]
-                                                       (utils.get_selection {:pattern (.. (vim.pesc char))
-                                                                                      ".-"
-                                                                                      (vim.pesc char)}))
+                                                       (utils.get_selection {:pattern (..
+                                                                                        (vim.pesc char)
+                                                                                        ".-"
+                                                                                        (vim.pesc char))}))
                                                :add (fn [char]
                                                       [[char]
                                                        [char]])
