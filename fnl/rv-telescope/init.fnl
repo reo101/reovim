@@ -33,7 +33,7 @@
     (when (= (vim.fn.executable :ueberzug) 1)
       ((. (require :telescope) :load_extension) :media_files))
     ((. (require :telescope) :load_extension) :notify)
-    ((. (require :telescope) :load_extension) :aerial)
+    ;; ((. (require :telescope) :load_extension) :aerial)
     ((. (require :telescope) :load_extension) :file_browser)
     (local actions (require :telescope.actions))
     (local action-state (require :telescope.actions.state))
