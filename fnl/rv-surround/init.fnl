@@ -11,57 +11,57 @@
                       :delete          :ds
                       :change          :cs}
             :surrounds {"(" {:find (fn []
-                                     (utils.get_selection {:textobject "("}))
+                                     (utils.get_selection {:motion "a("}))
                              :add    ["( " " )"]
                              :change {:target "^(. ?)().-( ?.)()$"}
                              :delete "^(. ?)().-( ?.)()$"}
                         ")" {:find (fn []
-                                     (utils.get_selection {:textobject ")"}))
+                                     (utils.get_selection {:motion "a)"}))
                              :add    ["(" ")"]
                              :change {:target "^(.)().-(.)()$"}
                              :delete "^(.)().-(.)()$"}
                         "{" {:find (fn []
-                                     (utils.get_selection {:textobject "{"}))
+                                     (utils.get_selection {:motion "a{"}))
                              :add    ["{ " " }"]
                              :change {:target "^(. ?)().-( ?.)()$"}
                              :delete "^(. ?)().-( ?.)()$"}
                         "}" {:find (fn []
-                                     (utils.get_selection {:textobject "}"}))
+                                     (utils.get_selection {:motion "a}"}))
                              :add    ["{" "}"]
                              :change {:target "^(.)().-(.)()$"}
                              :delete "^(.)().-(.)()$"}
                         :> {:find (fn []
-                                    (utils.get_selection {:textobject ">"}))
+                                    (utils.get_selection {:motion "a>"}))
                             :add    ["<" ">"]
                             :change {:target "^(.)().-(.)()$"}
                             :delete "^(.)().-(.)()$"}
                         :< {:find (fn []
-                                    (utils.get_selection {:textobject "<"}))
+                                    (utils.get_selection {:motion "a<"}))
                             :add    ["< " " >"]
                             :change {:target "^(. ?)().-( ?.)()$"}
                             :delete "^(. ?)().-( ?.)()$"}
                         "[" {:find (fn []
-                                     (utils.get_selection {:textobject "["}))
+                                     (utils.get_selection {:motion "a["}))
                              :add    ["[ " " ]"]
                              :change {:target "^(. ?)().-( ?.)()$"}
                              :delete "^(. ?)().-( ?.)()$"}
                         "]" {:find (fn []
-                                     (utils.get_selection {:textobject "]"}))
+                                     (utils.get_selection {:motion "a]"}))
                              :add    ["[" "]"]
                              :change {:target "^(.)().-(.)()$"}
                              :delete "^(.)().-(.)()$"}
                         "'" {:find (fn []
-                                     (utils.get_selection {:textobject "'"}))
+                                     (utils.get_selection {:motion "a'"}))
                              :add    ["'" "'"]
                              :change {:target "^(.)().-(.)()$"}
                              :delete "^(.)().-(.)()$"}
                         "\"" {:find (fn []
-                                      (utils.get_selection {:textobject "\""}))
+                                      (utils.get_selection {:motion "a\""}))
                               :add    ["\"" "\""]
                               :change {:target "^(.)().-(.)()$"}
                               :delete "^(.)().-(.)()$"}
                         "`" {:find (fn []
-                                     (utils.get_selection {:textobject "`"}))
+                                     (utils.get_selection {:motion "a`"}))
                              :add    ["`" "`"]
                              :change {:target "^(.)().-(.)()$"}
                              :delete "^(.)().-(.)()$"}
