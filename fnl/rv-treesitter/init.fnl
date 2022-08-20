@@ -56,7 +56,8 @@
                                                :node_incremental  :<leader>sii
                                                :scope_incremental :<leader>sis}
                                      :enable true}
-             :context_commentstring {:enable true}
+             :context_commentstring {:enable true
+                                     :enable_autocmd false}
              :refactor {:navigation {:enable true
                                      :keymaps {:list_definitions :<leader>sdl
                                                :goto_definition  :<leader>sdg}}

@@ -72,61 +72,41 @@ M.config = function()
 
         ---Pre-hook, called before commenting the line
         ---@type function|nil
-        pre_hook = function(ctx)
-            -- Only calculate commentstring for tsx filetypes
-            if vim.bo.filetype == "typescriptreact" then
-                local U = require("Comment.utils")
-
-                -- Detemine whether to use linewise or blockwise commentstring
-                local type = ctx.ctype == U.ctype.line and "__default" or "__multiline"
-
-                -- Determine the location where to calculate commentstring from
-                local location = nil
-                if ctx.ctype == U.ctype.block then
-                    location = require("ts_context_commentstring.utils").get_cursor_location()
-                elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
-                    location = require("ts_context_commentstring.utils").get_visual_start_location()
-                end
-
-                return require("ts_context_commentstring.internal").calculate_commentstring({
-                    key = type,
-                    location = location,
-                })
-            end
-        end,
+        -- pre_hook = function(ctx)
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
 
         ---Post-hook, called after commenting is done
         ---@type function|nil
         post_hook = nil,
     }
 
-    require("Comment").setup(opt);
+    require("Comment").setup(opt)
 
     local comment_api = require("Comment.api")
 
-    local wk = require("which-key")
+    local dk = require("def-keymaps")
 
     local mappings = {
         ["c"] = {
             name = "Line Comment",
-            c = { comment_api.toggle_current_linewise_op, "Toggle Line" },
-            o = { comment_api.insert_linewise_below, "o" },
-            O = { comment_api.insert_linewise_above, "O" },
-            A = { comment_api.insert_linewise_eol, "A" },
+            c = { comment_api.toggle.linewise.current, "Toggle Line" },
+            o = { comment_api.insert.linewise.below, "o" },
+            O = { comment_api.insert.linewise.above, "O" },
+            A = { comment_api.insert.linewise.eol, "A" },
         },
         ["C"] = {
             name = "Block Comment",
-            c = { comment_api.toggle_current_blockwise_op, "Toggle line" },
+            c = { comment_api.toggle.blockwise.current, "Toggle line" },
         },
     }
 
     local operatorMappings = {
-        ["c"] = { comment_api.toggle_linewise_op },
-        ["C"] = { comment_api.toggle_blockwise_op },
+        ["c"] = { comment_api.toggle.linewise.current },
+        ["C"] = { comment_api.toggle.blockwise.current },
     }
 
-    wk.register(mappings, { prefix = "<leader>" })
-    wk.register(operatorMappings, { mode = "o", prefix = "<leader>" })
+    dk("n", mappings, "<leader>" )
+    dk("o", operatorMappings, "<leader>" )
 
 end
 
