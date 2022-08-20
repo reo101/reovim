@@ -5,7 +5,7 @@
              :case_sensitive false
              ;; Groups of characters that should match each other.
              ;; Obvious candidates are braces & quotes ('([{', ')]}', '`"\'').
-             :character_classes [" \t\r\n"]
+             :equivalence_classes [" \t\r\n"]
              ;; Leaving the appropriate list empty effectively disables "smart" mode,
              ;; and forces auto-jump to be on or off.
              :safe_labels nil
