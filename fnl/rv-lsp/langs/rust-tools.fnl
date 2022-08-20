@@ -24,7 +24,6 @@
                                     :only_current_line false
                                     :right_align false
                                     :show_parameter_hints true}
-                      :hover_with_actions true
                       :runnables {:use_telescope true}
                       :debuggables {:use_telescope true}
                       :autoSetHints true
