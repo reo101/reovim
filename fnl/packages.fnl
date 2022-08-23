@@ -432,6 +432,7 @@
              :config (rv :beacon)}))
    :config {:compile_path (.. (vim.fn.stdpath :config)
                               :/lua/packer_compiled.lua)
+            :max_jobs 40
             :display {:open_fn (fn []
                                  ((. (require :packer.util)
                                      :float)
