@@ -116,7 +116,7 @@
 
         ;; Statusline
         Statusline
-        {:init   utils.pick_child_on_condition
+        {:fallthrough false
          :static {:mode-colors {:n     colors.red
                                 :i     colors.green
                                 :v     colors.cyan
@@ -148,7 +148,7 @@
 
         ;; Winbar
         Winbar
-        {:init utils.pick_child_on_condition
+        {:fallthrough false
          1 (unpack [InactiveWinbar
                     DefaultWinbar])}]
     (heirline.setup Statusline Winbar)))
