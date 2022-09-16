@@ -1,3 +1,5 @@
+;; extends
+
 ;; _VARARG
 ((symbol) @constant.builtin
  (#any-of? @constant.builtin

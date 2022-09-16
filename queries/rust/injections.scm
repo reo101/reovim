@@ -1,3 +1,5 @@
+;; extends
+
 (
   (string_literal) @glsl
   (#lua-match? @glsl "^\"%s*#version %d%d%d")

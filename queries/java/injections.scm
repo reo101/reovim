@@ -1,3 +1,5 @@
+;; extends
+
 (
   (string_literal) @regex
   (#lua-match? @regex "^\"\^.*\$\"$")
