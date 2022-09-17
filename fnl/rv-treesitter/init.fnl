@@ -75,15 +75,15 @@
                                               :<leader>ssnf "@function.outer"}}
                            :lsp_interop {:enable false}
                            :move {:enable true
-                                  :goto_next_end {"][" "@class.outer"
-                                                  "]M" "@function.outer"}
-                                  :goto_previous_end {"[M" "@function.outer"
-                                                      "[]" "@class.outer"}
                                   :set_jumps true
+                                  :goto_next_start {"]m" "@function.outer"
+                                                    "]]" "@class.outer"}
+                                  :goto_next_end   {"][" "@class.outer"
+                                                    "]M" "@function.outer"}
                                   :goto_previous_start {"[[" "@class.outer"
                                                         "[m" "@function.outer"}
-                                  :goto_next_start {"]m" "@function.outer"
-                                                    "]]" "@class.outer"}}
+                                  :goto_previous_end   {"[M" "@function.outer"
+                                                        "[]" "@class.outer"}}
                            :select {:lookahead true
                                     :enable true
                                     :keymaps {:ir "@parameter.inner"
@@ -102,7 +102,9 @@
                                               :iC "@class.inner"
                                               :ae "@block.outer"
                                               :if "@function.inner"
-                                              :as "@statement.outer"}}
+                                              :as "@statement.outer"}
+                                    :selection_modes {"@parameter.outer" :v
+                                                      "@function.outer"  :V}}
                            :disable {}}
              :highlight {:enable true}
              :rainbow {:extended_mode true
@@ -111,16 +113,16 @@
              :playground {:updatetime 25
                           :enable true
                           :disable {}
-                          :keybindings {:update :R
-                                        :goto_node :<cr>
-                                        :show_help "?"
-                                        :focus_language :f
-                                        :toggle_hl_groups :i
-                                        :toggle_language_display :I
-                                        :toggle_anonymous_nodes :a
+                          :keybindings {:update                    :R
+                                        :goto_node                 :<CR>
+                                        :show_help                 :?
+                                        :focus_language            :f
+                                        :toggle_hl_groups          :i
+                                        :toggle_language_display   :I
+                                        :toggle_anonymous_nodes    :a
                                         :toggle_injected_languages :t
-                                        :unfocus_language :F
-                                        :toggle_query_editor :o}
+                                        :unfocus_language          :F
+                                        :toggle_query_editor       :o}
                           :persist_queries false}}]
     (vim.api.nvim_create_user_command :TSFullNodeUnderCursor
                                       (fn []
