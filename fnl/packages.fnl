@@ -133,7 +133,8 @@
        (use {1 :akinsho/bufferline.nvim
              :as :bufferline
              :config (rv :bufferline)
-             :requires [[:kyazdani42/nvim-web-devicons]]})
+             :requires [[:kyazdani42/nvim-web-devicons]]
+             :disable true})
        (use {1 :kyazdani42/nvim-web-devicons
              :config (rv :devicons)})
        (use {1 :yamatsum/nvim-nonicons

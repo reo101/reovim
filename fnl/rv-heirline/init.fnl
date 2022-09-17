@@ -112,6 +112,11 @@
         {: InactiveWinbar}
         (require :rv-heirline.winbars.inactive)
 
+        ;;; Tablines
+
+        {: DefaultTabline}
+        (require :rv-heirline.tablines.default)
+
         ;;; Final
 
         ;; Statusline
@@ -150,7 +155,12 @@
         Winbar
         {:fallthrough false
          1 (unpack [InactiveWinbar
-                    DefaultWinbar])}]
-    (heirline.setup Statusline Winbar)))
+                    DefaultWinbar])}
+
+        ;; Tabline
+        Tabline
+        {1 (unpack [DefaultTabline])}]
+    (heirline.setup Statusline Winbar Tabline)
+    (vim.cmd "au FileType * if index(['wipe', 'delete'], &bufhidden) >= 0 | set nobuflisted | endif")))
 
 {: config}
