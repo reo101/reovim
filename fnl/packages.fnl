@@ -242,9 +242,6 @@
        (use {1 :xiyaowong/nvim-transparent
              :as :nvim-transparency
              :config (rv :transparency)})
-       (use {1 :antoinemadec/FixCursorHold.nvim
-             :as :cursorhold
-             :config (rv :cursorhold)})
 
        ;; Treesitter
        (use {1 :nvim-treesitter/nvim-treesitter
