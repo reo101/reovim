@@ -20,7 +20,8 @@
                  :clojure   (. (require :rv-lsp.langs.clojure)   :config)
                  :angular   (. (require :rv-lsp.langs.angular)   :config)
                  :prolog    (. (require :rv-lsp.langs.prolog)    :config)
-                 :terraform (. (require :rv-lsp.langs.terraform) :config)}]
+                 :terraform (. (require :rv-lsp.langs.terraform) :config)
+                 :nix       (. (require :rv-lsp.langs.nix)       :config)}]
     (fn setup-servers []
       (each [name opt (pairs servers)]
         (if (= (type opt) :function)
