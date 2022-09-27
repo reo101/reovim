@@ -16,6 +16,7 @@
                           :cabal.project
                           :package.yaml
                           :hie.yaml])
+             :settings {:haskell {:formattingProvider :fourmolu}}
              :lspinfo (fn []
                         (local extra {})
 
