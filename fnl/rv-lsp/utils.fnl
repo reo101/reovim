@@ -1,7 +1,9 @@
 (fn lsp-mappings []
   (let [dk (require :def-keymaps)
         mappings {:l {:name :LSP
+                      :which-key true
                       :w {:name :Workspace
+                          :which-key true
                           :a [vim.lsp.buf.add_workspace_folder    :Add]
                           :r [vim.lsp.buf.remove_workspace_folder :Remove]
                           :l [#(print (vim.inspect (vim.lsp.buf.list_workspace_folders)))
@@ -9,31 +11,37 @@
                       :s [vim.lsp.buf.signature_help "Signature Help"]
                       :a [vim.lsp.buf.code_action    "Code Action"]
                       :g {:name :Go
+                          :which-key true
                           :d [vim.lsp.buf.definition      :Definition]
                           :i [vim.lsp.buf.implementation  :Implementation]
                           :r [vim.lsp.buf.references      :References]
                           :D [vim.lsp.buf.declaration     :Decaration]
                           :y [vim.lsp.buf.type_definition "Type Definition"]}
                       :c {:name :Codelens
+                          :which-key true
                           :s [vim.lsp.codelens.save    :Save]
                           :a [vim.lsp.codelens.display :Display]
                           :g [vim.lsp.codelens.get     :Get]
                           :r [vim.lsp.codelens.run     :Run]
                           :f [vim.lsp.codelens.refresh :Refresh]}
                       :d {:name :Diagnostics
+                          :which-key true
                           :l [vim.diagnostic.open_float  "Line Diagnostics"]
                           :n [vim.diagnostic.goto_next   :Next]
                           :p [vim.diagnostic.goto_prev   :Previous]
                           :q [vim.diagnostic.setloclist  "Send to loclist"]}
                       :f [#(vim.lsp.buf.format {:async true}) :Format]
                       :r [vim.lsp.buf.rename                  :Rename]}}
-        direct-mappings {:K [#(vim.lsp.buf.hover) :Hover]
-                         :g {:d [vim.lsp.buf.definition      :Definition]
+        direct-mappings {:which-key true
+                         :K [#(vim.lsp.buf.hover) :Hover]
+                         :g {:which-key true
+                             :d [vim.lsp.buf.definition      :Definition]
                              :i [vim.lsp.buf.implementation  :Implementation]
                              :r [vim.lsp.buf.references      :References]
                              :D [vim.lsp.buf.declaration     :Decaration]
                              :y [vim.lsp.buf.type_definition "Type Definition"]}}
-        motion-mappings {"]d" [vim.diagnostic.goto_next "Next Diagnostic"]
+        motion-mappings {:which-key true
+                         "]d" [vim.diagnostic.goto_next "Next Diagnostic"]
                          "[d" [vim.diagnostic.goto_prev "Previous Diagnostic"]}]
     (dk :n mappings :<leader>)
     (dk :n direct-mappings)
