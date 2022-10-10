@@ -141,7 +141,7 @@
              :disable true
              :requires [[:kyazdani42/nvim-web-devicons]]
              :after [:nvim-web-devicons]})
-       (use {1 :br1anchen/nvim-colorizer.lua
+       (use {1 :NvChad/nvim-colorizer.lua
              :as :colourizer
              :config (rv :colourizer)})
        (use {1 :andweeb/presence.nvim
