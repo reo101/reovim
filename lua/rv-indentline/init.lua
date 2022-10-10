@@ -9,15 +9,20 @@ M.config = function()
         -- eol = "↴",
         tab = "  ",
     }
-    vim.opt.showbreak = " ☇ " -- "↪"
     vim.opt.list = true
+
+    vim.opt.showbreak = "☇" -- "↪"
+    vim.opt.breakat = " \t;:,])}"
+    vim.opt.breakindent = true
+    vim.opt.breakindentopt = { "shift:0", "list:0", "min:40", "sbr"}
+    -- vim.opt.showbreak = ">>"
 
     -- vim.cmd [[ highlight ExtraWhitespace ctermbg=red guibg=red ]]
     -- vim.cmd [[ match ExtraWhitespace /\s\+$/ ]]
     -- vim.cmd [[ autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/ ]]
 
     local opt = {
-        char = "│",
+        char = "|", -- "│",
         char_list_blankline = { "|", "┊", "┆", "¦"},
         space_char_blankline = " ",
         max_indent_increase = 1,
@@ -59,7 +64,7 @@ M.config = function()
             i = {
                 function()
                     require("indent_blankline.commands").toggle()
-                    vim.cmd([[ set list! ]])
+                    vim.opt.list = not vim.opt.list
                 end,
                 "IndentLine",
             },
