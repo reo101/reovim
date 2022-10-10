@@ -21,6 +21,7 @@
                  :angular   (. (require :rv-lsp.langs.angular)   :config)
                  :prolog    (. (require :rv-lsp.langs.prolog)    :config)
                  :terraform (. (require :rv-lsp.langs.terraform) :config)
+                 :nix       (. (require :rv-lsp.langs.nix)       :config)
                  :r         (. (require :rv-lsp.langs.r)         :config)}]
     (fn setup-servers []
       (each [name opt (pairs servers)]
