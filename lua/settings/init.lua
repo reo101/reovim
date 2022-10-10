@@ -44,9 +44,8 @@ vim.opt.pumheight      = 10                             -- pop up menu height
 vim.opt.relativenumber = true                           -- set relatively numbered lines
 vim.opt.scrolloff      = 3                              -- always keep the cursor 3 lines away from the edge
 vim.opt.shiftwidth     = 4                              -- the number of spaces inserted for each indentation
-vim.opt.shortmess
-    :append("c")                                        -- Hide "Pattern not found" when no completion is available
-    :remove("F")                                        -- Ensure autocmd works for Filetype
+vim.opt.shortmess:append("c")                           -- Hide "Pattern not found" when no completion is available
+vim.opt.shortmess:remove("F")                           -- Ensure autocmd works for Filetype
 vim.opt.showmode       = false                          -- we don't need to see things like -- INSERT -- anymore
 -- vim.opt.showtabline    = 2                              -- always show tabs
 vim.opt.signcolumn     = "auto:3"                       -- always show the sign column, otherwise it would shift the text each time
