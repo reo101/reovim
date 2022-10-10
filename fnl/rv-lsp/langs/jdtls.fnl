@@ -6,7 +6,8 @@
      (fn []
        (let [config {:on_init (. (require :rv-lsp.utils) :lsp_on_init)
                      :init_options {:bundles {}}
-                     :settings {:java {}}
+                     :settings {:java {:signatureHelp   {:enabled true}
+                                       :contentProvider {:preferred :fernflower}}}
                      :root_dir ((. (require :jdtls.setup) :find_root) {1 :.git
                                                                        2 :build.xml
                                                                        3 :pom.xml
