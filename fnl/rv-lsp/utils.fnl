@@ -45,7 +45,7 @@
                          "[d" [vim.diagnostic.goto_prev "Previous Diagnostic"]}]
     (dk :n mappings :<leader>)
     (dk :n direct-mappings)
-    (dk [:n :o] motion-mappings :<leader>)))
+    (dk [:n :o] motion-mappings)))
 
 (fn lsp-on-attach [client bufnr]
   (lsp-mappings)
