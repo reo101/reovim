@@ -14,7 +14,8 @@
       (require :rv-heirline.components.gps)
 
       ;; Navic
-      {: Navic}
+      {: Navic
+       : NavicNonemptyIndicator}
       (require :rv-heirline.components.navic)
 
       ;; Relative Path
@@ -76,23 +77,30 @@
                               self.filename)
                   :hl       {:fg colors.orange}}]))
 
+      ;; Separator
+      Separator
+      {:condition (fn [self]
+                     (and
+                       (RelativePath.condition)
+                       (or (and (= (Navic.condition)
+                                   false)
+                                (Gps.condition))
+                           (= (Navic.condition)
+                              NavicNonemptyIndicator))))
+       :update    [:CursorMoved
+                   :CursorMovedI]
+       :provider  " >=> "
+       :hl        {:fg colors.red}}
+
       ;; Location
       Location
-      {1 (unpack [RelativePath
-                  {:condition (fn [self]
-                                (and
-                                  (RelativePath.condition)
-                                  (or (Navic.condition)
-                                      (and false
-                                           (not (Navic.condition))
-                                           (Gps.condition)))))
-                   :update    [:CursorMoved
-                               :CursorMovedI]
-                   :provider  " >=> "
-                   :hl        {:fg colors.red}}
-                  {:init utils.pick_child_on_condition
-                   1 (unpack [Gps
-                              Navic
+      {:condition (fn [self]
+                    (P (Separator.condition))
+                    true)
+       1 (unpack [RelativePath
+                  Separator
+                  {:fallthrough false
+                   1 (unpack [Navic
                               Gps])}])}]
 
   {: Location})
