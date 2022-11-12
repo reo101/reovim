@@ -11,7 +11,6 @@
                                 :scala
                                 :php
                                 :python
-                                :sql
                                 :html
                                 :norg
                                 :norg_meta
