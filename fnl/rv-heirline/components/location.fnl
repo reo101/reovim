@@ -94,10 +94,7 @@
 
       ;; Location
       Location
-      {:condition (fn [self]
-                    (P (Separator.condition))
-                    true)
-       1 (unpack [RelativePath
+      {1 (unpack [RelativePath
                   Separator
                   {:fallthrough false
                    1 (unpack [Navic
