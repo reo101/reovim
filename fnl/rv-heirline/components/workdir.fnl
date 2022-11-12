@@ -31,27 +31,26 @@
 
       ;; Flexible Work-Dir
       Work-Dir-Flexible
-      (utils.make_flexible_component
-        1
-        ;; evaluates to the full-lenth path
-        {:provider (fn [self]
-                     (local trail
-                       (or (and (= (self.cwd:sub (- 1))
-                                   "/")
-                                "")
-                           "/"))
-                     (.. self.icon self.cwd trail " "))}
-        ;; evaluates to the shortened path
-        {:provider (fn [self]
-                     (local cwd
-                       (vim.fn.pathshorten self.cwd))
-                     (local trail
-                       (or (and (= (self.cwd:sub (- 1))
-                                   "/")
-                                "")
-                           "/"))
-                     (.. self.icon cwd trail " "))}
-        ;; evaluates to "", hiding the component
-        {:provider ""})]
+      {:flexible 1
+       1 (unpack [;; evaluates to the full-lenth path
+                  {:provider (fn [self]
+                               (local trail
+                                 (or (and (= (self.cwd:sub (- 1))
+                                             "/")
+                                          "")
+                                     "/"))
+                               (.. self.icon self.cwd trail " "))}
+                  ;; evaluates to the shortened path
+                  {:provider (fn [self]
+                               (local cwd
+                                 (vim.fn.pathshorten self.cwd))
+                               (local trail
+                                 (or (and (= (self.cwd:sub (- 1))
+                                             "/")
+                                          "")
+                                     "/"))
+                               (.. self.icon cwd trail " "))}
+                  ;; evaluates to "", hiding the component
+                  {:provider ""}])}]
 
   {: Work-Dir})
