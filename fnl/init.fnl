@@ -37,4 +37,4 @@
 
 (require :packages)
 
-(require :rv-autocommands)
+(require :autocommands)
