@@ -51,6 +51,7 @@ end
 set_shiftwidth("haskell", 2)
 set_shiftwidth("norg", 2)
 set_shiftwidth("xml", 2)
+set_shiftwidth("xslt", 2)
 set_shiftwidth("javascript", 2)
 set_shiftwidth("javascriptreact", 2)
 set_shiftwidth("javascript.jsx", 2)
