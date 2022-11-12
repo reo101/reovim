@@ -29,12 +29,10 @@
                                 :on_stdout on-stdout
                                 :stdout_buffered true})
                         (local chanid
-                               (vim.fn.jobstart {1 (. (. (require :lspconfig.config)
-                                                         :cmd)
-                                                      1)
-                                                 2 :--version}
+                               (vim.fn.jobstart [(. (require :lspconfig.config) :cmd 1)
+                                                 :--version]
                                                 opts))
-                        (vim.fn.jobwait {1 chanid})
+                        (vim.fn.jobwait [chanid])
                         extra)
              :settings {:haskell {:plugin {:ghcide-code-actions-fill-holes      {:globalOn true}
                                            :ghcide-completions                  {:globalOn true}
