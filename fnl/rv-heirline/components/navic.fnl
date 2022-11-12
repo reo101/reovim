@@ -79,7 +79,7 @@
                         (when (< (math.min 1 i)
                                  (length data))
                           (table.insert child {:provider "  " ;; NOTE: was >, now 
-                                               :hl       {:fg :bright_fg}}))
+                                               :hl       {:fg colors.orange}}))
                         (table.insert children child))
                      (set self.child (self:new children 1))))
        :provider (fn [self]
