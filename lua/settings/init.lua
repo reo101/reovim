@@ -47,7 +47,7 @@ vim.opt.shiftwidth     = 4                              -- the number of spaces 
 vim.opt.shortmess:append("c")                           -- Hide "Pattern not found" when no completion is available
 vim.opt.shortmess:remove("F")                           -- Ensure autocmd works for Filetype
 vim.opt.showmode       = false                          -- we don't need to see things like -- INSERT -- anymore
--- vim.opt.showtabline    = 2                              -- always show tabs
+vim.opt.showtabline    = 2                              -- always show tabline
 vim.opt.signcolumn     = "auto:3"                       -- always show the sign column, otherwise it would shift the text each time
 vim.opt.smartcase      = true                           -- smart case
 vim.opt.smartindent    = true                           -- make indenting smarter again
