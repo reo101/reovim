@@ -264,9 +264,7 @@
                [:windwp/nvim-ts-autotag
                 {:as :treesitter-autotag}]
                [:RRethy/nvim-treesitter-textsubjects
-                {:as :treesitter-textsubjects}]
-               [:nvim-treesitter/nvim-treesitter-angular
-                {:as :treesitter-angular}]])
+                {:as :treesitter-textsubjects}]])
        (fn convert-to-treesitter-opt [treesitter-plugin]
          (var opt
               {1 (. treesitter-plugin 1)
