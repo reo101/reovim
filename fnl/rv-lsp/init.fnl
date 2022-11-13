@@ -22,7 +22,8 @@
                  :prolog    (. (require :rv-lsp.langs.prolog)    :config)
                  :terraform (. (require :rv-lsp.langs.terraform) :config)
                  :nix       (. (require :rv-lsp.langs.nix)       :config)
-                 :r         (. (require :rv-lsp.langs.r)         :config)}]
+                 :r         (. (require :rv-lsp.langs.r)         :config)
+                 :fennel    (. (require :rv-lsp.langs.fennel)    :config)}]
     (fn setup-servers []
       (each [name opt (pairs servers)]
         (if (= (type opt) :function)
