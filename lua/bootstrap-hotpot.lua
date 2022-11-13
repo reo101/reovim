@@ -23,6 +23,7 @@ end
 -- Start up hotpot
 require("hotpot").setup({
     provide_require_fennel = true,
+    enable_hotpot_diagnostics = false,
     compiler = {
         modules = {
             correlate = false,
