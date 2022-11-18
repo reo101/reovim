@@ -90,7 +90,9 @@
                        which-key?)
               (which-key.register {(.. keys lhs)
                                    [rhs.desc]}))
-            (vim.keymap.set mode (.. keys lhs) rhs.cmd opts))
+            (vim.keymap.set mode (.. keys lhs) rhs.cmd (vim.tbl_extend :force
+                                                                       opts
+                                                                       {:desc rhs.desc})))
           ;; else
           (do
             (when (and has-which-key?
