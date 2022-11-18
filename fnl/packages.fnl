@@ -100,6 +100,11 @@
        ;;       :requires [[:nvim-orgmode/orgmode]
        ;;                  [:nvim-treesitter/nvim-treesitter]]
        ;;       :config (rv :headlines)})
+       (use {1 :phaazon/mind.nvim
+             :as :mind
+             :requires [[:nvim-lua/plenary.nvim]]
+             :branch :v2.2
+             :config (rv :mind)})
        (use {1 :segeljakt/vim-silicon
              :config (rv :silicon)})
        (use {1 :folke/which-key.nvim
