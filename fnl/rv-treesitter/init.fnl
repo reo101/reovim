@@ -4,26 +4,12 @@
                             :enable true
                             :lint_events [:BufWrite
                                           :CursorHold]}
-             :ensure_installed [:cpp
-                                :lua
-                                :javascript
-                                :java
-                                :scala
-                                :php
-                                :python
-                                :html
-                                :norg
-                                :norg_meta
-                                :norg_table
-                                :markdown
-                                :comment]
              :autotag {:enable true
                        :filetypes [:html
-                                   :javascript
                                    :javascriptreact
+                                   :typescriptreact
                                    :markdown
                                    :svelte
-                                   :typescriptreact
                                    :vue
                                    :xml]
                        :skip_tags [:area
@@ -144,11 +130,6 @@
     (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
           :norg_table
           {:install_info {:url    "https://github.com/nvim-neorg/tree-sitter-norg-table"
-                          :files  [:src/parser.c]
-                          :branch :main}})
-    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-          :sql
-          {:install_info {:url    "https://github.com/m-novikov/tree-sitter-sql"
                           :files  [:src/parser.c]
                           :branch :main}})
     (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
