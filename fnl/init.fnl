@@ -30,8 +30,7 @@
       impatient (prequire :impatient)]
   (when (and impatient?
              impatient)
-    (impatient.enable_profile))
-  (prequire :packer_compiled))
+    (impatient.enable_profile)))
 
 ;; (require :packer_compiled)
 

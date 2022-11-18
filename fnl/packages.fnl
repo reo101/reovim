@@ -431,9 +431,7 @@
        (use {1 :edluffy/specs.nvim
              :as :beacon
              :config (rv :beacon)}))
-   :config {:compile_path (.. (vim.fn.stdpath :config)
-                              :/lua/packer_compiled.lua)
-            :max_jobs 40
+   :config {:max_jobs 40
             :display {:open_fn (fn []
                                  ((. (require :packer.util)
                                      :float)
