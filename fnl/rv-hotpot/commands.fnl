@@ -20,7 +20,7 @@
   {:p {:name :HotPot
        :c [open_cache "Open Cache"]
        :b [compile-buffer "Compile Buffer"]}}
-  :<leader>)
+  {:prefix :<leader>})
 
 ;; print(require('hotpot.api.eval')['eval-selection']())
 (fn eval-selection []
@@ -39,7 +39,7 @@
   {:p {:name :HotPot
        :e [eval-selection "Eval Selection"]
        :c [compile-selection "Compile Selection"]}}
-  :<leader>)
+  {:prefix :<leader>})
 
 (fn fnl-do [ok code noformat]
   (set vim.wo.scrollbind true)

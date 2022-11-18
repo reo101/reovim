@@ -164,10 +164,9 @@
                (local dk (require :def-keymaps))
                (dk :n
                    {:b {:name :Buffer
-                        :which-key true
                         :s ["<Cmd>:w<CR>" :Save]
                         :e ["<Cmd>:e<CR>" :Edit]}}
-                   :<leader>)
+                   {:prefix :<leader>})
                (dk :n
                    {:<A-Left>  #(vim.cmd ":bprev")
                     :<A-Right> #(vim.cmd ":bnext")}))

@@ -21,17 +21,13 @@
         {:h {:name "Leap (Hop)"
              :s ["<Plug>(leap-forward)"      "Leap Forward"]
              :S ["<Plug>(leap-backward)"     "Leap Backward"]
-             :w ["<Plug>(leap-cross-window)" "Leap Cross Window"]
-             :which-key true}
-         :which-key true}
-        :<leader>)
+             :w ["<Plug>(leap-cross-window)" "Leap Cross Window"]}}
+        {:prefix :<leader>})
     (dk :o
         {:h {:name "Leap (Hop)"
              :x ["<Plug>(leap-forward-x)"  "Leap Forward (x)"]
-             :X ["<Plug>(leap-backward-x)" "Leap Backward (x)"]
-             :which-key true}
-         :which-key true}
-        :<leader>)
+             :X ["<Plug>(leap-backward-x)" "Leap Backward (x)"]}}
+        {:prefix :<leader>})
     ((. (require :leap) :setup) opt)))
 
 {: config}

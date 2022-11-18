@@ -59,15 +59,12 @@
     (set vim.o.foldlevelstart 99)
     (set vim.o.foldenable     true)
     (dk :n
-        {:zR [ufo.openAllFolds
-              "Open all folds"]
-         :zM [ufo.closeAllFolds
-              "Close all folds"]
-         :K (fn []
-              (let [winid ((. (require :ufo)
-                              :peekFoldedLinesUnderCursor))]
-                (when (not winid)
-                  (vim.lsp.buf.hover))))})
-    ((. (require :ufo) :setup) opt)))
+        {:zR [ufo.openAllFolds  "Open all folds"]
+         :zM [ufo.closeAllFolds "Close all folds"]
+         :K  (fn []
+               (let [winid (ufo.peekFoldedLinesUnderCursor)]
+                 (when (not winid)
+                   (vim.lsp.buf.hover))))})
+    (ufo.setup opt)))
 
 {: config}

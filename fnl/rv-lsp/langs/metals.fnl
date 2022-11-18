@@ -24,14 +24,14 @@
                             hi! link LspReferenceWrite CursorColumn
                           ")
                           (let [dk (require :def-keymaps)]
-                              (dk [:n]
+                              (dk :n
                                   {:fm [(. (require :telescope)
                                            :extensions
                                            :metals
                                            :commands)
                                         "Metals Commands"]}
-                                  :<leader>)
-                              (dk [:v]
+                                  {:prefix :<leader>})
+                              (dk :v
                                   {:K [metals.type_of_range
                                        "Type of Range"]}))
                           (metals.initialize_or_attach metals-config)))

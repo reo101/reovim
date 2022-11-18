@@ -30,4 +30,4 @@
                 (fn [root part {: join-path}]
                   (if (not (string.find part "macros"))
                     (join-path root :lua part)))))}
- :<leader>)
+ {:prefix :<leader>})

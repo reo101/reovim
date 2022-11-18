@@ -29,7 +29,7 @@ local dap_mappings = function()
         },
     }
 
-    dk("n", mappings, "<leader>")
+    dk("n", mappings, { prefix = "<leader>" })
 end
 
 local dap_override_icons = function()

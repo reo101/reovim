@@ -8,7 +8,7 @@
          {:t {:name :Toggle
               :d [lsp-lines.toggle
                   "Diagnostics"]}}
-         :<leader>)
+         {:prefix :<leader>})
      (lsp-lines.setup opt)))
 
 {: config}

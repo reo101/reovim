@@ -1,4 +1,4 @@
-(lambda def-keymaps [mode keymaps ?keys]
+(lambda def-keymaps [mode keymaps ?opts]
   {:fnl/docstring
    "
    Recursively define keybinds using nested tables
@@ -9,7 +9,7 @@
           :hydra true
           :b [#(print :ab) \"Print ab\"]
           :c #(print :ac)}}
-     :<leader>)
+     {:prefix :<leader>})
    ```
 
    The above example defines two keybinds:
@@ -18,87 +18,83 @@
 
    A group of keymaps can be 'hydrated' using `:hydra true` and its friends
    "
-   :fnl/arglist [mode keymaps ?keys]}
-  (let [keys (or ?keys "")
-        (has-hydra? hydra)         (pcall require :hydra)
+   :fnl/arglist [mode keymaps ?opts]}
+  (let [(has-hydra?     hydra)     (pcall require :hydra)
         (has-which-key? which-key) (pcall require :which-key)
-        {:hydra     hydra?
-         :name      name?
-         :hint      hint?
-         :config    config?
-         :docs      docs?
-         :which-key which-key?} keymaps
-        keymaps (collect [lhs rhs (pairs keymaps)]
-                  (if (not (vim.tbl_contains
-                             [:hydra
-                              :name
-                              :hint
-                              :config
-                              :docs
-                              :which-key
-                              :final]
-                             lhs))
-                    (values lhs rhs)))
-        convert-rhs (fn [rhs]
-                      (if
-                        ;; Undocumented rhs
-                        (vim.tbl_contains
-                          [:function
-                           :string]
-                          (type rhs))
-                        {:cmd   rhs
-                         :final true}
-                        ;; Inconsequential/nested table, don't convert
-                        (not (vim.tbl_islist rhs))
-                        rhs
-                        ;; Documented rhs
-                        (vim.tbl_islist rhs)
-                        {:cmd   (. rhs 1)
-                         :desc  (. rhs 2)
-                         :final true}))
-        keymaps (vim.tbl_map convert-rhs keymaps)
-        opts {:silent  true
-              :noremap true}]
+        opts (or ?opts {})
+        {:prefix ?prefix
+         &       opts} opts
+        prefix (or ?prefix "")
+        {:hydra  hydra?
+         :name   name?
+         :hint   hint?
+         :config config?
+         ;; :docs   docs?
+         &       keymaps} keymaps
+        is-valid-cmd (fn [rhs]
+                       (vim.tbl_contains
+                         [:string :function]
+                         (type rhs)))
+        canonicalize-rhs (fn [rhs]
+                           (if
+                             ;; Undocumented rhs
+                             (is-valid-cmd rhs)
+                             {:cmd   rhs
+                              :final true}
+                             ;; Documented rhs
+                             (and (vim.tbl_islist rhs)
+                                  (is-valid-cmd (. rhs 1)))
+                             {:cmd   (. rhs 1)
+                              :desc  (. rhs 2)
+                              :final true}
+                             ;; Nested table, leave be
+                             (not (vim.tbl_islist rhs))
+                             rhs
+                             ;; else
+                             nil))
+        keymaps (vim.tbl_map canonicalize-rhs keymaps)
+        base-keymap-opts {:silent  true
+                          :noremap true}
+        keymap-opts (vim.tbl_extend "force"
+                                    base-keymap-opts
+                                    opts)]
     ;; Check for hydra
-    (when (not has-hydra?)
-      (print "Hydra not found, continuing normally"))
-    ;; Check for which-key
-    (when (not has-which-key?)
-      (print "Which-key not found, continuing normally"))
-    ;; Assing keybinds (with hydra or natively)
+    (when (and hydra? (not has-hydra?))
+      (vim.notify_once "Hydra not found, continuing normally"))
+    ;; Adding keybinds (with hydra or natively)
     (if
-      (and has-hydra?
-           hydra?)
+      hydra?
       (hydra {:name   name?
               :hint   hint?
               :config config?
               :mode   mode
-              :body   keys
+              :body   prefix
               :heads  (icollect [lhs rhs (pairs keymaps)]
-                        (do
-                          (when (and has-which-key?
-                                     which-key?)
-                            (which-key.register {(.. keys lhs)
-                                                 [(. rhs :name)]}))
-                          [lhs rhs.cmd {:desc rhs.desc}]))})
+                        (if rhs.final
+                            [lhs rhs.cmd {:desc rhs.desc}]))})
       ;; else
       (each [lhs rhs (pairs keymaps)]
-        (if
-          (. rhs :final)
-          (do
-            (when (and has-which-key?
-                       which-key?)
-              (which-key.register {(.. keys lhs)
-                                   [rhs.desc]}))
-            (vim.keymap.set mode (.. keys lhs) rhs.cmd (vim.tbl_extend :force
-                                                                       opts
-                                                                       {:desc rhs.desc})))
-          ;; else
-          (do
-            (when (and has-which-key?
-                       which-key?)
-              (which-key.register {(.. keys lhs)
-                                   [(. rhs :name)]}))
-            (def-keymaps mode rhs (.. keys lhs))))))))
+        (let [lhs (.. prefix lhs)]
+          (if
+            rhs.final
+            (vim.keymap.set mode
+                            lhs
+                            rhs.cmd
+                            (vim.tbl_extend
+                              "force"
+                              keymap-opts
+                              {:desc rhs.desc}))
+            ;; else
+            (do
+              (when (and has-which-key?
+                         rhs.name)
+                  ;; Add name for group
+                  (which-key.register {lhs {:name rhs.name}}))
+              (def-keymaps mode
+                           rhs
+                           (vim.tbl_extend
+                             "force"
+                             opts
+                             {:prefix lhs})))))))))
 
 def-keymaps

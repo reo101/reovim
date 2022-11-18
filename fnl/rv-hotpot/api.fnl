@@ -30,10 +30,9 @@
                        (reflect.set-mode session-id reflect-session.mode)
                        (reflect.attach-input session-id 0)))))
 (dk :v
-    {:which-key true
-     :pr [new-or-attach-reflect
+    {:pr [new-or-attach-reflect
           "New or Attach Reflect"]}
-    :<leader>)
+    {:prefix :<leader>})
 
 (fn swap-reflect-mode []
   (let [reflect (require :hotpot.api.reflect)]
@@ -42,7 +41,6 @@
         (if (= reflect-session.mode :compile) :eval :compile))
       (reflect.set-mode reflect-session.id reflect-session.mode))))
 (dk :n
-    {:which-key true
-     :px [swap-reflect-mode
+    {:px [swap-reflect-mode
           "Swap Reflect Mode"]}
-    :<leader>)
+    {:prefix :<leader>})

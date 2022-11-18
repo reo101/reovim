@@ -105,8 +105,8 @@ M.config = function()
         ["C"] = { comment_api.toggle.blockwise.current },
     }
 
-    dk("n", mappings, "<leader>" )
-    dk("o", operatorMappings, "<leader>" )
+    dk("n", mappings, { prefix = "<leader>" })
+    dk("o", operatorMappings, { prefix = "<leader>" })
 
 end
 

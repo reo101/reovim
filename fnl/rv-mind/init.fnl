@@ -8,7 +8,7 @@
              :p [#(mind.open_project) "Project"]
              :c [#(mind.close)        "Close"]
              :r [#(mind.reload_state) "Reload"]}}
-        :<leader>)
+        {:prefix :<leader>})
     (mind.setup opt)))
 
 {: config}
