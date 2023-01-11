@@ -3,7 +3,7 @@
     (= (type path) "string")
     "Path must be a string" path)
   `(hashfn
-     ((. (require ,(.. "rv-" path)) :config))))
+     ((. (require ,(.. :rv-config :. path)) :config))))
 
 (fn assert-tbl [tbl]
   (assert-compile
@@ -33,15 +33,15 @@
     (assert-tbl ?res))
   (if (table? tbl)
       (do
-        (var res (or ?res (table)))
+        (var res (or ?res {}))
         (collect [k# v# (pairs tbl)
-                  :into res]
+                  &into res]
           (if (predicate? v# k#)
             (values k# v#)))
         (res))
       (sym? tbl)
       `(collect [k# v# (pairs ,tbl)
-                 :into (or ,?res [])]
+                 &into (or ,?res {})]
          (if (,predicate? v# k#)
           (values k# v#)))))
 
@@ -52,14 +52,14 @@
     (assert-seq ?res))
   (if (sequence? seq)
       (do
-        (var res (or ?res (sequence)))
+        (var res (or ?res []))
         (icollect [i# v# (ipairs seq)
-                   :into res]
+                   &into res]
           (if (predicate? v#) v#))
         (res))
       (sym? seq)
       `(icollect [i# v# (ipairs ,seq)
-                  :into (or ,?res [])]
+                  &into (or ,?res [])]
          (if (,predicate? v#) v#))))
 
 (fn |> [val ...]
@@ -111,14 +111,14 @@
   (local fun (||> ...))
   (if (table? tbl)
       (do
-        (var res (table))
+        (var res {})
         (collect [k# v# (pairs tbl)
-                  :into res]
+                  &into res]
           (values k# `(fun ,v#)))
         res)
       (sym? tbl)
       `(collect [k# v# (pairs ,tbl)
-                 :into []]
+                 &into {}]
          (values k# (,fun v#)))))
 
 (fn imap [seq ...]
@@ -127,14 +127,14 @@
   (local fun (||> ...))
   (if (sequence? seq)
       (do
-        (var res (sequence))
+        (var res [])
         (icollect [i# v# (ipairs seq)
-                   :into res]
+                   &into res]
           `(fun ,v#))
         res)
       (sym? seq)
       `(icollect [i# v# (ipairs ,seq)
-                  :into []]
+                  &into []]
          (,fun v#))))
 
 {: rv

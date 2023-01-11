@@ -7,6 +7,7 @@
    (def-keymaps :n
      {:a {:name :abc
           :hydra true
+          :which-key false
           :b [#(print :ab) \"Print ab\"]
           :c #(print :ac)}}
      {:prefix :<leader>})

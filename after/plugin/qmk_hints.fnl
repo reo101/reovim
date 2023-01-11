@@ -58,7 +58,7 @@
 
 (fn get-root [bufnr]
   (let [parser (vim.treesitter.get_parser bufnr :c {})
-        tree   (. (parser:parse) 1)]
+        [tree] (parser:parse)]
     (tree:root)))
 
 (fn qmk-helpers [bufnr]

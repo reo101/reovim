@@ -14,12 +14,11 @@
 ;; Terminal utilities
 (vim.api.nvim_create_autocmd :TermOpen
                              {:pattern :*
-                              :callback #((vim.api.nvim_buf_set_keymap
-                                            0
+                              :callback #((vim.keymap.set
                                             :t
-                                            :<Esc>
-                                            :<C-\><C-n>
-                                            {})
+                                           :<Esc>
+                                           :<C-\><C-n>
+                                           {:buffer true})
                                           (vim.cmd ":startinsert")
                                           (vim.cmd "setlocal listchars= nonumber norelativenumber"))})
 
@@ -54,12 +53,13 @@
       :norg
       :xml
       :xslt
-      :javascript
-      :javascriptreact
-      :javascript.jsx
-      :typescript
-      :typescriptreact
-      :typescript.tsx
+      :xsd
+      ;; :javascript
+      ;; :javascriptreact
+      ;; :javascript.jsx
+      ;; :typescript
+      ;; :typescriptreact
+      ;; :typescript.tsx
       :json
       :css
       :html
