@@ -19,7 +19,7 @@
 (local treesitter-plugins
          [{1       :nvim-treesitter/nvim-treesitter
            :config (rv :treesitter)
-           :run    ":TSUpdate"}
+           :build    ":TSUpdate"}
           (unpack
             (let [treesitter-plugins
                    [:nvim-treesitter/nvim-treesitter-textobjects
@@ -63,7 +63,7 @@
                   (fn [opt]
                     (if (= (. opt 1) :nvim-telescope/telescope-fzf-native)
                         (vim.tbl_deep_extend :force
-                                             {:run :make}
+                                             {:build :make}
                                              opt)
                         ;; else
                         opt))]
@@ -122,7 +122,7 @@
       :dependencies [:nvim-telescope/telescope.nvim]}
 
      {1       :iamcco/markdown-preview.nvim
-      :run    (. vim.fn "mkdp#util#install")
+      :build    (. vim.fn "mkdp#util#install")
       :config (rv :mdpreview)}
      {1             :jghauser/follow-md-links.nvim
       :dependencies [:nvim-treesitter/nvim-treesitter]
@@ -147,7 +147,7 @@
      {1 :anuvyklack/hydra.nvim}
      ;; {1        :goolord/alpha-nvim
      ;;  :config  (rv :alpha)
-     ;;  :disable true}
+     ;;  :enabled false}
      {1             :rebelot/heirline.nvim
       :config       (rv :heirline)
       :dependencies [:SmiteshP/nvim-navic
@@ -161,7 +161,7 @@
       :dependencies [:nvim-treesitter/nvim-treesitter]}
      ;; {1        :romgrk/barbar.nvim
      ;;  :config  (rv :barbar)
-     ;;  :disable true}
+     ;;  :enabled false}
      ;; {1             :akinsho/bufferline.nvim
      ;;  :config       (rv :bufferline)
      ;;  :dependencies [:kyazdani42/nvim-web-devicons]
@@ -188,7 +188,7 @@
       :config       (rv :lsp.trouble)}
      {1 :ray-x/lsp_signature.nvim}
      ;; {1        :kosayoda/nvim-lightbulb
-     ;;  :disable true
+     ;;  :enabled false
      ;;  :config  (rv :lsp.lightbulb)}
      {1       "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
       :config (rv :lsp.lines)}
@@ -199,7 +199,7 @@
       :dependencies [:vim-scripts/dbext.vim]}
      ;; {1        :stevearc/aerial.nvim
      ;;  :config  (rv :aerial)
-     ;;  :disable true}
+     ;;  :enabled false}
      {1             :saecki/crates.nvim
       :event        ["BufRead Cargo.toml"]
       :dependencies [:nvim-lua/plenary.nvim]
@@ -217,7 +217,7 @@
      {1 :aklt/plantuml-syntax}
      ;; {1        :alaviss/nim.nvim
      ;;  :rtp     :syntax
-     ;;  :disable true}
+     ;;  :enabled false}
      {1 :McSinyx/vim-octave}
      {1 :kmonad/kmonad-vim}
      {1             :scalameta/nvim-metals
@@ -225,13 +225,13 @@
       :config       (rv :lsp.langs.metals)}
      ;; {1        :Olical/aniseed
      ;;  :config  (rv :aniseed)
-     ;;  :disable true}
+     ;;  :enabled false}
      ;; {1        :Olical/conjure
      ;;  :config  (rv :conjure)
-     ;;  :disable true}
+     ;;  :enabled false}
      {1       :eraserhd/parinfer-rust
       :config (rv :parinfer)
-      :run    "cargo build --release"
+      :build    "cargo build --release"
       :cond   (= (vim.fn.executable :cargo) 1)}
      {1       :stevearc/dressing.nvim
       :config (rv :dressing)}
@@ -247,7 +247,7 @@
       :cond   (= lsp_progress :fidget)}
      ;; {1        :edluffy/hologram.nvim
      ;;  :config  (rv :hologram)
-     ;;  :disable true}
+     ;;  :enabled false}
      {1 :nanotee/luv-vimdocs}
      {1 :milisims/nvim-luaref}
      {1       :mfussenegger/nvim-dap
@@ -262,7 +262,7 @@
       :config (rv :luasnip)}
      {1 :rafamadriz/friendly-snippets}
      ;; {1        :sunjon/shade.nvim
-     ;;  :disable true
+     ;;  :enabled false
      ;;  :config  (rv :shade)}
      {1       :folke/twilight.nvim
       :config (rv :twilight)}
@@ -276,14 +276,14 @@
       :dependencies [:nvim-treesitter/nvim-treesitter]}
      ;; {1        :phaazon/hop.nvim
      ;;  :config  (rv :hop)
-     ;;  :disable true}
+     ;;  :enabled false}
      {1       :ggandor/leap.nvim
       :config (rv :leap)}
      {1             :ggandor/leap-ast.nvim
       :config       (rv :leap.ast)
       :dependencies [:ggandor/leap.nvim]}
      ;; {1        :kevinhwang91/nvim-hlslens
-     ;;  :disable true
+     ;;  :enabled false
      ;;  :config  (rv :hlslens)}
      {1       :kylechui/nvim-surround
       :config (rv :surround)}
@@ -308,7 +308,7 @@
       :config       (rv :tree)}
      ;; {1        :elihunter173/dirbuf.nvim
      ;;  :config  (rv :dirbuf)
-     ;;  :disable true}
+     ;;  :enabled false}
      {1       :monaqa/dial.nvim
       :config (rv :dial)}
      {1       :junegunn/vim-easy-align
