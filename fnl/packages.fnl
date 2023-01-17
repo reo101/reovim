@@ -101,15 +101,17 @@
     [;; Fennel loader
      {1       :rktjmp/hotpot.nvim
       :prority 1000
+      :lazy false
       :config (rv :hotpot)}
-
-     ;; Impatient
-     {1 :lewis6991/impatient.nvim}
 
      ;; Theme
      {1        :folke/tokyonight.nvim
       :prority 1000
+      :lazy false
       :config  (rv :tokyonight)}
+
+     ;; Impatient
+     {1 :lewis6991/impatient.nvim}
 
      {1             :vhyrro/neorg
       :dependencies [:hrsh7th/nvim-cmp
