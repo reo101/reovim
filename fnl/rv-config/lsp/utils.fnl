@@ -65,8 +65,8 @@
                                   :group    :LspDocumentHighlight
                                   :callback vim.lsp.buf.clear_references}))
   ;; ((. (require :aerial) :on_attach) client bufnr)
-  ((. (require :nvim-navic) :attach) client bufnr)
-  ((. (require :rv-config.lsp.signature) :config)))
+  ((. (require :nvim-navic) :attach) client bufnr))
+  ;; ((. (require :rv-config.lsp.signature) :config)))
 
 (fn lsp-on-init [client]
   (vim.notify "Language Server Client successfully started!" :info
@@ -91,10 +91,10 @@
 
 (fn lsp-override-handlers []
   (let [border :single]
-    (tset vim.lsp.handlers :textDocument/hover
-          (vim.lsp.with vim.lsp.handlers.hover {: border}))
-    (tset vim.lsp.handlers :textDocument/signatureHelp
-          (vim.lsp.with vim.lsp.handlers.signature_help {: border}))
+    ;; (tset vim.lsp.handlers :textDocument/hover
+    ;;       (vim.lsp.with vim.lsp.handlers.hover {: border}))
+    ;; (tset vim.lsp.handlers :textDocument/signatureHelp
+    ;;       (vim.lsp.with vim.lsp.handlers.signature_help {: border}))
     (tset vim.lsp.handlers :textDocument/publishDiagnostics
           (vim.lsp.with vim.lsp.diagnostic.on_publish_diagnostics
                         {:underline true

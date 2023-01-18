@@ -188,7 +188,8 @@
      {1             :folke/trouble.nvim
       :dependencies [:kyazdani42/nvim-web-devicons]
       :config       (rv :lsp.trouble)}
-     {1 :ray-x/lsp_signature.nvim}
+     ;; {1 :ray-x/lsp_signature.nvim
+     ;;  :enabled false}
      ;; {1        :kosayoda/nvim-lightbulb
      ;;  :enabled false
      ;;  :config  (rv :lsp.lightbulb)}
@@ -263,6 +264,10 @@
      {1       :L3MON4D3/LuaSnip
       :config (rv :luasnip)}
      {1 :rafamadriz/friendly-snippets}
+     {1             :folke/noice.nvim
+      :dependencies [:MunifTanjim/nui.nvim
+                     :rcarriga/nvim-notify]
+      :config       (rv :noice)}
      ;; {1        :sunjon/shade.nvim
      ;;  :enabled false
      ;;  :config  (rv :shade)}
