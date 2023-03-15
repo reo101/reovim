@@ -12,6 +12,10 @@
       {: Filetype}
       (require :rv-config.heirline.components.file)
 
+      ;; Terminal-Name
+      {: Terminal-Name}
+      (require :rv-config.heirline.components.terminal)
+
       ;; Align & Space
       {: Align
        : Space}
@@ -21,16 +25,20 @@
 
       ;; Terminal Statusline
       TerminalStatusline
-      {:condition (fn [self]
-                    (conditions.buffer_matches
-                      {:buftype [:terminal]}))
-       :hl        {:bg colors.dark_red}
-       1 (unpack [{:condition conditions.is_active
-                   1 (unpack [ViMode
-                              Space])}
-                  Filetype
-                  Space
-                  Terminal-Name
-                  Align])}]
+      (vim.tbl_extend
+        :error
+        {:condition (fn [self]
+                      (conditions.buffer_matches
+                        {:buftype [:terminal]}))
+         :hl        {:bg colors.dark_red}}
+        [(vim.tbl_extend
+           :error
+           {:condition conditions.is_active}
+           [ViMode
+            Space])
+         Filetype
+         Space
+         Terminal-Name
+         Align])]
 
   {: TerminalStatusline})

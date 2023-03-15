@@ -121,45 +121,52 @@
 
         ;; Statusline
         Statusline
-        {:fallthrough false
-         :static {:mode-colors {:n     colors.red
-                                :i     colors.green
-                                :v     colors.cyan
-                                :V     colors.cyan
-                                "\022" colors.cyan
-                                :c     colors.orange
-                                :s     colors.purple
-                                :S     colors.purple
-                                "\019" colors.purple
-                                :R     colors.orange
-                                :r     colors.orange
-                                :!     colors.red
-                                :t     colors.green}
-                  :mode-color  (fn [self]
-                                 (let [mode (or (and (conditions.is_active)
-                                                     (vim.fn.mode))
-                                                :n)]
-                                   (. self.mode-colors mode)))}
-         :hl (fn [self]
-               (if (conditions.is_active)
-                 {:fg (. (utils.get_highlight :StatusLine)   :fg)
-                  :bg (. (utils.get_highlight :StatusLine)   :bg)}
-                 {:fg (. (utils.get_highlight :StatusLineNC) :fg)
-                  :bg (. (utils.get_highlight :StatusLineNC) :bg)}))
-         1 (unpack [SpecialStatusline
-                    TerminalStatusline
-                    InactiveStatusline
-                    DefaultStatusline])}
+        (vim.tbl_extend
+          :error
+          {:fallthrough false
+           :static {:mode-colors {:n     colors.red
+                                  :i     colors.green
+                                  :v     colors.cyan
+                                  :V     colors.cyan
+                                  "\022" colors.cyan
+                                  :c     colors.orange
+                                  :s     colors.purple
+                                  :S     colors.purple
+                                  "\019" colors.purple
+                                  :R     colors.orange
+                                  :r     colors.orange
+                                  :!     colors.red
+                                  :t     colors.green}
+                    :mode-color  (fn [self]
+                                   (let [mode (or (and (conditions.is_active)
+                                                       (vim.fn.mode))
+                                                  :n)]
+                                     (. self.mode-colors mode)))}
+           :hl (fn [self]
+                 (if (conditions.is_active)
+                   {:fg (. (utils.get_highlight :StatusLine)   :fg)
+                    :bg (. (utils.get_highlight :StatusLine)   :bg)}
+                   {:fg (. (utils.get_highlight :StatusLineNC) :fg)
+                    :bg (. (utils.get_highlight :StatusLineNC) :bg)}))}
+          [SpecialStatusline
+           TerminalStatusline
+           InactiveStatusline
+           DefaultStatusline])
 
         ;; Winbar
         Winbar
-        {:fallthrough false
-         1 (unpack [InactiveWinbar
-                    DefaultWinbar])}
+        (vim.tbl_extend
+          :error
+          {:fallthrough false}
+          [InactiveWinbar
+           DefaultWinbar])
 
         ;; Tabline
         Tabline
-        {1 (unpack [DefaultTabline])}]
+        (vim.tbl_extend
+          :error
+          {}
+          [DefaultTabline])]
     (heirline.setup {:statusline Statusline
                      :winbar Winbar
                      :statuscolumn nil

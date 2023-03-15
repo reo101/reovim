@@ -31,26 +31,28 @@
 
       ;; Flexible Work-Dir
       Work-Dir-Flexible
-      {:flexible 1
-       1 (unpack [;; evaluates to the full-lenth path
-                  {:provider (fn [self]
-                               (local trail
-                                 (or (and (= (self.cwd:sub (- 1))
-                                             "/")
-                                          "")
-                                     "/"))
-                               (.. self.icon self.cwd trail " "))}
-                  ;; evaluates to the shortened path
-                  {:provider (fn [self]
-                               (local cwd
-                                 (vim.fn.pathshorten self.cwd))
-                               (local trail
-                                 (or (and (= (self.cwd:sub (- 1))
-                                             "/")
-                                          "")
-                                     "/"))
-                               (.. self.icon cwd trail " "))}
-                  ;; evaluates to "", hiding the component
-                  {:provider ""}])}]
+      (vim.tbl_extend
+        :error
+        {:flexible 1}
+        [;; evaluates to the full-lenth path
+         {:provider (fn [self]
+                      (local trail
+                        (or (and (= (self.cwd:sub (- 1))
+                                    "/")
+                                 "")
+                            "/"))
+                      (.. self.icon self.cwd trail " "))}
+         ;; evaluates to the shortened path
+         {:provider (fn [self]
+                      (local cwd
+                        (vim.fn.pathshorten self.cwd))
+                      (local trail
+                        (or (and (= (self.cwd:sub (- 1))
+                                    "/")
+                                 "")
+                            "/"))
+                      (.. self.icon cwd trail " "))}
+         ;; evaluates to "", hiding the component
+         {:provider ""}])]
 
   {: Work-Dir})

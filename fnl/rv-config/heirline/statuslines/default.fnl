@@ -33,6 +33,10 @@
        : Space}
       (require :rv-config.heirline.components.align)
 
+      ;; Spell
+      {: Spell}
+      (require :rv-config.heirline.components.spell)
+
       ;; Ruler
       {: Ruler}
       (require :rv-config.heirline.components.ruler)
@@ -54,9 +58,11 @@
 
        LSP-Active Space
        Filetype Space
-       {:condition conditions.is_active
-        1 (unpack [Spell
-                   Space])}
+       (vim.tbl_extend
+         :error
+         {:condition conditions.is_active}
+         [Spell
+          Space])
        Ruler Space
        ScrollBar]]
 

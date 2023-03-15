@@ -17,11 +17,13 @@
 
       ;; Inactive Statusline
       InactiveStatusline
-      {:condition (fn [self]
-                    (not (conditions.is_active)))
-       1 (unpack [Filetype
-                  Space
-                  Filename
-                  Align])}]
+      (vim.tbl_extend
+        :error
+        {:condition (fn [self]
+                      (not (conditions.is_active)))}
+        [Filetype
+          Space
+          Filename
+          Align])]
 
   {: InactiveStatusline})

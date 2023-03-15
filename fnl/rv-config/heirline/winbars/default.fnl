@@ -20,7 +20,7 @@
          ["" ""]
          (fn [self]
            (. (utils.get_highlight :StatusLine) :bg))
-         (unpack [Location]))
+         [Location])
        Align]]
 
   {: DefaultWinbar})

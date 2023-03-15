@@ -32,12 +32,14 @@
                    {:fg header-bg}))
            :provider left-delim}
           ;;   -><-  master 
-          {:hl (fn [self]
-                 (let [header-bg (. colours :header :bg)
-                       header-fg (. colours :header :fg)]
-                   {:fg header-fg
-                    :bg header-bg}))
-           1 (unpack [header])}
+          (vim.tbl_extend
+            :error
+            {:hl (fn [self]
+                  (let [header-bg (. colours :header :bg)
+                        header-fg (. colours :header :fg)]
+                    {:fg header-fg
+                     :bg header-bg}))}
+            [header])
           ;;   -><-  master 
           {:hl (fn [self]
                  (let [header-bg (. colours :header :bg)
@@ -46,26 +48,32 @@
                     :bg body-bg}))
            :provider middle-delim}
           ;;   -> <- master 
-          {:hl (fn [self]
-                 (let [body-bg (. colours :body :bg)
-                       body-fg (. colours :body :fg)]
-                   {:fg body-fg
-                    :bg body-bg}))
-           1 (unpack [Space])}
+          (vim.tbl_extend
+            :error
+            {:hl (fn [self]
+                  (let [body-bg (. colours :body :bg)
+                        body-fg (. colours :body :fg)]
+                    {:fg body-fg
+                     :bg body-bg}))}
+            [Space])
           ;;    ->master<-  
-          {:hl (fn [self]
-                 (let [body-fg (. colours :body :fg)
-                       body-bg (. colours :body :bg)]
-                   {:fg body-fg
-                    :bg body-bg}))
-           1 (unpack [body])}
+          (vim.tbl_extend
+            :error
+            {:hl (fn [self]
+                  (let [body-fg (. colours :body :fg)
+                        body-bg (. colours :body :bg)]
+                    {:fg body-fg
+                     :bg body-bg}))}
+            [body])
           ;; ;;   master -> <- 
-          ;; {:hl (fn [self]
-          ;;       (let [body-fg (. colours :body :fg)
-          ;;             body-bg (. colours :body :bg)]
-          ;;         {:fg body-fg
-          ;;          :bg body-bg})}
-          ;;  1 (unpack [Space])}
+          ;; (vim.tbl_extend
+          ;;   :error
+          ;;   {:hl (fn [self]
+          ;;          (let [body-fg (. colours :body :fg)
+          ;;                body-bg (. colours :body :bg)]
+          ;;            {:fg body-fg
+          ;;             :bg body-bg}))}
+          ;;   [Space])
           ;;   master  -><-
           {:hl (fn [self]
                  (let [body-bd (. colours :body :bg)]

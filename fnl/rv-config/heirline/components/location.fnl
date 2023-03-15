@@ -94,10 +94,15 @@
 
       ;; Location
       Location
-      {1 (unpack [RelativePath
-                  Separator
-                  {:fallthrough false
-                   1 (unpack [;;Navic
-                              Gps])}])}]
+      (vim.tbl_extend
+        :error
+        {}
+        [RelativePath
+         Separator
+         (vim.tbl_extend
+           :error
+           {:fallthrough false}
+           [;;Navic
+            Gps])])]
 
   {: Location})

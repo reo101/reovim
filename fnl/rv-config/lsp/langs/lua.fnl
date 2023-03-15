@@ -27,17 +27,17 @@
                                         :version :LuaJIT}
                               :workspace {:preloadFileSize 10000
                                           :maxPreload 100000
-                                          :library ((fn []
-                                                      (if :lua_index_plugins
-                                                          (vim.api.nvim_get_runtime_file "" true)
-                                                          {(vim.fn.expand :$VIMRUNTIME/lua) true
-                                                           (vim.fn.expand :$VIMRUNTIME/lua/vim/lsp) true})))}
+                                          :library (if lua_index_plugins
+                                                       (vim.api.nvim_get_runtime_file "" true)
+                                                       ;; else
+                                                       {(vim.fn.expand :$VIMRUNTIME/lua) true
+                                                        (vim.fn.expand :$VIMRUNTIME/lua/vim/lsp) true})}
                               :completion {:callSnippet :Replace
                                            :enable true}
                               :telemetry {:enable false}
                               :diagnostics {:enanle true
                                             :globals [:vim]}}}
              :single_file_support true}]
-    ((. (. (require :lspconfig) :sumneko_lua) :setup) opt)))
+    ((. (. (require :lspconfig) :lua_ls) :setup) opt)))
 
 {: config}

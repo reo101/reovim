@@ -13,7 +13,7 @@
                      :mode        "background" ;; Set the display mode.
                      :virtualtext "■"}         ;; Set the virtualtext text 
                :html {:mode "foreground"}
-               1 (unpack [:javascript])}
+               1 :javascript}
              :user_default_options {:mode "background"}}]
     ((. (require "colorizer") :setup) opt)))
 
