@@ -69,7 +69,8 @@
   ;; ((. (require :rv-config.lsp.signature) :config)))
 
 (fn lsp-on-init [client]
-  (vim.notify "Language Server Client successfully started!" :info
+  (vim.notify "Language Server Client successfully started!"
+              :info
               {:title client.name}))
 
 (local lsp-capabilities ((fn []
