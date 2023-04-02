@@ -85,7 +85,7 @@ M.config = function()
             on_confirm_done = require("nvim-autopairs.completion.cmp").on_confirm_done({  map_char = { tex = '' } }),
         },
         completion = {
-            completeopt = "menuone,preview,noinsert",
+            completeopt = "menuone,preview,noinsert,noselect",
         },
         experimental = {
             native_menu = false,
@@ -220,8 +220,6 @@ M.config = function()
     require("cmp").setup.cmdline(':', {
         sources = require("cmp").config.sources(
             {
-                { name = "path" }
-            }, {
                 { name = "cmdline" }
             }
         )
