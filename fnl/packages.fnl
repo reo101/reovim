@@ -273,8 +273,6 @@
      ;;  :config  (rv :shade)}
      {1       :folke/twilight.nvim
       :config (rv :twilight)}
-     {1       :xiyaowong/nvim-transparent
-      :config (rv :transparency)}
 
      {1       :windwp/nvim-autopairs
       :config (rv :autopairs)}
