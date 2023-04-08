@@ -1,12 +1,12 @@
 <div align="center">
     <p>
         <a href="https://github.com/neovim/neovim">
-            <img src="https://img.shields.io/badge/requires-neovim%200.6%2B-green?style=flat-square&logo=neovim" alt="Neovim Requirement"/>
+            <img src="https://img.shields.io/badge/requires-neovim%200.9%2B-green?style=flat-square&logo=neovim" alt="Neovim Requirement"/>
         </a>
-        <a href="https://github.com/lunarvim/LunarVim/pulse">
+        <a href="https://github.com/reo101/reovim/pulse">
             <img alt="Last Commit" src="https://img.shields.io/github/last-commit/reo101/reovim"/>
         </a>
-        <a href="https://github.com/lunarvim/LunarVim/blob/main/LICENSE">
+        <a href="https://github.com/reo101/reovim/blob/main/LICENSE">
             <img src="https://img.shields.io/github/license/reo101/reovim?style=flat-square&logo=GNU&label=License" alt="License"/>
         </a>
     </p>
@@ -66,6 +66,8 @@ git clone https://www.github.com/reo101/reovim "~/.config/nvim"
 - Run `nvim`. On the first run, NeoVim will bootstrap the `HotPot` Fennel Loader and `Packer` package manager
 
 - From inside NeoVim run `:PackerInstall` once to install all the packages
+
+> NOTE: (hopefully) soon with Nix
 
 # Screenshots
 
