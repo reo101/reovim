@@ -3,7 +3,6 @@
          : conditions
          : utils
          : colors
-         : gps
          : navic
          : luasnip
          : dap
@@ -66,10 +65,6 @@
         ;; Spell
         {: Spell}
         (require :rv-config.heirline.components.spell)
-
-        ;; Gps
-        {: Gps}
-        (require :rv-config.heirline.components.gps)
 
         ;; Navic
         {: Navic}

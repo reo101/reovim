@@ -2,7 +2,6 @@
        : conditions
        : utils
        : colors
-       : gps
        : navic
        : luasnip
        : dap

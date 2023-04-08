@@ -16,7 +16,6 @@
                   :git    {:del    (. (utils.get_highlight :DiffDelete) :fg)
                            :add    (. (utils.get_highlight :DiffAdd)   :fg)
                            :change (. (utils.get_highlight :DiffChange) :fg)}}
-      gps     (require :nvim-gps)
       navic   (require :nvim-navic)
       luasnip (require :luasnip)
       ;; neogit  (require :neogit)
@@ -26,7 +25,6 @@
    : conditions
    : utils
    : colors
-   : gps
    : navic
    : luasnip
    : dap

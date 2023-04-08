@@ -155,9 +155,10 @@
       :dependencies [:SmiteshP/nvim-navic
                      :kyazdani42/nvim-web-devicons
                      :lewis6991/gitsigns.nvim]}
-     {1             :SmiteshP/nvim-gps
-      :config       (rv :gps)
-      :dependencies [:nvim-treesitter/nvim-treesitter]}
+     ;; {1             :SmiteshP/nvim-gps
+     ;;  :config       (rv :gps)
+     ;;  :dependencies [:nvim-treesitter/nvim-treesitter]
+     ;;  :enabled      false}
      {1             :SmiteshP/nvim-navic
       :config       (rv :navic)
       :dependencies [:nvim-treesitter/nvim-treesitter]}

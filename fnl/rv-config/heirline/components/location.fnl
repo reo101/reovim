@@ -2,16 +2,11 @@
        : conditions
        : utils
        : colors
-       : gps
        : navic
        : luasnip
        : dap
        : icons}
       (require :rv-config.heirline.common)
-
-      ;; Gps
-      {: Gps}
-      (require :rv-config.heirline.components.gps)
 
       ;; Navic
       {: Navic
@@ -82,11 +77,8 @@
       {:condition (fn [self]
                      (and
                        (RelativePath.condition)
-                       (or (and (= (Navic.condition)
-                                   false)
-                                (Gps.condition))
-                           (= (Navic.condition)
-                              NavicNonemptyIndicator))))
+                       (= (Navic.condition)
+                          NavicNonemptyIndicator)))
        :update    [:CursorMoved
                    :CursorMovedI]
        :provider  " >=> "
@@ -102,7 +94,6 @@
          (vim.tbl_extend
            :error
            {:fallthrough false}
-           [;;Navic
-            Gps])])]
+           [Navic])])]
 
   {: Location})
