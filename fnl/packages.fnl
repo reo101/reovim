@@ -25,7 +25,8 @@
                    [:nvim-treesitter/nvim-treesitter-textobjects
                     :mfussenegger/nvim-ts-hint-textobject
                     :nvim-treesitter/playground
-                    :p00f/nvim-ts-rainbow
+                    ;; :p00f/nvim-ts-rainbow
+                    :HiPhish/nvim-ts-rainbow2
                     :romgrk/nvim-treesitter-context
                     :JoosepAlviste/nvim-ts-context-commentstring
                     :windwp/nvim-ts-autotag
@@ -265,10 +266,11 @@
      {1       :L3MON4D3/LuaSnip
       :config (rv :luasnip)}
      {1 :rafamadriz/friendly-snippets}
-     {1             :folke/noice.nvim
-      :dependencies [:MunifTanjim/nui.nvim
-                     :rcarriga/nvim-notify]
-      :config       (rv :noice)}
+     ;; {1             :folke/noice.nvim
+     ;;  :dependencies [:MunifTanjim/nui.nvim
+     ;;                 :rcarriga/nvim-notify]
+     ;;  :config       (rv :noice)
+     ;;  :disable      true}
      ;; {1        :sunjon/shade.nvim
      ;;  :enabled false
      ;;  :config  (rv :shade)}

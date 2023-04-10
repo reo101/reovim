@@ -82,7 +82,11 @@ M.config = function()
         --         and not context.in_syntax_group("Comment")
         -- end,
         event = {
-            on_confirm_done = require("nvim-autopairs.completion.cmp").on_confirm_done({  map_char = { tex = '' } }),
+            on_confirm_done = require("nvim-autopairs.completion.cmp").on_confirm_done({
+                filetypes = {
+                    tex = false,
+                },
+            }),
         },
         completion = {
             completeopt = "menuone,preview,noinsert,noselect",
