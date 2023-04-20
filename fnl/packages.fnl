@@ -143,10 +143,10 @@
       :config       (rv :mind)}
      {1       :segeljakt/vim-silicon
       :config (rv :silicon)}
-     {1             :folke/which-key.nvim
-      :config       (||>)
+     {1       :folke/which-key.nvim
+      :config (fn []
                 (rv :whichkey)
-                (rv :whichkey.presets)}
+                (rv :whichkey.presets))}
      {1 :anuvyklack/hydra.nvim}
      ;; {1        :goolord/alpha-nvim
      ;;  :config  (rv :alpha)
