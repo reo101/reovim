@@ -22,7 +22,7 @@
     seq))
 
 (fn apply [func args]
-  (assert-seq)
+  (assert-seq args)
   `(,func ,(table.unpack args)))
 
 (fn >=> [tbl predicate? ?res]
