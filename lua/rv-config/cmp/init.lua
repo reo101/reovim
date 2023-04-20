@@ -1,6 +1,8 @@
 local M = {}
 
 M.config = function()
+    local cmp = require("cmp")
+    local luasnip = require("luasnip")
 
     local esc = function(str)
         return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -13,71 +15,71 @@ M.config = function()
 
     local opt = {
         mapping = {
-            ["<Tab>"] = require("cmp").mapping(function(fallback)
-                if require("cmp").visible() then
-                    require("cmp").select_next_item()
-                elseif require("luasnip").jumpable() then
-                    require("luasnip").jump(1)
-                -- elseif require("luasnip").expand_or_locally_jumpable() then
-                --     require("luasnip").expand_or_jump()
+            ["<Tab>"] = cmp.mapping(function(fallback)
+                if cmp.visible() then
+                    cmp.select_next_item()
+                elseif luasnip.jumpable() then
+                    luasnip.jump(1)
+                -- elseif luasnip.expand_or_locally_jumpable() then
+                --     luasnip.expand_or_jump()
                 elseif check_back_space() then
                     vim.fn.feedkeys(esc([[<Tab>]]), "n")
                 else
                     fallback()
                 end
             end, { "i", "s", "c" }),
-            ["<S-Tab>"] = require("cmp").mapping(function(fallback)
-                if require("cmp").visible() then
-                    require("cmp").select_prev_item()
-                elseif require("luasnip").jumpable(-1) then
-                    require("luasnip").jump(-1)
+            ["<S-Tab>"] = cmp.mapping(function(fallback)
+                if cmp.visible() then
+                    cmp.select_prev_item()
+                elseif luasnip.jumpable(-1) then
+                    luasnip.jump(-1)
                 else
                     fallback()
                 end
             end, { "i", "s", "c" }),
-            ["<CR>"] = require("cmp").mapping({
-                i = require("cmp").mapping.confirm({
-                    behavior = require("cmp").ConfirmBehavior.Replace,
+            ["<CR>"] = cmp.mapping({
+                i = cmp.mapping.confirm({
+                    behavior = cmp.ConfirmBehavior.Replace,
                     select = true,
                 }),
-                c = require("cmp").mapping.confirm({
+                c = cmp.mapping.confirm({
                     select = false,
                 }),
             }) ,
-            ["<C-n>"] = require("cmp").mapping(require("cmp").mapping.select_next_item(), { "i", "c" }),
-            ["<C-p>"] = require("cmp").mapping(require("cmp").mapping.select_prev_item(), { "i", "c" }),
-            ["<C-d>"] = require("cmp").mapping(require("cmp").mapping.scroll_docs(-4), { "i", "c" }),
-            ["<C-f>"] = require("cmp").mapping(require("cmp").mapping.scroll_docs(4), { "i", "c" }),
-            ["<C-e>"] = require("cmp").mapping({
+            ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
+            ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+            ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+            ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+            ["<C-e>"] = cmp.mapping({
                 i = function(fallback)
-                    if require("cmp").visible() then
-                        require("cmp").abort()
-                    elseif require("luasnip").choice_active() then
-                        require("luasnip").change_choice(1)
+                    if cmp.visible() then
+                        cmp.abort()
+                    elseif luasnip.choice_active() then
+                        luasnip.change_choice(1)
                     else
                         fallback()
                     end
                 end,
                 s = function(fallback)
-                    if require("cmp").visible() then
-                        require("cmp").abort()
-                    elseif require("luasnip").choice_active() then
-                        require("luasnip").change_choice(1)
+                    if cmp.visible() then
+                        cmp.abort()
+                    elseif luasnip.choice_active() then
+                        luasnip.change_choice(1)
                     else
                         fallback()
                     end
                 end,
-                c = require("cmp").mapping.close(),
+                c = cmp.mapping.close(),
             }),
-            ["<C-y>"] = require("cmp").mapping.confirm({
-                behavior = require("cmp").ConfirmBehavior.Insert,
+            ["<C-y>"] = cmp.mapping.confirm({
+                behavior = cmp.ConfirmBehavior.Insert,
                 select = true,
             }),
-            ["<C-Space>"] = require("cmp").mapping.complete(),
+            ["<C-Space>"] = cmp.mapping.complete(),
         },
         -- enabled = function()
         --     -- -- disable completion in comments
-        --     local context = require("cmp.config.context")
+        --     local context = cmp.config.context
         --     return not context.in_treesitter_capture("comment")
         --         and not context.in_syntax_group("Comment")
         -- end,
@@ -102,7 +104,7 @@ M.config = function()
         },
         snippet = {
             expand = function(args)
-                require("luasnip").lsp_expand(args.body)
+                luasnip.lsp_expand(args.body)
             end
         },
         formatting = {
@@ -198,7 +200,7 @@ M.config = function()
         },
         sorting = {
             -- comparators = {
-            --     function(...) return require("cmp_buffer"):compare_locality(...) end,
+            --     function(...) return cmp_buffer:compare_locality(...) end,
             -- },
         },
     }
@@ -207,29 +209,43 @@ M.config = function()
     vim.o.omnifunc="syntaxcomplete#Complete"
 
     -- Use buffer source for `/`.
-    require("cmp").setup.cmdline('/', {
+    cmp.setup.cmdline('/', {
         sources = {
             { name = 'buffer' }
         }
     })
 
     -- Use buffer source for `?`.
-    require("cmp").setup.cmdline('?', {
+    cmp.setup.cmdline('?', {
         sources = {
             { name = 'buffer' }
         }
     })
 
     -- Use cmdline & path source for ':'.
-    require("cmp").setup.cmdline(':', {
-        sources = require("cmp").config.sources(
+    cmp.setup.cmdline(':', {
+        sources = cmp.config.sources(
             {
                 { name = "cmdline" }
             }
         )
     })
 
-    require("cmp").setup(opt)
+    -- Use appropriate sources for `gitcommit`
+    cmp.setup.filetype("gitcommit", {
+        sources = cmp.config.sources({
+            { name = "cmp_git" },
+            { name = "nvim_lsp" },
+            { name = "nvim_lua" },
+            { name = "nvim_lsp_document_symbol" },
+            { name = "buffer" },
+            { name = "dictionary" },
+            { name = "spell" },
+            { name = "path" },
+        }),
+    })
+
+    cmp.setup(opt)
 
 end
 
