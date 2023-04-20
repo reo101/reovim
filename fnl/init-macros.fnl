@@ -25,6 +25,30 @@
   (assert-seq args)
   `(,func ,(table.unpack args)))
 
+(fn -m> [val ...]
+  "Thread a value through a list of method calls"
+  (assert-compile
+    val
+    "There should be an input value to the pipeline")
+  (accumulate [res val
+               _   [f & args] (ipairs [...])]
+    `(: ,res ,f ,(unpack args))))
+
+(fn -m?> [val ...]
+  "Thread (maybe) a value through a list of method calls"
+  (assert-compile
+    val
+    "There should be an input value to the pipeline")
+  (var res# (gensym))
+  (var res `(do (var ,res# ,val)))
+  (each [_ [f & args] (ipairs [...])]
+    (table.insert
+      res
+      `(when (and (not= nil ,res#)
+                  (not= nil (. ,res# ,f)))
+         (set ,res# (: ,res# ,f ,(unpack args))))))
+  res)
+
 (fn >=> [tbl predicate? ?res]
   "Filter through a table and optionally append to a predefined result table
   NOTE: `predicate?` can take the key as a second argument"
@@ -141,6 +165,7 @@
  : assert-tbl
  : assert-seq
  : apply :call apply
+ : -m> : -m?>
  : >=> :filter >=>
  : i>=> :ifilter i>=>
  : |> :pipe |>
