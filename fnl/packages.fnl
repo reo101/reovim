@@ -404,7 +404,8 @@
          final-plugins))
 
 (local opts
-       {:concurrency 30})
+       {:concurrency 30
+        :performance {:reset_packpath false}})
 
 ((. (require "lazy") :setup) plugins opts)
 
