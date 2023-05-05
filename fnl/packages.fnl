@@ -113,9 +113,6 @@
       :lazy false
       :config  (rv :tokyonight)}
 
-     ;; Impatient
-     {1 :lewis6991/impatient.nvim}
-
      {1             :vhyrro/neorg
       :dependencies [:hrsh7th/nvim-cmp
                      :nvim-lua/plenary.nvim

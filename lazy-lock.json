@@ -26,7 +26,6 @@
   "hlargs.nvim": { "branch": "main", "commit": "aec119b4c39f8e04ffbcfaaa998ac24a09a480b9" },
   "hotpot.nvim": { "branch": "master", "commit": "9fd5d6e341861c776ec9c69a2fc524deae67b541" },
   "hydra.nvim": { "branch": "master", "commit": "3ced42c0b6a6c85583ff0f221635a7f4c1ab0dd0" },
-  "impatient.nvim": { "branch": "main", "commit": "c90e273f7b8c50a02f956c24ce4804a47f18162e" },
   "indent-blankline.nvim": { "branch": "master", "commit": "018bd04d80c9a73d399c1061fa0c3b14a7614399" },
   "kmonad-vim": { "branch": "master", "commit": "37978445197ab00edeb5b731e9ca90c2b141723f" },
   "lazy.nvim": { "branch": "main", "commit": "fe28f4b73e0df887ec20196a00a1eddd12a2cf5f" },

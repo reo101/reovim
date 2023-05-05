@@ -25,12 +25,9 @@
 
 (require :settings)
 
-(let [{: prequire
-       :impatient impatient?} (require :globals)
-      impatient (prequire :impatient)]
-  (when (and impatient?
-             impatient)
-    (impatient.enable_profile)))
+(when vim.loader
+  (vim.loader.enable))
+(tset vim.g :loader_luv true)
 
 (require :packages)
 
