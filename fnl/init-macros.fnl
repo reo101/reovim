@@ -131,7 +131,6 @@
 
 (fn map [tbl ...]
   "Map a table using a series of functions"
-  (assert-tbl tbl)
   (local fun (||> ...))
   (if (table? tbl)
       (do
@@ -140,14 +139,13 @@
                   &into res]
           (values k# `(fun ,v#)))
         res)
-      (sym? tbl)
+      ;; else
       `(collect [k# v# (pairs ,tbl)
                  &into {}]
          (values k# (,fun v#)))))
 
 (fn imap [seq ...]
   "Map a sequence using a series of functions"
-  (assert-seq seq)
   (local fun (||> ...))
   (if (sequence? seq)
       (do
@@ -156,7 +154,7 @@
                    &into res]
           `(fun ,v#))
         res)
-      (sym? seq)
+      ;; else
       `(icollect [i# v# (ipairs ,seq)
                   &into []]
          (,fun v#))))

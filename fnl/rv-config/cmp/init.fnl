@@ -1,5 +1,6 @@
 (import-macros
-  {: -m>}
+  {: -m>
+   : imap}
   :init-macros)
 
 (local M {})
@@ -198,16 +199,11 @@
            :option
              {:get_bufnrs
                (fn []
-                 (let [bufs {}]
-                   ;; All buffers
-                   ;; (vim.api.nvim_list_bufs)
-                   (each [_ win
-                          (ipairs (vim.api.nvim_list_wins))]
-                     (tset
-                       bufs
-                       (vim.api.nvim_win_get_buf win)
-                       true))
-                   (vim.tbl_keys bufs)))}}
+                 ;; All buffers
+                 ;; (vim.api.nvim_list_bufs)
+                 ;; Buffers in current window
+                 (imap (vim.api.nvim_list_wins)
+                       vim.api.nvim_win_get_buf))}}
           {:name "nvim_lua"}
           {:name "path"}
           {:name "calc"}
