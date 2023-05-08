@@ -85,7 +85,8 @@
           :f3fora/cmp-spell
           :andersevenrud/cmp-tmux
           :hrsh7th/cmp-cmdline
-          :hrsh7th/cmp-omni]
+          :hrsh7th/cmp-omni
+          :kdheepak/cmp-latex-symbols]
         convert-to-cmp-opt
          (fn [cmp-source]
              (let [opt {1             cmp-source
