@@ -56,6 +56,7 @@ vim.opt.smartcase      = true                           -- smart case
 vim.opt.smartindent    = true                           -- make indenting smarter again
 vim.opt.softtabstop    = 4                              -- more tab is 4 spaces config
 vim.opt.splitbelow     = true                           -- force all horizontal splits to go below current window
+vim.opt.splitkeep      = "screen"                      -- keep the same screen lines in all windows after splitting
 vim.opt.splitright     = true                           -- force all vertical splits to go to the right of current window
 vim.opt.swapfile       = false                          -- creates a swapfile
 vim.opt.tabstop        = 4                              -- insert 4 spaces for a tab

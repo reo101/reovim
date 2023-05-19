@@ -317,8 +317,7 @@
                      :hrsh7th/nvim-cmp]
       :config       (rv :tabout)}
      {1        :ethanholz/nvim-lastplace
-      :config  (rv :lastplace)
-      :enabled false} ;; FIXME: proba
+      :config  (rv :lastplace)}
      {1       :sQVe/sort.nvim
       :cmd    ["Sort"]
       :config (rv :sort)}
@@ -377,10 +376,8 @@
       :config (rv :mkdir)}
      {1       :famiu/bufdelete.nvim
       :config (rv :bufdelete)}
-     {1       :kwkarlwang/bufresize.nvim
-      :config (rv :bufresize)}
-     {1       :luukvbaal/stabilize.nvim
-      :config (rv :stabilize)}
+     ;; {1       :kwkarlwang/bufresize.nvim
+     ;;  :config (rv :bufresize)}
      {1       :gbprod/stay-in-place.nvim
       :config (rv :stay)}
      {1       :sindrets/winshift.nvim
