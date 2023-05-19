@@ -54,7 +54,7 @@
                               ;; (luasnip.expand_or_locally_jumpable)
                               ;; (luasnip.expand_or_jump)
                               (check-back-space)
-                              (vim.fn.feedkeys (esc :<Tab> :n))
+                              (vim.fn.feedkeys (esc :<Tab>) :n)
                               ;; else
                               (fallback)))
                         [:i :s :c])

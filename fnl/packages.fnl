@@ -220,6 +220,9 @@
      {1       :simrat39/rust-tools.nvim
       :config (rv :lsp.langs.rust-tools)
       :ft     ["rust"]}
+     {1       :Julian/lean.nvim
+      :config (rv :lsp.langs.lean)
+      :ft     ["lean"]}
      {1    :mlochbaum/BQN
       :rtp :editors/vim
       :ft  ["bqn"]}
