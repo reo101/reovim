@@ -161,11 +161,15 @@
         (vim.tbl_extend
           :error
           {}
-          [DefaultTabline])]
-    (heirline.setup {:statusline Statusline
-                     :winbar Winbar
-                     :statuscolumn nil
-                     :tabline Tabline})
+          [DefaultTabline])
+
+        ;; Statuscolumn
+        Statuscolumn
+        nil]
+    (heirline.setup {:statusline   Statusline
+                     :winbar       Winbar
+                     :tabline      Tabline
+                     :statuscolumn Statuscolumn})
     (vim.cmd "au FileType * if index(['wipe', 'delete'], &bufhidden) >= 0 | set nobuflisted | endif")))
 
 {: config}
