@@ -2,10 +2,11 @@
   (let [opt {:extensions {:file_browser {:theme :ivy
                                          :mappings {:n {} :i {}}}
                           :ui-select {1 ((. (require :telescope.themes)
-                                            :get_cursor) {:winblend 10
-                                                          :previewer false
-                                                          :shorten_path false
-                                                          :border true})}
+                                            :get_cursor)
+                                         {:winblend     10
+                                          :previewer    false
+                                          :shorten_path false
+                                          :border       true})}
                           :fzf {:case_mode :smart_case
                                 :override_generic_sorter false
                                 :override_file_sorter true

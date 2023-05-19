@@ -92,10 +92,10 @@
 
 (fn lsp-override-handlers []
   (let [border :single]
-    ;; (tset vim.lsp.handlers :textDocument/hover
-    ;;       (vim.lsp.with vim.lsp.handlers.hover {: border}))
-    ;; (tset vim.lsp.handlers :textDocument/signatureHelp
-    ;;       (vim.lsp.with vim.lsp.handlers.signature_help {: border}))
+    (tset vim.lsp.handlers :textDocument/hover
+          (vim.lsp.with vim.lsp.handlers.hover {: border}))
+    (tset vim.lsp.handlers :textDocument/signatureHelp
+          (vim.lsp.with vim.lsp.handlers.signature_help {: border}))
     (tset vim.lsp.handlers :textDocument/publishDiagnostics
           (vim.lsp.with vim.lsp.diagnostic.on_publish_diagnostics
                         {:underline true
@@ -105,7 +105,8 @@
                          ;; :virtual_text {:spacing 0
                          ;;                :source :always
                          ;;                :prefix ""}}))
-    (when (= (. (. (require :globals) :custom) :lsp_progress) :notify)
+    (when (= (. (require :globals) :custom :lsp_progress)
+             :notify)
       (local client-notifs [])
       (local spinner-frames ["◜"
                              "◠"
