@@ -316,6 +316,9 @@
       :dependencies [:nvim-treesitter/nvim-treesitter
                      :hrsh7th/nvim-cmp]
       :config       (rv :tabout)}
+     {1             :Wansmer/treesj
+      :config       (rv :treesj)
+      :dependencies [:nvim-treesitter/nvim-treesitter]}
      {1        :ethanholz/nvim-lastplace
       :config  (rv :lastplace)}
      {1       :sQVe/sort.nvim
