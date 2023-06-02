@@ -117,6 +117,22 @@
                                                             :include_anonymous true
                                                             :highlight_node true}))
                                       {})
+    ;; (#setgsub! conceal @conceal "ab(.)" "%1")
+    (vim.treesitter.query.add_directive
+      :setgsub!
+      (fn [matches _ts-pattern bufnr list metadata]
+        (let [[_directive key capture_id pattern replacement]
+              list]
+          (tset metadata
+                key
+                (string.gsub
+                  (vim.treesitter.get_node_text
+                    (. matches capture_id)
+                    bufnr
+                    {:metadata (. metadata capture_id)})
+                  pattern
+                  replacement))))
+      true)
     (tset (require :nvim-treesitter.install) :compilers  ["zig cc" :clang :gcc])
     ;; (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
     ;;       :typescript
