@@ -1,5 +1,8 @@
+(local treesitter-query-parser (or (?. vim :treesitter :query :parse)
+                                   (?. vim :treesitter :parse_query)))
+
 ;;; Define query for matching keymap comments
-(local keymaps (vim.treesitter.query.parse
+(local keymaps (treesitter-query-parser
                  :c
                  "
 ;; Keymaps
@@ -29,7 +32,7 @@
 "))
 
 ;;; Define query for matching ledmaps
-(local ledmaps (vim.treesitter.query.parse
+(local ledmaps (treesitter-query-parser
                    :c
                    "
 ;; Ledmaps
