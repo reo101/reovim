@@ -361,6 +361,8 @@
       :dependencies [:nvim-lua/plenary.nvim]
       :config       (rv :gitlinker)
       :keys         [:<leader>gb]}
+     {1        :akinsho/git-conflict.nvim
+      :config  (rv :conflict)}
      {1       :numToStr/Comment.nvim
       :config (rv :comments)}
      {1             :folke/todo-comments.nvim
