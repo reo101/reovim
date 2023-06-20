@@ -46,7 +46,7 @@
 (fn lsp-on-attach [client bufnr]
   (lsp-mappings)
 
-  (when client.server_capabilities.codeLensProvider
+  (when (client.supports_method :codeLensProvider)
     (vim.api.nvim_create_augroup :LspCodeLens {:clear true})
     (vim.api.nvim_create_autocmd [:InsertEnter
                                   :InsertLeave]
@@ -54,7 +54,7 @@
                                   :group    :LspCodeLens
                                   :callback vim.lsp.codelens.refresh}))
 
-  (when client.server_capabilities.documentHighlightProvider
+  (when (client.supports_method :documentHighlightProvider)
     (vim.api.nvim_create_augroup :LspDocumentHighlight {:clear true})
     (vim.api.nvim_create_autocmd [:CursorHold]
                                  {:buffer   0
@@ -65,7 +65,7 @@
                                   :group    :LspDocumentHighlight
                                   :callback vim.lsp.buf.clear_references}))
 
-  (when client.server_capabilities.documentSymbolProvider
+  (when (client.supports_method :documentSymbolProvider)
     ((. (require :nvim-navic) :attach) client bufnr)))
 
 (fn lsp-on-init [client]
