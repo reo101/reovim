@@ -1,45 +1,41 @@
 (fn config []
+  (local dk (require :def-keymaps))
   (local opt {:load {;; Load all the default modules
                      :core.defaults {}
                      ;; Manage directories
-                     :core.norg.dirman {:config
-                                        {:workspaces
-                                         {:Notes      "~/Notes"
-                                          :IPProjects "~/Projects/FMI/AssistCPP/Projects"
-                                          :GTD        "~/GTD"}}}
-                     ;; FIXME: Depracated
-                     ;; ;; Manage GTD workflow
-                     ;; :core.gtd.base {:config
-                     ;;                 {:workspace :GTD
-                     ;;                  ;; Optional: all excluded files from the workspace are not part of the gtd workflow
-                     ;;                  :exclude {}
-                     ;;                  :projects {:show_completed_projects false
-                     ;;                             :show_projects_without_tasks false}
-                     ;;                  :custom_tag_completion true}}
+                     :core.dirman {:config
+                                   {:workspaces
+                                     {:Notes      "~/Notes"
+                                      :IPProjects "~/Projects/FMI/AssistCPP/Projects"
+                                      :GTD        "~/GTD"}}}
                      ;; Configure keybinds
                      :core.keybinds {:config
-                                      {:default_keybinds true
-                                       :neorg_leader :<leader>o
-                                       :hook (fn [keybinds])}}
+                                     {:default_keybinds true
+                                      :neorg_leader :<leader>n
+                                      :hook (fn [keybinds]
+                                              ;; TODO: implement
+                                              (dk [:n]
+                                                  {:n {:name "Neorg"}}
+                                                  {:prefix :<leader>})}}
                      ;; Allows for use of icons
-                     :core.norg.concealer {:config
-                                           {:markup_preset :dimmed
-                                            :icon_preset :diamond
-                                            :icons {:marker {:icon " "}
-                                                    :todo {:enable true
-                                                           :pending   {:icon ""}
-                                                           :uncertain {:icon ""}
-                                                           :urgent    {:icon ""}
-                                                           :on_hold   {:icon ""}
-                                                           :cancelled {:icon ""}}}}}
+                     :core.concealer {:config
+                                      {:markup_preset :dimmed
+                                       :icon_preset :diamond
+                                       :icons {:marker {:icon " "}
+                                               :todo {:enable true
+                                                      :pending   {:icon ""}
+                                                      :uncertain {:icon ""}
+                                                      :urgent    {:icon ""}
+                                                      :on_hold   {:icon ""}
+                                                      :cancelled {:icon ""}}}}}
                      ;; Enable nvim-cmp completion
-                     :core.norg.completion {:config
-                                            {:engine :nvim-cmp}}
+                     :core.completion {:config
+                                       {:engine :nvim-cmp}}
                      ;; Enable the telescope module
                      :core.integrations.telescope {}
                      ;; Enable the metagen module
-                     :core.norg.esupports.metagen {:config
-                                                   {:type :auto}}
+                     :core.esupports.metagen {:config
+                                              {:type :auto}}
                      ;; Enable the presenter module
                      :core.presenter {:config
                                       {:zen_mode :truezen

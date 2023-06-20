@@ -120,6 +120,7 @@
                      :nvim-neorg/neorg-telescope
                      :nvim-telescope/telescope.nvim
                      :nvim-treesitter/nvim-treesitter]
+      :version      :v5.0.0
       :config       (rv :neorg)
       :cmd          ["Neorg"]}
      {1             :nvim-neorg/neorg-telescope
@@ -265,6 +266,7 @@
                "latex"]}
      {1 :b0o/schemastore.nvim}
      {1       :j-hui/fidget.nvim
+      :tag    :legacy
       :config (rv :fidget)
       :cond   (= lsp_progress :fidget)}
      ;; {1        :edluffy/hologram.nvim
