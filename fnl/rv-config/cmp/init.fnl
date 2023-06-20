@@ -241,6 +241,40 @@
          (cmp.config.sources
            [{:name "cmdline"}])})
 
+    ;; Do not insert latex symbols in tex, only autocomplete them
+    (cmp.setup.filetype
+      "tex"
+      {:sources
+         (cmp.config.sources
+           [{:name "nvim_lsp"}
+            {:name "luasnip"}
+            {:name "buffer"
+             :option
+               {:get_bufnrs
+                 (fn []
+                   (let [bufs {}]
+                     ;; All buffers
+                     ;; (vim.api.nvim_list_bufs)
+                     (each [_ win
+                            (ipairs (vim.api.nvim_list_wins))]
+                       (tset
+                         bufs
+                         (vim.api.nvim_win_get_buf win)
+                         true))
+                     (vim.tbl_keys bufs)))}}
+            {:name "nvim_lua"}
+            {:name "path"}
+            {:name "calc"}
+            {:name "latex_symbols"
+            ;; NOTE:           V V
+             :option {:strategy 2}}
+            {:name "spell"}
+            {:name "tmux"
+             :option {:all_panes false}}
+            {:name "crates"}
+            {:name "neorg"}
+            {:name "omni"}])})
+
     ;; Use appropriate sources for `gitcommit`
     (cmp.setup.filetype
       "gitcommit"
