@@ -26,7 +26,11 @@
                  :r          (. (require :rv-config.lsp.langs.r)          :config)
                  :xml        (. (require :rv-config.lsp.langs.xml)        :config)
                  :purescript (. (require :rv-config.lsp.langs.purescript) :config)
-                 :fennel     (. (require :rv-config.lsp.langs.fennel)     :config)}]
+                 :fennel     (. (require :rv-config.lsp.langs.fennel)     :config)
+                 :solidity   (. (require :rv-config.lsp.langs.solidity)   :config)
+                 :php        (. (require :rv-config.lsp.langs.php)        :config)
+                 :ocaml      (. (require :rv-config.lsp.langs.ocaml)      :config)
+                 :pest       (. (require :rv-config.lsp.langs.pest)       :config)}]
     (fn setup-servers []
       (each [name opt (pairs servers)]
         (if (= (type opt) :function)
