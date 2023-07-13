@@ -1,3 +1,4 @@
+(local dk (require :def-keymaps))
 (local {: build} (require :hotpot.api.make))
 
 ;; Build all fnl files inside config dir
@@ -16,12 +17,12 @@
        (.. "(" (vim.fn.stdpath "config") "/ftplugins/.+)")
        (fn [whole-path] (values whole-path)))
 
-((require :def-keymaps)
- :n
- {:pC #(let [{: check} (require :hotpot.api.make)]
-         (check (vim.fn.stdpath "config") {:force? true}
-                "(.+)/fnl/(.+)"
-                (fn [root part {: join-path}]
-                  (if (not (string.find part "macros"))
-                    (join-path root :lua part)))))}
- {:prefix :<leader>})
+(dk :n
+    {:pC [#(let [{: check} (require :hotpot.api.make)]
+             (check (vim.fn.stdpath "config") {:force? true}
+                    "(.+)/fnl/(.+)"
+                    (fn [root part {: join-path}]
+                      (if (not (string.find part "macros"))
+                        (join-path root :lua part)))))
+          "Config"]}
+    {:prefix :<leader>})
