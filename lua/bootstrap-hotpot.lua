@@ -40,11 +40,14 @@ require("hotpot").setup({
     compiler = {
         modules = {
             correlate = true,
+            env = "_COMPILER",
+            compilerEnv = _G,
+            allowedGlobals = false,
         },
         macros = {
-          env = "_COMPILER",
-          compilerEnv = _G,
-          allowGlobals = false,
-        }
+            env = "_COMPILER",
+            compilerEnv = _G,
+            allowedGlobals = false,
+        },
     },
 })
