@@ -1,18 +1,11 @@
 (import-macros
   {: rv
-   : apply : call
-   : >=> : filter
-   : i>=> : ifilter
-   : |>
-   : ||> : o : compose
-   : >== : foreach
-   : i>== : forieach
-   : map
+   : ||>
+   : forieach
    : imap}
   :init-macros)
 
-(local {: lsp_progress
-        : lua_index_plugins}
+(local {: lsp_progress}
        (. (require :globals) :custom))
 
 ;; Treesitter
@@ -405,7 +398,7 @@
 
 (local plugins
        (let [final-plugins {}]
-         (i>== [normal-plugins treesitter-plugins telescope-plugins cmp-plugins]
+         (forieach [normal-plugins treesitter-plugins telescope-plugins cmp-plugins]
                #(table.foreach $1 (fn [k v] (table.insert final-plugins v))))
          final-plugins))
 
