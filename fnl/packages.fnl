@@ -20,13 +20,14 @@
          [{1       :nvim-treesitter/nvim-treesitter
            :config (rv :treesitter)
            :build    ":TSUpdate"}
+          {1             :HiPhish/rainbow-delimiters.nvim
+           ;; :dependencies [:nvim-treesitter/nvim-treesitter]
+           :config       (rv :treesitter.rainbow)}
           (unpack
             (let [treesitter-plugins
                    [:nvim-treesitter/nvim-treesitter-textobjects
                     :mfussenegger/nvim-ts-hint-textobject
                     :nvim-treesitter/playground
-                    ;; :p00f/nvim-ts-rainbow
-                    :HiPhish/nvim-ts-rainbow2
                     :romgrk/nvim-treesitter-context
                     :JoosepAlviste/nvim-ts-context-commentstring
                     :windwp/nvim-ts-autotag

@@ -92,9 +92,6 @@
                                                       "@function.outer"  :V}}
                            :disable {}}
              :highlight {:enable true}
-             :rainbow {:extended_mode true
-                       :enable true
-                       :max_file_lines nil}
              :playground {:updatetime 25
                           :enable true
                           :disable {}
@@ -196,8 +193,6 @@
                              ;;     :Context]
                              :g [:<Cmd>TSPlaygroundToggle<CR>
                                  :PlayGround]
-                             :r ["<Cmd>TSBufToggle rainbow<CR>"
-                                 "Rainbow Parenthesis"]
                              :t ["<Cmd>TSBufToggle autotag<CR>"
                                  :Autotags]
                              :p ["<Cmd>TSBufToggle autopairs<CR>"

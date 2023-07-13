@@ -39,7 +39,11 @@
                :on_colors (fn [colors])
                ;; You can override specific highlights to use other groups or a hex color
                ;; function will be called with a Highlights and ColorScheme table
-               :on_highlights (fn [highlights colors])}]
+               :on_highlights (fn [highlights colors]
+                                (each [_ colour (ipairs ["Red" "Yellow" "Blue" "Orange" "Green" "Violet" "Cyan"])]
+                                  (tset highlights
+                                        (.. "RainbowDelimiter" colour)
+                                        {:link (.. "TSRainbow" colour)})))}]
      (tokyonight.setup opt)
      (vim.cmd "colorscheme tokyonight")))
 
