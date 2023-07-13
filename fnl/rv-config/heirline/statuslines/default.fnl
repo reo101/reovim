@@ -45,11 +45,15 @@
       {: ScrollBar}
       (require :rv-config.heirline.components.scrollbar)
 
+      ;; ScrollBar
+      {: MacroRec}
+      (require :rv-config.heirline.components.macro)
+
       ;;; Statusline
 
       ;; DefaultStatusline
       DefaultStatusline
-      [ViMode Space
+      [ViMode MacroRec Space
        File-Block Space
        Git Space
        Diagnostics Align

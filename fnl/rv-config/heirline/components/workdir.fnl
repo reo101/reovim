@@ -12,8 +12,8 @@
       Work-Dir
       {:provider (fn [self]
                    (local icon
-                     (.. (or (and (= (vim.fn.haslocaldir 0) 1)
-                                  :l)
+                     (.. (if (= (vim.fn.haslocaldir 0) 1)
+                             :l
                              :g)
                          " "
                          " "))
@@ -23,7 +23,9 @@
                                                               0.25))
                      (set cwd (vim.fn.pathshorten cwd)))
                    (local trail
-                     (or (and (= (cwd:sub (- 1)) "/") "") "/"))
+                     (if (= (cwd:sub -1) "/")
+                         ""
+                         "/"))
                    (.. icon cwd trail))
        :hl       {:fg   colors.blue
                   :bold true}}
@@ -36,7 +38,7 @@
         [;; evaluates to the full-lenth path
          {:provider (fn [self]
                       (local trail
-                        (or (and (= (self.cwd:sub (- 1))
+                        (or (and (= (self.cwd:sub -1)
                                     "/")
                                  "")
                             "/"))
@@ -46,7 +48,7 @@
                       (local cwd
                         (vim.fn.pathshorten self.cwd))
                       (local trail
-                        (or (and (= (self.cwd:sub (- 1))
+                        (or (and (= (self.cwd:sub -1)
                                     "/")
                                  "")
                             "/"))
@@ -54,4 +56,5 @@
          ;; evaluates to "", hiding the component
          {:provider ""}])]
 
-  {: Work-Dir})
+  {: Work-Dir
+   : Work-Dir-Flexible})
