@@ -119,14 +119,10 @@
       :cmd          ["Neorg"]}
      {1             :nvim-neorg/neorg-telescope
       :dependencies [:nvim-telescope/telescope.nvim]}
-     {1       :iamcco/markdown-preview.nvim
-      :build  (. vim.fn "mkdp#util#install")
-      :config (rv :mdpreview)
-      :ft     ["markdown"]}
      {1             :jghauser/follow-md-links.nvim
       :dependencies [:nvim-treesitter/nvim-treesitter]
-      :config       (rv :mdlinks)
-      :ft           ["markdown"]}
+      :ft           ["markdown"]
+      :config       (rv :mdlinks)}
      ;;  {1 :nvim-orgmode/orgmode
      ;;       :dependencies [:nvim-treesitter/nvim-treesitter]
      ;;       :config (rv :orgmode)})
@@ -138,48 +134,23 @@
       :dependencies [:nvim-lua/plenary.nvim]
       :branch       :v2.2
       :config       (rv :mind)}
-     ;; {1       :segeljakt/vim-silicon
-     ;;  :config (rv :silicon)}
      {1       :folke/which-key.nvim
       :config (fn []
                 (rv :whichkey)
                 (rv :whichkey.presets))}
      {1 :anuvyklack/hydra.nvim}
-     ;; {1        :goolord/alpha-nvim
-     ;;  :config  (rv :alpha)
-     ;;  :enabled false}
      {1             :rebelot/heirline.nvim
       :config       (rv :heirline)
       :dependencies [:SmiteshP/nvim-navic
                      :kyazdani42/nvim-web-devicons
                      :lewis6991/gitsigns.nvim]}
-     ;; {1             :SmiteshP/nvim-gps
-     ;;  :config       (rv :gps)
-     ;;  :dependencies [:nvim-treesitter/nvim-treesitter]
-     ;;  :enabled      false}
      {1             :SmiteshP/nvim-navic
       :config       (rv :navic)
       :dependencies [:nvim-treesitter/nvim-treesitter]}
-     ;; {1        :romgrk/barbar.nvim
-     ;;  :config  (rv :barbar)
-     ;;  :enabled false}
-     ;; {1             :akinsho/bufferline.nvim
-     ;;  :config       (rv :bufferline)
-     ;;  :dependencies [:kyazdani42/nvim-web-devicons]
-     ;;  :disable      true}
      {1       :kyazdani42/nvim-web-devicons
       :config (rv :devicons)}
-     ;; {1             :yamatsum/nvim-nonicons
-     ;;  :disable      true
-     ;;  :dependencies [:kyazdani42/nvim-web-devicons]
-     ;;  :after        [:nvim-web-devicons]}
      {1       :NvChad/nvim-colorizer.lua
       :config (rv :colourizer)}
-     ;; {1       :andweeb/presence.nvim
-     ;;  :config (rv :presence)}
-     ;; {1             :RishabhRD/nvim-cheat.sh
-     ;;  :dependencies [:RishabhRD/popfix]
-     ;;  :config       (rv :cheatsh)}
      {1       :rcarriga/nvim-notify
       :config (rv :notify)}
      {1       :neovim/nvim-lspconfig
@@ -187,27 +158,15 @@
      {1             :folke/trouble.nvim
       :dependencies [:kyazdani42/nvim-web-devicons]
       :config       (rv :lsp.trouble)}
-     ;; {1 :ray-x/lsp_signature.nvim
-     ;;  :enabled false}
-     ;; {1        :kosayoda/nvim-lightbulb
-     ;;  :enabled false
-     ;;  :config  (rv :lsp.lightbulb)}
      {1       "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
       :config (rv :lsp.lines)}
      {1             :jose-elias-alvarez/null-ls.nvim
       :dependencies [:nvim-lua/plenary.nvim
                      :neovim/nvim-lspconfig]}
-     ;; {1             :nanotee/sqls.nvim
-     ;;  :dependencies [:vim-scripts/dbext.vim]}
-     ;; {1        :stevearc/aerial.nvim
-     ;;  :config  (rv :aerial)
-     ;;  :enabled false}
      {1             :saecki/crates.nvim
       :dependencies [:nvim-lua/plenary.nvim]
       :config       (rv :crates)
       :event        ["BufRead Cargo.toml"]}
-     ;; {1    :weilbith/nvim-code-action-menu
-     ;;  :cmd :CodeActionMenu}
      {1             :NTBBloodbath/rest.nvim
       :dependencies [:nvim-lua/plenary.nvim]
       :config       (rv :rest)
@@ -225,9 +184,6 @@
       :ft ["gas"]}
      {1   :aklt/plantuml-syntax
       :ft ["plantuml"]}
-     ;; {1        :alaviss/nim.nvim
-     ;;  :rtp     :syntax
-     ;;  :enabled false}
      {1   :McSinyx/vim-octave
       :ft ["octave"]}
      {1   :kmonad/kmonad-vim
@@ -235,12 +191,6 @@
      {1             :scalameta/nvim-metals
       :dependencies [:nvim-lua/plenary.nvim]
       :config       (rv :lsp.langs.metals)}
-     ;; {1        :Olical/aniseed
-     ;;  :config  (rv :aniseed)
-     ;;  :enabled false}
-     ;; {1        :Olical/conjure
-     ;;  :config  (rv :conjure)
-     ;;  :enabled false}
      {1       :eraserhd/parinfer-rust
       :config (rv :parinfer)
       :build    "cargo build --release"
@@ -365,28 +315,18 @@
       :dependencies [:nvim-lua/plenary.nvim
                      :anuvyklack/nvim-keymap-amend]
       :config       (rv :todocomments)}
-     ;; {1             :kevinhwang91/nvim-ufo
-     ;;  :config       (rv :ufo)
-     ;;  :dependencies [:kevinhwang91/promise-async]
-     ;;  :disable      true}
-     {1       :bennypowers/nvim-regexplainer
-      :config (rv :regexplainer)
-      :keys   [:<leader>tr]}
+     {1             :kevinhwang91/nvim-ufo
+      :config       (rv :ufo)
+      :dependencies [:kevinhwang91/promise-async]}
      {1 :jeffkreeftmeijer/vim-numbertoggle}
      {1       :jghauser/mkdir.nvim
       :config (rv :mkdir)}
      {1       :famiu/bufdelete.nvim
       :config (rv :bufdelete)}
-     ;; {1       :kwkarlwang/bufresize.nvim
-     ;;  :config (rv :bufresize)}
      {1       :gbprod/stay-in-place.nvim
       :config (rv :stay)}
      {1       :sindrets/winshift.nvim
       :config (rv :winshift)}
-     ;; {1       :lewis6991/spellsitter.nvim
-     ;;  :config (rv :spellsitter)}
-     ;; {1       :famiu/nvim-reload
-     ;;  :config (rv :reload)}
      {1       :kevinhwang91/nvim-bqf
       :config (rv :betterquickfix)}
      {1       "https://gitlab.com/yorickpeterse/nvim-pqf.git"
