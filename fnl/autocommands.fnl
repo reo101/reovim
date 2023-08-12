@@ -41,20 +41,22 @@
 
 ;;; Set preffered shiftwidth for some filetypes
 (fn set-shiftwidth [filetype shiftwidth]
-  (vim.api.nvim_create_autocmd :FileType
-                               {:pattern filetype
-                                :callback #(vim.cmd
-                                             (string.format
-                                               " setlocal expandtab tabstop=%d shiftwidth=%d softtabstop=%d "
-                                               shiftwidth
-                                               shiftwidth
-                                               shiftwidth))}))
+  (vim.api.nvim_create_autocmd
+    :FileType
+    {:pattern filetype
+     :callback #(vim.cmd
+                  (string.format
+                    " setlocal expandtab tabstop=%d shiftwidth=%d softtabstop=%d "
+                    shiftwidth
+                    shiftwidth
+                    shiftwidth))}))
 
 (>== [:haskell
       :norg
       :xml
       :xslt
       :xsd
+      :fennel
       ;; :javascript
       ;; :javascriptreact
       ;; :javascript.jsx
@@ -68,3 +70,7 @@
       :scheme
       :nix]
      #(set-shiftwidth $1 2))
+
+
+(>== [:yaml]
+     #(set-shiftwidth $1 4))
