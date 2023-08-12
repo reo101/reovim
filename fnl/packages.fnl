@@ -27,10 +27,8 @@
                     :RRethy/nvim-treesitter-textsubjects]
                   convert-to-treesitter-opt
                    (fn [treesitter-plugin]
-                     (local opt
-                          {1             treesitter-plugin
-                           :dependencies [:nvim-treesitter/nvim-treesitter]})
-                     opt)]
+                     {1             treesitter-plugin
+                      :dependencies [:nvim-treesitter/nvim-treesitter]})]
               (imap treesitter-plugins
                     convert-to-treesitter-opt)))])
 
