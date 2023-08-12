@@ -325,8 +325,9 @@
      {1       :sindrets/winshift.nvim
       :config (rv :winshift)}
      {1       :kevinhwang91/nvim-bqf
-      :config (rv :betterquickfix)}
-     {1       "https://gitlab.com/yorickpeterse/nvim-pqf.git"
+      :config (rv :betterquickfix)
+      :ft :qf}
+     {1       :yorickpeterse/nvim-pqf
       :config (rv :prettyquickfix)}
      {1       :lukas-reineke/indent-blankline.nvim
       :config (rv :indentline)}
