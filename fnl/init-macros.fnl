@@ -1,3 +1,5 @@
+;; fennel-ls: macro-file.
+
 (fn rv [path]
   (assert-compile
     (= (type path) "string")
