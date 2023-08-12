@@ -160,9 +160,6 @@
       :config       (rv :lsp.trouble)}
      {1       "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
       :config (rv :lsp.lines)}
-     {1             :jose-elias-alvarez/null-ls.nvim
-      :dependencies [:nvim-lua/plenary.nvim
-                     :neovim/nvim-lspconfig]}
      {1             :saecki/crates.nvim
       :dependencies [:nvim-lua/plenary.nvim]
       :config       (rv :crates)
