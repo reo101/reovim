@@ -54,8 +54,8 @@
 ;;; Visual reminder for 80 char line limit
 ;; (tset vim.opt :colorcolumn "80")
 
-;;; Only conceal when in normal or command mode
-(tset vim.opt :concealcursor "nc")
+;;; Conceal the current line only when in command mode
+(tset vim.opt :concealcursor "c")
 
 ;;; Completely hidden conceals
 (tset vim.opt :conceallevel 2)
