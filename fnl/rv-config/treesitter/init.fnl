@@ -91,7 +91,8 @@
                                     :selection_modes {"@parameter.outer" :v
                                                       "@function.outer"  :V}}
                            :disable {}}
-             :highlight {:enable true}
+             :highlight {:enable true
+                         :additional_vim_regex_highlighting ["circom"]}
              :playground {:updatetime 25
                           :enable true
                           :disable {}

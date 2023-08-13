@@ -29,7 +29,8 @@
                  :solidity   (. (require :rv-config.lsp.langs.solidity)   :config)
                  :php        (. (require :rv-config.lsp.langs.php)        :config)
                  :ocaml      (. (require :rv-config.lsp.langs.ocaml)      :config)
-                 :pest       (. (require :rv-config.lsp.langs.pest)       :config)}]
+                 :pest       (. (require :rv-config.lsp.langs.pest)       :config)
+                 :circom     (. (require :rv-config.lsp.langs.circom)     :config)}]
     (fn setup-servers []
       (each [name opt (pairs servers)]
         (if (= (type opt) :function)
