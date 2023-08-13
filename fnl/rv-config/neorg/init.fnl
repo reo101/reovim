@@ -16,7 +16,7 @@
                                               ;; TODO: implement
                                               (dk [:n]
                                                   {:n {:name "Neorg"}}
-                                                  {:prefix :<leader>})}}
+                                                  {:prefix :<leader>}))}}
                      ;; Allows for use of icons
                      :core.concealer {:config
                                       {:markup_preset :dimmed
