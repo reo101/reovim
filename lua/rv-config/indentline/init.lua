@@ -7,7 +7,7 @@ M.config = function()
         nbsp = "␣",
         trail = "",
         -- eol = "↴",
-        tab = "  ",
+        tab = "<->",
     }
     vim.opt.list = true
 
