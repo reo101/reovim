@@ -8,7 +8,11 @@ M.config = function()
             warning = "W",
             info = "I",
             hint = "H"
-        }
+        },
+
+        show_multiple_lines = true,
+
+        max_filename_length = 0,
     }
 
     require("pqf").setup(opt)
