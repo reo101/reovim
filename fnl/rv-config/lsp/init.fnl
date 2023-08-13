@@ -4,7 +4,6 @@
                  :zig        (. (require :rv-config.lsp.langs.zig)        :config)
                  :tsserver   (. (require :rv-config.lsp.langs.tsserver)   :config)
                  :bash       (. (require :rv-config.lsp.langs.bash)       :config)
-                 :null_ls    (. (require :rv-config.lsp.langs.null-ls)    :config)
                  :json       (. (require :rv-config.lsp.langs.json)       :config)
                  :clangd     (. (require :rv-config.lsp.langs.clangd)     :config)
                  :docker     (. (require :rv-config.lsp.langs.docker)     :config)
