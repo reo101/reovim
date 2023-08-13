@@ -1,6 +1,10 @@
 (local treesitter-query-parser (or (?. vim :treesitter :query :parse)
                                    (?. vim :treesitter :parse_query)))
 
+(when (not ((. (require :nvim-treesitter.parsers)
+               :has_parser)))
+  (lua "return"))
+
 ;;; Define query for matching keymap comments
 (local keymaps (treesitter-query-parser
                  :c
@@ -76,7 +80,12 @@
     (lua "return"))
 
   ;;; Get the AST root
-  (local root (get-root bufnr))
+  (local (ok root) (get-root bufnr))
+  (when (not ok)
+    (vim.notify 
+      (string.format
+        "Error: %s"
+        root)))
 
   ;;; Create iterators for both of the TS queries
   (local keymaps_iter_captures (keymaps:iter_captures root bufnr 0 -1))
