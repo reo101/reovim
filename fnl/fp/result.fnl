@@ -1,6 +1,6 @@
 (import-macros
   {: mdo}
-  :fp.mdo-macro)
+  :fp.mdo-macros)
 
 (local Result {})
 
@@ -65,7 +65,7 @@
     (<- x v)
     (if (p x)
         (Result.new x)
-        (Restut.err e))))
+        (Result.err e))))
 (fn Result.unwrap [mx]
   (match mx
     [:ok & ok] (values (unpack ok))

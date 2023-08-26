@@ -60,8 +60,10 @@
                :unstaged  {:folded false}
                :staged    {:folded false}
                :stashes   {:folded true}
-               :unpulled  {:folded true}
-               :unmerged  {:folded false}
+               :unpulled  {:folded true
+                           :hidden false}
+               :unmerged  {:folded false
+                           :hidden false}
                :recent    {:folded true}}
              ;;; Override/add mappings
              :mappings
@@ -72,7 +74,7 @@
                ;;          :s ""
                ;;; Modify fuzzy-finder buffer mappings
                :finder {;;; Binds <cr> to trigger select action
-                        :<CR> :select}}}]
+                        :<CR> :Select}}}]
 
     (neogit.setup opt)
 

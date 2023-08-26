@@ -1,6 +1,6 @@
 (import-macros
   {: mdo}
-  :fp.mdo-macro)
+  :fp.mdo-macros)
 
 (local Option {})
 

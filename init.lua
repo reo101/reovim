@@ -21,8 +21,7 @@
 --      \__\::::/      \__\/      \  \:\       --
 --          ~~~~                   \__\/       --
 
-require("bootstrap-hotpot")
+require("bootstrap-tangerine")
 
 -- We are now in fennel land
-require("bootstrap")
-require("init")
+require("initialize")

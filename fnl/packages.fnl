@@ -95,10 +95,11 @@
 
 (var normal-plugins
     [;; Fennel loader
-     {1       :rktjmp/hotpot.nvim
+     {1       :udayvir-singh/tangerine.nvim
+      :tag "v2.7"
       :priority 1000
-      :lazy false
-      :config (rv :hotpot)}
+      :lazy false}
+      ;; :config (rv :tangerine}
 
      ;; Theme
      {1        :folke/tokyonight.nvim
