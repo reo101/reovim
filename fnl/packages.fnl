@@ -276,6 +276,9 @@
                      :MunifTanjim/nui.nvim]
       :branch       :v2.x
       :config       (rv :tree)}
+     {1 :stevearc/oil.nvim
+      :dependencies [:kyazdani42/nvim-web-devicons]
+      :config (rv :oil)}
      ;; {1        :elihunter173/dirbuf.nvim
      ;;  :config  (rv :dirbuf)
      ;;  :enabled false}

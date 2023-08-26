@@ -66,6 +66,7 @@
   "nvim-ts-hint-textobject": { "branch": "master", "commit": "5a28bff46c05d28bdb4bcaef67e046eb915a9390" },
   "nvim-ufo": { "branch": "main", "commit": "8b01594c29bd01e7b49b647a663c819ed909714f" },
   "nvim-web-devicons": { "branch": "master", "commit": "cfc8824cc1db316a276b36517f093baccb8e799a" },
+  "oil.nvim": { "branch": "master", "commit": "c12a12c34da2a04465308f410095bcbe47996f0b" },
   "parinfer-rust": { "branch": "master", "commit": "0e4d52e712641ad351a1bfe6cee3d34d63ed087b" },
   "plantuml-syntax": { "branch": "master", "commit": "845abb56dcd3f12afa6eb47684ef5ba3055802b8" },
   "playground": { "branch": "master", "commit": "429f3e76cbb1c59fe000b690f7a5bea617b890c0" },
