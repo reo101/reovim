@@ -1,5 +1,7 @@
 (fn config []
-  (let [servers {:latex      (. (require :rv-config.lsp.langs.latex)      :config)
+  (let [lspconfig (require :lspconfig)
+        utils (require :rv-config.lsp.utils)
+        servers {:latex      (. (require :rv-config.lsp.langs.latex)      :config)
                  :sqls       (. (require :rv-config.lsp.langs.sqls)       :config)
                  :zig        (. (require :rv-config.lsp.langs.zig)        :config)
                  :tsserver   (. (require :rv-config.lsp.langs.tsserver)   :config)
@@ -35,18 +37,17 @@
       (each [name opt (pairs servers)]
         (if (= (type opt) :function)
           (opt)
-          (let [client (. (require :lspconfig) name)]
-            (client.setup (vim.tbl_extend :force
-                                          {:flags {:debounce_text_changes 150}
-                                           :capabilities (. (require :rv-config.lsp.utils)
-                                                            :lsp-capabilities)
-                                           :on_init (. (require :rv-config.lsp.utils)
-                                                       :lsp-on-init)
-                                           :on_attach (. (require :rv-config.lsp.utils)
-                                                         :lsp-on-attach)}
-                                          opt))))))
+          (let [client (. lspconfig name)]
+            (client.setup
+              (vim.tbl_extend
+                :force
+                {:flags {:debounce_text_changes 150}
+                 :capabilities utils.lsp-capabilities
+                 :on_init utils.lsp-on-init
+                 :on_attach utils.lsp-on-attach}
+                opt))))))
 
     (setup-servers)
-    ((. (require :rv-config.lsp.utils) :lsp-override-handlers))))
+    (utils.lsp-override-handlers)))
 
 {: config}

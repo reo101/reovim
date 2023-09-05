@@ -27,7 +27,7 @@
                           :q [vim.diagnostic.setloclist  "Send to loclist"]}
                       :f [#(vim.lsp.buf.format {:async true}) :Format]
                       :r [vim.lsp.buf.rename                  :Rename]}}
-        direct-mappings {:K [#(vim.lsp.buf.hover) :Hover]
+        direct-mappings {:K [vim.lsp.buf.hover :Hover]
                          :g {:d [vim.lsp.buf.definition      :Definition]
                              :i [vim.lsp.buf.implementation  :Implementation]
                              :r [vim.lsp.buf.references      :References]
@@ -46,7 +46,7 @@
 (fn lsp-on-attach [client bufnr]
   (lsp-mappings)
 
-  (when (client.supports_method :codeLensProvider)
+  (when client.server_capabilities.codeLensProvider
     (vim.api.nvim_create_augroup :LspCodeLens {:clear true})
     (vim.api.nvim_create_autocmd [:InsertEnter
                                   :InsertLeave]
@@ -54,7 +54,7 @@
                                   :group    :LspCodeLens
                                   :callback vim.lsp.codelens.refresh}))
 
-  (when (client.supports_method :documentHighlightProvider)
+  (when client.server_capabilities.documentHighlightProvider
     (vim.api.nvim_create_augroup :LspDocumentHighlight {:clear true})
     (vim.api.nvim_create_autocmd [:CursorHold]
                                  {:buffer   0
@@ -65,30 +65,34 @@
                                   :group    :LspDocumentHighlight
                                   :callback vim.lsp.buf.clear_references}))
 
-  (when (client.supports_method :documentSymbolProvider)
-    ((. (require :nvim-navic) :attach) client bufnr)))
+  (when client.server_capabilities.documentSymbolProvider
+    ((. (require :nvim-navic) :attach) client bufnr))
+
+  (when client.server_capabilities.inlayHintProvider
+    (vim.lsp.inlay_hint bufnr true)))
 
 (fn lsp-on-init [client]
   (vim.notify "Language Server Client successfully started!"
               :info
               {:title client.name}))
 
-(local lsp-capabilities ((fn []
-                           (var capabilities
-                                (vim.lsp.protocol.make_client_capabilities))
-                           (set capabilities.textDocument.completion.completionItem
-                                {:resolveSupport {:properties [:documentation
-                                                               :detail
-                                                               :additionalTextEdits]}
-                                 :documentationFormat     [:markdown]
-                                 :deprecatedSupport       true
-                                 :snippetSupport          true
-                                 :commitCharactersSupport true
-                                 :labelDetailsSupport     true
-                                 :insertReplaceSupport    true
-                                 :preselectSupport        true
-                                 :tagSupport              {:valueSet [1]}})
-                           capabilities)))
+(local lsp-capabilities
+  (do
+    (var capabilities
+         (vim.lsp.protocol.make_client_capabilities))
+    (set capabilities.textDocument.completion.completionItem
+         {:resolveSupport {:properties [:documentation
+                                        :detail
+                                        :additionalTextEdits]}
+          :documentationFormat     [:markdown]
+          :deprecatedSupport       true
+          :snippetSupport          true
+          :commitCharactersSupport true
+          :labelDetailsSupport     true
+          :insertReplaceSupport    true
+          :preselectSupport        true
+          :tagSupport              {:valueSet [1]}})
+    capabilities))
 
 (fn lsp-override-handlers []
   (let [border :single]

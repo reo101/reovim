@@ -169,7 +169,7 @@
       :ft           [:http]}
      {1       :simrat39/rust-tools.nvim
       :config (rv :lsp.langs.rust-tools)
-      :ft     ["rust"]}
+      :event  ["BufReadPost *.rs"]}
      {1       :Julian/lean.nvim
       :config (rv :lsp.langs.lean)
       :ft     ["lean"]}

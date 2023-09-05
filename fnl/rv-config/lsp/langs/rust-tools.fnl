@@ -14,7 +14,8 @@
               :dap {:adapter {:type :executable
                               :name :rt_lldb
                               :command :lldb-vscode}}
-              :tools {:inlay_hints {:other_hints_prefix "=> "
+              :tools {:inlay_hints {:auto false
+                                    :other_hints_prefix "=> "
                                     :max_len_align_padding 1
                                     :only_current_line_autocmd :CursorHold
                                     :right_align_padding 7
