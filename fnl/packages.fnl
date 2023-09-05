@@ -15,7 +15,7 @@
            :build    ":TSUpdate"}
           {1             :HiPhish/rainbow-delimiters.nvim
            ;; :dependencies [:nvim-treesitter/nvim-treesitter]
-           :config       (rv :treesitter.rainbow)}
+           :config       (rv :rainbow)}
           (unpack
             (let [treesitter-plugins
                    [:nvim-treesitter/nvim-treesitter-textobjects
@@ -332,7 +332,8 @@
      {1       :yorickpeterse/nvim-pqf
       :config (rv :prettyquickfix)}
      {1       :lukas-reineke/indent-blankline.nvim
-      :config (rv :indentline)}
+      :branch :v3
+      :config (rv :ibl)}
      {1       :edluffy/specs.nvim
       :config (rv :beacon)}])
 
