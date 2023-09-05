@@ -33,17 +33,37 @@
   (: :append "h")
   (: :append "l"))
 
+;;; Whitespace visualization
+(tset vim.opt :list true)
+(tset vim.opt :listchars
+      {;; :space  "␣"
+       :nbsp  "␣"
+       :trail  ""
+       ;; :eol  "↴"
+       :tab  "󰁍󰁔"})
+
+;;; Old whitespace visualization
+;; (vim.cmd "highlight ExtraWhitespace ctermbg=red guibg=red")
+;; (vim.cmd "match ExtraWhitespace /\\s\\+$/")
+;; (vim.cmd "autocmd Syntax * syn match ExtraWhitespace /\\s\\+$\\| \+\\ze\\t/")
+
 ;;; Don't create backup files
 (tset vim.opt :backup false)
 
+;;; Don't break in the middle of words
+(tset vim.opt :breakat " \t;:,])}")
+
 ;;; Indent wrapped lines
-;; (tset vim.opt :breakindent true)
+(tset vim.opt :breakindent true)
 
 ;;; Options for breakindent
-;; (tset vim.opt :breakindentopt { "shift:2", "min:40", "sbr"})
+(tset vim.opt :breakindentopt ["shift:0"
+                               "list:0"
+                               "min:40"
+                               "sbr"])
 
 ;;; String to show when wrapping a line
-;; (tset vim.opt :showbreak ">>")
+(tset vim.opt :showbreak "☇") ;; "↪" ">>"
 
 ;;; Allows neovim to access the system clipboard
 (tset vim.opt :clipboard "unnamedplus")
