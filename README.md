@@ -86,18 +86,16 @@ git clone https://www.github.com/reo101/reovim "~/.config/nvim"
 - [`init.lua`](./init.lua) - Entry point for Neovim
 - [`lua/`](./lua/) - Lua config files
     - [`bootstrap-hotpot.lua`](./lua/bootstrap-hotpot.lua) - HotPot bootstrapper
-    - [`settings/init.lua`](./lua/settings/init.lua) - `vim.g`, `vim.opt` and `vim.wo` options
     - [`globals.lua`](./lua/globals.lua) - Global Lua helper functions and values
     - [`utils.lua`](./lua/utils.lua) - Utility functions (not used)
     - `rv-*package*/init.lua` - Package configurations
 - [`fnl/`](./fnl/) - Fennel config files
-    - [`bootstrap.fnl`](./fnl/bootstrap.fnl) - Packer bootstrapper
-    - [`init.fnl`](./fnl/init.fnl) - Entry point for Fennel config
-    - [`macros.fnl`](./fnl/macros.fnl) - Fennel macros used throughout the Fennel config
+    - [`init.fnl`](./fnl/initialize.fnl) - Entry point for Fennel config
+    - [`macros.fnl`](./fnl/init-macros.fnl) - Fennel macros used throughout the Fennel config
     - [`packages.fnl`](./fnl/packages.fnl) - Packages' definition location
     - `rv-*package*/init.fnl` - Package configurations
 - [`luasnippets/`](./luasnippets/) - LuaSnip snippets
-- [`queries/`](./queries/) - Custom Treesitter queries
+- [`queries/`](./after/queries/) - Custom Treesitter queries
 
 ---
 
@@ -113,7 +111,7 @@ git clone https://www.github.com/reo101/reovim "~/.config/nvim"
 
 ### Telescope
 
-- **[Telescope](https://www.github.com/nvim-telescope/telescope/nvim)**
+- **[Telescope](https://www.github.com/nvim-telescope/telescope.nvim)**
 - [Packer extension](https://www.github.com/nvim-telescope/telescope-packer.nvim)
 - [FZF picker](https://www.github.com/nvim-telescope/telescope-fzf-native.nvim)
 - [Github extension](https://www.github.com/nvim-telescope/telescope-github.nvim)
@@ -129,7 +127,7 @@ git clone https://www.github.com/reo101/reovim "~/.config/nvim"
 ### Markdown utils
 
 - [Markdown Previewer](https://www.github.com/iamcco/markdown-preview.nvim)
-- [Markdown link follower](https:://www.github.com/jghauser/follow-md-links.nvim)
+- [Markdown link follower](https://www.github.com/jghauser/follow-md-links.nvim)
 
 ### Which-key
 
@@ -165,23 +163,23 @@ git clone https://www.github.com/reo101/reovim "~/.config/nvim"
 - [Dressing](https://www.github.com/stevearc/dressing.nvim)
 
 #### Languages
-- [Ansible](./fnl/rv-lsp/langs/ansible.fnl)
-- [Bash](./fnl/rv-lsp/langs/bash.fnl)
-- [C, CPP](./fnl/rv-lsp/langs/clangd.fnl)
-- [CMake](./fnl/rv-lsp/langs/cmake.fnl)
-- [Dockerfile](./fnl/rv-lsp/langs/docker.fnl)
-- [Erlang](./fnl/rv-lsp/langs/erlang.fnl)
-- [Go](./fnl/rv-lsp/langs/go.fnl)
-- [Haskell](./fnl/rv-lsp/langs/haskell.fnl)
-- [JSON](./fnl/rv-lsp/langs/json.fnl)
-- [Javascript, Typescript](./fnl/rv-lsp/langs/tsserver.fnl)
-- [LaTeX](./fnl/rv-lsp/langs/latex.fnl)
-- [Lua](./fnl/rv-lsp/langs/lua.fnl)
-- [Nim](./fnl/rv-lsp/langs/nim.fnl)
-- [Python](./fnl/rv-lsp/langs/python.fnl)
-- [SQL](./fnl/rv-lsp/langs/sqls.fnl)
-- [Scheme, Racket](./fnl/rv-lsp/langs/racket.fnl)
-- [Zig](./fnl/rv-lsp/langs/zig.fnl)
+- [Ansible](./fnl/rv-config/lsp/langs/ansible.fnl)
+- [Bash](./fnl/rv-config/lsp/langs/bash.fnl)
+- [C, CPP](./fnl/rv-config/lsp/langs/clangd.fnl)
+- [CMake](./fnl/rv-config/lsp/langs/cmake.fnl)
+- [Dockerfile](./fnl/rv-config/lsp/langs/docker.fnl)
+- [Erlang](./fnl/rv-config/lsp/langs/erlang.fnl)
+- [Go](./fnl/rv-config/lsp/langs/go.fnl)
+- [Haskell](./fnl/rv-config/lsp/langs/haskell.fnl)
+- [JSON](./fnl/rv-config/lsp/langs/json.fnl)
+- [Javascript, Typescript](./fnl/rv-config/lsp/langs/tsserver.fnl)
+- [LaTeX](./fnl/rv-config/lsp/langs/latex.fnl)
+- [Lua](./fnl/rv-config/lsp/langs/lua.fnl)
+- [Nim](./fnl/rv-config/lsp/langs/nim.fnl)
+- [Python](./fnl/rv-config/lsp/langs/python.fnl)
+- [SQL](./fnl/rv-config/lsp/langs/sqls.fnl)
+- [Scheme, Racket](./fnl/rv-config/lsp/langs/racket.fnl)
+- [Zig](./fnl/rv-config/lsp/langs/zig.fnl)
 
 #### Additional Language Server plugins
 
@@ -190,7 +188,7 @@ git clone https://www.github.com/reo101/reovim "~/.config/nvim"
 - [Rust Tools](https://www.github.com/simrat39/rust-tools.nvim)
   - [Crates](https://www.github.com/saecki/crates.nvim)
 - [Metals](https://www.github.com/scalameta/nvim-metals)
-- [JDTLS](./lua/rv-lsp/langs/jdtls.lua)
+- [JDTLS](./fnl/rv-config/lsp/langs/jdtls.fnl)
 
 ### Fennel
 
@@ -240,7 +238,6 @@ git clone https://www.github.com/reo101/reovim "~/.config/nvim"
 
 - [Hop](https://www.github.com/phaazon/hop.nvim)
 - [Hlslens](https://www.github.com/kevinhwang91/nvim-hlslens)
-- [Surround](https://www.github.com/blackCauldron7/surround.nvim)
 - [Tabout](https://www.github.com/abecodes/tabout.nvim)
 - [Lastplace](https://www.github.com/ethanholz/nvim-lastplace)
 - [Sort](https://www.github.com/sQVe/sort.nvim)
