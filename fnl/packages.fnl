@@ -128,10 +128,10 @@
      ;;  {1 :nvim-orgmode/orgmode
      ;;       :dependencies [:nvim-treesitter/nvim-treesitter]
      ;;       :config (rv :orgmode)})
-     ;;  {1 :lukas-reineke/headlines.nvim
-     ;;       :dependencies [:nvim-orgmode/orgmode]
-     ;;                      :nvim-treesitter/nvim-treesitter]
-     ;;       :config (rv :headlines)})
+     {1 :lukas-reineke/headlines.nvim
+          :dependencies [;; :nvim-orgmode/orgmode
+                         :nvim-treesitter/nvim-treesitter]
+          :config (rv :headlines)}
      {1             :phaazon/mind.nvim
       :dependencies [:nvim-lua/plenary.nvim]
       :branch       :v2.2
