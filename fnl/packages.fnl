@@ -120,7 +120,7 @@
       :dependencies [:nvim-telescope/telescope.nvim]}
      {1             :jghauser/follow-md-links.nvim
       :dependencies [:nvim-treesitter/nvim-treesitter]
-      :ft           ["markdown"]
+      :ft           [:markdown]
       :config       (rv :mdlinks)}
      {1       :AckslD/nvim-FeMaco.lua
       :ft     [:markdown]
