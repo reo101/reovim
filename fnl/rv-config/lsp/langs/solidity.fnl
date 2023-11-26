@@ -10,7 +10,8 @@
              :on_attach lsp-on-attach
              :capabilities lsp-capabilities
              :root_dir (lsp-root-dir
-                         [:hardhat.config.*]
+                         [:hardhat.config.*
+                          :foundry.toml]
                          true)
              :single_file_support true}]
     ((. (require :lspconfig) :solidity :setup) opt)))
