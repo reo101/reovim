@@ -53,8 +53,8 @@
                               (luasnip.jump 1)
                               ;; (luasnip.expand_or_locally_jumpable)
                               ;; (luasnip.expand_or_jump)
-                              (check-back-space)
-                              (vim.fn.feedkeys (esc :<Tab>) :n)
+                              ;; (check-back-space)
+                              ;; (vim.fn.feedkeys (esc :<Tab>) :n)
                               ;; else
                               (fallback)))
                         [:i :s :c])
@@ -105,12 +105,12 @@
        ;;     (let [context cmp.config.context]
        ;;       (and (not (context.in_treesitter_capture :comment))
        ;;            (not (context.in_syntax_group :Comment)))))
-       :event
-         {:on_confirm_done
-           ((. (require :nvim-autopairs.completion.cmp)
-               :on_confirm_done)
-            {:filetypes
-              {:tex false}})}
+       ;; :event
+       ;;   {:on_confirm_done
+       ;;     ((. (require :nvim-autopairs.completion.cmp)
+       ;;         :on_confirm_done)
+       ;;      {:filetypes
+       ;;        {:tex false}})}
        :completion
          {:completeopt "menuone,preview,noinsert,noselect"}
        :experimental
