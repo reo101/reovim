@@ -139,6 +139,12 @@
     ;;                                :tsx/src/scanner.c]
     ;;                       :branch :master}})
     (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
+          :noir
+          {:install_info {:url    "https://github.com/hhamud/tree-sitter-noir"
+                          :files  [:src/parser.c :src/scanner.c]
+                          :branch :main}
+           :filetype :noir})
+    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
           :scala
           {:install_info {:url    "https://github.com/eed3si9n/tree-sitter-scala"
                           :files  [:src/parser.c :src/scanner.c]
