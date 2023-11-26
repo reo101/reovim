@@ -250,6 +250,8 @@
      ;;  :config (rv :twilight)}
      {1       :altermo/ultimate-autopair.nvim
       :dependencies [:nvim-treesitter/nvim-treesitter]
+      :event  [:InsertEnter
+               :CmdlineEnter]
       :config (rv :autopairs)}
      {1             :m-demare/hlargs.nvim
       :config       (rv :hlargs)
