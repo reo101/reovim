@@ -13,6 +13,7 @@
              :capabilities lsp-capabilities
              :root_dir (lsp-root-dir
                          [])
+             :settings {}
              :single_file_support true}]
     ((. (. (require :lspconfig) :racket_langserver) :setup) opt)))
 
