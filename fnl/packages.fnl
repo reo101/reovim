@@ -188,6 +188,11 @@
       :ft ["octave"]}
      {1   :kmonad/kmonad-vim
       :ft ["kmonad"]}
+     {1 :LhKipp/nvim-nu
+      :build ":TSInstall nu"
+      :config #((. (require "nu")
+                   :setup)
+                {:use_lsp_features false})}
      {1             :scalameta/nvim-metals
       :dependencies [:nvim-lua/plenary.nvim]
       :config       (rv :lsp.langs.metals)}
