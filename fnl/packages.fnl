@@ -344,7 +344,7 @@
      {1       :yorickpeterse/nvim-pqf
       :config (rv :prettyquickfix)}
      {1       :lukas-reineke/indent-blankline.nvim
-      :branch :v3
+      :tag    :v3.2.6
       :config (rv :ibl)}
      {1       :edluffy/specs.nvim
       :config (rv :beacon)}])
