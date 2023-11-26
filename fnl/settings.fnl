@@ -181,7 +181,7 @@
 (tset vim.opt :title true)
 
 ;;; What the title of the window will be set to)
-(tset vim.opt :titlestring "%<%F%=%l/%L) ; nvim")          
+(tset vim.opt :titlestring "%<%F%=%l/%L) ; nvim")
 
 ;;; Set an undo directory
 (tset vim.opt :undodir (.. _G.CACHE_PATH  "/undo"))
