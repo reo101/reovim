@@ -291,9 +291,8 @@
       :keys         [:<leader>gs]
       :dependencies [:nvim-lua/plenary.nvim]
       :config       (rv :neogit)}
-     ;; {1       :sindrets/diffview.nvim
-     ;;  :after  [:neogit]
-     ;;  :config (rv :diffview)}
+     {1       :sindrets/diffview.nvim
+      :config (rv :diffview)}
      {1             :lewis6991/gitsigns.nvim
       :dependencies [:nvim-lua/plenary.nvim]
       :config       (rv :gitsigns)}
