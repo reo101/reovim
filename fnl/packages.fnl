@@ -122,6 +122,9 @@
       :dependencies [:nvim-treesitter/nvim-treesitter]
       :ft           ["markdown"]
       :config       (rv :mdlinks)}
+     {1       :AckslD/nvim-FeMaco.lua
+      :ft     [:markdown]
+      :config (rv :femaco)}
      ;;  {1 :nvim-orgmode/orgmode
      ;;       :dependencies [:nvim-treesitter/nvim-treesitter]
      ;;       :config (rv :orgmode)})
