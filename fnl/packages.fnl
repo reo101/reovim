@@ -332,8 +332,8 @@
       :config       (rv :ufo)
       :dependencies [:kevinhwang91/promise-async]}
      {1 :jeffkreeftmeijer/vim-numbertoggle}
-     {1       :jghauser/mkdir.nvim
-      :config (rv :mkdir)}
+     ;; {1       :jghauser/mkdir.nvim
+     ;;  :config (rv :mkdir)}
      {1       :famiu/bufdelete.nvim
       :config (rv :bufdelete)}
      {1       :gbprod/stay-in-place.nvim
