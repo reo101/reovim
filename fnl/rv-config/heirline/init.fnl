@@ -1,3 +1,9 @@
+(macro dbg! [expr]
+  `(do
+     (let [expr# ,expr]
+       (vim.print expr#)
+       expr#)))
+
 (fn config []
   (let [{: heirline
          : conditions
@@ -166,10 +172,45 @@
         ;; Statuscolumn
         Statuscolumn
         nil]
+    (vim.cmd "au FileType * if index(['wipe', 'delete'], &bufhidden) >= 0 | set nobuflisted | endif")
+
+    (fn setup-colors []
+      (collect [color highlight
+                (pairs
+                  {:blue       :Function
+                   :bright_bg  :Folded
+                   :bright_fg  :Folded
+                   :cyan       :Special
+                   :dark_red   :DiffDelete
+                   :diag_error :DiagnosticError
+                   :diag_hint  :DiagnosticHint
+                   :diag_info  :DiagnosticInfo
+                   :diag_warn  :DiagnosticWarn
+                   :git_add    :diffAdded
+                   :git_change :diffChanged
+                   :git_del    :diffDeleted
+                   :gray       :NonText
+                   :green      :String
+                   :orange     :Constant
+                   :purple     :Statement
+                   :red        :DiagnosticError})]
+        (values
+          color
+          (. (utils.get_highlight highlight)
+             :fg))))
+
     (heirline.setup {:statusline   Statusline
                      :winbar       Winbar
                      :tabline      Tabline
-                     :statuscolumn Statuscolumn})
-    (vim.cmd "au FileType * if index(['wipe', 'delete'], &bufhidden) >= 0 | set nobuflisted | endif")))
+                     :statuscolumn Statuscolumn
+                     :opts {:colors setup-colors}})
+
+    (vim.api.nvim_create_augroup
+      :Heirline
+      {:clear true})
+    (vim.api.nvim_create_autocmd
+      :ColorScheme
+      {:callback #(utils.on_colorscheme setup-colors)
+       :group :Heirline})))
 
 {: config}
