@@ -1,4 +1,4 @@
-(let [pattern :*
+(let [pattern "\\(oil://\\)\\@<!.*"
       group (vim.api.nvim_create_augroup
               :auto_create_dir
               {:clear true})
