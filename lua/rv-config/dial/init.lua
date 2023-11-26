@@ -69,12 +69,14 @@ M.config = function()
     })
 
     local rustOctal = zigOctal
+    local haskellOctal = zigOctal
 
     local augends_group = {
         default = default,
         haskell = vim.tbl_extend("keep", {
             augend.integer.alias.decimal,
             haskellBoolean,
+            haskellOctal,
         }, {}),
         -- zig = vim.tbl_extend("keep", {
         --     zigOctal,
