@@ -3,9 +3,13 @@
         hooks (require :ibl.hooks)
         dk (require :def-keymaps)
         opt {:debounce 50
-             :indent {:char "¦"}
+             :indent {:char "¦"
+                      :tab_char "|"}
              :whitespace {:highlight [:Whitespace]}
-             :scope {:highlight
+             :scope {:enabled true
+                     :show_start false
+                     :show_end false
+                     :highlight
                       [:RainbowDelimiterRed
                        :RainbowDelimiterYellow
                        :RainbowDelimiterBlue
