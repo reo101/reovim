@@ -184,10 +184,14 @@
       :ft ["gas"]}
      {1   :aklt/plantuml-syntax
       :ft ["plantuml"]}
+     {1   :calincru/flex-bison-syntax
+      :ft ["lex"]}
      {1   :McSinyx/vim-octave
       :ft ["octave"]}
      {1   :kmonad/kmonad-vim
       :ft ["kmonad"]}
+     {1   :vim-scripts/bnf.vim}
+      ;; :ft ["bnf"]}
      {1 :LhKipp/nvim-nu
       :build ":TSInstall nu"
       :config #((. (require "nu")
