@@ -86,7 +86,7 @@
                opt))]
     [{1             :hrsh7th/nvim-cmp
       :dependencies [:nvim-treesitter/nvim-treesitter
-                     :windwp/nvim-autopairs
+                     :altermo/ultimate-autopair.nvim
                      (unpack cmp-sources)]
       :config       (rv :cmp)}
      (unpack
@@ -235,7 +235,7 @@
      ;;  :config  (rv :shade)}
      ;; {1       :folke/twilight.nvim
      ;;  :config (rv :twilight)}
-     {1       :windwp/nvim-autopairs
+     {1       :altermo/ultimate-autopair.nvim
       :dependencies [:nvim-treesitter/nvim-treesitter]
       :config (rv :autopairs)}
      {1             :m-demare/hlargs.nvim
