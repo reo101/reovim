@@ -107,6 +107,9 @@
       :lazy false
       :config  (rv :tokyonight)}
 
+     {1 :reo101/nix-update.nvim
+      :config (rv :nix-update)}
+
      {1             :vhyrro/neorg
       :dependencies [:hrsh7th/nvim-cmp
                      :nvim-lua/plenary.nvim
