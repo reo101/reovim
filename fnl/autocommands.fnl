@@ -2,6 +2,8 @@
   {: >==}
   :init-macros)
 
+(local dk (require :def-keymaps))
+
 ;; (vim.api.nvim_create_autocmd :FileType
 ;;                              {:pattern :lspinfo
 ;;                               :callback #(vim.api.nvim_buf_set_keymap
@@ -75,3 +77,7 @@
 (>== [:yaml
       :rust]
      #(set-shiftwidth $1 4))
+
+(dk [:n]
+    {:w ["<C-w>" :Window]}
+    {:prefix :<leader>})
