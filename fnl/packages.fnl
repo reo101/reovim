@@ -137,9 +137,7 @@
       :branch       :v2.2
       :config       (rv :mind)}
      {1       :folke/which-key.nvim
-      :config (fn []
-                (rv :whichkey)
-                (rv :whichkey.presets))}
+      :config #(require :which-key)}
      {1 :anuvyklack/hydra.nvim}
      {1             :rebelot/heirline.nvim
       :config       (rv :heirline)
