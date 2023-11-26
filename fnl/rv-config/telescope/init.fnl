@@ -107,6 +107,9 @@
                        :--no-ignore
                        :--files]}))
 
+    (fn functions.resume []
+      (builtin.resume))
+
     (local dk (require :def-keymaps))
     (dk [:n]
         {:f {:name :Find
@@ -119,7 +122,8 @@
              :c [functions.curbuf            "Current Buffer"]
              :s [functions.grep_prompt       "Static grep"]
              :b [functions.buffers           :Buffers]
-             :p [functions.installed_plugins :Plugins]}}
+             :p [functions.installed_plugins :Plugins]
+             :R [functions.resume            :Resume]}}
         {:prefix :<leader>})))
 
 {: config}
