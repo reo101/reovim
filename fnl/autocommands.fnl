@@ -72,5 +72,6 @@
      #(set-shiftwidth $1 2))
 
 
-(>== [:yaml]
+(>== [:yaml
+      :rust]
      #(set-shiftwidth $1 4))
