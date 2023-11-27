@@ -204,6 +204,10 @@
       :config (rv :parinfer)
       :build    "cargo build --release"
       :cond   (= (vim.fn.executable :cargo) 1)}
+     {1       :julienvincent/nvim-paredit
+      :config (rv :paredit)}
+     {1       :julienvincent/nvim-paredit-fennel
+      :config #((. (require :nvim-paredit-fennel) :setup))}
      {1       :stevearc/dressing.nvim
       :config (rv :dressing)}
      {1       :mfussenegger/nvim-jdtls
