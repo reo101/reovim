@@ -7,8 +7,9 @@
              ;; extensions (see next section)
              :filetypes
                ["fennel"
-                ;; "scheme"
-                ;; "racket"
+                "scheme"
+                "racket"
+                "crisp"
                 "clojure"]
              ;; This controls where the cursor is placed when performing slurp/barf operations
              ;;
@@ -102,6 +103,7 @@
                       2 :Element
                       :repeatable false
                       :mode [:o :v]}}}]
-    (paredit.setup opt)))
+    (paredit.setup opt)
+    ((. (require :rv-config.paredit.extensions) :config))))
 
 {: config}
