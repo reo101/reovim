@@ -208,6 +208,9 @@
       :config (rv :paredit)}
      {1       :julienvincent/nvim-paredit-fennel
       :config #((. (require :nvim-paredit-fennel) :setup))}
+     {1 :Olical/conjure
+      :ft [:clojure]
+      :config (rv :conjure)}
      {1       :stevearc/dressing.nvim
       :config (rv :dressing)}
      {1       :mfussenegger/nvim-jdtls
