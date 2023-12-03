@@ -43,7 +43,6 @@
                 :internal true}}]
     (gitsigns.setup opt)
 
-    (local wk (require :which-key))
     (let [mappings
             {:g {:name :Git
                  :h {:name :Hunks
