@@ -13,9 +13,14 @@
 ;;                                            ":q<CR>"
 ;;                                            {:silent true})})
 
+(local group (vim.api.nvim_create_augroup
+               :reovim-autocommands
+               {:clear true}))
+
 ;; Terminal utilities
 (vim.api.nvim_create_autocmd :TermOpen
                              {:pattern :*
+                              : group
                               :callback #(do
                                            (vim.keymap.set
                                              :t
@@ -28,17 +33,20 @@
 ;;; Turn off hlsearch in Insert Mode
 (vim.api.nvim_create_autocmd :InsertEnter
                              {:pattern :*
+                              : group
                               :command "setlocal nohlsearch"})
 
 ;;; Highlight yanked text
 (vim.api.nvim_create_autocmd :TextYankPost
                              {:pattern :*
+                              : group
                               :callback #(vim.highlight.on_yank {:higroup :IncSearch
                                                                  :timeout 300})})
 
 ;;; Save Shada
 (vim.api.nvim_create_autocmd :VimLeave
                              {:pattern :*
+                              : group
                               :command ":wshada!"})
 
 ;;; Set preffered shiftwidth for some filetypes
@@ -46,6 +54,7 @@
   (vim.api.nvim_create_autocmd
     :FileType
     {:pattern filetype
+     : group
      :callback #(vim.cmd
                   (string.format
                     " setlocal expandtab tabstop=%d shiftwidth=%d softtabstop=%d "
