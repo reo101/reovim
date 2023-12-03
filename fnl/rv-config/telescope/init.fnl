@@ -43,6 +43,8 @@
     (when (= (vim.fn.executable :ueberzug) 1)
       (telescope.load_extension :media_files))
     (telescope.load_extension :file_browser)
+    (when (= (vim.fn.executable :hoogle) 1)
+      (telescope.load_extension :hoogle))
 
     ;; Define custom actions
     (local functions {})

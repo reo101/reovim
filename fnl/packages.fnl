@@ -46,7 +46,8 @@
                    :nvim-telescope/telescope-github.nvim
                    :nvim-telescope/telescope-media-files.nvim
                    :nvim-telescope/telescope-symbols.nvim
-                   :nvim-telescope/telescope-file-browser.nvim]
+                   :nvim-telescope/telescope-file-browser.nvim
+                   :luc-tielen/telescope_hoogle]
                  convert-to-telescope-opt
                   (fn [telescope-plugin]
                     (let [opt {1 telescope-plugin
