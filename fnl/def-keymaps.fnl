@@ -9,13 +9,15 @@
           :hydra true
           :which-key false
           :b [#(print :ab) \"Print ab\"]
-          :c #(print :ac)}}
+          :c #(print :ac)
+          :d [\"External\"]}}
      {:prefix :<leader>})
    ```
 
    The above example defines two keybinds:
-   <leader>ab - prints 'ab', (has custom description, for hydra and which-key)
-   <leader>ac - prints 'ac'
+   <leader>ab - prints \"ab\", has custom description, for hydra and which-key
+   <leader>ac - prints \"ac\"
+   <leader>ad - (undefined what it does), has custom description, for hydra and which-key
 
    A group of keymaps can be 'hydrated' using `:hydra true` and its friends
    "
@@ -32,10 +34,14 @@
          :config config?
          ;; :docs   docs?
          &       keymaps} keymaps
-        is-valid-cmd (fn [rhs]
+        is-valid-cmd (fn [cmd]
                        (vim.tbl_contains
                          [:string :function]
-                         (type rhs)))
+                         (type cmd)))
+        is-valid-desc (fn [desc]
+                        (vim.tbl_contains
+                          [:string]
+                          (type desc)))
         canonicalize-rhs (fn [rhs]
                            (if
                              ;; Undocumented rhs
@@ -44,9 +50,17 @@
                               :final true}
                              ;; Documented rhs
                              (and (vim.tbl_islist rhs)
+                                  (= (length rhs) 2)
                                   (is-valid-cmd (. rhs 1)))
                              {:cmd   (. rhs 1)
                               :desc  (. rhs 2)
+                              :final true}
+                             ;; Empty, but documented, rhs
+                             (and (vim.tbl_islist rhs)
+                                  (= (length rhs) 1)
+                                  (is-valid-desc (. rhs 1)))
+                             {:cmd   nil
+                              :desc  (. rhs 1)
                               :final true}
                              ;; Nested table, leave be
                              (not (vim.tbl_islist rhs))
@@ -78,19 +92,24 @@
         (let [lhs (.. prefix lhs)]
           (if
             rhs.final
-            (vim.keymap.set mode
-                            lhs
-                            rhs.cmd
-                            (vim.tbl_extend
-                              "force"
-                              keymap-opts
-                              {:desc rhs.desc}))
+            (if rhs.cmd
+                (vim.keymap.set mode
+                                lhs
+                                rhs.cmd
+                                (vim.tbl_extend
+                                  "force"
+                                  keymap-opts
+                                  {:desc rhs.desc}))
+                ;; else
+                (when (and has-which-key?
+                           rhs.desc)
+                  (which-key.register {lhs {:desc rhs.desc}})))
             ;; else
             (do
               (when (and has-which-key?
                          rhs.name)
-                  ;; Add name for group
-                  (which-key.register {lhs {:name rhs.name}}))
+                ;; Add name for group
+                (which-key.register {lhs {:name rhs.name}}))
               (def-keymaps mode
                            rhs
                            (vim.tbl_extend
