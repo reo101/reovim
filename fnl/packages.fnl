@@ -227,9 +227,8 @@
                "latex"]}
      {1 :b0o/schemastore.nvim}
      {1       :j-hui/fidget.nvim
-      :tag    :legacy
-      :config (rv :fidget)
-      :cond   (= lsp_progress :fidget)}
+      :tag :v1.1.0
+      :config (rv :fidget)}
      ;; {1        :edluffy/hologram.nvim
      ;;  :config  (rv :hologram)
      ;;  :enabled false}
