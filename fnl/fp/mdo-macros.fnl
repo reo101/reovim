@@ -11,7 +11,7 @@
 
   ;;; Generate symbols for bind and pure
   (local syms
-         {:>>=  (gensym :>==)
+         {:>>=  (gensym :>>=)
           :pure (gensym :pure)})
 
   (var res nil)

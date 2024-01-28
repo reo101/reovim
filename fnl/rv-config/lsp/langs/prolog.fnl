@@ -34,7 +34,7 @@
              :capabilities lsp-capabilities
              :root_dir (lsp-root-dir
                          [:pack.pl])}]
-    ((. (. (require :lspconfig) :prolog_lsp) :setup) opt)
-    (set vim.g.filetype_pl "prolog")))
+    ((. (. (require :lspconfig) :prolog_lsp) :setup) opt)))
+    ;; (set vim.g.filetype_pl "prolog")))
 
 {: config}

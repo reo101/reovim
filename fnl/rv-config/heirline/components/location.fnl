@@ -84,16 +84,16 @@
        :provider  " >=> "
        :hl        {:fg colors.red}}
 
+      ;; TODO: clickable directories (open) and code places (jump)
+
       ;; Location
       Location
-      (vim.tbl_extend
-        :error
-        {}
-        [RelativePath
-         Separator
-         (vim.tbl_extend
-           :error
-           {:fallthrough false}
-           [Navic])])]
+      [RelativePath
+       Separator
+       {:fallthrough false
+        :flexible 3
+        1 (unpack
+            [Navic
+             {:provider "⋯"}])}]]
 
   {: Location})

@@ -1,5 +1,6 @@
 (fn config []
-  (let [opt {:autopairs {:enable true}
+  (let [dk (require :def-keymaps)
+        opt {:autopairs {:enable true}
              :query_linter {:use_virtual_text true
                             :enable true
                             :lint_events [:BufWrite
@@ -41,8 +42,8 @@
                                                :node_incremental  :<leader>sii
                                                :scope_incremental :<leader>sis}
                                      :enable true}
-             :context_commentstring {:enable true
-                                     :enable_autocmd false}
+             ;; :context_commentstring {:enable true
+             ;;                         :enable_autocmd false}
              :refactor {:navigation {:enable true
                                      :keymaps {:list_definitions :<leader>sdl
                                                :goto_definition  :<leader>sdg}}
@@ -107,14 +108,16 @@
                                         :unfocus_language          :F
                                         :toggle_query_editor       :o}
                           :persist_queries false}}]
-    (vim.api.nvim_create_user_command :TSFullNodeUnderCursor
-                                      (fn []
-                                        ((. (require :nvim-treesitter-playground.hl-info)
-                                            :show_ts_node) {:full_path true
-                                                            :show_range false
-                                                            :include_anonymous true
-                                                            :highlight_node true}))
-                                      {})
+    ((. (require :rv-config.treesitter.context) :config))
+    (vim.api.nvim_create_user_command
+      :TSFullNodeUnderCursor
+      (fn []
+        ((. (require :nvim-treesitter-playground.hl-info)
+            :show_ts_node) {:full_path true
+                            :show_range false
+                            :include_anonymous true
+                            :highlight_node true}))
+      {})
     ;; (#setgsub! conceal @conceal "ab(.)" "%1")
     (vim.treesitter.query.add_directive
       :setgsub!
@@ -131,13 +134,21 @@
                   pattern
                   replacement))))
       true)
-    (tset (require :nvim-treesitter.install) :compilers  ["zig cc" :clang :gcc])
+    (tset (require :nvim-treesitter.install) :compilers [:clang "zig cc" :clang :gcc])
+    ;; TODO: set custom parsers in a `collect` with `&into`
+
     ;; (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
     ;;       :typescript
     ;;       {:install_info {:url    "https://github.com/tree-sitter/tree-sitter-typescript"
     ;;                       :files  [:tsx/src/parser.c
     ;;                                :tsx/src/scanner.c]
     ;;                       :branch :master}})
+    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
+          :typst
+          {:install_info {:url    "https://github.com/frozolotl/tree-sitter-typst"
+                          :files  [:src/parser.c :src/scanner.cc]
+                          :branch :master}
+           :filetype :typst})
     (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
           :noir
           {:install_info {:url    "https://github.com/hhamud/tree-sitter-noir"
@@ -182,95 +193,86 @@
                           :files  [:src/parser.c]
                           :branch :master}})
     (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-          :awk {:install_info {:url    "https://github.com/Beaglefoot/tree-sitter-awk"
-                               :files  [:src/parser.c
-                                        :src/scanner.c]
-                               :branch :master}})
+          :awk
+          {:install_info {:url    "https://github.com/Beaglefoot/tree-sitter-awk"
+                          :files  [:src/parser.c
+                                   :src/scanner.c]
+                          :branch :master}})
     (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
           :odin
           {:install_info {:url "https://github.com/MineBill/tree-sitter-odin"
                           :files [:src/parser.c]
                           :branch :master}})
     ((. (require :nvim-treesitter.configs) :setup) opt)
-    (local wk (require :which-key))
-    (local mappings {:t {:s {:h ["<Cmd>TSBufToggle highlight<CR>"
-                                 :Highlighting]
-                             ;; :c [(. (require :treesitter-context)
-                             ;;        :toggleEnabled)
-                             ;;     :Context]
-                             :g [:<Cmd>TSPlaygroundToggle<CR>
-                                 :PlayGround]
-                             :t ["<Cmd>TSBufToggle autotag<CR>"
-                                 :Autotags]
-                             :p ["<Cmd>TSBufToggle autopairs<CR>"
-                                 :Autopairs]
-                             :name :TreeSitter}
-                         :name :Toggle}
-                     :s {:d {:g ["Goto definition"]
-                             :l ["List definitions"]
-                             :name :Definitions}
-                         :r ["Smart rename"]
-                         :i {:d ["Node Decremental"]
-                             :s ["Scope Incremental"]
-                             :i ["Node Incremental"]
-                             :v ["Init selection"]
-                             :name "Incremental Selection"}
-                         :s {:p {:p [:Parameter]
-                                 :c [:Class]
-                                 :f [:Function]
-                                 :name "Swap previous"}
-                             :name :Swap
-                             :n {:p [:Parameter]
-                                 :c [:Class]
-                                 :f [:Function]
-                                 :name "Swap next"}}
-                         :name :TreeSitter}})
-    (wk.register mappings {:prefix :<leader>})
+
+    (local mappings
+           {:t {:s {:h ["<Cmd>TSBufToggle highlight<CR>"
+                        :Highlighting]
+                    ;; :c [(. (require :treesitter-context)
+                    ;;        :toggleEnabled)
+                    ;;     :Context]
+                    :g [:<Cmd>TSPlaygroundToggle<CR>
+                        :PlayGround]
+                    :t ["<Cmd>TSBufToggle autotag<CR>"
+                        :Autotags]
+                    :p ["<Cmd>TSBufToggle autopairs<CR>"
+                        :Autopairs]
+                    :name :TreeSitter}
+                :name :Toggle}
+            :s {:d {:g ["Goto definition"]
+                    :l ["List definitions"]
+                    :name :Definitions}
+                :r ["Smart rename"]
+                :i {:d ["Node Decremental"]
+                    :s ["Scope Incremental"]
+                    :i ["Node Incremental"]
+                    :v ["Init selection"]
+                    :name "Incremental Selection"}
+                :s {:p {:p [:Parameter]
+                        :c [:Class]
+                        :f [:Function]
+                        :name "Swap previous"}
+                    :name :Swap
+                    :n {:p [:Parameter]
+                        :c [:Class]
+                        :f [:Function]
+                        :name "Swap next"}}
+                :name :TreeSitter}})
+    (dk :n mappings {:prefix :<leader>})
     (local operator-mappings
-                 {:ir  ["@parameter.inner"]
-                  :im  ["@call.inner"]
-                  :ad  ["@comment.outer"]
-                  :aC  ["@class.outer"]
-
-                  :i   {:name
-                        :inside}
-                  :af  ["@function.outer"]
-                  :.   ["textsubjects-smart"]
-                  :ar  ["@parameter.outer"]
-                  :ie  ["@block.inner"]
-                  ","  ["textsubjects-last"]
-                  :is  ["@statement.inner"]
-                  :ic  ["@conditional.inner"]
-                  :am  ["@call.outer"]
-                  "i;" ["textsubjects-container-inner"]
-                  :al  ["@loop.outer"]
-                  ";"  ["textsubjects-container-outer"]
-                  :ac  ["@conditional.outer"]
-
-                  :a   {:name
-                        :around}
-                  :il  ["@loop.inner"]
-                  :as  ["@statement.outer"]
-                  :ae  ["@block.outer"]
-                  :if  ["@function.inner"]
-                  :iC  ["@class.inner"]})
-    (wk.register operator-mappings {:prefix "" :mode :o})
+           {:i {:name :inside
+                :C  ["@class.inner"]
+                :c  ["@conditional.inner"]
+                :e  ["@block.inner"]
+                :f  ["@function.inner"]
+                :l  ["@loop.inner"]
+                :m  ["@call.inner"]
+                :r  ["@parameter.inner"]
+                :s  ["@statement.inner"]}
+            :a {:name :around
+                :C  ["@class.outer"]
+                :c  ["@conditional.outer"]
+                :d  ["@comment.outer"]
+                :e  ["@block.outer"]
+                :f  ["@function.outer"]
+                :l  ["@loop.outer"]
+                :m  ["@call.outer"]
+                :r  ["@parameter.outer"]
+                :s  ["@statement.outer"]}
+            ";"  ["textsubjects-container-outer"]
+            "i;" ["textsubjects-container-inner"]
+            ","  ["textsubjects-last"]
+            "."  ["textsubjects-smart"]})
+    (dk :o operator-mappings {:noremap false})
     (local motion-mappings
            {"][" ["Next @class.outer end"]
             "[]" ["Previous @class.outer end"]
-            "[M" ["Previous @function.outer end"]
-            "[[" ["Previous @class.outer start"]
             "]m" ["Next @function.outer start"]
+            "[M" ["Previous @function.outer end"]
+            "]]" ["Next @class.outer start"]
+            "[[" ["Previous @class.outer start"]
             "]M" ["Next @function.outer end"]
-            "[m" ["Previous @function.outer start"]
-            "]]" ["Next @class.outer start"]})
-    (wk.register motion-mappings {:prefix "" :mode :n})
-    (wk.register motion-mappings {:prefix "" :mode :o})
-    (let [{: prequire} (require :globals)
-          tsht (prequire :tsht)]
-      (when tsht
-       (local TSHop-mappings {:m [(. tsht :nodes) "TS Hop"]})
-       (wk.register TSHop-mappings {:prefix "" :mode :o})
-       (wk.register TSHop-mappings {:prefix "" :noremap true :mode :v})))))
+            "[m" ["Previous @function.outer start"]})
+    (dk [:n :o] motion-mappings {:noremap false})))
 
 {: config}

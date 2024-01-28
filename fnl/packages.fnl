@@ -5,9 +5,6 @@
    : imap}
   :init-macros)
 
-(local {: lsp_progress}
-       (. (require :globals) :custom))
-
 ;; Treesitter
 (local treesitter-plugins
          [{1       :nvim-treesitter/nvim-treesitter
@@ -117,9 +114,8 @@
                      :nvim-neorg/neorg-telescope
                      :nvim-telescope/telescope.nvim
                      :nvim-treesitter/nvim-treesitter]
-      :version      :v5.0.0
-      :config       (rv :neorg)
-      :cmd          ["Neorg"]}
+      :version      :v7.0.0
+      :config       (rv :neorg)}
      {1             :nvim-neorg/neorg-telescope
       :dependencies [:nvim-telescope/telescope.nvim]}
      {1             :jghauser/follow-md-links.nvim
@@ -136,22 +132,23 @@
           :dependencies [;; :nvim-orgmode/orgmode
                          :nvim-treesitter/nvim-treesitter]
           :config (rv :headlines)}
-     {1             :phaazon/mind.nvim
-      :dependencies [:nvim-lua/plenary.nvim]
+     {1             :Selyss/mind.nvim
+      :dependencies [:nvim-lua/plenary.nvim
+                     :nvim-tre/nvim-web-devicons]
       :branch       :v2.2
       :config       (rv :mind)}
      {1       :folke/which-key.nvim
       :config #(require :which-key)}
-     {1 :anuvyklack/hydra.nvim}
+     {1 :nvimtools/hydra.nvim}
      {1             :rebelot/heirline.nvim
       :config       (rv :heirline)
       :dependencies [:SmiteshP/nvim-navic
-                     :kyazdani42/nvim-web-devicons
+                     :nvim-tree/nvim-web-devicons
                      :lewis6991/gitsigns.nvim]}
      {1             :SmiteshP/nvim-navic
       :config       (rv :navic)
       :dependencies [:nvim-treesitter/nvim-treesitter]}
-     {1       :kyazdani42/nvim-web-devicons
+     {1       :nvim-tree/nvim-web-devicons
       :config (rv :devicons)}
      {1       :NvChad/nvim-colorizer.lua
       :config (rv :colourizer)}
@@ -160,7 +157,7 @@
      {1       :neovim/nvim-lspconfig
       :config (rv :lsp)}
      {1             :folke/trouble.nvim
-      :dependencies [:kyazdani42/nvim-web-devicons]
+      :dependencies [:nvim-tree/nvim-web-devicons]
       :config       (rv :lsp.trouble)}
      {1       "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
       :config (rv :lsp.lines)}
@@ -193,22 +190,31 @@
       :ft ["kmonad"]}
      {1   :vim-scripts/bnf.vim}
       ;; :ft ["bnf"]}
-     {1 :LhKipp/nvim-nu
-      :build ":TSInstall nu"
-      :config #((. (require "nu")
-                   :setup)
-                {:use_lsp_features false})}
+     {1 :vim-scripts/applescript.vim
+      :ft ["applescript"]}
+     ;; {1 :LhKipp/nvim-nu
+     ;;  :build ":TSInstall nu"
+     ;;  :config #((. (require "nu")
+     ;;               :setup)
+     ;;            {:use_lsp_features false})}
+     {1 :nushell/tree-sitter-nu}
      {1             :scalameta/nvim-metals
       :dependencies [:nvim-lua/plenary.nvim]
       :config       (rv :lsp.langs.metals)}
      {1       :eraserhd/parinfer-rust
       :config (rv :parinfer)
-      :build    "cargo build --release"
-      :cond   (= (vim.fn.executable :cargo) 1)}
+      :build  "cargo build --release"
+      :cond   (or true
+                  (= (vim.fn.executable :cargo) 1))}
      {1       :julienvincent/nvim-paredit
       :config (rv :paredit)}
      {1       :julienvincent/nvim-paredit-fennel
+      :ft     ["fennel"]
       :config #((. (require :nvim-paredit-fennel) :setup))}
+     {1 :Vigemus/iron.nvim
+      :tag :v3.0
+      :config (rv :iron)
+      :enabled false}
      {1 :Olical/conjure
       :ft [:clojure]
       :config (rv :conjure)}
@@ -243,13 +249,14 @@
       :dependencies [:mfussenegger/nvim-dap]
       :config       (rv :dap.dapui)}
      {1       :L3MON4D3/LuaSnip
+      :tag    :v2.0.0
       :config (rv :luasnip)}
      {1 :rafamadriz/friendly-snippets}
-     ;; {1             :folke/noice.nvim
-     ;;  :dependencies [:MunifTanjim/nui.nvim
-     ;;                 :rcarriga/nvim-notify]
-     ;;  :config       (rv :noice)
-     ;;  :disable      true}
+     {1             :folke/noice.nvim
+      :dependencies [:MunifTanjim/nui.nvim
+                     :rcarriga/nvim-notify]
+      :config       (rv :noice)
+      :enabled      false}
      ;; {1        :sunjon/shade.nvim
      ;;  :enabled false
      ;;  :config  (rv :shade)}
@@ -257,6 +264,7 @@
      ;;  :config (rv :twilight)}
      {1       :altermo/ultimate-autopair.nvim
       :dependencies [:nvim-treesitter/nvim-treesitter]
+      :branch :v0.6
       :event  [:InsertEnter
                :CmdlineEnter]
       :config (rv :autopairs)}
@@ -280,6 +288,8 @@
       :dependencies [:nvim-treesitter/nvim-treesitter
                      :hrsh7th/nvim-cmp]
       :config       (rv :tabout)}
+     {1 :jinh0/eyeliner.nvim
+      :config (rv :eyeliner)}
      {1             :Wansmer/treesj
       :config       (rv :treesj)
       :dependencies [:nvim-treesitter/nvim-treesitter]}
@@ -294,12 +304,12 @@
       :config (rv :toggleterm)}
      {1             :nvim-neo-tree/neo-tree.nvim
       :dependencies [:nvim-lua/plenary.nvim
-                     :kyazdani42/nvim-web-devicons
+                     :nvim-tree/nvim-web-devicons
                      :MunifTanjim/nui.nvim]
       :branch       :v2.x
       :config       (rv :tree)}
      {1 :stevearc/oil.nvim
-      :dependencies [:kyazdani42/nvim-web-devicons]
+      :dependencies [:nvim-tree/nvim-web-devicons]
       :config (rv :oil)}
      ;; {1        :elihunter173/dirbuf.nvim
      ;;  :config  (rv :dirbuf)
@@ -321,7 +331,7 @@
      ;;  :dependencies [:nvim-treesitter/nvim-treesitter]
      ;;  :config       (rv :gitworktrees)}
      ;; {1             :pwntester/octo.nvim
-     ;;  :dependencies [{1 :kyazdani42/nvim-web-devicons}]
+     ;;  :dependencies [{1 :nvim-tree/nvim-web-devicons}]
      ;;  :config       (rv :octo)}
      {1             :ruifm/gitlinker.nvim
       :dependencies [:nvim-lua/plenary.nvim]
@@ -366,7 +376,30 @@
 
 (local opts
        {:concurrency 30
-        :performance {:reset_packpath false}})
+        :performance
+          {:reset_packpath false
+           :rtp
+             {:disabled_plugins
+                ["2html_plugin"
+                 "getscript"
+                 "getscriptPlugin"
+                 "gzip"
+                 "logipat"
+                 "netrw"
+                 "netrwPlugin"
+                 "netrwSettings"
+                 "netrwFileHandlers"
+                 "matchit"
+                 "matchparen"
+                 "spec"
+                 "tar"
+                 "tarPlugin"
+                 "rrhelper"
+                 "spellfile_plugin"
+                 "vimball"
+                 "vimballPlugin"
+                 "zip"
+                 "zipPlugin"]}}})
 
 ((. (require "lazy") :setup) plugins opts)
 

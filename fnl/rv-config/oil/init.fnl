@@ -6,7 +6,20 @@
              :default_file_explorer true
              ;; Id is automatically added at the beginning, and name at the end
              ;; See :help oil-columns
-             :columns [:icon]
+             :columns [{1 :permissions
+                        :highlight
+                          (fn [permission-str]
+                            (local permission-hlgroups
+                                   {:- :NonText
+                                    :r :DiagnosticSignWarn
+                                    :w :DiagnosticSignError
+                                    :x :DiagnosticSignOk})
+                            (local hls {})
+                            (for [i 1 (length permission-str)]
+                              (local char (permission-str:sub i i))
+                              (table.insert hls [(. permission-hlgroups char) (- i 1) i]))
+                            hls)}
+                       :icon]
                        ;; :permissions,
                        ;; :size,
                        ;; :mtime,
@@ -38,28 +51,35 @@
              ;; it will use the mapping at require("oil.actions").<name>
              ;; Set to `false` to remove a keymap
              ;; See :help oil-actions for a list of all available actions
+             ;; TODO: define using `def-keymaps`
              :keymaps {"g?"    :actions.show_help
                        "<CR>"  :actions.select
-                       "<C-s>" :actions.select_vsplit
-                       "<C-h>" :actions.select_split
-                       "<C-t>" :actions.select_tab
-                       "<C-p>" :actions.preview
+                       ;; "<C-s>" :actions.select_vsplit
+                       ;; "<C-v>" :actions.select_split
+                       ;; "<C-t>" :actions.select_tab
+                       ;; "<C-p>" :actions.preview
                        "<C-c>" :actions.close
+                       "<Esc>" :actions.close
                        "<C-l>" :actions.refresh
                        "-"     :actions.parent
+                       ;; TODO: takovata
                        "<BS>"  :actions.parent
                        "_"     :actions.open_cwd
-                       "`"     :actions.cd
+                       ;; "`"     :actions.cd
                        "."     :actions.cd
                        "~"     :actions.tcd
-                       "g."    :actions.toggle_hidden}
+                       "g."    :actions.toggle_hidden
+                       "H"     :actions.toggle_hidden}
              ;; Set to false to disable all of the above keymaps
              :use_default_keymaps true
              :view_options {;; Show files and directories that start with "."
                             :show_hidden false
                             ;; This function defines what is considered a "hidden" file
                             :is_hidden_file (fn [name _bufnr]
-                                              (vim.startswith name "."))
+                                              (and
+                                                ;; TODO: takovata
+                                                ;; (not= name "..")
+                                                (vim.startswith name ".")))
                             ;; This function defines what will never be shown, even when `show_hidden` is set
                             :is_always_hidden (fn [_name _bufnr]
                                                 false)}

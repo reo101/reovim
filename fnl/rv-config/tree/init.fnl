@@ -16,6 +16,8 @@
                   :display_name ""}
                  {:source :diagnostics
                   :display_name "󰒡"}]}
+           :view
+             {:adaptive_size true}
            :enable_diagnostics true
            :filesystem
              {:filtered_items {:visible false
@@ -60,10 +62,12 @@
                        :last_indent_marker "└"
                        :with_markers true
                        :indent_marker "│"}
-              :icon {:folder_empty "ﰊ"
-                     :folder_open ""
-                     :folder_closed ""
-                     :default "*"}
+              :icon {:folder_open ""
+                     :folder_closed ""
+                     :folder_empty ""
+                     :folder_empty_open ""
+                     :default ""}
+              :modified {:symbol ""}
               :git_status {:highlight "NeoTreeDimText"}}
            :buffers
              {:show_unloaded true

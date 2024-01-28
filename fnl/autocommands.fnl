@@ -18,17 +18,19 @@
                {:clear true}))
 
 ;; Terminal utilities
-(vim.api.nvim_create_autocmd :TermOpen
-                             {:pattern :*
-                              : group
-                              :callback #(do
-                                           (vim.keymap.set
-                                             :t
-                                             :<Esc>
-                                             :<C-\><C-n>
-                                             {:buffer true})
-                                           (vim.cmd ":startinsert")
-                                           (vim.cmd "setlocal listchars= nonumber norelativenumber"))})
+(vim.api.nvim_create_autocmd
+  :TermOpen
+  {:pattern :*
+   : group
+   :callback
+     #(do
+        (vim.keymap.set
+          :t
+          :<Esc>
+          :<C-\><C-n>
+          {:buffer true})
+        (vim.cmd ":startinsert")
+        (vim.cmd "setlocal listchars= nonumber norelativenumber"))})
 
 ;;; Turn off hlsearch in Insert Mode
 (vim.api.nvim_create_autocmd :InsertEnter

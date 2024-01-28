@@ -28,7 +28,8 @@
                                 (severity:gsub :^%l string.upper)))
                           1
                           :text)))
-       1 [{:provider "!["}
+       1 [{:provider "!["
+           :hl {:fg colors.orange}}
           (icollect [_ [self-severity self-icon diag-color]
                      (ipairs [[:errors   :error_icon :error]
                               [:warnings :warn_icon  :warn]
@@ -41,7 +42,8 @@
                              (. self self-icon))}
                 {:provider (fn [self]
                              (.. (. self self-severity) " "))}]})
-          {:provider "]"}]}]
+          {:provider "]"
+           :hl {:fg colors.orange}}]}]
         ;; [{:provider "!["}
         ;;  {:condition (fn [self]
         ;;                (vim.print self.error_icon)

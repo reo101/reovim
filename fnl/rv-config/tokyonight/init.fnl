@@ -3,7 +3,7 @@
 (fn M.config []
     (let [tokyonight (require :tokyonight)
           opt {;; The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-               :style :storm
+               :style :night
                ;; The theme is used when the background is set to light
                :light_style :day
                ;; Enable this to disable setting the background color

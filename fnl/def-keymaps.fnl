@@ -51,11 +51,12 @@
                              ;; Documented rhs
                              (and (vim.tbl_islist rhs)
                                   (= (length rhs) 2)
-                                  (is-valid-cmd (. rhs 1)))
+                                  (is-valid-cmd  (. rhs 1))
+                                  (is-valid-desc (. rhs 2)))
                              {:cmd   (. rhs 1)
                               :desc  (. rhs 2)
                               :final true}
-                             ;; Empty, but documented, rhs
+                             ;; Empty (but documented) rhs
                              (and (vim.tbl_islist rhs)
                                   (= (length rhs) 1)
                                   (is-valid-desc (. rhs 1)))
@@ -103,17 +104,19 @@
                 ;; else
                 (when (and has-which-key?
                            rhs.desc)
-                  (which-key.register {lhs {:desc rhs.desc}})))
+                  (which-key.register {lhs {:desc rhs.desc}}
+                                      {: mode})))
             ;; else
             (do
               (when (and has-which-key?
                          rhs.name)
                 ;; Add name for group
-                (which-key.register {lhs {:name rhs.name}}))
+                (which-key.register {lhs {:name rhs.name}}
+                                    {: mode}))
               (def-keymaps mode
                            rhs
                            (vim.tbl_extend
-                             "force"
+                             :force
                              opts
                              {:prefix lhs})))))))))
 

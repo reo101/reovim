@@ -10,7 +10,8 @@
                                                   :checkOnSave {:command :clippy}}
                                   :assist {:importGranularity :module
                                            :importPrefix :self}
-                                  :cargo {:loadOutDirsFromCheck true}}}
+                                  :cargo {:loadOutDirsFromCheck true
+                                          :features :all}}}
               :dap {:adapter {:type :executable
                               :name :rt_lldb
                               :command :lldb-vscode}}

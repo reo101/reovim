@@ -63,8 +63,9 @@
                                              self.winnr))
                         (local child [{:provider d.icon
                                        :hl (. self.type_hl d.type)}
-                                      {:provider (: (d.name:gsub "%%" "%%%%")
-                                                    :gsub "%s*->%s*" "")
+                                      {:provider (-> d.name
+                                                     (: :gsub "%%" "%%%%")
+                                                     (: :gsub "%s*->%s*" ""))
                                        :on_click {:minwid pos
                                                   :callback
                                                     (fn [_ minwid]

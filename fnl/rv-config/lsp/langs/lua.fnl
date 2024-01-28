@@ -3,7 +3,7 @@
          : lsp-on-attach
          : lsp-capabilities
          : lsp-root-dir} (require :rv-config.lsp.utils)
-        lua_index_plugins (. (require :globals) :custom :lua_index_plugins)
+        lua_index_plugins false
         opt {:cmd [:lua-language-server
                    :--start-lsp]
              :filetypes [:lua]

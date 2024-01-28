@@ -32,3 +32,5 @@
 (require :packages)
 
 (require :autocommands)
+
+(require :neovide)

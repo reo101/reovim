@@ -118,6 +118,11 @@
         {: DefaultTabline}
         (require :rv-config.heirline.tablines.default)
 
+        ;;; Statuscolumns
+
+        {: DefaultStatuscolumn}
+        (require :rv-config.heirline.statuscolumns.default)
+
         ;;; Final
 
         ;; Statusline
@@ -171,7 +176,10 @@
 
         ;; Statuscolumn
         Statuscolumn
-        nil]
+        (vim.tbl_extend
+          :error
+          {}
+          [DefaultStatuscolumn])]
     (vim.cmd "au FileType * if index(['wipe', 'delete'], &bufhidden) >= 0 | set nobuflisted | endif")
 
     (fn setup-colors []
@@ -200,9 +208,9 @@
              :fg))))
 
     (heirline.setup {:statusline   Statusline
-                     :winbar       Winbar
+                     :winbar       (when (not vim.g.neovide) Winbar)
                      :tabline      Tabline
-                     :statuscolumn Statuscolumn
+                     :statuscolumn (when false Statuscolumn)
                      :opts {:colors setup-colors}})
 
     (vim.api.nvim_create_augroup

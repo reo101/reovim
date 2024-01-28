@@ -49,11 +49,12 @@
 ;;; Monad
 (fn Result.pure [...]
   (match ...
-    (nil) [:none]
-    _     [:some ...]))
+    (nil) [:err nil]
+    _     [:ok ...]))
 (fn Result.join [mx]
   (match mx
-    [:some [:some & x]] (values (unpack x))))
+    [:err & err] [:err (values (unpack err))]
+    [:ok r]      [:ok r]))
 (fn Result.>>= [mx f]
   (match mx
     [:ok & ok] (f (unpack ok))
@@ -72,7 +73,7 @@
     _ nil))
 (fn Result.unwrap! [mx]
   (match mx
-    [:ok  & ok] (values (unpack ok))
+    [:ok  & ok]  (values (unpack ok))
     [:err & err] (error err)))
 
 Result

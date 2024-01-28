@@ -8,9 +8,9 @@
        :update    [:LspAttach
                    :LspDetach]
        :provider  (fn [self]
-                    (let [names {}]
-                      (each [i server (pairs (vim.lsp.buf_get_clients 0))]
-                        (table.insert names server.name))
+                    (let [servers (vim.lsp.buf_get_clients 0)
+                          names (icollect [_ server (ipairs servers)]
+                                  server.name)]
                       (.. " [" (table.concat names ", ") "]")))
        :hl        {:fg   colors.green
                    :bold true}}]

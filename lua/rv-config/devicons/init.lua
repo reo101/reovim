@@ -6,11 +6,6 @@ M.config = function()
         -- your personnal icons can go here (to override)
         -- DevIcon will be appended to `name`
         override = {
-            fnl = {
-                icon = "🌱",
-                color = "#428850",
-                name = "Fennel",
-            },
             zsh = {
                 icon = "",
                 color = "#428850",

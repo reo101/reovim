@@ -35,6 +35,7 @@
                              :r [vim.lsp.buf.references      :References]
                              :D [vim.lsp.buf.declaration     :Decaration]
                              :y [vim.lsp.buf.type_definition "Type Definition"]}}
+        insert-mappings {"<C-h>" [vim.lsp.buf.signature_help "Signature Help"]}
         motion-mappings {"]d" [vim.diagnostic.goto_next "Next Diagnostic"]
                          "[d" [vim.diagnostic.goto_prev "Previous Diagnostic"]}]
     (dk :n
@@ -42,6 +43,8 @@
         {:prefix :<leader>})
     (dk :n
         direct-mappings)
+    (dk :i
+        insert-mappings)
     (dk [:n :o]
         motion-mappings)))
 
@@ -111,96 +114,6 @@
                          ;; :virtual_text {:spacing 0
                          ;;                :source :always
                          ;;                :prefix ""}}))
-    (when (= (. (require :globals) :custom :lsp_progress)
-             :notify)
-      (local client-notifs [])
-      (local spinner-frames ["◜"
-                             "◠"
-                             "◝"
-                             "◞"
-                             "◡"
-                             "◟"])
-
-      (fn update-spinner [client-id token]
-        (let [notif-data (. (. client-notifs client-id) token)]
-          (when (and notif-data notif-data.spinner)
-            (local new-spinner
-                   (% (+ notif-data.spinner 1) (length spinner-frames)))
-            (local new-notif
-                   (vim.notify nil nil
-                               {:replace notif-data.notification
-                                :icon (. spinner-frames new-spinner)
-                                :hide_from_history true}))
-            (tset (. client-notifs client-id) token
-                  {:spinner new-spinner :notification new-notif})
-            (vim.defer_fn (fn []
-                            (update-spinner client-id token))
-                          100))))
-
-      (fn format-title [title client]
-        (.. client.name (or (and (> (length title) 0) (.. ": " title)) "")))
-
-      (fn format-message [message percentage]
-        (.. (or (and percentage (.. percentage "%\t")) "") (or message "")))
-
-      (fn lsp-progress-notification [_ result ctx]
-        (let [client-id ctx.client_id
-              val result.value]
-          (when val.kind
-            (when (not (. client-notifs client-id))
-              (tset client-notifs client-id {}))
-            (local notif-data (. (. client-notifs client-id) result.token))
-            (if (= val.kind :begin)
-                (let [message (format-message val.message val.percentage)
-                      notification (vim.notify message :info
-                                               {:title (format-title
-                                                         val.title
-                                                         (vim.lsp.get_client_by_id
-                                                           client-id))
-                                                :icon (. spinner-frames 1)
-                                                :hide_from_history true
-                                                :timeout false})]
-                  (tset (. client-notifs client-id) result.token
-                        {:spinner 1 : notification})
-                  (update-spinner client-id result.token))
-                (and (= val.kind :report) notif-data)
-                (let [new-notif (vim.notify (format-message val.message
-                                                            val.percentage)
-                                            :info
-                                            {:replace notif-data.notification
-                                             :hide_from_history false})]
-                  (tset (. client-notifs client-id) result.token
-                        {:spinner notif-data.spinner :notification new-notif}))
-                (and (= val.kind :end) notif-data)
-                (let [new-notif (vim.notify (or (and val.message
-                                                     (format-message val.message))
-                                                :Complete)
-                                            :info
-                                            {:replace notif-data.notification
-                                             :icon ""
-                                             :timeout 3000})]
-                  (tset (. client-notifs client-id) result.token
-                        {:notification new-notif}))))))
-
-      (tset vim.lsp.handlers :$/progress lsp-progress-notification)
-      (local orig-set-signs vim.lsp.diagnostic.set_signs)
-
-      (fn set-signs-limited [diagnostics bufnr client-id sign-ns opts]
-        (when (not diagnostics)
-          (lua "return"))
-        (local max-severity-per-line {})
-        (each [_ d (pairs diagnostics)]
-          (if (. max-severity-per-line d.range.start.line)
-              (let [current-d (. max-severity-per-line d.range.start.line)]
-                (when (< d.severity current-d.severity)
-                  (tset max-severity-per-line d.range.start.line d)))
-              (tset max-severity-per-line d.range.start.line d)))
-        (local filtered-diagnostics {})
-        (each [_ v (pairs max-severity-per-line)]
-          (table.insert filtered-diagnostics v))
-        (orig-set-signs filtered-diagnostics bufnr client-id sign-ns opts))
-
-      (set vim.lsp.diagnostic.set_signs set-signs-limited))
     (local signs {:Info  ""
                   :Warn  ""
                   :Error ""

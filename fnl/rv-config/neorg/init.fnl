@@ -1,20 +1,20 @@
 (fn config []
   (let [dk (require :def-keymaps)
         neorg (require :neorg)
-        opt {:load {;;; Load all the default modules
+        opt {:lazy_loading true
+             :load {;;; Load all the default modules
                     :core.defaults {}
                     ;;; Manage directories
                     :core.dirman {:config
                                   {:workspaces
-                                    {:Notes      "~/Notes"
-                                     :GTD        "~/GTD"
-                                     :FP         "~/Projects/FMI/fp-2023-2024"}}}
+                                    {}}}
                     ;;; Configure keybinds
                     :core.keybinds {:config
                                     {:default_keybinds true
                                      :neorg_leader :<leader>n
                                      :hook (fn [keybinds]
                                              ;; TODO: implement
+                                             ;; <https://github.com/nvim-neorg/neorg/wiki/User-Keybinds>
                                              (dk [:n]
                                                  {:n {:name "Neorg"}}
                                                  {:prefix :<leader>}))}}

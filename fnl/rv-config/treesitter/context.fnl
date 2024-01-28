@@ -1,5 +1,6 @@
 (fn config []
-  (let [treesitter-context (require :treesitter-context)
+  (let [dk (require :def-keymaps)
+        treesitter-context (require :treesitter-context)
         opt {;; Enable this plugin (Can be enabled/disabled later via commands)
              :enable true
              ;; Throttles plugin updates (may improve performance)
@@ -25,6 +26,10 @@
                 ;; If a pattern is missing, *open a PR* so everyone can benefit.
                 ;; :rust
                 ;;   ["impl_item"]
-    (treesitter-context.setup opt)))
+    (treesitter-context.setup opt)
+    (dk :n
+        {:t {:name :Toggle
+             :c [treesitter-context.toggle :Context]}}
+        {:prefix :<leader>})))
 
 {: config}
