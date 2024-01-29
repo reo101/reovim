@@ -163,19 +163,26 @@
      {1       "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
       :config (rv :lsp.lines)}
      {1             :saecki/crates.nvim
-      :dependencies [:nvim-lua/plenary.nvim]
       :config       (rv :crates)
       :event        ["BufRead Cargo.toml"]}
      {1             :NTBBloodbath/rest.nvim
       :dependencies [:nvim-lua/plenary.nvim]
       :config       (rv :rest)
       :ft           [:http]}
-     {1       :simrat39/rust-tools.nvim
-      :config (rv :lsp.langs.rust-tools)
-      :event  ["BufReadPost *.rs"]}
+     {1        :mrcjkb/rustaceanvim
+      :tag     :4.1.0
+      :config  (rv :lsp.langs.rustaceanvim)
+      :ft      [:rust]}
      {1       :Julian/lean.nvim
       :config (rv :lsp.langs.lean)
       :ft     ["lean"]}
+     {1 :nvim-neotest/neotest
+      :dependencies [:nvim-lua/plenary.nvim
+                     :mrcjkb/neotest-haskell
+                     :lawrence-laz/neotest-zig
+                     :llllvvuu/neotest-foundry
+                     :rouge8/neotest-rust]
+      :config (rv :neotest)}
      {1    :mlochbaum/BQN
       :rtp :editors/vim
       :ft  ["bqn"]}
