@@ -108,6 +108,7 @@
      {1 :reo101/nix-update.nvim
       :config (rv :nix-update)}
 
+     {1 :creativenull/dotfyle-metadata.nvim}
      {1             :vhyrro/neorg
       :dependencies [:hrsh7th/nvim-cmp
                      :nvim-lua/plenary.nvim
