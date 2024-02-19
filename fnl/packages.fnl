@@ -130,12 +130,13 @@
      ;;       :dependencies [:nvim-treesitter/nvim-treesitter]
      ;;       :config (rv :orgmode)})
      {1 :lukas-reineke/headlines.nvim
-          :dependencies [;; :nvim-orgmode/orgmode
-                         :nvim-treesitter/nvim-treesitter]
-          :config (rv :headlines)}
+      :dependencies [;; :nvim-orgmode/orgmode
+                     :nvim-treesitter/nvim-treesitter]
+      :tag :v4.0.0
+      :config (rv :headlines)}
      {1             :Selyss/mind.nvim
       :dependencies [:nvim-lua/plenary.nvim
-                     :nvim-tre/nvim-web-devicons]
+                     :nvim-tree/nvim-web-devicons]
       :branch       :v2.2
       :config       (rv :mind)}
      {1       :folke/which-key.nvim
