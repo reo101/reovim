@@ -70,7 +70,7 @@
                  :dosurround true
                  :newline true
                  :space true}
-                {1 "[:"
+                {1 "["
                  2 "]"
                  :fly true
                  :dosurround true
