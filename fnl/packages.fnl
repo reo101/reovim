@@ -170,7 +170,7 @@
       :config       (rv :rest)
       :ft           [:http]}
      {1        :mrcjkb/rustaceanvim
-      :tag     :4.1.0
+      :tag     :4.5.2
       :config  (rv :lsp.langs.rustaceanvim)
       :ft      [:rust]}
      {1       :Julian/lean.nvim
@@ -190,6 +190,7 @@
                      :mrcjkb/neotest-haskell
                      :lawrence-laz/neotest-zig
                      :llllvvuu/neotest-foundry
+                     ;; :mrcjkb/rustaceanvim
                      :rouge8/neotest-rust]
       :config (rv :neotest)}
      {1    :mlochbaum/BQN
