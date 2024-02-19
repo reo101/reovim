@@ -325,11 +325,14 @@
       :dependencies [:nvim-lua/plenary.nvim
                      :nvim-tree/nvim-web-devicons
                      :MunifTanjim/nui.nvim]
-      :branch       :v2.x
+      :tag          :3.x
       :config       (rv :tree)}
      {1 :stevearc/oil.nvim
       :dependencies [:nvim-tree/nvim-web-devicons]
       :config (rv :oil)}
+     {1 :miversen33/netman.nvim
+      :tag :v1.15
+      :config (rv :netman)}
      ;; {1        :elihunter173/dirbuf.nvim
      ;;  :config  (rv :dirbuf)
      ;;  :enabled false}
