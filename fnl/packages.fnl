@@ -176,6 +176,11 @@
      {1       :Julian/lean.nvim
       :config (rv :lsp.langs.lean)
       :ft     ["lean"]}
+     {1 :isovector/cornelis
+      :dependencies [:neovimhaskell/nvim-hs.vim
+                     :kana/vim-textobj-user
+                     :junegunn/vim-easy-align]
+      :config (rv :lsp.langs.agda)}
      {1 :nvim-neotest/neotest
       :dependencies [:nvim-lua/plenary.nvim
                      :mrcjkb/neotest-haskell

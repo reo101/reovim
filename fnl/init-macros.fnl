@@ -7,6 +7,12 @@
   `(hashfn
      ((. (require ,(.. :rv-config :. path)) :config))))
 
+(fn dbg! [expr]
+  `(do
+     (let [expr# ,expr]
+       (vim.print expr#)
+       expr#)))
+
 (fn assert-tbl [tbl]
   (assert-compile
     (or
@@ -162,6 +168,7 @@
          (,fun v#))))
 
 {: rv
+ : dbg!
  : assert-tbl
  : assert-seq
  : apply :call apply

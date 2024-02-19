@@ -81,7 +81,8 @@
       :html
       :terraform
       :scheme
-      :nix]
+      :nix
+      :agda]
      #(set-shiftwidth $1 2))
 
 
