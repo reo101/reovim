@@ -13,6 +13,14 @@
 ;;                                            ":q<CR>"
 ;;                                            {:silent true})})
 
+;;; Dump command output in buffer
+(vim.api.nvim_create_user_command
+  :Dump
+  (fn [input]
+    (let [cmd (.. "put =execute('" input.args "')")]
+      (vim.cmd cmd)))
+  {:nargs 1})
+
 (local group (vim.api.nvim_create_augroup
                :reovim-autocommands
                {:clear true}))
