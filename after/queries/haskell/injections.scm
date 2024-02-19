@@ -1,5 +1,8 @@
+;; extends
+
 (
-    (comment) @haskell
-    (#lua-match? @haskell "^-- >>>")
-    (#offset! @haskell 0 7 0 0)
+    (comment) @injection.content
+    (#lua-match? @injection.content "^-- >>>.")
+    (#offset! @injection.content 0 7 0 0)
+    (#set! injection.language "haskell")
 )

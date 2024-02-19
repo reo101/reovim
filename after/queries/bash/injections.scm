@@ -2,9 +2,10 @@
 
 (
   (command
-    name: (command_name) @_name
-    argument: (raw_string) @awk
+    name: (command_name) @_cmd
+    argument: (raw_string) @injection.content
   )
-  (#lua-match? @_name "awk")
-  (#offset! @awk 0 1 0 -1)
+  (#offset! @injection.content 0 1 0 -1)
+  (#lua-match? @_cmd "awk")
+  (#set! injection.language "awk")
 )
