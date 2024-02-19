@@ -6,8 +6,17 @@
                         :dash_string "-"
                         :fat_headline_lower_string "🬂"
                         :fat_headline_upper_string "▃"
-                        :fat_headlines false
+                        :fat_headlines true
                         :headline_highlights [:Headline]
+                        :bullet_hightlights
+                          ["@text.title.1.marker.markdown"
+                           "@text.title.2.marker.markdown"
+                           "@text.title.3.marker.markdown"
+                           "@text.title.4.marker.markdown"
+                           "@text.title.5.marker.markdown"
+                           "@text.title.6.marker.markdown"]
+                        :bullets
+                          ["◉" "○" "✸" "✿"]
                         :query (vim.treesitter.query.parse
                                  :markdown
                                  "
