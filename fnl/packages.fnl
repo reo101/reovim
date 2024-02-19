@@ -176,6 +176,10 @@
      {1       :Julian/lean.nvim
       :config (rv :lsp.langs.lean)
       :ft     ["lean"]}
+     {1 :ShinKage/idris2-nvim
+      :dependencies [:neovim/nvim-lspconfig
+                     :MunifTanjim/nui.nvim]
+      :config (rv :lsp.langs.idris2)}
      {1 :isovector/cornelis
       :dependencies [:neovimhaskell/nvim-hs.vim
                      :kana/vim-textobj-user
