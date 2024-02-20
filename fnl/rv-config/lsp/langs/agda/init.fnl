@@ -13,7 +13,7 @@
             v))
 
     ;;; Set easy-align options
-    (tset _G :easy_align_delimiters
+    (tset vim.g :easy_align_delimiters
           {:r {:pattern      "[≤≡≈∎]"
                :left_margin  2
                :right_margin 0}})
