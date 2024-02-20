@@ -74,7 +74,8 @@
     ((. (require :nvim-navic) :attach) client bufnr))
 
   (when client.server_capabilities.inlayHintProvider
-    (vim.lsp.inlay_hint.enable bufnr true)))
+    (when (not (vim.lsp.inlay_hint.is_enabled bufnr))
+      (vim.lsp.inlay_hint.enable bufnr true))))
 
 (fn lsp-on-init [client]
   (vim.notify "Language Server Client successfully started!"
