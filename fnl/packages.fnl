@@ -325,7 +325,7 @@
       :dependencies [:nvim-lua/plenary.nvim
                      :nvim-tree/nvim-web-devicons
                      :MunifTanjim/nui.nvim]
-      :tag          :3.x
+      :tag          :3.17
       :config       (rv :tree)}
      {1 :stevearc/oil.nvim
       :dependencies [:nvim-tree/nvim-web-devicons]
