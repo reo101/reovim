@@ -111,12 +111,12 @@
     ((. (require :rv-config.treesitter.context) :config))
     (vim.api.nvim_create_user_command
       :TSFullNodeUnderCursor
-      (fn []
-        ((. (require :nvim-treesitter-playground.hl-info)
-            :show_ts_node) {:full_path true
-                            :show_range false
-                            :include_anonymous true
-                            :highlight_node true}))
+      #((. (require :nvim-treesitter-playground.hl-info
+             :show_ts_node)
+          {:full_path true
+           :show_range false
+           :include_anonymous true
+           :highlight_node true}))
       {})
     ;; (#setgsub! conceal @conceal "ab(.)" "%1")
     (vim.treesitter.query.add_directive
