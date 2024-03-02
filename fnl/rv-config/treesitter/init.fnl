@@ -134,75 +134,75 @@
                   pattern
                   replacement))))
       true)
-    (tset (require :nvim-treesitter.install) :compilers [:clang "zig cc" :clang :gcc])
-    ;; TODO: set custom parsers in a `collect` with `&into`
 
-    ;; (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-    ;;       :typescript
-    ;;       {:install_info {:url    "https://github.com/tree-sitter/tree-sitter-typescript"
-    ;;                       :files  [:tsx/src/parser.c
-    ;;                                :tsx/src/scanner.c]
-    ;;                       :branch :master}})
-    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-          :typst
-          {:install_info {:url    "https://github.com/frozolotl/tree-sitter-typst"
-                          :files  [:src/parser.c :src/scanner.cc]
-                          :branch :master}
-           :filetype :typst})
-    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-          :noir
-          {:install_info {:url    "https://github.com/hhamud/tree-sitter-noir"
-                          :files  [:src/parser.c :src/scanner.c]
-                          :branch :main}
-           :filetype :noir})
-    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-          :scala
-          {:install_info {:url    "https://github.com/eed3si9n/tree-sitter-scala"
-                          :files  [:src/parser.c :src/scanner.c]
-                          :branch :fork-integration
-                          :requires_generate_from_grammar false}})
-    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-          :crisp
-          {:install_info {:url    "https://github.com/reo101/tree-sitter-crisp"
-                          :files  [:src/parser.c]
-                          :branch :master}})
-    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-          :xml
-          {:install_info {:url    "https://github.com/dorgnarg/tree-sitter-xml"
-                          :files  [:src/parser.c]
-                          :branch :main
-                          :requires_generate_from_grammar true}})
-    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-          :http
-          {:install_info {:url    "https://github.com/NTBBloodbath/tree-sitter-http"
-                          :files  [:src/parser.c]
-                          :branch :main}})
-    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-          :norg_meta
-          {:install_info {:url    "https://github.com/nvim-neorg/tree-sitter-norg-meta"
-                          :files  [:src/parser.c]
-                          :branch :main}})
-    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-          :norg_table
-          {:install_info {:url    "https://github.com/nvim-neorg/tree-sitter-norg-table"
-                          :files  [:src/parser.c]
-                          :branch :main}})
-    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-          :brainfuck
-          {:install_info {:url    "https://github.com/reo101/tree-sitter-brainfuck"
-                          :files  [:src/parser.c]
-                          :branch :master}})
-    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-          :awk
-          {:install_info {:url    "https://github.com/Beaglefoot/tree-sitter-awk"
-                          :files  [:src/parser.c
-                                   :src/scanner.c]
-                          :branch :master}})
-    (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-          :odin
-          {:install_info {:url "https://github.com/MineBill/tree-sitter-odin"
-                          :files [:src/parser.c]
-                          :branch :master}})
+    ;; NOTE: way need to swap around to compile all parsers
+    (tset (require :nvim-treesitter.install)
+          :compilers
+          [:clang
+           "zig cc"
+           :gcc])
+
+    (vim.tbl_extend :force
+      ((. (require :nvim-treesitter.parsers) :get_parser_configs))
+      {:typst
+        {:install_info {:url    "https://github.com/frozolotl/tree-sitter-typst"
+                        :files  [:src/parser.c
+                                 :src/scanner.cc]
+                        :branch :master}
+         :filetype :typst}
+       ;; :typescript
+       ;;  {:install_info {:url    "https://github.com/tree-sitter/tree-sitter-typescript"
+       ;;                  :files  [:tsx/src/parser.c
+       ;;                           :tsx/src/scanner.c]
+       ;;                  :branch :master}}
+       :noir
+        {:install_info {:url    "https://github.com/hhamud/tree-sitter-noir"
+                        :files  [:src/parser.c
+                                 :src/scanner.c]
+                        :branch :main}
+         :filetype :noir}
+       ;; NOTE: was using a PR
+       ;; :scala
+       ;;  {:install_info {:url    "https://github.com/eed3si9n/tree-sitter-scala"
+       ;;                  :files  [:src/parser.c
+       ;;                           :src/scanner.c]
+       ;;                  :branch :fork-integration
+       ;;                  :requires_generate_from_grammar false}}
+       :crisp
+        {:install_info {:url    "https://github.com/reo101/tree-sitter-crisp"
+                        :files  [:src/parser.c]
+                        :branch :master}}
+       :xml
+        {:install_info {:url    "https://github.com/dorgnarg/tree-sitter-xml"
+                        :files  [:src/parser.c]
+                        :branch :main
+                        :requires_generate_from_grammar true}}
+       :http
+        {:install_info {:url    "https://github.com/NTBBloodbath/tree-sitter-http"
+                        :files  [:src/parser.c]
+                        :branch :main}}
+       :norg_meta
+        {:install_info {:url    "https://github.com/nvim-neorg/tree-sitter-norg-meta"
+                        :files  [:src/parser.c]
+                        :branch :main}}
+       :norg_table
+        {:install_info {:url    "https://github.com/nvim-neorg/tree-sitter-norg-table"
+                        :files  [:src/parser.c]
+                        :branch :main}}
+       :brainfuck
+        {:install_info {:url    "https://github.com/reo101/tree-sitter-brainfuck"
+                        :files  [:src/parser.c]
+                        :branch :master}}
+       :awk
+        {:install_info {:url    "https://github.com/Beaglefoot/tree-sitter-awk"
+                        :files  [:src/parser.c
+                                 :src/scanner.c]
+                        :branch :master}}
+       :odin
+        {:install_info {:url "https://github.com/MineBill/tree-sitter-odin"
+                        :files [:src/parser.c]
+                        :branch :master}}})
+
     ((. (require :nvim-treesitter.configs) :setup) opt)
 
     (local mappings
