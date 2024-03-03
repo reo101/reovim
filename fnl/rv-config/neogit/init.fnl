@@ -20,11 +20,11 @@
              :use_telescope false
              ;;; Allows a different telescope sorter. Defaults to 'fuzzy_with_index_bias'. The example}]
              ;;; A below will use the native fzf sorter instead.
-             :telescope_sorter
-              #((. (require :telescope)
-                   :extensions
-                   :fzf
-                   :native_fzf_sorter))
+             ;; :telescope_sorter
+             ;;  #((. (require :telescope)
+             ;;       :extensions
+             ;;       :fzf
+             ;;       :native_fzf_sorter))
              :use_magit_keybindings false
              ;;; Change the default way of opening neogit
              :kind :tab
