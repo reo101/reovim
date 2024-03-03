@@ -134,6 +134,20 @@
                   pattern
                   replacement))))
       true)
+    (vim.treesitter.query.add_predicate
+      :has-no-child?
+      (fn [matches _ts-pattern bufnr pred]
+        (let [[_directive capture_id & not-wanted] pred
+              [node] (. matches capture_id)]
+          (not
+            (faccumulate [any false
+                          i 0 (- (node:child_count) 1)]
+              (let [child (node:child i)
+                    child-text (vim.treesitter.get_node_text
+                                  child
+                                  bufnr)]
+                (or any (vim.tbl_contains not-wanted child-text)))))))
+      {:all true})
 
     ;; NOTE: way need to swap around to compile all parsers
     (tset (require :nvim-treesitter.install)
