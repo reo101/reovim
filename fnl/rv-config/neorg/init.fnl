@@ -16,13 +16,18 @@
                                              ;; TODO: implement
                                              ;; <https://github.com/nvim-neorg/neorg/wiki/User-Keybinds>
                                              (dk [:n]
-                                                 {:n {:name "Neorg"}}
+                                                 {:n {:name "Neorg"
+                                                      :e [#(vim.cmd
+                                                             (.. "Neorg export to-file "
+                                                                 (vim.fn.expand "%:r")
+                                                                 ".md"))
+                                                          "Export to markdown"]}}
                                                  {:prefix :<leader>}))}}
                     ;;; Allows for use of icons
                     :core.concealer {:config
                                      {:folds true
-                                      :markup_preset :dimmed
-                                      :icon_preset :diamond}}
+                                      :markup_preset :dimmed}}
+                                      ;; :icon_preset :diamond}}
                                       ;; :icons {:marker {:icon " "}
                                       ;;         :todo {:enable true
                                       ;;                :pending   {:icon ""}
@@ -30,6 +35,9 @@
                                       ;;                :urgent    {:icon ""}
                                       ;;                :on_hold   {:icon ""}
                                       ;;                :cancelled {:icon ""}}}}
+                    ;;; Enable exporing
+                    :core.export {}
+                    :core.export.markdown {}
                     ;;; Enable nvim-cmp completion
                     :core.completion {:config
                                       {:engine :nvim-cmp}}
