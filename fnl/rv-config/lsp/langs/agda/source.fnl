@@ -9,7 +9,8 @@
 
 (fn source.new []
   (let [self (setmetatable {} {:__index source})]
-    (tset self :symbols (require :rv-config.lsp.langs.agda.symbols))
+    (each [k v (pairs (require :rv-config.lsp.langs.agda.symbols))]
+      (tset self k v))
     self))
 
 (fn source.get_trigger_characters []
@@ -18,8 +19,6 @@
 (fn source.get_keyword_pattern []
   "\\\\[^[:blank:]]*")
 
-;; FIXME:
-
 (fn source.complete [self request callback]
   (let [_option (validate-option request)]
     (if (not (: (vim.regex (.. (self.get_keyword_pattern) :$))
@@ -27,6 +26,6 @@
                 request.context.cursor_before_line))
         (callback)
         ;; else
-        (callback self.symbols))))
+        (callback self.cmp-symbols))))
 
 source

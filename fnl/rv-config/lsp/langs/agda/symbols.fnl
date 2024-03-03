@@ -1,4 +1,5 @@
-(local raw-symbols
+(local
+  raw-symbols
   {" "                   " " ;; \u00a0
    "!!"                  "‼"
    "!"                   "¡"
@@ -2191,8 +2192,23 @@
    "~~n"                 "≉"
    "~~~"                 "≋"})
 
-(icollect [k v (pairs raw-symbols)]
-  {:insertText v
-   :word v
-   :filterText (.. "\\" k)
-   :label (.. k " " v)})
+(local
+  inverse-raw-symbols
+  (let [inverse {}]
+    (each [k v (pairs raw-symbols)]
+      (when (not (. inverse v))
+        (tset inverse v []))
+      (table.insert (. inverse v) k))
+    inverse))
+
+(local
+  cmp-symbols
+  (icollect [k v (pairs raw-symbols)]
+    {:insertText v
+     :word v
+     :filterText (.. "\\" k)
+     :label (.. k " " v)}))
+
+{: raw-symbols
+ : inverse-raw-symbols
+ : cmp-symbols}

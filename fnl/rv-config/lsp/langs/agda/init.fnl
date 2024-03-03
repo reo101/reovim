@@ -3,7 +3,7 @@
         opts {:use-global-binary true
               :max-size          30
               :max-width         40
-              :split-location    :vertical
+              :split-location    :horizontal ;; :vertical
               :agda-prefix       ","
               :no-agda-input     1}]
     ;;; Set options
@@ -26,6 +26,8 @@
     ;;              :*.lagda*]
     ;;    :callback #(vim.cmd :CornelisLoad)})
 
+    (local {: inverse-raw-symbols} (require :rv-config.lsp.langs.agda.symbols))
+
     ;;; Mappings
     (vim.api.nvim_create_autocmd
       [:BufRead
@@ -34,20 +36,30 @@
        :callback
          #(do (dk [:n]
                   {:a {:name :Agda
-                       :l  [":CornelisLoad<CR>" :Load]
-                       :r  [":CornelisRefine<CR>" :Refine]
-                       :d  [":CornelisMakeCase<CR>" :MakeCase]
-                       "," [":CornelisTypeContext<CR>" :TypeContext]
-                       "." [":CornelisTypeContextInfer<CR>" :TypeContextInfer]
-                       :n  [":CornelisSolve<CR>" :Solve]
-                       :a  [":CornelisAuto<CR>" :Auto]}}
+                       :l  [#(vim.cmd.CornelisLoad) :Load]
+                       :r  [#(vim.cmd.CornelisRefine) :Refine]
+                       :d  [#(vim.cmd.CornelisMakeCase) :MakeCase]
+                       "," [#(vim.cmd.CornelisTypeContext) :TypeContext]
+                       "." [#(vim.cmd.CornelisTypeContextInfer) :TypeContextInfer]
+                       :n  [#(vim.cmd.CornelisSolve) :Solve]
+                       :a  [#(vim.cmd.CornelisAuto) :Auto]
+                       :e  [#(let [old-reg     (vim.fn.getreg "a")
+                                   _           (vim.cmd "redir @a> | ascii | redir END")
+                                   ascii       (vim.fn.getreg "a")
+                                   _           (vim.fn.setreg "a" old-reg)
+                                   char        (ascii:gsub ".*<([^>]*)>.*" "%1")
+                                   char-recipe (?. inverse-raw-symbols char)]
+                              (vim.print char-recipe))
+                            "Explain symbol"]}}
                   {:prefix :<leader>})
               (dk [:n]
-                  {:gd  [":CornelisGoToDefinition<CR>" :Definition]
-                   "[/" [":CornelisPrevGoal<CR>" "Previous goal"]
-                   "]/" [":CornelisNextGoal<CR>" "Next goal"]
-                   "<C-A>" [":CornelisInc<CR>" :Increment]
-                   "<C-X>" [":CornelisDec<CR>" :Decrement]})
+                  {:gd  [#(vim.cmd.CornelisGoToDefinition) :Definition]
+                   :K   [#(vim.cmd.CornelisTypeInfer) "Type Infer"]
+                   "[/" [#(vim.cmd.CornelisPrevGoal) "Previous goal"]
+                   "]/" [#(vim.cmd.CornelisNextGoal) "Next goal"]
+                   ;; TODO: Re-do in `dial` (also make work for bbN)
+                   "<C-A>" [#(vim.cmd.CornelisInc) :Increment]
+                   "<C-X>" [#(vim.cmd.CornelisDec) :Decrement]})
               (vim.cmd "TSBufDisable highlight"))})
 
     ;;; cmp latex-like thing
@@ -61,5 +73,11 @@
         {:sources
           (cmp.config.sources
             [{:name :agda}])}))))
+      ;; (cmp.setup.cmdline
+      ;;   ":"
+      ;;   {:sources
+      ;;      (cmp.config.sources
+      ;;        [{:name :cmdline}
+      ;;         {:name :agda}])}))))
 
 {: config}
