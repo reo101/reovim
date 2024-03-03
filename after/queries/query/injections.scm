@@ -5,7 +5,8 @@
     name:
       (identifier) @_name
     parameters:
-      (parameters (string) @luap))
+      (parameters (string) @injection.content))
   (#match? @_name "^#?setgsub$")
-  (#offset! @luap 0 1 0 -1)
+  (#offset! @injection.content 0 1 0 -1)
+  (#set! injection.language "luap")
 )
