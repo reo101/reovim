@@ -1,3 +1,7 @@
+(import-macros
+  {: dbg!}
+  :init-macros)
+
 (fn config []
   (let [dk (require :def-keymaps)
         opt {:autopairs {:enable true}
@@ -108,7 +112,7 @@
                                         :unfocus_language          :F
                                         :toggle_query_editor       :o}
                           :persist_queries false}}]
-    ((. (require :rv-config.treesitter.context) :config))
+    ;; ((. (require :rv-config.treesitter.context) :config))
     (vim.api.nvim_create_user_command
       :TSFullNodeUnderCursor
       #((. (require :nvim-treesitter-playground.hl-info
@@ -215,8 +219,11 @@
        :odin
         {:install_info {:url "https://github.com/MineBill/tree-sitter-odin"
                         :files [:src/parser.c]
-                        :branch :master}}})
-
+                        :branch :master}}
+       :nu
+        {:install_info {:url    "https://github.com/nushell/tree-sitter-nu"
+                        :files  [:src/parser.c]
+                        :branch :main}}})
     ((. (require :nvim-treesitter.configs) :setup) opt)
 
     (local mappings
@@ -289,4 +296,21 @@
             "[m" ["Previous @function.outer start"]})
     (dk [:n :o] motion-mappings {:noremap false})))
 
-{: config}
+[{1       :nvim-treesitter/nvim-treesitter
+  : config}
+ (require (.. ... :.rainbow))
+ (let [treesitter-plugins
+        [;; :nvim-treesitter/nvim-treesitter-textobjects
+         :mfussenegger/nvim-ts-hint-textobject
+         :nvim-treesitter/playground
+         ;; :romgrk/nvim-treesitter-context
+         :JoosepAlviste/nvim-ts-context-commentstring
+         :windwp/nvim-ts-autotag]
+           ;; :RRethy/nvim-treesitter-textsubjects]
+       convert-to-treesitter-opt
+        (fn [treesitter-plugin]
+          {1             treesitter-plugin
+           :dependencies [:nvim-treesitter/nvim-treesitter]})]
+   (vim.tbl_map
+     convert-to-treesitter-opt
+     treesitter-plugins))]

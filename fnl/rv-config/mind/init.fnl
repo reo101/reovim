@@ -11,4 +11,8 @@
         {:prefix :<leader>})
     (mind.setup opt)))
 
-{: config}
+{1             :Selyss/mind.nvim
+ :dependencies [:nvim-lua/plenary.nvim
+                :nvim-tree/nvim-web-devicons]
+ :branch       :v2.2
+ : config}

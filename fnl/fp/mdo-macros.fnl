@@ -1,3 +1,5 @@
+;; fennel-ls: macro-file
+
 (fn mdo [dMonad ...]
   "Haskell's do notation"
 
@@ -11,8 +13,8 @@
 
   ;;; Generate symbols for bind and pure
   (local syms
-         {:>>=  (gensym :>>=)
-          :pure (gensym :pure)})
+         {:>>=  (gensym :_>>=)
+          :pure (gensym :_pure)})
 
   (var res nil)
   (match instructions

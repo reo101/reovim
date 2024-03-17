@@ -41,23 +41,34 @@
         (vim.cmd "setlocal listchars= nonumber norelativenumber"))})
 
 ;;; Turn off hlsearch in Insert Mode
-(vim.api.nvim_create_autocmd :InsertEnter
-                             {:pattern :*
-                              : group
-                              :command "setlocal nohlsearch"})
+(vim.api.nvim_create_autocmd
+  :InsertEnter
+  {:pattern :*
+   : group
+   :command "setlocal nohlsearch"})
 
 ;;; Highlight yanked text
-(vim.api.nvim_create_autocmd :TextYankPost
-                             {:pattern :*
-                              : group
-                              :callback #(vim.highlight.on_yank {:higroup :IncSearch
-                                                                 :timeout 300})})
+(vim.api.nvim_create_autocmd
+  :TextYankPost
+  {:pattern :*
+   : group
+   :callback #(vim.highlight.on_yank
+                {:higroup :IncSearch
+                 :timeout 300})})
 
 ;;; Save Shada
-(vim.api.nvim_create_autocmd :VimLeave
-                             {:pattern :*
-                              : group
-                              :command ":wshada!"})
+(vim.api.nvim_create_autocmd
+  :VimLeave
+  {:pattern :*
+   : group
+   :command ":wshada!"})
+
+; ;;; Change pwd when opened with a directory argument
+; (vim.api.nvim_create_autocmd
+;   :VimEnter
+;   {:pattern :*
+;    : group
+;    :callback #(vim.api.nvim_set_current_dir (vim.fn.expand "%:p:h"))})
 
 ;;; Set preffered shiftwidth for some filetypes
 (fn set-shiftwidth [filetype shiftwidth]

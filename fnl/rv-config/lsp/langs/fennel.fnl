@@ -49,7 +49,10 @@
                                "./?/init.fnl"
                                "src/?.fnl"
                                "src/?/init-macros.fnl"
-                               "src/?/init.fnl"]
+                               "src/?/init.fnl"
+                               ;; NOTE: mine
+                               "/Users/pavelatanasov/.config/nvim/fnl/init-macros.fnl"
+                               "/Users/pavelatanasov/.config/nvim/fnl/fp/mdo-macros.fnl"]
                               ";")
                           :extra-globals
                             (table.concat [:vim])}}

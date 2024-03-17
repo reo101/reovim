@@ -56,4 +56,6 @@
              :m [edit-code-block :FeMaco]}}
         {:prefix :<leader>})))
 
-{: config}
+{1 :AckslD/nvim-FeMaco.lua
+ :ft [:markdown]
+ : config}

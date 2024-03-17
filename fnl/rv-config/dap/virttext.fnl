@@ -12,4 +12,6 @@
 
   (nvim-dap-virtual-text.setup))
 
-{: config}
+{1 :theHamsta/nvim-dap-virtual-text
+ :dependencies [:mfussenegger/nvim-dap]
+ : config}

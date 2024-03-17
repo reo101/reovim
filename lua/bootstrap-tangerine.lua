@@ -3,18 +3,24 @@
 -- "tangerine", "packer", "paq", "lazy"
 local pack = "lazy"
 
-local function bootstrap(url, ref)
+local function bootstrap(url, ref, extra_path)
     local name = url:gsub(".*/", "")
-    local path
+    local extra_path = extra_path or ""
 
     if pack == "lazy" then
         path = vim.fn.stdpath("data") .. "/lazy/" .. name
         vim.opt.rtp:prepend(path)
+        path = path .. "/" .. extra_path
     else
-        path = vim.fn.stdpath("data") .. "/site/pack/".. pack .. "/start/" .. name
+        path = vim.fn.stdpath("data") .. "/site/pack/".. pack .. "/start/" .. name .. "/" .. extra_path
     end
 
     if vim.fn.isdirectory(path) == 0 then
+        local p = vim.fn.fnamemodify(path, ":p")
+        if vim.fn.isdirectory(p) == 0 then
+            vim.fn.mkdir(p, "p")
+        end
+
         print(name .. ": installing in data dir...")
 
         vim.fn.system({"git", "clone", url, path})
@@ -105,7 +111,12 @@ local opt = {
 
 require("tangerine").setup(opt)
 
-vim.opt.rtp:prepend(nvim_data .. "/tangerine")
+vim.opt.rtp:prepend(nvim_data .. "/tangerine.nvim")
+
+--- BOOTSTRAP TYPED-FENNEL ---
+
+bootstrap("https://github.com/dokutan/typed-fennel", nil, "fnl")
+-- vim.opt.rtp:prepend(nvim_data .. "/lazy/typed-fennel")
 
 --- BOOTSTRAP LAZY.NVIM ---
 

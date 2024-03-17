@@ -5,4 +5,6 @@
         {:ha [leap-ast.leap "Leap AST"]}
         {:prefix :<leader>})))
 
-{: config}
+{1 :ggandor/leap-ast.nvim
+ :dependencies [:ggandor/leap.nvim]
+ : config}

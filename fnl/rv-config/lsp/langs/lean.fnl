@@ -18,4 +18,6 @@
                        :on_lines nil}}]
         ((. (require :lean) :setup) opt)))
 
-{: config}
+{1 :Julian/lean.nvim
+ :ft ["lean"]
+ : config}

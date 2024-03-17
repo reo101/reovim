@@ -88,4 +88,6 @@
       (conjure-main.main)
       (conjure-mapping.on-filetype)))
 
-{: config}
+{1 :Olical/conjure
+ :ft [:clojure]
+ : config}

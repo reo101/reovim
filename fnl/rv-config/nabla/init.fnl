@@ -9,4 +9,7 @@
              :n [nabla.popup :Nable]}}
         {:prefix :<leader>})))
 
-{: config}
+{1       :jbyuki/nabla.nvim
+ :ft     ["tex"
+          "latex"]
+ : config}

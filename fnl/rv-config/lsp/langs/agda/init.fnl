@@ -3,7 +3,7 @@
         opts {:use-global-binary true
               :max-size          30
               :max-width         40
-              :split-location    :horizontal ;; :vertical
+              :split-location    :vertical
               :agda-prefix       ","
               :no-agda-input     1}]
     ;;; Set options
@@ -80,4 +80,8 @@
       ;;        [{:name :cmdline}
       ;;         {:name :agda}])}))))
 
-{: config}
+{1 :isovector/cornelis
+ :dependencies [:neovimhaskell/nvim-hs.vim
+                :kana/vim-textobj-user
+                :junegunn/vim-easy-align]
+ : config}

@@ -119,10 +119,26 @@
                  :ft [:nix]
                  :conf #(not ($.in_string))}]
              :config_internal_pairs []}]
+    ;; (tset (require :ultimate-autopair.core)
+    ;;       :modes
+    ;;       [:i :c :n]]
+
     (ultimate-autopair.setup opt)
+
+    ;; (ultimate-autopair.init
+    ;;   [(ultimate-autopair.extend_default
+    ;;      opt)
+    ;;    {:profile
+    ;;      (. (require :ultimate-autopair.experimental.matchpair)
+    ;;         :init)}]
 
     (dk [:n]
         {}
         {:prefix :<leader>})))
 
-{: config}
+{1 :altermo/ultimate-autopair.nvim
+ :dependencies [:nvim-treesitter/nvim-treesitter]
+ :branch :v0.6
+ :event  [:InsertEnter
+          :CmdlineEnter]
+ : config}

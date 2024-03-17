@@ -38,4 +38,7 @@
                                   :args ["%f"]}}}]
      ((. (require :texmagic) :setup) opt)))
 
-{: config}
+{1 :jakewvincent/texmagic.nvim
+ :ft ["tex"
+      "latex"]
+ : config}

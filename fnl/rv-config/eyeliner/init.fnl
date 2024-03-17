@@ -6,4 +6,5 @@
              :dim true}]
     (eyeliner.setup opt)))
 
-{: config}
+{1 :jinh0/eyeliner.nvim
+ : config}

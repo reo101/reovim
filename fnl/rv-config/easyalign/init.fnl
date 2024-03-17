@@ -10,4 +10,5 @@
       (dk [:v]
           visual-mappings))))
 
-{: config}
+{1 :junegunn/vim-easy-align
+ : config}

@@ -106,4 +106,8 @@
     (paredit.setup opt)
     ((. (require :rv-config.paredit.extensions) :config))))
 
-{: config}
+[{1 :julienvincent/nvim-paredit
+  : config}
+ {1 :julienvincent/nvim-paredit-fennel
+  :ft ["fennel"]
+  :config #((. (require :nvim-paredit-fennel) :setup))}]

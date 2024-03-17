@@ -11,7 +11,7 @@
                 :title_pos "left"
 
                 ;; When true, <Esc> will close the modal
-                :insert_only true
+                :insert_only false
 
                 ;; When true, input will start in insert mode.
                 :start_in_insert true
@@ -150,4 +150,5 @@
                    :get_config nil}}}]
     (dressing.setup opt)))
 
-{: config}
+{1 :stevearc/dressing.nvim
+ : config}

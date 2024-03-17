@@ -5,7 +5,7 @@
                :has_parser)))
   (lua "return"))
 
-;;; Define query for matching keymap comments
+;; Define query for matching keymap comments
 (local keymaps (treesitter-query-parser
                  :c
                  "
@@ -35,7 +35,7 @@
 )
 "))
 
-;;; Define query for matching ledmaps
+;; Define query for matching ledmaps
 (local ledmaps (treesitter-query-parser
                    :c
                    "
@@ -138,10 +138,10 @@
                                   start-col)
              :virt_lines_above true}))))))
 
-;;; Define command
+;; Define command
 (vim.api.nvim_create_user_command "QMK" #(qmk-helpers) {})
 
-;;; Define autocommand
+;; Define autocommand
 (vim.api.nvim_create_autocmd [:BufEnter :TextChanged :TextChangedI]
                              {:pattern [:keymap.c]
                               :callback #(qmk-helpers)})

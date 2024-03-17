@@ -149,4 +149,6 @@
              :U [crates.upgrade_crates "Upgrade crates"]}}
         {:prefix :<leader>})))
 
-{: config}
+{1 :saecki/crates.nvim
+ :event ["BufRead Cargo.toml"]
+ : config}

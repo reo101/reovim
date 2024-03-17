@@ -8,4 +8,6 @@
         {}
         {:prefix :<leader>})))
 
-{: config}
+{1 :user/repo
+ : config
+ :enabled false}

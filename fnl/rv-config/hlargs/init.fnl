@@ -23,4 +23,6 @@
              :h [hlargs.toggle "Highlight Arguments"]}}
         {:prefix :<leader>})))
 
-{: config}
+{1 :m-demare/hlargs.nvim
+ :dependencies [:nvim-treesitter/nvim-treesitter]
+ : config}

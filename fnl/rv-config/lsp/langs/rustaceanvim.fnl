@@ -20,4 +20,7 @@
               :dap {}}]
      (tset vim.g :rustaceanvim opt)))
 
-{: config}
+{1 :mrcjkb/rustaceanvim
+ :tag :4.5.2
+ :ft [:rust]
+ : config}

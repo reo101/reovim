@@ -50,4 +50,6 @@
              :t [dapui.toggle "Toggle dap-ui"]}}
         {:prefix :<leader>})))
 
-{: config}
+{1 :rcarriga/nvim-dap-ui
+ :dependencies [:mfussenegger/nvim-dap]
+ : config}

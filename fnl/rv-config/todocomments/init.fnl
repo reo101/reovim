@@ -79,4 +79,7 @@
              :pattern "\\b(KEYWORDS):"}]
     (todo-comments.setup opt)))
 
-{: config}
+{1 :folke/todo-comments.nvim
+ :dependencies [:nvim-lua/plenary.nvim
+                :anuvyklack/nvim-keymap-amend]
+ : config}

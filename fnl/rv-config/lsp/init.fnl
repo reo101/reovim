@@ -28,12 +28,16 @@
                  :xml        (. (require :rv-config.lsp.langs.xml)        :config)
                  :purescript (. (require :rv-config.lsp.langs.purescript) :config)
                  :fennel     (. (require :rv-config.lsp.langs.fennel)     :config)
-                 :solidity   (. (require :rv-config.lsp.langs.solidity)   :config)
+                 ;; :solidity   (. (require :rv-config.lsp.langs.solidity)   :config)
                  :php        (. (require :rv-config.lsp.langs.php)        :config)
                  :ocaml      (. (require :rv-config.lsp.langs.ocaml)      :config)
                  :pest       (. (require :rv-config.lsp.langs.pest)       :config)
                  :circom     (. (require :rv-config.lsp.langs.circom)     :config)
-                 :noir       (. (require :rv-config.lsp.langs.noir)       :config)}]
+                 :noir       (. (require :rv-config.lsp.langs.noir)       :config)
+                 :omnisharp  (. (require :rv-config.lsp.langs.omnisharp)  :config)
+                 :solang     (. (require :rv-config.lsp.langs.solang)     :config)
+                 :agda       (. (require :rv-config.lsp.langs.agda)       :config)
+                 :wgsl       (. (require :rv-config.lsp.langs.wgsl)       :config)}]
     (fn setup-servers []
       (each [name opt (pairs servers)]
         (if (= (type opt) :function)
@@ -51,4 +55,16 @@
     (setup-servers)
     (utils.lsp-override-handlers)))
 
-{: config}
+[{1 :neovim/nvim-lspconfig
+  : config}
+ (require (.. ... :.lines))
+ (icollect [_ lang-plugin (ipairs [:rustaceanvim
+                                   :lean
+                                   :idris2
+                                   :agda
+                                   :metals
+                                   :nvim-java
+                                   :texmagic])]
+   (require (.. ... :.langs. lang-plugin)))
+ {1 :b0o/schemastore.nvim}
+ {1 :Hoffs/omnisharp-extended-lsp.nvim}]

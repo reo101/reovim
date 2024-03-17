@@ -76,7 +76,8 @@
                                     opts)]
     ;; Check for hydra
     (when (and hydra? (not has-hydra?))
-      (vim.notify_once "Hydra not found, continuing normally"))
+      (vim.notify_once "Hydra not found, continuing normally")
+      (lua "return nil"))
     ;; Adding keybinds (with hydra or natively)
     (if
       hydra?

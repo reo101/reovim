@@ -4,6 +4,10 @@
          : lsp-capabilities
          : lsp-root-dir} (require :rv-config.lsp.utils)
         opt {:cmd [:haskell-language-server-wrapper
+                   ;; :nix
+                   ;; :run
+                   ;; :.#hls
+                   ;; :--
                    :--lsp]
              :filetypes [:haskell
                          :lhaskell]

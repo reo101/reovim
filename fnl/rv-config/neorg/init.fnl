@@ -54,4 +54,13 @@
                                                     :count_format "[%d/%d]"}}}}}]
     (neorg.setup opt)))
 
-{: config}
+[{1 :vhyrro/neorg
+  :dependencies [:hrsh7th/nvim-cmp
+                 :nvim-lua/plenary.nvim
+                 :nvim-neorg/neorg-telescope
+                 :nvim-telescope/telescope.nvim
+                 :nvim-treesitter/nvim-treesitter]
+  :tag :v7.0.0
+  : config}
+ {1 :nvim-neorg/neorg-telescope
+  :dependencies [:nvim-telescope/telescope.nvim]}]

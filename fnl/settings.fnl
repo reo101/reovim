@@ -96,7 +96,7 @@
 (tset vim.opt :fileencoding "utf-8")
 
 ;;; The font used in graphical neovim applications
-(tset vim.opt :guifont "Fira Code Mono Nerd Font:h17")
+(tset vim.opt :guifont "FiraCode Nerd Font:h17")
 
 ;;; Required to keep multiple buffers and open multiple buffers
 (tset vim.opt :hidden true)

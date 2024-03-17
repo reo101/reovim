@@ -1,6 +1,4 @@
-(local M {})
-
-(fn M.config []
+(fn config []
     (let [tokyonight (require :tokyonight)
           opt {;; The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
                :style :night
@@ -47,4 +45,7 @@
      (tokyonight.setup opt)
      (vim.cmd "colorscheme tokyonight")))
 
-M
+{1 :folke/tokyonight.nvim
+ :priority 1000
+ :lazy false
+ : config}

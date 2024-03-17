@@ -17,4 +17,5 @@
              :user_default_options {:mode "background"}}]
     ((. (require "colorizer") :setup) opt)))
 
-{: config}
+{1 :NvChad/nvim-colorizer.lua
+ : config}

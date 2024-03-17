@@ -51,3 +51,9 @@ require("hotpot").setup({
         },
     },
 })
+
+require("lazy").setup({
+    {
+        "rktjmp/hotpot.nvim",
+    }
+})

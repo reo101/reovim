@@ -1,5 +1,6 @@
 (import-macros
-  {: -m>}
+  {: -m>
+   : ||>}
   :init-macros)
 
 (fn config []
@@ -128,4 +129,33 @@
              :R [functions.resume            :Resume]}}
         {:prefix :<leader>})))
 
-{: config}
+[{1             :nvim-telescope/telescope.nvim
+  :dependencies [:nvim-lua/popup.nvim
+                 :nvim-lua/plenary.nvim]
+  : config}
+ (let [telescope-plugins
+         [:nvim-telescope/telescope-packer.nvim
+          ; :nvim-telescope/telescope-fzf-native.nvim
+          :nvim-telescope/telescope-github.nvim
+          :nvim-telescope/telescope-media-files.nvim
+          :nvim-telescope/telescope-symbols.nvim
+          :nvim-telescope/telescope-file-browser.nvim
+          :luc-tielen/telescope_hoogle]
+        convert-to-telescope-opt
+         (fn [telescope-plugin]
+           (let [opt {1 telescope-plugin
+                      :dependencies [:nvim-telescope/telescope.nvim]}]
+             opt))
+        modify-fzf-native
+         (fn [opt]
+           (if (= (. opt 1) :nvim-telescope/telescope-fzf-native)
+               (vim.tbl_deep_extend :force
+                                    {:build :make}
+                                    opt)
+               ;; else
+               opt))]
+   (vim.tbl_map
+     (||>
+       convert-to-telescope-opt
+       modify-fzf-native)
+     telescope-plugins))]

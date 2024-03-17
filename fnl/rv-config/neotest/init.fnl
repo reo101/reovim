@@ -6,6 +6,7 @@
                [((require :neotest-haskell)
                  {:build_tools [:stack :cabal]
                   :frameworks [:hspec :tasty :sydtest]})
+                (require :neotest-busted)
                 ;; (require :rustaceanvim.neotest)
                 ((require :neotest-rust)
                  {})
@@ -47,4 +48,12 @@
          "[n" [#(neotest.jump.next {:status :failed}) "Next failing test"]}
         {})))
 
-{: config}
+{1 :nvim-neotest/neotest
+ :dependencies [:nvim-lua/plenary.nvim
+                :mrcjkb/neotest-haskell
+                :lawrence-laz/neotest-zig
+                :llllvvuu/neotest-foundry
+                ;; :mrcjkb/rustaceanvim
+                :rouge8/neotest-rust
+                :HiPhish/neotest-busted]
+ : config}

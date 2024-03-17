@@ -23,9 +23,12 @@
                        :m [idris2-code-action.make_lemma   "Make lemma"]
                        :a [idris2-code-action.add_clause   "Add clause"]
                        :e [idris2-code-action.expr_search  "Expr search"]
-                       :g [idris2-code-action.generate_def "Generate_def"]
+                       :g [idris2-code-action.generate_def "Generate def"]
                        :r [idris2-code-action.refine_hole  "Refine hole"]
                        :i [idris2-code-action.intro        "Intro"]}}
                   {:prefix :<leader>}))})))
 
-{: config}
+{1 :ShinKage/idris2-nvim
+ :dependencies [:neovim/nvim-lspconfig
+                :MunifTanjim/nui.nvim]
+ : config}

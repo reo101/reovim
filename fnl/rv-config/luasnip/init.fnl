@@ -29,4 +29,7 @@
                     "LuaSnip snippets"]}}
         {:prefix :<leader>})))
 
-{: config}
+[{1 :L3MON4D3/LuaSnip
+  :tag :v2.0.0
+  : config}
+ {1 :rafamadriz/friendly-snippets}]

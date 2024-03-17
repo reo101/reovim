@@ -37,4 +37,6 @@
                  "Indentations"]}}
         {:prefix :<leader>})))
 
-{: config}
+{1 :lukas-reineke/indent-blankline.nvim
+ :tag :v3.2.6
+ : config}

@@ -137,4 +137,9 @@
              :f [":Neotree reveal<CR>" :FileTree]}}
         {:prefix :<leader>})))
 
-{: config}
+{1 :nvim-neo-tree/neo-tree.nvim
+ :dependencies [:nvim-lua/plenary.nvim
+                :nvim-tree/nvim-web-devicons
+                :MunifTanjim/nui.nvim]
+ :tag :3.17
+ : config}

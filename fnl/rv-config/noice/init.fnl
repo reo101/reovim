@@ -19,4 +19,8 @@
 
     ((. (require :noice) :setup) opt)))
 
-{: config}
+{1 :folke/noice.nvim
+ :dependencies [:MunifTanjim/nui.nvim
+                :rcarriga/nvim-notify]
+ :enabled false
+ : config}

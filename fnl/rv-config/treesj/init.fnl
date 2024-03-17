@@ -30,4 +30,6 @@
              :M [#(tsj.toggle {:split {:recursive true}}) "Toggle (recursive)"]}}
         {:prefix :<leader>})))
 
-{: config}
+{1 :Wansmer/treesj
+ :dependencies [:nvim-treesitter/nvim-treesitter]
+ : config}

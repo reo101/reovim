@@ -131,4 +131,6 @@
              :o [#(vim.cmd :Oil) :Oil]}}
         {:prefix :<leader>})))
 
-{: config}
+{1 :stevearc/oil.nvim
+ :dependencies [:nvim-tree/nvim-web-devicons]
+ : config}

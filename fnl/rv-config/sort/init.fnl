@@ -24,4 +24,6 @@
       (dk [:v]
           mappings))))
 
-{: config}
+{1 :sQVe/sort.nvim
+ :cmd ["Sort"]
+ : config}

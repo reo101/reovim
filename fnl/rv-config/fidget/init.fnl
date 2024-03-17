@@ -117,4 +117,6 @@
 
     (fidget.setup opt)))
 
-{: config}
+{1 :j-hui/fidget.nvim
+ :tag :v1.1.0
+ : config}

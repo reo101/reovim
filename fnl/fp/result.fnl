@@ -4,6 +4,14 @@
 
 (local Result {})
 
+;;; Metatable
+(local Result-mt
+       {:__index
+          (fn [self key]
+            (if (= (type key) :number)
+                (rawget self key)
+                ((. Result key) self)))})
+
 ;;; Validation
 (fn Result.ok? [mx]
   (match mx
@@ -19,9 +27,9 @@
 
 ;;; Construction
 (fn Result.ok [...]
-  [:ok ...])
+  (setmetatable [:ok ...] Result-mt))
 (fn Result.err [...]
-  [:err ...])
+  (setmetatable [:err ...] Result-mt))
 (fn Result.new [...]
   (match ...
     (where r (Result.result? r)) r
@@ -75,5 +83,10 @@
   (match mx
     [:ok  & ok]  (values (unpack ok))
     [:err & err] (error err)))
+
+(mdo Result
+  (<- x (Result.new 5))
+  (<- y (Result.new 6))
+  (Result.pure (+ x y)))
 
 Result

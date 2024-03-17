@@ -37,4 +37,5 @@
                    :background :Normal}}}]
     (toggleterm.setup opt)))
 
-{: config}
+{1 :akinsho/toggleterm.nvim
+ : config}

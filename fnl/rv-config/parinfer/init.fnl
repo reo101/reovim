@@ -11,4 +11,8 @@
   (set vim.g.parinfer_janet_long_strings   0))
   ;; (set vim.g.parinfer_logfile              (.. (vim.fn.stdpath :cache) :/parinfer.log)))
 
-{: config}
+{1       :eraserhd/parinfer-rust
+ :build  "cargo build --release"
+ :cond   (or true
+             (= (vim.fn.executable :cargo) 1))
+ : config}

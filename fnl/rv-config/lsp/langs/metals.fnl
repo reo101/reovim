@@ -47,4 +47,6 @@
           : group
           :callback #(metals.initialize_or_attach metals-config)}))))
 
-{: config}
+{1 :scalameta/nvim-metals
+ :dependencies [:nvim-lua/plenary.nvim]
+ : config}

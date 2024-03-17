@@ -3,8 +3,6 @@
    : imap}
   :init-macros)
 
-(local M {})
-
 ;; Pretty to clockwise
 (fn reorder-border [pretty]
   ;;
@@ -31,7 +29,7 @@
   (grab 8 5)
   border)
 
-(fn M.config []
+(fn config []
   (let [cmp     (require :cmp)
         luasnip (require :luasnip)]
     (fn esc [str]
@@ -51,6 +49,7 @@
                               (cmp.select_next_item)
                               (luasnip.jumpable)
                               (luasnip.jump 1)
+                              ;; (vim.snippet.jumpable 1)
                               ;; (luasnip.expand_or_locally_jumpable)
                               ;; (luasnip.expand_or_jump)
                               ;; (check-back-space)
@@ -63,12 +62,13 @@
                           (if (cmp.visible)
                               (cmp.select_prev_item)
                               (luasnip.jumpable -1)
+                              ;; (vim.snippet.jumpable -1)
                               ;; else
                               (fallback)))
                         [:i :s :c])
            :<CR>      (cmp.mapping
                         {:i (cmp.mapping.confirm
-                              {:behavior cmp.ConfirmBehavior.Replace
+                              {:behavior cmp.ConfirmBehavior.Insert
                                :select   true})
                          :c (cmp.mapping.confirm
                               {:select   false})})
@@ -126,6 +126,7 @@
        :snippet
          {:expand
             (fn [args]
+              ;; (vim.snippet.expand args.body))}
               (luasnip.lsp_expand args.body))}
        :formatting
          {:format
@@ -205,6 +206,7 @@
                  ;; Buffers in current window
                  (imap (vim.api.nvim_list_wins)
                        vim.api.nvim_win_get_buf))}}
+          ;; {:name "copilot"}
           {:name "nvim_lua"}
           {:name "path"}
           {:name "calc"}
@@ -252,22 +254,15 @@
             {:name "buffer"
              :option
                {:get_bufnrs
-                 (fn []
-                   (let [bufs {}]
-                     ;; All buffers
-                     ;; (vim.api.nvim_list_bufs)
-                     (each [_ win
-                            (ipairs (vim.api.nvim_list_wins))]
-                       (tset
-                         bufs
-                         (vim.api.nvim_win_get_buf win)
-                         true))
-                     (vim.tbl_keys bufs)))}}
+                 ;; All buffers
+                 ;; #(vim.api.nvim_list_bufs)
+                 #(icollect [_ win (ipairs (vim.api.nvim_list_wins))]
+                    (vim.api.nvim_win_get_buf win))}}
             {:name "nvim_lua"}
             {:name "path"}
             {:name "calc"}
             {:name "latex_symbols"
-            ;; NOTE:           V V
+            ;; NOTE:          V V
              :option {:strategy 2}}
             {:name "spell"}
             {:name "tmux"
@@ -292,4 +287,33 @@
 
     (cmp.setup opt)))
 
-M
+[{1 :hrsh7th/nvim-cmp
+  :dependencies [:nvim-treesitter/nvim-treesitter
+                 :altermo/ultimate-autopair.nvim]
+  : config}
+ (let [cmp-sources
+        [:hrsh7th/cmp-nvim-lsp
+         :saadparwaiz1/cmp_luasnip
+         :hrsh7th/cmp-buffer
+         :hrsh7th/cmp-nvim-lua
+         :hrsh7th/cmp-path
+         :hrsh7th/cmp-calc
+         :f3fora/cmp-spell
+         :andersevenrud/cmp-tmux
+         :hrsh7th/cmp-cmdline
+         :hrsh7th/cmp-omni
+         :kdheepak/cmp-latex-symbols]
+       convert-to-cmp-opt
+        (fn [cmp-source]
+            (let [opt {1             cmp-source
+                       :dependencies [:hrsh7th/nvim-cmp]}]
+              opt))]
+    ; {1 :zbirenbaum/copilot.lua
+    ;  :cmd :Copilot
+    ;  :event :InsertEnter
+    ;  :config (rv :copilot)}
+    ; {1 :zbirenbaum/copilot-cmp
+    ;  :config (rv :copilot.cmp)}
+    (vim.tbl_map
+      convert-to-cmp-opt
+      cmp-sources))]

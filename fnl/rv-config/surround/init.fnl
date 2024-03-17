@@ -188,4 +188,5 @@
             :move_cursor :begin}]
   ((. (require :nvim-surround) :setup) opt)))
 
-{: config}
+{1 :kylechui/nvim-surround
+ : config}

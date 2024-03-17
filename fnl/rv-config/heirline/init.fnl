@@ -1,9 +1,3 @@
-(macro dbg! [expr]
-  `(do
-     (let [expr# ,expr]
-       (vim.print expr#)
-       expr#)))
-
 (fn config []
   (let [{: heirline
          : conditions
@@ -208,9 +202,9 @@
              :fg))))
 
     (heirline.setup {:statusline   Statusline
-                     :winbar       (when (not vim.g.neovide) Winbar)
+                     :winbar       Winbar
                      :tabline      Tabline
-                     :statuscolumn (when false Statuscolumn)
+                     :statuscolumn Statuscolumn
                      :opts {:colors setup-colors}})
 
     (vim.api.nvim_create_augroup
@@ -221,4 +215,12 @@
       {:callback #(utils.on_colorscheme setup-colors)
        :group :Heirline})))
 
-{: config}
+[{1             :rebelot/heirline.nvim
+  :dependencies [:SmiteshP/nvim-navic
+                 :nvim-tree/nvim-web-devicons
+                 :lewis6991/gitsigns.nvim
+                 :L3MON4D3/LuaSnip
+                 :mfussenegger/nvim-dap]
+  :event :VeryLazy
+  : config}
+ {1 :Zeioth/heirline-components.nvim}]

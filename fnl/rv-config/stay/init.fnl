@@ -1,6 +1,8 @@
 (fn config []
-  (let [opt {:set_keymaps true
+  (let [stay-in-place (require :stay-in-place)
+        opt {:set_keymaps true
              :setpreserve_visual_selection true}]
-    ((. (require :stay-in-place) :setup) opt)))
+    (stay-in-place.setup opt)))
 
-{: config}
+{1 :gbprod/stay-in-place.nvim
+ : config}

@@ -34,6 +34,6 @@
                           (= char (when fillchars.foldopen ""))
                           (vim.cmd "normal! zc")
                           (= char (when fillchars.foldclose ""))
-                          (vim.cmd "normal! zc"))))}}]
+                          (vim.cmd "normal! zo"))))}}]
 
   {: Foldcolumn})

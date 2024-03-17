@@ -40,4 +40,5 @@
         {:W [winshift.cmd_winshift :WinShift]}
         {:prefix :<leader>})))
 
-{: config}
+{1 :sindrets/winshift.nvim
+ : config}

@@ -30,4 +30,7 @@
         {:prefix :<leader>})
     ((. (require :leap) :setup) opt)))
 
-{: config}
+[{1 :ggandor/leap.nvim
+  :enabled false
+  : config}
+ (require (.. ... :.ast))]

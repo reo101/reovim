@@ -67,4 +67,6 @@
                    (vim.lsp.buf.hover))))})
     (ufo.setup opt)))
 
-{: config}
+{1 :kevinhwang91/nvim-ufo
+ :dependencies [:kevinhwang91/promise-async]
+ : config}

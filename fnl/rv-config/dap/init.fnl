@@ -31,4 +31,7 @@
     (dap-utils.dap-override-icons)
     (dap-utils.dap-set-repl)))
 
-{: config}
+[{1 :mfussenegger/nvim-dap
+  : config}
+ (require (.. ... :.virttext))
+ (require (.. ... :.dapui))]

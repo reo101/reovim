@@ -17,4 +17,5 @@
 
     (set vim.notify notify)))
 
-{: config}
+{1 :rcarriga/nvim-notify
+ : config}
