@@ -32,6 +32,8 @@
     (dap-utils.dap-set-repl)))
 
 [{1 :mfussenegger/nvim-dap
+  :keys [:<leader>d]
   : config}
+ ;; TODO: add those as pseudo-dependencies
  (require (.. ... :.virttext))
  (require (.. ... :.dapui))]

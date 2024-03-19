@@ -151,4 +151,5 @@
     (dressing.setup opt)))
 
 {1 :stevearc/dressing.nvim
+ :event :VeryLazy
  : config}

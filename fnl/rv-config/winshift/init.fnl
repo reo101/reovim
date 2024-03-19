@@ -41,4 +41,5 @@
         {:prefix :<leader>})))
 
 {1 :sindrets/winshift.nvim
+ :keys [:<leader>W]
  : config}

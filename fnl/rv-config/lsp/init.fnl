@@ -56,6 +56,7 @@
     (utils.lsp-override-handlers)))
 
 [{1 :neovim/nvim-lspconfig
+  :event :BufRead
   : config}
  (require (.. ... :.lines))
  (icollect [_ lang-plugin (ipairs [:rustaceanvim
@@ -66,5 +67,5 @@
                                    :nvim-java
                                    :texmagic])]
    (require (.. ... :.langs. lang-plugin)))
- {1 :b0o/schemastore.nvim}
- {1 :Hoffs/omnisharp-extended-lsp.nvim}]
+ {1 :b0o/schemastore.nvim}]
+ ;; {1 :Hoffs/omnisharp-extended-lsp.nvim}]

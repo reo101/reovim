@@ -25,4 +25,5 @@
     (git-conflict.setup opt)))
 
 {1 :akinsho/git-conflict.nvim
+ :event :BufRead
  : config}

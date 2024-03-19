@@ -28,4 +28,5 @@
     (nix-update.setup opt)))
 
 {1 :reo101/nix-update.nvim
+ :ft [:nix]
  : config}

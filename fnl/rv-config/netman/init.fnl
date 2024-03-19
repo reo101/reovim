@@ -10,4 +10,5 @@
 
 {1 :miversen33/netman.nvim
  :tag :v1.15
+ :event :VeryLazy
  : config}

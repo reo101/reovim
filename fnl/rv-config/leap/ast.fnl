@@ -7,4 +7,5 @@
 
 {1 :ggandor/leap-ast.nvim
  :dependencies [:ggandor/leap.nvim]
+ :keys [:<leader>ha]
  : config}

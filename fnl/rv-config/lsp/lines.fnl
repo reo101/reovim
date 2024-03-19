@@ -13,4 +13,5 @@
          {:prefix :<leader>})))
 
 {1 "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
+ :event :BufRead
  : config}

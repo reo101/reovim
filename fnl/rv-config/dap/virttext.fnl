@@ -14,4 +14,5 @@
 
 {1 :theHamsta/nvim-dap-virtual-text
  :dependencies [:mfussenegger/nvim-dap]
+ :keys [:<leader>d]
  : config}

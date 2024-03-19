@@ -7,4 +7,5 @@
     (eyeliner.setup opt)))
 
 {1 :jinh0/eyeliner.nvim
+ :event :BufRead
  : config}

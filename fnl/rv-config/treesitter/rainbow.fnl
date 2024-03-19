@@ -23,4 +23,5 @@
 
 
 {1 :HiPhish/rainbow-delimiters.nvim
+ :event :BufRead
  : config}

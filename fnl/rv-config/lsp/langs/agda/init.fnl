@@ -84,4 +84,5 @@
  :dependencies [:neovimhaskell/nvim-hs.vim
                 :kana/vim-textobj-user
                 :junegunn/vim-easy-align]
+ :ft [:agda]
  : config}

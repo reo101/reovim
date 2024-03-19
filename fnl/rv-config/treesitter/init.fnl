@@ -97,21 +97,21 @@
                                                       "@function.outer"  :V}}
                            :disable {}}
              :highlight {:enable true
-                         :additional_vim_regex_highlighting ["circom"]}
-             :playground {:updatetime 25
-                          :enable true
-                          :disable {}
-                          :keybindings {:update                    :R
-                                        :goto_node                 :<CR>
-                                        :show_help                 :?
-                                        :focus_language            :f
-                                        :toggle_hl_groups          :i
-                                        :toggle_language_display   :I
-                                        :toggle_anonymous_nodes    :a
-                                        :toggle_injected_languages :t
-                                        :unfocus_language          :F
-                                        :toggle_query_editor       :o}
-                          :persist_queries false}}]
+                         :additional_vim_regex_highlighting ["circom"]}}]
+             ; :playground {:updatetime 25
+             ;              :enable true
+             ;              :disable {}
+             ;              :keybindings {:update                    :R
+             ;                            :goto_node                 :<CR>
+             ;                            :show_help                 :?
+             ;                            :focus_language            :f
+             ;                            :toggle_hl_groups          :i
+             ;                            :toggle_language_display   :I
+             ;                            :toggle_anonymous_nodes    :a
+             ;                            :toggle_injected_languages :t
+             ;                            :unfocus_language          :F
+             ;                            :toggle_query_editor       :o}
+             ;              :persist_queries false}}]
     ;; ((. (require :rv-config.treesitter.context) :config))
     (vim.api.nvim_create_user_command
       :TSFullNodeUnderCursor
@@ -234,8 +234,8 @@
                     ;;     :Context]
                     :g [:<Cmd>TSPlaygroundToggle<CR>
                         :PlayGround]
-                    :t ["<Cmd>TSBufToggle autotag<CR>"
-                        :Autotags]
+                    ;; :t ["<Cmd>TSBufToggle autotag<CR>"
+                    ;;     :Autotags]
                     :p ["<Cmd>TSBufToggle autopairs<CR>"
                         :Autopairs]
                     :name :TreeSitter}
@@ -296,17 +296,18 @@
             "[m" ["Previous @function.outer start"]})
     (dk [:n :o] motion-mappings {:noremap false})))
 
-[{1       :nvim-treesitter/nvim-treesitter
+[{1 :nvim-treesitter/nvim-treesitter
+  :event :BufRead
   : config}
  (require (.. ... :.rainbow))
  (let [treesitter-plugins
         [;; :nvim-treesitter/nvim-treesitter-textobjects
          :mfussenegger/nvim-ts-hint-textobject
-         :nvim-treesitter/playground
+         ;; :nvim-treesitter/playground
          ;; :romgrk/nvim-treesitter-context
-         :JoosepAlviste/nvim-ts-context-commentstring
-         :windwp/nvim-ts-autotag]
-           ;; :RRethy/nvim-treesitter-textsubjects]
+         :JoosepAlviste/nvim-ts-context-commentstring]
+         ;; :windwp/nvim-ts-autotag]
+         ;; :RRethy/nvim-treesitter-textsubjects]
        convert-to-treesitter-opt
         (fn [treesitter-plugin]
           {1             treesitter-plugin

@@ -31,4 +31,5 @@
 {1 :ShinKage/idris2-nvim
  :dependencies [:neovim/nvim-lspconfig
                 :MunifTanjim/nui.nvim]
+ :ft [:idris]
  : config}

@@ -52,4 +52,5 @@
 
 {1 :rcarriga/nvim-dap-ui
  :dependencies [:mfussenegger/nvim-dap]
+ :keys [:<leader>dt]
  : config}

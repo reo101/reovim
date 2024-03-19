@@ -82,4 +82,5 @@
 {1 :folke/todo-comments.nvim
  :dependencies [:nvim-lua/plenary.nvim
                 :anuvyklack/nvim-keymap-amend]
+ :event [:BufRead]
  : config}

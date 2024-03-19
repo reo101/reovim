@@ -34,5 +34,6 @@
     (dk :o operator-mappings {:prefix :<leader>})))
 
 [{1 :numToStr/Comment.nvim
+  :keys [:<leader>c :<leader>C]
   : config}
  {1 :JoosepAlviste/nvim-ts-context-commentstring}]

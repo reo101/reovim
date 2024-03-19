@@ -32,4 +32,5 @@
 
 {1 :Wansmer/treesj
  :dependencies [:nvim-treesitter/nvim-treesitter]
+ :event :BufRead
  : config}

@@ -44,6 +44,7 @@
                  :r [(. (require :trouble) :toggle) :Trouble]}})
      (wk.register mappings {:prefix :<leader>})))
 
-{1             :folke/trouble.nvim
+{1 :folke/trouble.nvim
  :dependencies [:nvim-tree/nvim-web-devicons]
+ :keys [:<leader>tr]
  : config}

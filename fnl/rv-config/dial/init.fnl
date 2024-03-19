@@ -110,4 +110,5 @@
               augroup END")))
 
 {1 :monaqa/dial.nvim
+ :event :VeryLazy
  : config}

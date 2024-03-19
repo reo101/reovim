@@ -119,4 +119,5 @@
 
 {1 :j-hui/fidget.nvim
  :tag :v1.1.0
+ :event :BufRead
  : config}

@@ -84,4 +84,5 @@
     ((. (require :diffview) :setup) opt)))
 
 {1 :sindrets/diffview.nvim
+ :lazy true
  : config}

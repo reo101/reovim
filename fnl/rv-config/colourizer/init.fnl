@@ -18,4 +18,5 @@
     ((. (require "colorizer") :setup) opt)))
 
 {1 :NvChad/nvim-colorizer.lua
+ :ft :BufRead
  : config}

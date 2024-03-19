@@ -21,7 +21,8 @@
  ;;  :config #((. (require "nu")
  ;;               :setup)
  ;;            {:use_lsp_features false})}
- {1 :nushell/tree-sitter-nu}
+ {1 :nushell/tree-sitter-nu
+  :ft [:nu]}
  ;; Keymaps
  {1 :nvimtools/hydra.nvim}
  ;; Lua docs

@@ -56,4 +56,5 @@
                 ;; :mrcjkb/rustaceanvim
                 :rouge8/neotest-rust
                 :HiPhish/neotest-busted]
+ :keys [:<leader>ln]
  : config}

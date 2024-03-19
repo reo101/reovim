@@ -59,8 +59,10 @@
                  :nvim-lua/plenary.nvim
                  :nvim-neorg/neorg-telescope
                  :nvim-telescope/telescope.nvim
-                 :nvim-treesitter/nvim-treesitter]
+                 :nvim-treesitter/nvim-treesitter
+                 {1 :nvim-neorg/neorg-telescope
+                  :dependencies [:nvim-telescope/telescope.nvim]}]
   :tag :v7.0.0
-  : config}
- {1 :nvim-neorg/neorg-telescope
-  :dependencies [:nvim-telescope/telescope.nvim]}]
+  :ft [:neorg]
+  :cmd [:Neorg :NeorgStart]
+  : config}]

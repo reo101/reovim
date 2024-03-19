@@ -39,4 +39,5 @@
 
 {1 :lukas-reineke/indent-blankline.nvim
  :tag :v3.2.6
+ :event :BufRead
  : config}

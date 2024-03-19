@@ -1,1 +1,2 @@
-{1 :creativenull/dotfyle-metadata.nvim}
+{1 :creativenull/dotfyle-metadata.nvim
+ :enabled false}

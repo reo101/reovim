@@ -287,33 +287,26 @@
 
     (cmp.setup opt)))
 
-[{1 :hrsh7th/nvim-cmp
-  :dependencies [:nvim-treesitter/nvim-treesitter
-                 :altermo/ultimate-autopair.nvim]
-  : config}
- (let [cmp-sources
-        [:hrsh7th/cmp-nvim-lsp
-         :saadparwaiz1/cmp_luasnip
-         :hrsh7th/cmp-buffer
-         :hrsh7th/cmp-nvim-lua
-         :hrsh7th/cmp-path
-         :hrsh7th/cmp-calc
-         :f3fora/cmp-spell
-         :andersevenrud/cmp-tmux
-         :hrsh7th/cmp-cmdline
-         :hrsh7th/cmp-omni
-         :kdheepak/cmp-latex-symbols]
-       convert-to-cmp-opt
-        (fn [cmp-source]
-            (let [opt {1             cmp-source
-                       :dependencies [:hrsh7th/nvim-cmp]}]
-              opt))]
-    ; {1 :zbirenbaum/copilot.lua
-    ;  :cmd :Copilot
-    ;  :event :InsertEnter
-    ;  :config (rv :copilot)}
-    ; {1 :zbirenbaum/copilot-cmp
-    ;  :config (rv :copilot.cmp)}
-    (vim.tbl_map
-      convert-to-cmp-opt
-      cmp-sources))]
+{1 :hrsh7th/nvim-cmp
+ :dependencies [:nvim-treesitter/nvim-treesitter
+                :altermo/ultimate-autopair.nvim
+                :hrsh7th/cmp-nvim-lsp
+                :saadparwaiz1/cmp_luasnip
+                :hrsh7th/cmp-buffer
+                :hrsh7th/cmp-nvim-lua
+                :hrsh7th/cmp-path
+                :hrsh7th/cmp-calc
+                :f3fora/cmp-spell
+                :andersevenrud/cmp-tmux
+                :hrsh7th/cmp-cmdline
+                :hrsh7th/cmp-omni
+                :kdheepak/cmp-latex-symbols]
+ :event        [:InsertEnter
+                :CmdlineEnter]
+ : config}
+; {1 :zbirenbaum/copilot.lua
+;  :cmd :Copilot
+;  :event :InsertEnter
+;  :config (rv :copilot)}
+; {1 :zbirenbaum/copilot-cmp
+;  :config (rv :copilot.cmp)}

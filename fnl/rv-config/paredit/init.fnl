@@ -107,6 +107,11 @@
     ((. (require :rv-config.paredit.extensions) :config))))
 
 [{1 :julienvincent/nvim-paredit
+  :ft ["fennel"
+       "scheme"
+       "racket"
+       "crisp"
+       "clojure"]
   : config}
  {1 :julienvincent/nvim-paredit-fennel
   :ft ["fennel"]

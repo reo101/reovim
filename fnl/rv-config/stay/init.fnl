@@ -5,4 +5,5 @@
     (stay-in-place.setup opt)))
 
 {1 :gbprod/stay-in-place.nvim
+ :event :VeryLazy
  : config}

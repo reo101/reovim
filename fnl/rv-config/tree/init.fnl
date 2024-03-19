@@ -142,4 +142,5 @@
                 :nvim-tree/nvim-web-devicons
                 :MunifTanjim/nui.nvim]
  :tag :3.17
+ :keys [:<leader>tf]
  : config}

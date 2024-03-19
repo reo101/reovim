@@ -16,13 +16,18 @@
       :lazy false}
 
      ;; Typed fennel
-     {1 :dokutan/typed-fennel}])
+     {1 :dokutan/typed-fennel
+      :lazy true}])
 
 (local opts
        {:concurrency 30
         ;; :install
         ;;   {:colorscheme :tokyonight}
         ;; :defaults {:lazy true}
+        :debug false
+        :profiling
+          {:loader false
+           :require false}
         :performance
           {:reset_packpath false
            :cache {:enabled false}
@@ -50,7 +55,11 @@
                  "zipPlugin"]}}})
 
 (fn preload [path]
-  (icollect [mod (vim.fs.dir (.. (vim.fn.stdpath :config) :/fnl/ path))]
+  (icollect [mod (vim.fs.dir
+                   (vim.fs.joinpath
+                     (vim.fn.stdpath :config)
+                     :fnl
+                     path))]
     (let [mod (or (mod:match "^(.*)%.fnl$")
                   mod)]
        (require (.. path :. mod)))))

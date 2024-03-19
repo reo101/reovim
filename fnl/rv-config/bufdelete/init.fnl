@@ -4,8 +4,10 @@
     (dk [:n]
         {:b {:name :Buffer
              :d [#(bufdelete.bufdelete 0 false) "Delete"]
-             :f [#(bufdelete.bufdelete 0 true) "Force Delete"]}}
+             :D [#(bufdelete.bufdelete 0 true) "Force Delete"]}}
         {:prefix :<leader>})))
 
 {1 :famiu/bufdelete.nvim
+ :keys [:<leader>bd
+        :<leader>bD]
  : config}
