@@ -285,6 +285,30 @@
             {:name "spell"}
             {:name "path"}])})
 
+    (cmp.setup.filetype
+      :rust
+      {:sorting
+         {:priority_weight 2
+          :comparators
+            (let [compare (require :cmp.config.compare)
+                  cmp-rust (require :cmp-rust)]
+              [;; deprioritize `.box`, `.mut`, etc.
+               cmp-rust.deprioritize_postfix
+               ;; deprioritize `Borrow::borrow` and `BorrowMut::borrow_mut`
+               cmp-rust.deprioritize_borrow
+               ;; deprioritize `Deref::deref` and `DerefMut::deref_mut`
+               cmp-rust.deprioritize_deref
+               ;; deprioritize `Into::into`, `Clone::clone`, etc.
+               cmp-rust.deprioritize_common_traits
+               compare.offset
+               compare.exact
+               compare.score
+               compare.recently_used
+               compare.locality
+               compare.sort_text
+               compare.length
+               compare.order])}})
+
     (cmp.setup opt)))
 
 {1 :hrsh7th/nvim-cmp
@@ -300,7 +324,8 @@
                 :andersevenrud/cmp-tmux
                 :hrsh7th/cmp-cmdline
                 :hrsh7th/cmp-omni
-                :kdheepak/cmp-latex-symbols]
+                :kdheepak/cmp-latex-symbols
+                :ryo33/nvim-cmp-rust]
  :event        [:InsertEnter
                 :CmdlineEnter]
  : config}

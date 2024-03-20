@@ -29,38 +29,44 @@
     (local {: inverse-raw-symbols} (require :rv-config.lsp.langs.agda.symbols))
 
     ;;; Mappings
+    (fn agda-mappings []
+      (dk [:n]
+          {:a {:name :Agda
+               :l  [#(vim.cmd.CornelisLoad) :Load]
+               :r  [#(vim.cmd.CornelisRefine) :Refine]
+               :d  [#(vim.cmd.CornelisMakeCase) :MakeCase]
+               "," [#(vim.cmd.CornelisTypeContext) :TypeContext]
+               "." [#(vim.cmd.CornelisTypeContextInfer) :TypeContextInfer]
+               :n  [#(vim.cmd.CornelisSolve) :Solve]
+               :a  [#(vim.cmd.CornelisAuto) :Auto]
+               :e  [#(let [old-reg     (vim.fn.getreg "a")
+                           _           (vim.cmd "redir @a> | ascii | redir END")
+                           ascii       (vim.fn.getreg "a")
+                           _           (vim.fn.setreg "a" old-reg)
+                           char        (ascii:gsub ".*<([^>]*)>.*" "%1")
+                           char-recipe (?. inverse-raw-symbols char)]
+                      (vim.print char-recipe))
+                    "Explain symbol"]}}
+          {:prefix :<leader>
+           :buffer true})
+      (dk [:n]
+          {:gd  [#(vim.cmd.CornelisGoToDefinition) :Definition]
+           :K   [#(vim.cmd.CornelisTypeInfer) "Type Infer"]
+           "[/" [#(vim.cmd.CornelisPrevGoal) "Previous goal"]
+           "]/" [#(vim.cmd.CornelisNextGoal) "Next goal"]
+           ;; TODO: Re-do in `dial` (also make work for bbN)
+           "<C-A>" [#(vim.cmd.CornelisInc) :Increment]
+           "<C-X>" [#(vim.cmd.CornelisDec) :Decrement]}
+          {:buffer true})
+      (vim.cmd "TSBufDisable highlight"))
+
     (vim.api.nvim_create_autocmd
       [:BufRead
        :BufNewFile]
       {:pattern [:*.agda]
-       :callback
-         #(do (dk [:n]
-                  {:a {:name :Agda
-                       :l  [#(vim.cmd.CornelisLoad) :Load]
-                       :r  [#(vim.cmd.CornelisRefine) :Refine]
-                       :d  [#(vim.cmd.CornelisMakeCase) :MakeCase]
-                       "," [#(vim.cmd.CornelisTypeContext) :TypeContext]
-                       "." [#(vim.cmd.CornelisTypeContextInfer) :TypeContextInfer]
-                       :n  [#(vim.cmd.CornelisSolve) :Solve]
-                       :a  [#(vim.cmd.CornelisAuto) :Auto]
-                       :e  [#(let [old-reg     (vim.fn.getreg "a")
-                                   _           (vim.cmd "redir @a> | ascii | redir END")
-                                   ascii       (vim.fn.getreg "a")
-                                   _           (vim.fn.setreg "a" old-reg)
-                                   char        (ascii:gsub ".*<([^>]*)>.*" "%1")
-                                   char-recipe (?. inverse-raw-symbols char)]
-                              (vim.print char-recipe))
-                            "Explain symbol"]}}
-                  {:prefix :<leader>})
-              (dk [:n]
-                  {:gd  [#(vim.cmd.CornelisGoToDefinition) :Definition]
-                   :K   [#(vim.cmd.CornelisTypeInfer) "Type Infer"]
-                   "[/" [#(vim.cmd.CornelisPrevGoal) "Previous goal"]
-                   "]/" [#(vim.cmd.CornelisNextGoal) "Next goal"]
-                   ;; TODO: Re-do in `dial` (also make work for bbN)
-                   "<C-A>" [#(vim.cmd.CornelisInc) :Increment]
-                   "<C-X>" [#(vim.cmd.CornelisDec) :Decrement]})
-              (vim.cmd "TSBufDisable highlight"))})
+       :callback agda-mappings})
+
+    (agda-mappings)
 
     ;;; cmp latex-like thing
     (let [cmp (require :cmp)

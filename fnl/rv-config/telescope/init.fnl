@@ -132,6 +132,7 @@
   :dependencies [:nvim-lua/popup.nvim
                  :nvim-lua/plenary.nvim]
   :keys [:<leader>f]
+  :cmd [:Telescope]
   : config}
  (let [telescope-plugins
          [:nvim-telescope/telescope-packer.nvim

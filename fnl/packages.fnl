@@ -11,12 +11,17 @@
 (local main-plugins
     [;; Fennel loader
      {1 :udayvir-singh/tangerine.nvim
-      :tag "v2.7"
+      :tag :v2.8
       :priority 1000
       :lazy false}
 
      ;; Typed fennel
      {1 :dokutan/typed-fennel
+      :lazy true}
+
+     ;; Async IO
+     {1 :nvim-neotest/nvim-nio
+      :tag :v1.8.0
       :lazy true}])
 
 (local opts

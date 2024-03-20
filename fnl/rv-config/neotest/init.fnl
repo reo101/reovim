@@ -49,12 +49,14 @@
         {})))
 
 {1 :nvim-neotest/neotest
- :dependencies [:nvim-lua/plenary.nvim
+ :dependencies [:nvim-neotest/nvim-nio
+                :nvim-lua/plenary.nvim
                 :mrcjkb/neotest-haskell
                 :lawrence-laz/neotest-zig
                 :llllvvuu/neotest-foundry
                 ;; :mrcjkb/rustaceanvim
                 :rouge8/neotest-rust
                 :HiPhish/neotest-busted]
+ :tag :v5.0.1
  :keys [:<leader>ln]
  : config}
