@@ -72,12 +72,14 @@
         zig-octal     octal
         rust-octal    octal
         haskell-octal octal
-        ;; TODO: 𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡𝟘
         agda-script
-          (fn [⇵]
-            (let [sub   ["₀" "₁" "₂" "₃" "₄" "₅" "₆" "₇" "₈" "₉"]
-                  super ["⁰" "¹" "²" "³" "⁴" "⁵" "⁶" "⁷" "⁸" "⁹"]
-                  selected (if ⇵ sub super)
+          (fn [script]
+            (let [scripts {:_ ["₀"  "₁"  "₂"  "₃"  "₄"  "₅"  "₆"  "₇"  "₈"  "₉"]
+                           :^ ["⁰"  "¹"  "²"  "³"  "⁴"  "⁵"  "⁶"  "⁷"  "⁸"  "⁹"]
+                           :b ["𝟘"  "𝟙"  "𝟚"  "𝟛"  "𝟜"  "𝟝"  "𝟞"  "𝟟"  "𝟠"  "𝟡"]
+                           :B ["𝟎"  "𝟏"  "𝟐"  "𝟑"  "𝟒"  "𝟓"  "𝟔"  "𝟕"  "𝟖"  "𝟗"]
+                           :F ["０" "１" "２" "３" "４" "５" "６" "７" "８" "９"]}
+                  selected (. scripts script)
                   from (collect [i d (ipairs selected)]
                          (values d (- i 1)))
                   to (collect [i d (ipairs selected)]
@@ -103,8 +105,7 @@
                           table.concat))
                     {:text new
                      :cursor nil})
-                 :desc (string.format "Agda %sscript"
-                                      (if ⇵ :sub :super))
+                 :desc (string.format "Agda %sscript" script)
                  :find (dial-augend-common.find_pattern
                          (string.format "[%s]+"
                                         (table.concat
@@ -131,8 +132,11 @@
                              dial-augend.constant.alias.bool
                              zig-octal]
                        :agda [dial-augend.integer.alias.decimal
-                              (agda-script true)
-                              (agda-script false)]}]
+                              (agda-script :_)
+                              (agda-script :^)
+                              (agda-script :b)
+                              (agda-script :B)
+                              (agda-script :F)]}]
     (dial-config.augends:register_group augends-group)
     (dk :n
         {:<C-a> [dial-map.inc_normal :Increment]
