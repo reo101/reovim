@@ -48,8 +48,11 @@ local opt = {
     target  = nvim_data .. "/tangerine",
     rtpdirs = {
         "plugin",
+        "ftplugin",
         "ftdetect",
-        "after",
+        "after/plugin",
+        "after/ftplugin",
+        "after/ftdetect",
     },
 
     custom = {
