@@ -9,8 +9,8 @@
 (local WIDTH (vim.api.nvim_win_get_width 0))
 (local HEIGHT (vim.api.nvim_win_get_height 0))
 
-(when (or (< WIDTH 120)
-          (< HEIGHT 40))
+(when (or (< WIDTH 96)
+          (< HEIGHT 35))
   (lua "return nil"))
 
 (vim.api.nvim_set_hl
@@ -44,6 +44,25 @@
 
 (fn widest [acc line]
   (math.max acc (vim.api.nvim_strwidth line)))
+
+(fn executable? [exe]
+  (= (vim.fn.executable exe) 1))
+
+(fn checkbox [cond]
+  (if cond "" "󰅙"))
+
+(fn dbg [expr]
+  (vim.print expr)
+  expr)
+
+(fn header [text]
+  (-> text
+      (vim.split "\n" {:trimempty true})
+      vim.iter
+      (: :map #(string.gsub $ "^%s*|(.-%s*)$" "%1"))
+      (: :totable)
+      (->> (vim.tbl_map #(. $ 1)))
+      (table.concat "\n")))
 
 (comment
   "---@class EphemeralWidget
@@ -110,21 +129,22 @@
       {:callback cleanup
        :group augroup})))
 
-(local intro-fmt "
-NVIM v%s
-
-Nvim is open source and freely distributable
-https://neovim.io/#chat
-
-type  :help nvim<Enter>       if you are new! 
-type  :checkhealth<Enter>     to optimize Nvim
-type  :q<Enter>               to exit         
-type  :help<Enter>            for help        
-
-type  :help news<Enter> to see changes in v%s
-
-Become a registered Vim user!
-type  :help register<Enter>   for information")
+(local intro-fmt
+       (header
+         "NVIM v%s
+         |
+         |Nvim is open source and freely distributable
+         |https://neovim.io/#chat
+         |
+         |type  :help nvim<Enter>       if you are new!  
+         |type  :checkhealth<Enter>     to optimize Nvim 
+         |type  :q<Enter>               to exit          
+         |type  :help<Enter>            for help         
+         |
+         |type  :help news<Enter> to see changes in v%s
+         |
+         |Become a registered Vim user!
+         |type  :help register<Enter>   for information  "))
 
 (local ver (vim.version))
 (local ver-str-min (string.format "%d.%d" ver.major ver.minor))
@@ -138,8 +158,7 @@ type  :help register<Enter>   for information")
 (local intro-win-width
        (-> intro
            vim.iter
-           (: :fold 0 (fn [acc line]
-                        (math.max acc (length line))))))
+           (: :fold 0 widest)))
 
 (set intro (-> intro
                vim.iter
@@ -154,14 +173,14 @@ type  :help register<Enter>   for information")
 (-> (EphemeralWidget.new
       {:label :intro
        :lines intro
-       :win_opts {:col (* (- WIDTH intro-win-width) 0.5)
-                  :focusable false
-                  :height (length intro)
-                  :relative :win
-                  :row (* (- HEIGHT (length intro)) 0.5)
+       :win_opts {:relative :win
+                  :zindex 25
                   :style :minimal
                   :width intro-win-width
-                  :zindex 25}
+                  :height (length intro)
+                  :col (* (- WIDTH intro-win-width) 0.5)
+                  :row (* (- HEIGHT (length intro)) 0.5)
+                  :focusable false}
        :highlights [[:NVIM                     :NvimGreen]
                     ["v[0-9]+[0-9.a-zA-z-+]+"  :NvimGreen]
                     ["https://neovim.io/#chat" :Underlined]
@@ -171,12 +190,13 @@ type  :help register<Enter>   for information")
                     ["to exit"                 :DiagnosticError]]})
     (: :render))
 
-(local sysinfo-fmt "
-SYSTEM INFO
-Hostname  │ %s
-OS        │ %s %s
-Memory    │ %d Gib
-Processor │ %s")
+(local sysinfo-fmt
+       (header
+         "SYSTEM INFO
+         |Hostname  │ %s
+         |OS        │ %s %s
+         |Memory    │ %d Gib
+         |Processor │ %s"))
 
 (local hostname (vim.uv.os_gethostname))
 (local os-uname (vim.uv.os_uname))
@@ -190,27 +210,28 @@ Processor │ %s")
                    os-uname.machine
                    os-uname.sysname
                    mem-gigs
-                   (. (. cpu-info 1) :model))
+                   (?. cpu-info 1 :model))
                  "\n"))
 
 (local sysinfo-win-width
        (-> sysinfo
            vim.iter
            (: :fold 0 widest)))
-(-> (EphemeralWidget.new {:highlights [["^.*$" :LineNr
-                                        ["^SYSTEM INFO$" :NvimGreen]
-                                        ["^.*│" :NvimBlue]]]
-                           :label :sysinfo
-                           :lines sysinfo
-                           :win_opts {:anchor :SW
-                                      :col 1
-                                      :focusable false
-                                      :height (length sysinfo)
-                                      :relative :win
-                                      :row (- HEIGHT 1)
-                                      :style :minimal
-                                      :width sysinfo-win-width
-                                      :zindex 25}})
+(-> (EphemeralWidget.new
+      {:label :sysinfo
+       :lines sysinfo
+       :win_opts {:relative :win
+                  :zindex 25
+                  :focusable false
+                  :style :minimal
+                  :width sysinfo-win-width
+                  :height (length sysinfo)
+                  :anchor :SW
+                  :row (- HEIGHT 1)
+                  :col 1}
+       :highlights [["^.*$"          :LineNr]
+                    ["^SYSTEM INFO$" :NvimGreen]
+                    ["^.*│"          :NvimBlue]]})
     (: :render))
 
 (fn parse-keywords-in-section [lines]
@@ -252,17 +273,18 @@ Processor │ %s")
           (set current-section label))))
     sections))
 
-(local news-fmt "
-WHAT'S NEW IN v%s?
-
-New Features
-%s
-
-Breaking changes
-%s
-
-Deprecations
-%s")
+(local news-fmt
+       (header
+         "WHAT'S NEW IN v%s?
+         |
+         |New Features
+         |%s
+         |
+         |Breaking changes
+         |%s
+         |
+         |Deprecations
+         |%s"))
 
 (local keywords {})
 (each [section lines (pairs (parse-news))]
@@ -293,33 +315,35 @@ Deprecations
            vim.iter
            (: :fold 0 widest)))
 
-(-> (EphemeralWidget.new {:highlights [["^.*$" :LineNr
-                                        ["^WHAT'S NEW IN.*$" :NvimGreen]
-                                        ["^New Features$" :DiagnosticOk]
-                                        ["^Breaking changes$" :DiagnosticWarn]
-                                        [:^Deprecations$ :DiagnosticError]]]
-                           :label :news
-                           :lines news
-                           :win_opts {:anchor :NW
-                                      :col 2
-                                      :focusable false
-                                      :height (- HEIGHT 7)
-                                      :relative :win
-                                      :row 1
-                                      :style :minimal
-                                      :width news-win-width
-                                      :zindex 25}})
+(-> (EphemeralWidget.new
+      {:label :news
+       :lines news
+       :win_opts {:relative :win
+                  :zindex 25
+                  :focusable false
+                  :style :minimal
+                  :width news-win-width
+                  :height (- HEIGHT 7)
+                  :anchor :NW
+                  :row 1
+                  :col 2}
+       :highlights [["^.*$"               :LineNr]
+                    ["^WHAT'S NEW IN.*$"  :NvimGreen]
+                    ["^New Features$"     :DiagnosticOk]
+                    ["^Breaking changes$" :DiagnosticWarn]
+                    [:^Deprecations$      :DiagnosticError]]})
     (: :render))
 
-(local keyboard-fmt "
-                      Keyboard ❤️  Neovim
-╭───┬───┬───┬───┬───┬───┬───┬───┬───┬───╮
-│ Q │ W │ E │ R │ T │ Y │ U │ I │ O │ P │
-╰┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴╮
- │ A │ S │ D │ F │ G │ ← │ ↓ │ ↑ │ → │ ; │
- ╰┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──╯
-  │ Z │ X │ C │  │ B │  │ M │ < │ > │
-  ╰───┴───┴───┴───┴───┴───┴───╯───┴───╯")
+(local keyboard-fmt
+       (header
+         "                      Keyboard ❤️  Neovim
+         |╭───┬───┬───┬───┬───┬───┬───┬───┬───┬───╮
+         |│ Q │ W │ E │ R │ T │ Y │ U │ I │ O │ P │
+         |╰┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴╮
+         | │ A │ S │ D │ F │ G │ ← │ ↓ │ ↑ │ → │ ; │
+         | ╰┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──╯
+         |  │ Z │ X │ C │  │ B │  │ M │ < │ > │
+         |  ╰───┴───┴───┴───┴───┴───┴───┴───┴───╯"))
 
 (local keyboard (vim.split keyboard-fmt "\n"))
 (local keyboard-win-width
@@ -331,54 +355,53 @@ Deprecations
        (EphemeralWidget.new
          {:label :keyboard
           :lines keyboard
-          :win_opts {:anchor :SE
-                     :col (- WIDTH 1)
+          :win_opts {:relative :win
+                     :zindex 25
                      :focusable false
-                     :height (length keyboard)
-                     :relative :win
-                     :row (- HEIGHT 1)
                      :style :minimal
                      :width keyboard-win-width
-                     :zindex 25}
-          :highlights [["^.*$" :LineNr]
+                     :height (length keyboard)
+                     :anchor :SE
+                     :row (- HEIGHT 1)
+                     :col (- WIDTH 1)}
+          :highlights [["^.*$"     :LineNr]
                        ["[A-Z;<>]" :NvimBlue]
-                       ["" :NvimGreen]
-                       ["" :NvimGreen]
-                       ["←" :NvimGreen]
-                       ["↑" :NvimGreen]
-                       ["↓" :NvimGreen]
-                       ["→" :NvimGreen]
-                       [:Neo :NvimGreen]
-                       [:vim :NvimBlue]
-                       [:b :NvimGreen]]}))
+                       [""        :NvimGreen]
+                       [""        :NvimGreen]
+                       ["←"        :NvimGreen]
+                       ["↑"        :NvimGreen]
+                       ["↓"        :NvimGreen]
+                       ["→"        :NvimGreen]
+                       [:Neo       :NvimGreen]
+                       [:vim       :NvimBlue]
+                       [:b         :NvimGreen]]}))
 (keyboard-widget:render)
 (tset (. vim.wo keyboard-widget.win) :winblend 50)
 
-(local tools-fmt "
-CLI & TOOLCHAINS
-
-C compiler │ %s
-       git │ %s
-      node │ %s
-   ripgrep │ %s
-        fd │ %s
-")
+(local tools-fmt
+       (header
+         "CLI & TOOLCHAINS
+         |
+         |C compiler │ %s
+         |       git │ %s
+         |      node │ %s
+         |   ripgrep │ %s
+         |        fd │ %s"))
 
 (local compiler-present
        (-> [:cc :gcc :clang :cl :zig]
            vim.iter
            (: :fold false (fn [acc exe]
                             (or acc
-                                (= (vim.fn.executable exe)
-                                   1))))))
+                                (executable? exe))))))
 (local tools (vim.split
                (string.format
                  tools-fmt
-                 (if compiler-present                "" "󰅙")
-                 (if (= (vim.fn.executable :git)  1) "" "󰅙")
-                 (if (= (vim.fn.executable :node) 1) "" "󰅙")
-                 (if (= (vim.fn.executable :rg)   1) "" "󰅙")
-                 (if (= (vim.fn.executable :fd)   1) "" "󰅙"))
+                 (checkbox compiler-present)
+                 (checkbox (executable? :git))
+                 (checkbox (executable? :node))
+                 (checkbox (executable? :rg))
+                 (checkbox (executable? :fd)))
                "\n"))
 (local tools-win-width
        (-> tools
@@ -387,36 +410,37 @@ C compiler │ %s
 
 (-> (EphemeralWidget.new {:label :tools
                            :lines tools
-                           :win_opts {:anchor :NE
-                                      :col (- WIDTH 1)
+                           :win_opts {:relative :win
+                                      :zindex 25
                                       :focusable false
-                                      :height (length tools)
-                                      :relative :win
-                                      :row 2
                                       :style :minimal
                                       :width tools-win-width
-                                      :zindex 25}
-                           :highlights [["^.*$" :LineNr]
+                                      :height (length tools)
+                                      :anchor :NE
+                                      :row 2
+                                      :col (- WIDTH 1)}
+                           :highlights [["^.*$"             :LineNr]
                                         ["CLI & TOOLCHAINS" :NvimBlue]
-                                        ["│ $" :DiagnosticOk]
-                                        ["│ 󰅙$" :DiagnosticError]]})
+                                        ["│ $"             :DiagnosticOk]
+                                        ["│ 󰅙$"             :DiagnosticError]]})
     (: :render))
 
-(local features-fmt "
- TREESITTER & PLUGINS
-
-  Treesitter ABI │ %d
-  Scripts Loaded │ %d
-
-
-
-
-          VIM OPTIONS
-
-       mapleader │ [%s]
-  vim.opt.backup │  %s
-vim.opt.swapfile │  %s
-vim.opt.autoread │  %s")
+(local features-fmt
+       (header
+         "TREESITTER & PLUGINS
+         |
+         |  Treesitter ABI │ %d
+         |  Scripts Loaded │ %d
+         |
+         |
+         |
+         |
+         |          VIM OPTIONS
+         |
+         |       mapleader │ [%s]
+         |  vim.opt.backup │  %s
+         |vim.opt.swapfile │  %s
+         |vim.opt.autoread │  %s"))
 
 (local features (vim.split
                   (string.format
@@ -424,35 +448,36 @@ vim.opt.autoread │  %s")
                     vim.treesitter.language_version
                     (length (vim.fn.getscriptinfo))
                     vim.g.mapleader
-                    (if vim.o.backup   "" "󰅙")
-                    (if vim.o.swapfile "" "󰅙")
-                    (if vim.o.autoread "" "󰅙"))
+                    (checkbox vim.o.backup)
+                    (checkbox vim.o.swapfile)
+                    (checkbox vim.o.autoread))
                   "\n"))
 (local features-win-width
        (-> features
            vim.iter
            (: :fold 0 widest)))
 
-(-> (EphemeralWidget.new {:label :features
-                           :lines features
-                           :win_opts {:anchor :NE
-                                      :col (- WIDTH 1)
-                                      :focusable false
-                                      :height (length features)
-                                      :relative :win
-                                      :row (math.floor (/ (- HEIGHT
-                                                             (length features))
-                                                          2))
-                                      :style :minimal
-                                      :width features-win-width
-                                      :zindex 25}
-                           :highlights [["^.*$" :LineNr]
-                                        ["│ %d+" :DiagnosticWarn]
-                                        ["│ %[.*$" :DiagnosticWarn]
-                                        ["│%s+$" :DiagnosticOk]
-                                        ["│%s+󰅙$" :DiagnosticError]
-                                        ["TREESITTER & PLUGINS" :NvimBlue]
-                                        ["VIM OPTIONS" :NvimBlue]]})
+(-> (EphemeralWidget.new
+      {:label :features
+       :lines features
+       :win_opts {:relative :win
+                  :zindex 25
+                  :focusable false
+                  :style :minimal
+                  :width features-win-width
+                  :height (length features)
+                  :anchor :NE
+                  :row (math.floor (/ (- HEIGHT
+                                         (length features))
+                                      2))
+                  :col (- WIDTH 1)}
+       :highlights [["^.*$"                 :LineNr]
+                    ["│ %d+"                :DiagnosticWarn]
+                    ["│ %[.*$"              :DiagnosticWarn]
+                    ["│%s+$"               :DiagnosticOk]
+                    ["│%s+󰅙$"               :DiagnosticError]
+                    ["TREESITTER & PLUGINS" :NvimBlue]
+                    ["VIM OPTIONS"          :NvimBlue]]})
     (: :render))
 
 (local header-fmt "Type :Tutor and <Enter> for an interactive lesson\n")
@@ -462,20 +487,23 @@ vim.opt.autoread │  %s")
            vim.iter
            (: :fold 0 widest)))
 
-(-> (EphemeralWidget.new {:label :header
-                          :lines header
-                          :win_opts {:anchor :NW
-                                     :col (math.floor (/ (- WIDTH
-                                                            header-win-width)
-                                                         2))
-                                     :focusable false
-                                     :height (length header)
-                                     :relative :win
-                                     :row 2
-                                     :style :minimal
-                                     :width header-win-width
-                                     :zindex 25}
-                          :highlights [["^.*$" :LineNr]
-                                       [":Tutor" :NvimBlue]
-                                       ["<.*>" :NvimGreen]]})
+(-> (EphemeralWidget.new
+      {:label :header
+       :lines header
+       :win_opts {:relative :win
+                  :zindex 25
+                  :focusable false
+                  :style :minimal
+                  :width header-win-width
+                  :height (length header)
+                  :anchor :NW
+                  :row 2
+                  :col (math.floor (/ (- WIDTH
+                                         header-win-width)
+                                      2))}
+       :highlights [["^.*$"   :LineNr]
+                    [":Tutor" :NvimBlue]
+                    ["<.*>"   :NvimGreen]]})
     (: :render))
+
+nil
