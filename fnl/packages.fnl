@@ -15,6 +15,11 @@
       :priority 1000
       :lazy false}
 
+     ;; Luarocks
+     {1 :vhyrro/luarocks.nvim
+      :priority 1000
+      :opts {:rocks [:luautf8]}}
+
      ;; Typed fennel
      {1 :dokutan/typed-fennel
       :lazy true}
