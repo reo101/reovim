@@ -53,10 +53,7 @@
           {:gd  [#(vim.cmd.CornelisGoToDefinition) :Definition]
            :K   [#(vim.cmd.CornelisTypeInfer) "Type Infer"]
            "[/" [#(vim.cmd.CornelisPrevGoal) "Previous goal"]
-           "]/" [#(vim.cmd.CornelisNextGoal) "Next goal"]
-           ;; TODO: Re-do in `dial` (also make work for bbN)
-           "<C-A>" [#(vim.cmd.CornelisInc) :Increment]
-           "<C-X>" [#(vim.cmd.CornelisDec) :Decrement]}
+           "]/" [#(vim.cmd.CornelisNextGoal) "Next goal"]}
           {:buffer true})
       (vim.cmd "TSBufDisable highlight"))
 
