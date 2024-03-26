@@ -1,5 +1,5 @@
 (fn config []
-  (let [wk                  (require :def-keymaps)
+  (let [dk                  (require :def-keymaps)
         luasnip             (require :luasnip)
         luasnip-types       (require :luasnip.util.types)
         luasnip-from-vscode (require :luasnip.loaders.from_vscode)
@@ -10,6 +10,8 @@
                "InsertLeave,TextChanged,TextChangedI"
              :region_check_events
                "CursorMoved,CursorHold,InsertEnter"
+             :snip_env
+               {}
              :ext_opts
                {luasnip-types.choiceNode
                   {:active
@@ -21,16 +23,17 @@
                         [["●" "DiagnosticInfo"]]}}}}]
     (luasnip.config.setup opt)
     (luasnip-from-vscode.lazy_load)
-    (luasnip-from-lua.lazy_load)
+    (luasnip-from-lua.lazy_load
+      {:paths (.. (vim.fn.stdpath "config")
+                  :/snippets)})
 
-    (wk :n
+    (dk :n
         {:t {:name "Toggle"
-             :l    [luasnip-from-lua.edit_snippet_files
-                    "LuaSnip snippets"]}}
+             :l [luasnip-from-lua.edit_snippet_files "LuaSnip snippets"]}}
         {:prefix :<leader>})))
 
 [{1 :L3MON4D3/LuaSnip
-  :tag :v2.0.0
+  :tag :v2.2.0
   :event :InsertEnter
   : config}
  {1 :rafamadriz/friendly-snippets}]

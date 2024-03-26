@@ -1,7 +1,7 @@
 {
   "BQN": { "branch": "master", "commit": "fe7e679995df82e8aa3401c49ef81dd2b76a854c" },
   "Comment.nvim": { "branch": "master", "commit": "0236521ea582747b58869cb72f70ccfa967d2e89" },
-  "LuaSnip": { "branch": "master", "commit": "0b4950a237ce441a6a3a947d501622453f6860ea" },
+  "LuaSnip": { "branch": "master", "commit": "8ae1dedd988eb56441b7858bd1e8554dfadaa46d" },
   "applescript.vim": { "branch": "master", "commit": "00840b4059c7884120913907f4778092edb006f7" },
   "bnf.vim": { "branch": "master", "commit": "1c79e9323d8fce3daaaf24029fbe6309a592b326" },
   "bufdelete.nvim": { "branch": "master", "commit": "f6bcea78afb3060b198125256f897040538bcb81" },
