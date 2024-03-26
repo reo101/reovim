@@ -30,8 +30,8 @@
         (table.insert nodes (t ""))
         (do
           (var index 1)
-          (each [node-type (: (.. (. (. args 1) 1) ",") :gmatch "(.-)%s*,%s*")]
-            (_G.P node-type)
+          (each [node-type (-> (.. (. args 1 1) ",")
+                               (: :gmatch "(.-)%s*,%s*"))]
             (table.insert nodes (t (.. node-type " ")))
             (table.insert nodes (i index (.. :param index)))
             (table.insert nodes (t ", "))
@@ -40,9 +40,11 @@
     (sn nil nodes)))
 
 [(s :func
-    (fmt "std::function<{}({})> {} = [{}]({}){}{{
-            {}
-          }};"
+    (fmt "
+         std::function<{}({})> {} = [{}]({}){}{{
+             {}
+         }};
+         "
          [;; return type
           (i 1 :void)
           ;; param types
@@ -57,13 +59,17 @@
           (f return-type [1])
           (i 0)]))
  (s :magic
-    (fmt "std::ios::sync_with_stdio(false);
-          std::cin.tie(nullptr);"
+    (fmt "
+         std::ios::sync_with_stdio(false);
+         std::cin.tie(nullptr);
+         "
          {}))
  (s :main
-    (fmt "int main() {{
-              {}
+    (fmt "
+         int main() {{
+             {}
 
-              return 0;
-          }}"
+             return 0;
+         }}
+         "
          [(i 0)]))]
