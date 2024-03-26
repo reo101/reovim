@@ -46,8 +46,6 @@
                                                :node_incremental  :<leader>sii
                                                :scope_incremental :<leader>sis}
                                      :enable true}
-             ;; :context_commentstring {:enable true
-             ;;                         :enable_autocmd false}
              :refactor {:navigation {:enable true
                                      :keymaps {:list_definitions :<leader>sdl
                                                :goto_definition  :<leader>sdg}}
@@ -229,9 +227,9 @@
     (local mappings
            {:t {:s {:h ["<Cmd>TSBufToggle highlight<CR>"
                         :Highlighting]
-                    ;; :c [(. (require :treesitter-context)
-                    ;;        :toggleEnabled)
-                    ;;     :Context]
+                    :c [(. (require :treesitter-context)
+                           :toggleEnabled)
+                        :Context]
                     :g [:<Cmd>TSPlaygroundToggle<CR>
                         :PlayGround]
                     ;; :t ["<Cmd>TSBufToggle autotag<CR>"
@@ -301,13 +299,13 @@
   : config}
  (require (.. ... :.rainbow))
  (let [treesitter-plugins
-        [;; :nvim-treesitter/nvim-treesitter-textobjects
+        [:nvim-treesitter/nvim-treesitter-textobjects
          :mfussenegger/nvim-ts-hint-textobject
          ;; :nvim-treesitter/playground
-         ;; :romgrk/nvim-treesitter-context
-         :JoosepAlviste/nvim-ts-context-commentstring]
+         :romgrk/nvim-treesitter-context
+         :JoosepAlviste/nvim-ts-context-commentstring
          ;; :windwp/nvim-ts-autotag]
-         ;; :RRethy/nvim-treesitter-textsubjects]
+         :RRethy/nvim-treesitter-textsubjects]
        convert-to-treesitter-opt
         (fn [treesitter-plugin]
           {1             treesitter-plugin
