@@ -31,6 +31,6 @@
     ((. (require :leap) :setup) opt)))
 
 [{1 :ggandor/leap.nvim
-  :enabled false
-  : config}
+  : config
+  :enabled false}
  (require (.. ... :.ast))]
