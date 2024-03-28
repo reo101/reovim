@@ -4,12 +4,21 @@
         luasnip-types       (require :luasnip.util.types)
         luasnip-from-vscode (require :luasnip.loaders.from_vscode)
         luasnip-from-lua    (require :luasnip.loaders.from_lua)
-        opt {:history
+        luasnip-filetype    (require "luasnip.extras.filetype_functions")
+        opt {:keep_roots
+               true
+             :link_roots
+               true
+             :link_children
+               true
+             :history
                false
              :updateevents
                "InsertLeave,TextChanged,TextChangedI"
              :region_check_events
                "CursorMoved,CursorHold,InsertEnter"
+             :delete_check_events
+               "TextChanged"
              :snip_env
                {}
              :ext_opts
@@ -20,7 +29,9 @@
                 luasnip-types.insertNode
                   {:active
                      {:virt_text
-                        [["●" "DiagnosticInfo"]]}}}}]
+                        [["●" "DiagnosticInfo"]]}}}
+             ;; :ft_func #(vim.split vim.bo.filetype "." true)
+             :ft_func luasnip-filetype.from_cursor}]
     (luasnip.config.setup opt)
     (luasnip-from-vscode.lazy_load)
     (luasnip-from-lua.lazy_load
@@ -33,6 +44,7 @@
         {:prefix :<leader>})))
 
 [{1 :L3MON4D3/LuaSnip
+  :dependencies [:nvim-treesitter/nvim-treesitter]
   :tag :v2.2.0
   :event :InsertEnter
   : config}
