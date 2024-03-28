@@ -84,8 +84,7 @@
 
 (local lsp-capabilities
   (do
-    (var capabilities
-         (vim.lsp.protocol.make_client_capabilities))
+    (local capabilities (vim.lsp.protocol.make_client_capabilities))
     (set capabilities.textDocument.completion.completionItem
          {:resolveSupport {:properties [:documentation
                                         :detail
@@ -98,6 +97,9 @@
           :insertReplaceSupport    true
           :preselectSupport        true
           :tagSupport              {:valueSet [1]}})
+    (set capabilities.textDocument.foldingRange
+         {:dynamicRegistration false
+          :lineFoldingOnly true})
     capabilities))
 
 (fn lsp-override-handlers []
