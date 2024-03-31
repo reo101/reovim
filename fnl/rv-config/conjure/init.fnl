@@ -66,11 +66,13 @@
        :log
         {:hud
           {:enabled false}
-         :wrap true}
+         :wrap true
+         :strip-ansi-escape-sequences-line-limit 0}
        :highlight
         {:enabled true
          :group :IncSearch
          :timeout 200}}})
+
   (local dk (require :def-keymaps))
   (let [mappings
           {:u {:name "Conjure"
@@ -127,6 +129,14 @@
        :callback (fn [{:buf bufnr :data {:client_id client-id}}]
                    (vim.lsp.buf_detach_client bufnr client-id))})
 
+    ;; Enable Baleia colourization
+    (vim.api.nvim_create_autocmd
+      :BufReadPost
+      {:pattern :conjure-log-*
+       : group
+       :callback (fn [{:buf bufnr}]
+                   (let [baleia (require :baleia)]
+                     (baleia.automatically bufnr)))})
     ;; Remove `Sponsored by` message
     (vim.api.nvim_create_autocmd
       :BufWinEnter
@@ -161,7 +171,10 @@
                              {:name :buffer
                               :option {:sources
                                         [{:name :conjure}]}})
-                           (cmp.setup config))}]
+                           (cmp.setup config))}
+                {1 :m00qek/baleia.nvim
+                 :tag :1.4.0
+                 :config true}]
  :ft [:clojure
       :fennel
       :racket
