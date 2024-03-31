@@ -158,74 +158,84 @@
            "zig cc"
            :gcc])
 
-    (vim.tbl_extend :force
-      ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-      {:typst
-        {:install_info {:url    "https://github.com/frozolotl/tree-sitter-typst"
-                        :files  [:src/parser.c
-                                 :src/scanner.cc]
-                        :branch :master}
-         :filetype :typst}
-       ;; :typescript
-       ;;  {:install_info {:url    "https://github.com/tree-sitter/tree-sitter-typescript"
-       ;;                  :files  [:tsx/src/parser.c
-       ;;                           :tsx/src/scanner.c]
-       ;;                  :branch :master}}
-       :noir
-        {:install_info {:url    "https://github.com/hhamud/tree-sitter-noir"
-                        :files  [:src/parser.c
-                                 :src/scanner.c]
-                        :branch :main}
-         :filetype :noir}
-       ;; NOTE: was using a PR
-       ;; :scala
-       ;;  {:install_info {:url    "https://github.com/eed3si9n/tree-sitter-scala"
-       ;;                  :files  [:src/parser.c
-       ;;                           :src/scanner.c]
-       ;;                  :branch :fork-integration
-       ;;                  :requires_generate_from_grammar false}}
-       :crisp
-        {:install_info {:url    "https://github.com/reo101/tree-sitter-crisp"
-                        :files  [:src/parser.c]
-                        :branch :master}}
-       :xml
-        {:install_info {:url    "https://github.com/dorgnarg/tree-sitter-xml"
-                        :files  [:src/parser.c]
-                        :branch :main
-                        :requires_generate_from_grammar true}}
-       :http
-        {:install_info {:url    "https://github.com/NTBBloodbath/tree-sitter-http"
-                        :files  [:src/parser.c]
-                        :branch :main}}
-       :norg_meta
-        {:install_info {:url    "https://github.com/nvim-neorg/tree-sitter-norg-meta"
-                        :files  [:src/parser.c]
-                        :branch :main}}
-       :norg_table
-        {:install_info {:url    "https://github.com/nvim-neorg/tree-sitter-norg-table"
-                        :files  [:src/parser.c]
-                        :branch :main}}
-       :brainfuck
-        {:install_info {:url    "https://github.com/reo101/tree-sitter-brainfuck"
-                        :files  [:src/parser.c]
-                        :branch :master}}
-       :awk
-        {:install_info {:url    "https://github.com/Beaglefoot/tree-sitter-awk"
-                        :files  [:src/parser.c
-                                 :src/scanner.c]
-                        :branch :master}}
-       :odin
-        {:install_info {:url "https://github.com/MineBill/tree-sitter-odin"
-                        :files [:src/parser.c]
-                        :branch :master}}
-       :nu
-        {:install_info {:url    "https://github.com/nushell/tree-sitter-nu"
-                        :files  [:src/parser.c]
-                        :branch :main}}})
+    (local confs
+           {:move
+            {:install_info {:url    "https://github.com/move-hub/tree-sitter-move"
+                            :files  [:src/parser.c]
+                            :branch :master}
+             :filetype :move}
+            :typst
+            {:install_info {:url    "https://github.com/frozolotl/tree-sitter-typst"
+                            :files  [:src/parser.c
+                                     :src/scanner.cc]
+                            :branch :master}
+             :filetype :typst}
+              ;; :typescript
+              ;;  {:install_info {:url    "https://github.com/tree-sitter/tree-sitter-typescript"
+              ;;                  :files  [:tsx/src/parser.c
+              ;;                           :tsx/src/scanner.c]
+              ;;                  :branch :master}}
+            :noir
+            {:install_info {:url    "https://github.com/hhamud/tree-sitter-noir"
+                            :files  [:src/parser.c
+                                     :src/scanner.c]
+                            :branch :main}
+             :filetype :noir}
+              ;; NOTE: was using a PR
+              ;; :scala
+              ;;  {:install_info {:url    "https://github.com/eed3si9n/tree-sitter-scala"
+              ;;                  :files  [:src/parser.c
+              ;;                           :src/scanner.c]
+              ;;                  :branch :fork-integration
+              ;;                  :requires_generate_from_grammar false}}
+            :crisp
+            {:install_info {:url    "https://github.com/reo101/tree-sitter-crisp"
+                            :files  [:src/parser.c]
+                            :branch :master}}
+            :xml
+            {:install_info {:url    "https://github.com/dorgnarg/tree-sitter-xml"
+                            :files  [:src/parser.c]
+                            :branch :main
+                            :requires_generate_from_grammar true}}
+            :http
+            {:install_info {:url    "https://github.com/NTBBloodbath/tree-sitter-http"
+                            :files  [:src/parser.c]
+                            :branch :main}}
+            :norg_meta
+            {:install_info {:url    "https://github.com/nvim-neorg/tree-sitter-norg-meta"
+                            :files  [:src/parser.c]
+                            :branch :main}}
+            :norg_table
+            {:install_info {:url    "https://github.com/nvim-neorg/tree-sitter-norg-table"
+                            :files  [:src/parser.c]
+                            :branch :main}}
+            :brainfuck
+            {:install_info {:url    "https://github.com/reo101/tree-sitter-brainfuck"
+                            :files  [:src/parser.c]
+                            :branch :master}}
+            :awk
+            {:install_info {:url    "https://github.com/Beaglefoot/tree-sitter-awk"
+                            :files  [:src/parser.c
+                                     :src/scanner.c]
+                            :branch :master}}
+            :odin
+            {:install_info {:url "https://github.com/MineBill/tree-sitter-odin"
+                            :files [:src/parser.c]
+                            :branch :master}}
+            :nu
+            {:install_info {:url    "https://github.com/nushell/tree-sitter-nu"
+                            :files  [:src/parser.c]
+                            :branch :main}}})
+    (each [lang conf (pairs confs)]
+      (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
+            lang
+            conf))
     ((. (require :nvim-treesitter.configs) :setup) opt)
 
     (local mappings
-           {:t {:s {:h ["<Cmd>TSBufToggle highlight<CR>"
+           {:t {:name :Toggle
+                :s {:name :TreeSitter
+                    :h ["<Cmd>TSBufToggle highlight<CR>"
                         :Highlighting]
                     :c [(. (require :treesitter-context)
                            :toggleEnabled)
@@ -235,27 +245,25 @@
                     ;; :t ["<Cmd>TSBufToggle autotag<CR>"
                     ;;     :Autotags]
                     :p ["<Cmd>TSBufToggle autopairs<CR>"
-                        :Autopairs]
-                    :name :TreeSitter}
-                :name :Toggle}
-            :s {:d {:g ["Goto definition"]
-                    :l ["List definitions"]
-                    :name :Definitions}
+                        :Autopairs]}}
+            :s {:d {:name :Definitions
+                    :g ["Goto definition"]
+                    :l ["List definitions"]}
                 :r ["Smart rename"]
-                :i {:d ["Node Decremental"]
+                :i {:name "Incremental Selection"
+                    :d ["Node Decremental"]
                     :s ["Scope Incremental"]
                     :i ["Node Incremental"]
-                    :v ["Init selection"]
-                    :name "Incremental Selection"}
-                :s {:p {:p [:Parameter]
+                    :v ["Init selection"]}
+                :s {:name :Swap
+                    :p {:name "Swap previous"
+                        :p [:Parameter]
                         :c [:Class]
-                        :f [:Function]
-                        :name "Swap previous"}
-                    :name :Swap
-                    :n {:p [:Parameter]
+                        :f [:Function]}
+                    :n {:name "Swap next"
+                        :p [:Parameter]
                         :c [:Class]
-                        :f [:Function]
-                        :name "Swap next"}}
+                        :f [:Function]}}
                 :name :TreeSitter}})
     (dk :n mappings {:prefix :<leader>})
     (local operator-mappings
@@ -295,21 +303,13 @@
     (dk [:n :o] motion-mappings {:noremap false})))
 
 [{1 :nvim-treesitter/nvim-treesitter
+  :dependencies [:nvim-treesitter/nvim-treesitter-textobjects
+                 :mfussenegger/nvim-ts-hint-textobject
+                 ;; :nvim-treesitter/playground
+                 :romgrk/nvim-treesitter-context
+                 :JoosepAlviste/nvim-ts-context-commentstring
+                 ;; :windwp/nvim-ts-autotag]
+                 :RRethy/nvim-treesitter-textsubjects]
   :event :BufRead
   : config}
- (require (.. ... :.rainbow))
- (let [treesitter-plugins
-        [:nvim-treesitter/nvim-treesitter-textobjects
-         :mfussenegger/nvim-ts-hint-textobject
-         ;; :nvim-treesitter/playground
-         :romgrk/nvim-treesitter-context
-         :JoosepAlviste/nvim-ts-context-commentstring
-         ;; :windwp/nvim-ts-autotag]
-         :RRethy/nvim-treesitter-textsubjects]
-       convert-to-treesitter-opt
-        (fn [treesitter-plugin]
-          {1             treesitter-plugin
-           :dependencies [:nvim-treesitter/nvim-treesitter]})]
-   (vim.tbl_map
-     convert-to-treesitter-opt
-     treesitter-plugins))]
+ (require (.. ... :.rainbow))]

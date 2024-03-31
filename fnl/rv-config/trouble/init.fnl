@@ -1,5 +1,7 @@
 (fn config []
-   (let [opt {:action_keys {:close_folds [:zM :zm]
+   (let [trouble (require :trouble)
+         dk (require :def-keymaps)
+         opt {:action_keys {:close_folds [:zM :zm]
                             :open_folds [:zR :zr]
                             :toggle_fold [:zA :za]
                             :jump_close [:o]
@@ -37,14 +39,16 @@
               :width 50
               :group true
               :auto_fold false}]
-     ((. (require :trouble) :setup) opt)
-     (local wk (require :which-key))
-     (local mappings
-            {:t {:name :Toggle
-                 :r [(. (require :trouble) :toggle) :Trouble]}})
-     (wk.register mappings {:prefix :<leader>})))
+     (trouble.setup opt)
 
+     (dk :n
+         {:t {:name :Toggle
+              :r [trouble.toggle :Trouble]}}
+         {:prefix :<leader>})))
+
+;; TODO: upgrade to v3
 {1 :folke/trouble.nvim
  :dependencies [:nvim-tree/nvim-web-devicons]
+ ; :branch :dev
  :keys [:<leader>tr]
  : config}

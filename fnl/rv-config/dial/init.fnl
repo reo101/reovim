@@ -29,7 +29,7 @@
         dial-config (require :dial.config)
         dial-augend (require :dial.augend)
         dial-augend-common (require :dial.augend.common)
-        utf8 (require :lua-utf8)
+        (has-utf8? utf8) (pcall require :lua-utf8)
         dk (require :def-keymaps)
         default [dial-augend.integer.alias.decimal
                  dial-augend.integer.alias.hex
@@ -74,6 +74,8 @@
         haskell-octal octal
         agda-script
           (fn [script]
+            (when (not has-utf8?)
+              (lua "return nil"))
             (let [scripts {:_ ["₀"  "₁"  "₂"  "₃"  "₄"  "₅"  "₆"  "₇"  "₈"  "₉"]
                            :^ ["⁰"  "¹"  "²"  "³"  "⁴"  "⁵"  "⁶"  "⁷"  "⁸"  "⁹"]
                            :b ["𝟘"  "𝟙"  "𝟚"  "𝟛"  "𝟜"  "𝟝"  "𝟞"  "𝟟"  "𝟠"  "𝟡"]

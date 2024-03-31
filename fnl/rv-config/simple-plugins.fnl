@@ -24,7 +24,8 @@
  {1 :nushell/tree-sitter-nu
   :ft [:nu]}
  ;; Keymaps
- {1 :nvimtools/hydra.nvim}
+ {1 :nvimtools/hydra.nvim
+  :tag :v1.0.2}
  ;; Lua docs
  {1 :nanotee/luv-vimdocs}
  {1 :milisims/nvim-luaref}

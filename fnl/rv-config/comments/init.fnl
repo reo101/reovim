@@ -18,22 +18,23 @@
     (local comment-api (require :Comment.api))
     (local dk (require :def-keymaps))
     (local mappings
-           {:C {:c [comment-api.toggle.blockwise.current
-                    "Toggle line"]
-                :name "Block Comment"}
-            :c {:A [comment-api.insert.linewise.eol :A]
-                :O [comment-api.insert.linewise.above :O]
+           {:c {:name "Line Comment"
                 :c [comment-api.toggle.linewise.current
                     "Toggle Line"]
-                :name "Line Comment"
-                :o [comment-api.insert.linewise.below :o]}})
+                :o [comment-api.insert.linewise.below :o]
+                :O [comment-api.insert.linewise.above :O]
+                :A [comment-api.insert.linewise.eol :A]}
+            :C {:name "Block Comment"
+                :c [comment-api.toggle.blockwise.current
+                    "Toggle line"]}})
     (local operator-mappings
-           {:C [comment-api.toggle.blockwise.current]
-            :c [comment-api.toggle.linewise.current]})
+           {:c [comment-api.toggle.linewise.current]
+            :C [comment-api.toggle.blockwise.current]})
     (dk :n mappings {:prefix :<leader>})
     (dk :o operator-mappings {:prefix :<leader>})))
 
 [{1 :numToStr/Comment.nvim
-  :keys [:<leader>c :<leader>C]
-  : config}
- {1 :JoosepAlviste/nvim-ts-context-commentstring}]
+  :dependencies [:JoosepAlviste/nvim-ts-context-commentstring]
+  :keys [{1 :<leader>c :desc "Line Comment"}
+         {1 :<leader>C :desc "Block Comment"}]
+  : config}]

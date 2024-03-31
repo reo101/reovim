@@ -2,4 +2,5 @@
   (require :which-key))
 
 {1 :folke/which-key.nvim
- : config}
+ : config
+ :enabled false}

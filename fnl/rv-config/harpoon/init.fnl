@@ -22,4 +22,5 @@
 
 {1 :ThePrimeagen/harpoon
  :branch :harpoon2
+ :keys [:<leader>h]
  : config}

@@ -15,5 +15,5 @@
  :dependencies [:nvim-lua/plenary.nvim
                 :nvim-tree/nvim-web-devicons]
  :branch       :v2.2
- :keys [:<leader>m]
+ :keys [{1 :<leader>m :desc :Mind}]
  : config}

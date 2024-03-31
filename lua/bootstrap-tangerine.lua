@@ -35,7 +35,7 @@ end
 
 --- BOOTSTRAP TANGERINE ---
 
-bootstrap("https://github.com/udayvir-singh/tangerine.nvim", "v2.7")
+bootstrap("https://github.com/udayvir-singh/tangerine.nvim", "v2.8")
 
 --- CONFIGURE TANGERINE ---
 
@@ -50,6 +50,7 @@ local opt = {
         "plugin",
         "ftplugin",
         "ftdetect",
+        "snippets",
         "after/plugin",
         "after/ftplugin",
         "after/ftdetect",
@@ -67,7 +68,17 @@ local opt = {
         verbose = true,     -- enable messages showing compiled files
 
         globals = vim.tbl_keys(_G), -- list of alowedGlobals
-        version = "latest",         -- version of fennel to use, [ latest, 1-3-0, 1-2-1, 1-2-0, 1-1-0, 1-0-0, 0-10-0, 0-9-2 ]
+
+        -- wrapper function that provides access to underlying fennel compiler
+        -- useful if you want to modify fennel API or want to provide your own fennel compiler
+        adviser = function (fennel)
+            -- for example, adding a custom macro path:
+            -- fennel["macro-path"] = fennel["macro-path"] .. ";/custom/path/?.fnl"
+            return fennel
+        end,
+
+        -- version of fennel to use, [ latest, 1-4-0, 1-3-1, 1-3-0, 1-2-1, 1-2-0, 1-1-0, 1-0-0, 0-10-0, 0-9-2 ]
+        version = "latest",
 
         -- hooks for tangerine to compile on:
         -- "onsave" run every time you save fennel file in {source} dir
