@@ -35,6 +35,6 @@
 
 [{1 :numToStr/Comment.nvim
   :dependencies [:JoosepAlviste/nvim-ts-context-commentstring]
-  :keys [{1 :<leader>c :desc "Line Comment"}
-         {1 :<leader>C :desc "Block Comment"}]
+  :keys [{1 :<leader>c :desc "Line Comment"  :mode [:n :o]}
+         {1 :<leader>C :desc "Block Comment" :mode [:n :o]}]
   : config}]
