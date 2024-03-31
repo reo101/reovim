@@ -32,7 +32,7 @@
         (: :each
            #(tset vim.g $1 $2))))
 
-  ;; Keybinds
+  ;; Settings
   (set-conjure-settings
     {:conjure
       {:mapping
@@ -59,9 +59,18 @@
          :log_jump_to_latest        :ll
          :log_close_visible         :lq
          :def_word                  :gd
-         :doc_word                  :K}}})
-
-  ;; Which-key Keybinds
+         :doc_word                  :K}
+       :extract
+        {:tree_sitter
+          {:enabled true}}
+       :log
+        {:hud
+          {:enabled false}
+         :wrap true}
+       :highlight
+        {:enabled true
+         :group :IncSearch
+         :timeout 200}}})
   (local dk (require :def-keymaps))
   (let [mappings
           {:u {:name "Conjure"
@@ -105,10 +114,20 @@
     ;     motion-mappings
     ;     {:prefix :<leader>}))
 
-  ;; Remove `Sponsored by` message
+
+  ;; Log buffer autocommands
   (let [group (vim.api.nvim_create_augroup
-                :ConjureRemoveSponsor
+                :ConjureLogBuffer
                 {:clear true})]
+    ;; Detach LSPs
+    (vim.api.nvim_create_autocmd
+      :LspAttach
+      {:pattern :conjure-log-*
+       : group
+       :callback (fn [{:buf bufnr :data {:client_id client-id}}]
+                   (vim.lsp.buf_detach_client bufnr client-id))})
+
+    ;; Remove `Sponsored by` message
     (vim.api.nvim_create_autocmd
       :BufWinEnter
       {:pattern :conjure-log-*
@@ -144,5 +163,7 @@
                                         [{:name :conjure}]}})
                            (cmp.setup config))}]
  :ft [:clojure
-      :fennel]
+      :fennel
+      :racket
+      :rust]
  : config}
