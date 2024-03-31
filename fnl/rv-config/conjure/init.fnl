@@ -35,76 +35,75 @@
   ;; Keybinds
   (set-conjure-settings
     {:conjure
-      {:mappings
-        {:prefix :<leader>u}
-       :mapping
-        {:log_split                 :ul
-         :log_vsplit                :ulv
-         :log_tab                   :ul
-         :log_buf                   :ulb
-         :log_toggle                :ul
-         :log_reset_soft            :ulr
-         :log_reset_hard            :ul
-         :log_jump_to_latest        :ull
-         :log_close_visible         :ul
-         :eval_current_form         :uee
-         :eval_comment_current_form :uec
-         :eval_root_form            :uer
-         :eval_comment_root_form    :uec
-         :eval_word                 :uew
-         :eval_comment_word         :uec
-         :eval_replace_form         :ue!
-         :eval_marked_form          :ue
-         :eval_file                 :uef
-         :eval_buf                  :ue
-         :eval_visual               :uE
-         :eval_motion               :u
-         :def_word                  :ugd
-         :doc_word                  :uK}}})
+      {:mapping
+        {:prefix                    :<leader>u
+         :eval_current_form         :ee
+         :eval_root_form            :er
+         :eval_word                 :ew
+         :eval_comment_current_form :ece
+         :eval_comment_root_form    :ecr
+         :eval_comment_word         :ecw
+         :eval_replace_form         :e!
+         :eval_marked_form          :em
+         :eval_file                 :ef
+         :eval_buf                  :eb
+         :eval_visual               :E
+         :eval_motion               :E
+         :log_split                 :ls
+         :log_vsplit                :lv
+         :log_tab                   :lt
+         :log_buf                   :lb
+         :log_toggle                :lg
+         :log_reset_soft            :lr
+         :log_reset_hard            :lR
+         :log_jump_to_latest        :ll
+         :log_close_visible         :lq
+         :def_word                  :gd
+         :doc_word                  :K}}})
 
   ;; Which-key Keybinds
   (local dk (require :def-keymaps))
   (let [mappings
           {:u {:name "Conjure"
-               :gd ["Def Word"]
-               :K ["Doc Word"]
+               :e {:name "Eval"
+                   :e ["Current Form"]
+                   :r ["Root Form"]
+                   :w ["Word"]
+                   :c {:name "Comment"
+                       :e ["Current Form"]
+                       :r ["Root Form"]
+                       :w ["Word"]}
+                   :! ["Replace Form"]
+                   :m ["Marked Form"]
+                   :f ["File"]
+                   :b ["Buffer"]}
                :l {:name "Log"
-                   :q ["Close Visible"]
-                   :t ["Tab"]
-                   :v ["VSplit"]
                    :s ["Split"]
-                   :l ["Jump To Latest"]
+                   :v ["VSplit"]
+                   :t ["Tab"]
+                   :b ["Buffer"]
+                   :g ["Toggle"]
                    :r ["Reset Soft"]
                    :R ["Reset Hard"]
-                   :g ["Toggle"]
-                   :b ["Buffer"]}
-               :e {:name "Eval"
-                   :c {:name "Comment"
-                       :w ["Word"]
-                       :r ["Root Form"]
-                       :e ["Current Form"]}
-                   :f ["File"]
-                   :m ["Marked Form"]
-                   :! ["Replace Form"]
-                   :w ["Word"]
-                   :r ["Root Form"]
-                   :e ["Current Form"]
-                   :b ["Buffer"]}}}
+                   :l ["Jump To Latest"]
+                   :q ["Close Visible"]}
+               :gd ["Def Word"]
+               :K ["Doc Word"]}}
         visual-mappings
           {:u {:name :Conjure
-               :E ["Eval Visual"]}}
-        motion-mappings
-          {:u {:name :Conjure
-               :E ["Eval Motion"]}}]
+               :E ["Eval Visual"]}}]
+        ; motion-mappings
+        ;   {:u {:name :Conjure
+        ;        :E ["Eval Motion"]}}]
     (dk [:n]
         mappings
         {:prefix :<leader>})
     (dk [:v]
         visual-mappings
-        {:prefix :<leader>})
-    (dk [:x :o]
-        motion-mappings
         {:prefix :<leader>}))
+    ; (dk [:x :o]
+    ;     motion-mappings
+    ;     {:prefix :<leader>}))
 
   ;; Remove `Sponsored by` message
   (let [group (vim.api.nvim_create_augroup
@@ -134,6 +133,16 @@
     (conjure-mapping.on-filetype)))
 
 {1 :Olical/conjure
+ :dependencies [{1 :PaterJason/cmp-conjure
+                 :config (fn []
+                           (local cmp (require :cmp))
+                           (local config (cmp.get_config))
+                           (table.insert
+                             config.sources
+                             {:name :buffer
+                              :option {:sources
+                                        [{:name :conjure}]}})
+                           (cmp.setup config))}]
  :ft [:clojure
       :fennel]
  : config}
