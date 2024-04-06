@@ -10,7 +10,7 @@
                          :RainbowDelimiterYellow
                          :RainbowDelimiterBlue
                          :RainbowDelimiterOrange
-                         :RainbowDelimiterGreen
+                         ;; :RainbowDelimiterGreen
                          :RainbowDelimiterViolet
                          :RainbowDelimiterCyan]}]
     (tset vim.g :rainbow_delimiters opt)
