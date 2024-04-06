@@ -15,6 +15,19 @@
   "lambda" "λ")
  (#set! conceal "λ"))
 
+(
+  [
+    (
+      (symbol) @variable.parameter
+    )
+    (
+      (multi_symbol
+        base: (symbol_fragment) @variable.parameter)
+    )
+  ]
+  (#lua-match? @variable.parameter "^%$[1-9]?$")
+)
+
 ;; ;; Functions
 ;; (("fn") @keyword.function @conceal
 ;;   (#set! conceal ""))
