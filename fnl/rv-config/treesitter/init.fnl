@@ -160,9 +160,12 @@
 
     (local confs
            {:move
-            {:install_info {:url    "https://github.com/move-hub/tree-sitter-move"
+            {;; :install_info {:url    "https://github.com/move-hub/tree-sitter-move"
+             ;;                :files  [:src/parser.c]
+             ;;                :branch :master
+             :install_info {:url    "https://github.com/reo101/tree-sitter-move"
                             :files  [:src/parser.c]
-                            :branch :master}
+                            :branch :update-parser}
              :filetype :move}
             :typst
             {:install_info {:url    "https://github.com/frozolotl/tree-sitter-typst"
