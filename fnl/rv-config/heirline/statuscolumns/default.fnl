@@ -2,6 +2,7 @@
        : conditions
        : utils
        : colors
+       : heirline-components
        : navic
        : luasnip
        : dap
@@ -21,12 +22,13 @@
 
       ;; DefaultStatuscolumn
       DefaultStatuscolumn
-      {:init (fn [self]
-               (set self.bufnr
-                    (vim.api.nvim_get_current_buf)))
-       1 (unpack [Foldcolumn])}]
-                  ;; Fill
-                  ;; Numbercolumn
-                  ;; Signcolumn])}]
+      (vim.tbl_extend
+        :error
+        {:init (fn [self]
+                 (set self.bufnr
+                      (vim.api.nvim_get_current_buf)))}
+        [(heirline-components.component.foldcolumn)
+         (heirline-components.component.signcolumn)
+         (heirline-components.component.numbercolumn)])]
 
   {: DefaultStatuscolumn})

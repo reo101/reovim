@@ -76,9 +76,9 @@
                               self.bufnr)
                     :name :heirline_tabline_buffer_callback}}
         [TablineBufnr
-          FiletypeIcon
-          TablineFilename
-          TablineFileFlags])
+         FiletypeIcon
+         TablineFilename
+         TablineFileFlags])
 
       TablineCloseButton
       (vim.tbl_extend
@@ -86,7 +86,7 @@
         {:condition (fn [self]
                       (not (vim.api.nvim_buf_get_option self.bufnr :modified)))}
         [{:provider " "}
-         {:provider ""
+         {:provider "󰅙"
           :hl {:fg :gray}
           :on_click {:callback (fn [_ minwid]
                                  (vim.api.nvim_buf_delete minwid {:force false}))
@@ -125,17 +125,16 @@
                :TabLineSel))}
 
       TabpageClose
-      {:provider "%999X  %X"
+      {:provider "%999X 󰅙 %X"
        :hl :TabLine}
 
       TabPages
       (vim.tbl_extend
         :error
-        {:condition (fn []
-                      (> (length (vim.api.nvim_list_tabpages)) 1))}
-        [{:provider "%="
-          (utils.make_tablist Tabpage)
-          TabpageClose}])
+        {:condition #(> (length (vim.api.nvim_list_tabpages)) 1)}
+        [{:provider "%="}
+         (utils.make_tablist Tabpage)
+         TabpageClose])
 
       TabLineOffset
       {:condition (fn [self]
@@ -181,7 +180,7 @@
                      {:<A-Left>  #(vim.cmd ":bprev")
                       :<A-Right> #(vim.cmd ":bnext")}))}
         [TabLineOffset
-          BufferLine
-          TabPages])]
+         BufferLine
+         TabPages])]
 
   {: DefaultTabline})

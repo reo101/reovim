@@ -90,10 +90,11 @@
       Location
       [RelativePath
        Separator
-       {:fallthrough false
-        :flexible 3
-        1 (unpack
-            [Navic
-             {:provider "⋯"}])}]]
+       (vim.tbl_extend
+         :error
+         {:fallthrough false
+          :flexible 3}
+         [Navic
+          {:provider "⋯"}])]]
 
   {: Location})

@@ -3,6 +3,7 @@
          : conditions
          : utils
          : colors
+         : heirline-components
          : navic
          : luasnip
          : dap
@@ -174,8 +175,6 @@
           :error
           {}
           [DefaultStatuscolumn])]
-    (vim.cmd "au FileType * if index(['wipe', 'delete'], &bufhidden) >= 0 | set nobuflisted | endif")
-
     (fn setup-colors []
       (collect [color highlight
                 (pairs
@@ -201,26 +200,34 @@
           (. (utils.get_highlight highlight)
              :fg))))
 
+    (heirline-components.init.subscribe_to_events)
+    ; (heirline.load_colors (heirline-components.hl.get_colors))
     (heirline.setup {:statusline   Statusline
                      :winbar       Winbar
                      :tabline      Tabline
                      :statuscolumn Statuscolumn
                      :opts {:colors setup-colors}})
 
-    (vim.api.nvim_create_augroup
-      :Heirline
-      {:clear true})
-    (vim.api.nvim_create_autocmd
-      :ColorScheme
-      {:callback #(utils.on_colorscheme setup-colors)
-       :group :Heirline})))
+    (let [group (vim.api.nvim_create_augroup
+                   :Heirline
+                   {:clear true})]
+      (vim.api.nvim_create_autocmd
+        :FileType
+        {: group
+         ;; :command "if index(['wipe', 'delete'], &bufhidden) >= 0 | set nobuflisted | endif"
+         :callback #(when (vim.tbl_contains [:wipe :delete] vim.bo.bufhidden)
+                      (set vim.bo.buflisted false))})
+      (vim.api.nvim_create_autocmd
+        :ColorScheme
+        {:callback #(utils.on_colorscheme setup-colors)
+         : group}))))
 
-[{1             :rebelot/heirline.nvim
-  :dependencies [:SmiteshP/nvim-navic
-                 :nvim-tree/nvim-web-devicons
-                 :lewis6991/gitsigns.nvim
-                 :L3MON4D3/LuaSnip
-                 :mfussenegger/nvim-dap]
-  :event :VeryLazy
-  : config}
- {1 :Zeioth/heirline-components.nvim}]
+{1 :rebelot/heirline.nvim
+ :dependencies [:SmiteshP/nvim-navic
+                :nvim-tree/nvim-web-devicons
+                :lewis6991/gitsigns.nvim
+                :L3MON4D3/LuaSnip
+                :mfussenegger/nvim-dap
+                :Zeioth/heirline-components.nvim]
+ :event :VeryLazy
+ : config}
