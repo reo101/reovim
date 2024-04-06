@@ -116,7 +116,6 @@
     ;     motion-mappings
     ;     {:prefix :<leader>}))
 
-
   ;; Log buffer autocommands
   (let [group (vim.api.nvim_create_augroup
                 :ConjureLogBuffer
@@ -137,6 +136,7 @@
        :callback (fn [{:buf bufnr}]
                    (let [baleia (require :baleia)]
                      (baleia.automatically bufnr)))})
+
     ;; Remove `Sponsored by` message
     (vim.api.nvim_create_autocmd
       :BufWinEnter
