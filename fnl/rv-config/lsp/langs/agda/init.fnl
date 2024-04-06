@@ -48,19 +48,19 @@
                       (vim.print char-recipe))
                     "Explain symbol"]}}
           {:prefix :<leader>
-           :buffer true})
+           :buffer false})
       (dk [:n]
           {:gd  [#(vim.cmd.CornelisGoToDefinition) :Definition]
            :K   [#(vim.cmd.CornelisTypeInfer) "Type Infer"]
            "[/" [#(vim.cmd.CornelisPrevGoal) "Previous goal"]
            "]/" [#(vim.cmd.CornelisNextGoal) "Next goal"]}
-          {:buffer true})
+          {:buffer false})
       (vim.cmd "TSBufDisable highlight"))
 
     (vim.api.nvim_create_autocmd
       [:BufRead
        :BufNewFile]
-      {:pattern [:*.agda]
+      {:pattern :*.agda
        :callback agda-mappings})
 
     (agda-mappings)
@@ -75,7 +75,9 @@
         :agda
         {:sources
           (cmp.config.sources
-            [{:name :agda}])}))))
+            [{:name "buffer"}
+             {:name "luasnip"}
+             {:name :agda}])}))))
       ;; (cmp.setup.cmdline
       ;;   ":"
       ;;   {:sources
