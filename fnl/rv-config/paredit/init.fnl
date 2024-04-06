@@ -44,8 +44,8 @@
                 :>e [paredit.api.drag_element_forwards  "Drag element forwards"]
                 :<e [paredit.api.drag_element_backwards "Drag element backwards"]
 
-                :>f [paredit.api.drag_form_forwards  "Drag form forwards"]
-                :<f [paredit.api.drag_form_backwards "Drag form backwards"]
+                :>o [paredit.api.drag_form_forwards  "Drag form forwards"]
+                :<o [paredit.api.drag_form_backwards "Drag form backwards"]
 
                 :<localleader>o [paredit.api.raise_form    "Raise form"]
                 :<localleader>O [paredit.api.raise_element "Raise element"]
