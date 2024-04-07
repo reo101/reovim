@@ -14,11 +14,12 @@
                                     :r :DiagnosticSignWarn
                                     :w :DiagnosticSignError
                                     :x :DiagnosticSignOk})
-                            (local hls {})
-                            (for [i 1 (length permission-str)]
-                              (local char (permission-str:sub i i))
-                              (table.insert hls [(. permission-hlgroups char) (- i 1) i]))
-                            hls)}
+                            (-> permission-str
+                                (vim.split "")
+                                vim.iter
+                                (: :enumerate)
+                                (: :map #[(. permission-hlgroups $2) (- $1 1) $1])
+                                (: :totable)))}
                        :icon]
                        ;; :permissions,
                        ;; :size,
