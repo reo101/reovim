@@ -84,6 +84,7 @@
         {:prefix :<leader>})))
 
 [{1 :TimUntersberger/neogit
+  :branch :nightly
   :keys [:<leader>gs]
   :dependencies [:nvim-lua/plenary.nvim]
   : config}
