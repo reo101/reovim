@@ -21,6 +21,10 @@
 ;;      \__\::::/      \__\/      \  \:\       ;;
 ;;          ~~~~                   \__\/       ;;
 
+(tset package.loaded :fennel
+      (let [tangerine-fennel (require :tangerine.fennel)]
+        (tangerine-fennel.load)))
+
 (require :globals)
 
 (require :settings)

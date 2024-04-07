@@ -156,6 +156,10 @@
               {:auto_repl
                 {:enabled false}}}}}}})
 
+  ;; Use neovim's fennel
+  (tset package.loaded :conjure.aniseed.deps.fennel
+        package.loaded.fennel)
+
   (let [conjure-main (require :conjure.main)
         conjure-mapping (require :conjure.mapping)]
     (conjure-main.main)
