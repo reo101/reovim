@@ -142,7 +142,7 @@
       :BufWinEnter
       {:pattern :conjure-log-*
        : group
-       :command "silent g/; Sponsored by @.*/d"}))
+       :command "silent g/; Sponsored by @.*/d _"}))
 
   ;; Clojure
   (set-conjure-settings
@@ -177,10 +177,12 @@
                                         [{:name :conjure}]}})
                            (cmp.setup config))}
                 {1 :m00qek/baleia.nvim
-                 :tag :1.4.0
+                 :tag :v1.4.0
                  :config true}]
  :ft [:clojure
       :fennel
       :racket
-      :rust]
+      :rust
+      :lisp
+      :hy]
  : config}
