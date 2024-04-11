@@ -57,6 +57,58 @@
          (set ,res# (: ,res# ,f ,(unpack args))))))
   res)
 
+(fn as-> [hole val ...]
+  "Thread a value through a list of operations with a placeholder for the hole"
+  (assert-compile
+    val
+    "There should be an input value to the pipeline")
+  (assert-compile
+    (sym? hole)
+    "Hole should be a symbol")
+  (local hole (tostring hole))
+  (fn deep-sed [ast target res]
+    (vim.print {: ast
+                : target})
+    (case (getmetatable ast)
+      ;; Bottom of ast
+      nil
+      ast
+      (where _ (not= :table (type ast)))
+      ast
+      ;; Target symbol
+      (where {1 "SYMBOL"} (= (tostring ast) target))
+      res
+      ;; Another symbol
+      {1 "SYMBOL"}
+      ast
+      ;; Iterate
+      {1 "LIST"}
+      (-> ast
+          ipairs
+          vim.iter
+          (: :map #(deep-sed $2 target res))
+          (: :totable)
+          (#(list (unpack $))))
+      {: keys}
+      (collect [_ key (ipairs keys)]
+        (values key (deep-sed (. ast key)
+                              target
+                              res)))
+      {:sequence ["SEQUENCE"]}
+      (-> ast
+          ipairs
+          vim.iter
+          (: :map #(deep-sed $2 target res))
+          (: :totable))
+      ;; Just in case
+      _
+      (do
+        (vim.print {: ast})
+        (error :wtf))))
+  (accumulate [res val
+               _ call (ipairs [...])]
+    (deep-sed call hole res)))
+
 (fn >=> [tbl predicate? ?res]
   "Filter through a table and optionally append to a predefined result table
   NOTE: `predicate?` can take the key as a second argument"
@@ -173,6 +225,7 @@
  : assert-seq
  : apply :call apply
  : -m> : -m?>
+ : as->
  : >=> :filter >=>
  : i>=> :ifilter i>=>
  : |> :pipe |>
