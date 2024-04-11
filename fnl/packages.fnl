@@ -65,11 +65,9 @@
                  "zipPlugin"]}}})
 
 (fn preload [path]
-  (icollect [mod (vim.fs.dir
-                   (vim.fs.joinpath
-                     (vim.fn.stdpath :config)
-                     :fnl
-                     path))]
+  (icollect [mod (-> (vim.fn.stdpath :config)
+                     (vim.fs.joinpath :fnl path)
+                     vim.fs.dir)]
     (let [mod (or (mod:match "^(.*)%.fnl$")
                   mod)]
        (require (.. path :. mod)))))
