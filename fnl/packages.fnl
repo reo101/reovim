@@ -11,7 +11,6 @@
 (local main-plugins
     [;; Fennel loader
      {1 :udayvir-singh/tangerine.nvim
-      :tag :v2.8
       :priority 1000
       :lazy false}
 

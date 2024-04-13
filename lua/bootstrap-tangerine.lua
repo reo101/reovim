@@ -35,7 +35,7 @@ end
 
 --- BOOTSTRAP TANGERINE ---
 
-bootstrap("https://github.com/udayvir-singh/tangerine.nvim", "v2.8")
+bootstrap("https://github.com/udayvir-singh/tangerine.nvim")
 
 --- CONFIGURE TANGERINE ---
 
