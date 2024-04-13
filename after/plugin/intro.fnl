@@ -32,6 +32,7 @@
     (tset tbl j tmp))
   tbl)
 
+;; TODO: fennel macro (with &into)
 (fn get-highlight-range [line pattern]
   (let [results {}]
     (var start 1)
@@ -200,7 +201,7 @@
 
 (local hostname (vim.uv.os_gethostname))
 (local os-uname (vim.uv.os_uname))
-(local mem-gigs (/ (/ (/ (vim.uv.get_total_memory) 1024) 1024) 1024))
+(local mem-gigs (/ vim.uv.get_total_memory 1024 1024 1024))
 (local cpu-info (vim.uv.cpu_info))
 
 (local sysinfo (vim.split
