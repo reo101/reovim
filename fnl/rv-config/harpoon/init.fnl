@@ -4,15 +4,11 @@
         opt {}]
     (harpoon.setup opt)
 
-    ;; TODO: (def-keymaps) let `hydra take a map of keybinds`
     (dk [:n]
         {:h {:name :Harpoon
-             :hydra true
-             :p [#(-> harpoon (: :list) (: :prev)) :Prev]
-             :n [#(-> harpoon (: :list) (: :next)) :Next]}}
-        {:prefix :<leader>})
-    (dk [:n]
-        {:h {:name :Harpoon
+             :hydra
+               {:p [#(-> harpoon (: :list) (: :prev)) :Prev]
+                :n [#(-> harpoon (: :list) (: :next)) :Next]}
              :a [#(-> harpoon (: :list) (: :append)) :Append]
              :e [#(harpoon.ui:toggle_quick_menu (harpoon:list)) :Edit]
              :1 [#(-> harpoon (: :list) (: :select 1)) :1]
@@ -22,5 +18,5 @@
 
 {1 :ThePrimeagen/harpoon
  :branch :harpoon2
- :keys [:<leader>h]
+ :keys [{1 :<leader>h :desc :Harpoon}]
  : config}

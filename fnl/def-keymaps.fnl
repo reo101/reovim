@@ -68,7 +68,7 @@
                              rhs
                              ;; else
                              nil))
-        keymaps (vim.tbl_map canonicalize-rhs keymaps)
+        canonicalized-keymaps (vim.tbl_map canonicalize-rhs keymaps)
         base-keymap-opts {:silent  true
                           :noremap true}
         keymap-opts (vim.tbl_extend "force"
@@ -78,19 +78,34 @@
     (when (and hydra? (not has-hydra?))
       (vim.notify_once "Hydra not found, continuing normally")
       (lua "return nil"))
-    ;; Adding keybinds (with hydra or natively)
-    (if
-      hydra?
-      (hydra {:name   name?
-              :hint   hint?
-              :config config?
-              :mode   mode
-              :body   prefix
-              :heads  (icollect [lhs rhs (pairs keymaps)]
-                        (if rhs.final
-                            [lhs rhs.cmd {:desc rhs.desc}]))})
-      ;; else
-      (each [lhs rhs (pairs keymaps)]
+    ;; Adding keybinds (with hydra and/or natively)
+    (var just-hydra? false)
+    (case hydra?
+      true (do
+             (hydra {:name   name?
+                     :hint   hint?
+                     :config config?
+                     :mode   mode
+                     :body   prefix
+                     :heads  (icollect [lhs rhs (pairs canonicalized-keymaps)]
+                               (if rhs.final
+                                   [lhs rhs.cmd {:desc rhs.desc}]))})
+             (set just-hydra? true))
+      hydra-keymaps (hydra {:name   name?
+                            :hint   hint?
+                            :config config?
+                            :mode   mode
+                            :body   prefix
+                            :heads (-> hydra-keymaps
+                                       pairs
+                                       vim.iter
+                                       (: :map #(values $1 (canonicalize-rhs $2)))
+                                       (: :filter #(. $2 :final))
+                                       (: :map (fn [lhs {: cmd : desc}]
+                                                 [lhs cmd {: desc}]))
+                                       (: :totable))}))
+    (when (not just-hydra?)
+      (each [lhs rhs (pairs canonicalized-keymaps)]
         (let [lhs (.. prefix lhs)]
           (if
             rhs.final
