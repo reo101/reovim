@@ -4,7 +4,7 @@
           (not= (length (vim.api.nvim_list_wins)) 1))
   (lua "return nil"))
 
-(vim.opt.shortmess:remove :I)
+(vim.opt.shortmess:append :I)
 
 (local WIDTH (vim.api.nvim_win_get_width 0))
 (local HEIGHT (vim.api.nvim_win_get_height 0))
@@ -201,7 +201,7 @@
 
 (local hostname (vim.uv.os_gethostname))
 (local os-uname (vim.uv.os_uname))
-(local mem-gigs (/ vim.uv.get_total_memory 1024 1024 1024))
+(local mem-gigs (/ (vim.uv.get_total_memory) 1024 1024 1024))
 (local cpu-info (vim.uv.cpu_info))
 
 (local sysinfo (vim.split
