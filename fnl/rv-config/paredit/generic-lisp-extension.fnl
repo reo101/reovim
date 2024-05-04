@@ -108,7 +108,7 @@
           [opts.form-types
            #(and $
                  (= (type $) :table)
-                 (vim.tbl_isarray $)
+                 (vim.isarray $)
                  (not (vim.tbl_isempty $)))
            "Invalid `form-types` given (has to be a nonempty array of treesitter node names)"]
         :whitespace-chars
