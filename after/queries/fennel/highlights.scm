@@ -10,10 +10,9 @@
 ; (["lambda" "λ"] @keyword.function @conceal
 ;   (#set! conceal "λ"))
 
-((symbol) @keyword.function @conceal
- (#any-of? @keyword.function
-  "lambda" "λ")
- (#set! conceal "λ"))
+; ((symbol) @keyword.function @conceal
+;  (#any-of? @keyword.function "lambda") ;; "λ")
+;  (#set! conceal "λ"))
 
 (
   [
