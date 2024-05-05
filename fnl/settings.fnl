@@ -151,7 +151,8 @@
 (tset vim.opt :smartcase true)
 
 ;;; Make indenting smarter again
-(tset vim.opt :smartindent true)
+;;; NOTE: messes with treesitter
+(tset vim.opt :smartindent false)
 
 ;;; More tab is 4 spaces config
 (tset vim.opt :softtabstop 4)
