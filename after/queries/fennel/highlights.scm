@@ -23,6 +23,10 @@
       (multi_symbol
         base: (symbol_fragment) @variable.parameter)
     )
+    (
+      (multi_symbol_method
+        base: (symbol_fragment) @variable.parameter)
+    )
   ]
   (#lua-match? @variable.parameter "^%$[1-9]?$")
 )
