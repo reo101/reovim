@@ -4,7 +4,7 @@
         luasnip-types       (require :luasnip.util.types)
         luasnip-from-vscode (require :luasnip.loaders.from_vscode)
         luasnip-from-lua    (require :luasnip.loaders.from_lua)
-        luasnip-filetype    (require "luasnip.extras.filetype_functions")
+        luasnip-filetype    (require :luasnip.extras.filetype_functions)
         opt {:keep_roots
                true
              :link_roots
@@ -36,10 +36,10 @@
     (luasnip-from-vscode.lazy_load)
     (luasnip-from-lua.lazy_load
       {:paths (.. (vim.fn.stdpath "config")
-                  :/snippets)})
+                  :/luasnippets)})
 
     (dk :n
-        {:t {:name "Toggle"
+        {:t {:name :Toggle
              :l [luasnip-from-lua.edit_snippet_files "LuaSnip snippets"]}}
         {:prefix :<leader>})))
 
