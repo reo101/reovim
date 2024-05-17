@@ -30,17 +30,17 @@
            {:Breakpoint
               {:linehl ""
                :numhl ""
-               :text ""
+               :text "󰃤"
                :texthl :DiagnosticSignError}
             :BreakpointCondition
               {:linehl ""
                :numhl ""
-               :text ""
+               :text "󰃤"
                :texthl :DiagnosticSignHint}
             :BreakpointRejected
               {:linehl ""
                :numhl ""
-               :text ""
+               :text "󰃤"
                :texthl :DiagnosticSignHint}
             :Stopped
               {:linehl :DiagnosticUnderlineInfo

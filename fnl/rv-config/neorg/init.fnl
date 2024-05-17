@@ -29,12 +29,12 @@
                                        :init_open_folds :auto
                                        :markup_preset :dimmed}}
                                        ;; :icon_preset :diamond}}
-                                       ;; :icons {:marker {:icon " "}
+                                       ;; :icons {:marker {:icon "󰁘 "}
                                        ;;         :todo {:enable true
                                        ;;                :pending   {:icon ""}
                                        ;;                :uncertain {:icon ""}
                                        ;;                :urgent    {:icon ""}
-                                       ;;                :on_hold   {:icon ""}
+                                       ;;                :on_hold   {:icon "󰏤"}
                                        ;;                :cancelled {:icon ""}}}}
                     ;;; Enable exporing
                     :core.export {}

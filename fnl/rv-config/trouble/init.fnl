@@ -33,9 +33,9 @@
               :icons true
               :signs {:information ""
                       :warning ""
-                      :hint ""
-                      :error ""
-                      :other "﫠"}
+                      :hint "󰌶"
+                      :error "󰅚"
+                      :other "󰗡"}
               :width 50
               :group true
               :auto_fold false}]

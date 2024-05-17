@@ -24,9 +24,9 @@
                 :WARN {:icon " "
                        :color :warning
                        :alr [:WARNING :XXX]}
-                :PERF {:icon " "
+                :PERF {:icon "󰅒 "
                        :alt [:OPTIM :OPTIMIZE :PERFORMANCE]}
-                :NOTE {:icon " "
+                :NOTE {:icon "󰍨 "
                        :color :hint
                        :alt [:INFO]}}
              ;; when true, custom keywords will be merged with the defaults

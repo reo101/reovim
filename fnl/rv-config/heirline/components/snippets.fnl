@@ -7,10 +7,10 @@
                     (luasnip.in_snippet))
        :provider  (fn [self]
                     (let [backward (if (luasnip.jumpable -1)
-                                     " "
+                                     " 󰍞"
                                      "")
                           forward  (if (luasnip.jumpable  1)
-                                     " "
+                                     " 󰍟"
                                      "")
                           choice   (if (luasnip.choice_active)
                                      " ?"

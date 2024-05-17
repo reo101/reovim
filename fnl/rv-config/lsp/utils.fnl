@@ -119,8 +119,8 @@
                          ;;                :prefix ""}}))
     (local signs {:Info  ""
                   :Warn  ""
-                  :Error ""
-                  :Hint  ""})
+                  :Error "󰅚"
+                  :Hint  "󰌶"})
     (each [type icon (pairs signs)]
       (local hl (.. :DiagnosticSign type))
       (vim.fn.sign_define hl {:numhl "" :text icon :texthl hl}))))
