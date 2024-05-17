@@ -23,10 +23,10 @@
                           (fn [t k v]
                             (tset t k v)
                             t)))
-                 _ {k1 v1}))))))
+                 _ {(k1:gsub "-" "_") v1}))))))
   (fn set-conjure-settings [settings]
-    (-> (flatten-table
-           settings
+    (-> settings
+        (flatten-table
            #(.. $1 :# $2))
         vim.iter
         (: :each
@@ -37,31 +37,31 @@
     {:conjure
       {:mapping
         {:prefix                    :<leader>u
-         :eval_current_form         :ee
-         :eval_root_form            :er
-         :eval_word                 :ew
-         :eval_comment_current_form :ece
-         :eval_comment_root_form    :ecr
-         :eval_comment_word         :ecw
-         :eval_replace_form         :e!
-         :eval_marked_form          :em
-         :eval_file                 :ef
-         :eval_buf                  :eb
-         :eval_visual               :E
-         :eval_motion               :E
-         :log_split                 :ls
-         :log_vsplit                :lv
-         :log_tab                   :lt
-         :log_buf                   :lb
-         :log_toggle                :lg
-         :log_reset_soft            :lr
-         :log_reset_hard            :lR
-         :log_jump_to_latest        :ll
-         :log_close_visible         :lq
-         :def_word                  :gd
-         :doc_word                  :K}
+         :eval-current-form         :ee
+         :eval-root-form            :er
+         :eval-word                 :ew
+         :eval-comment-current-form :ece
+         :eval-comment-root-form    :ecr
+         :eval-comment-word         :ecw
+         :eval-replace-form         :e!
+         :eval-marked-form          :em
+         :eval-file                 :ef
+         :eval-buf                  :eb
+         :eval-visual               :E
+         :eval-motion               :E
+         :log-split                 :ls
+         :log-vsplit                :lv
+         :log-tab                   :lt
+         :log-buf                   :lb
+         :log-toggle                :lg
+         :log-reset-soft            :lr
+         :log-reset-hard            :lR
+         :log-jump-to-latest        :ll
+         :log-close-visible         :lq
+         :def-word                  :gd
+         :doc-word                  :K}
        :extract
-        {:tree_sitter
+        {:tree-sitter
           {:enabled true}}
        :log
         {:hud
@@ -126,15 +126,26 @@
       {:pattern :conjure-log-*
        : group
        :callback (fn [{:buf bufnr :data {:client_id client-id}}]
-                   (vim.lsp.buf_detach_client bufnr client-id))})
+                   (vim.defer_fn
+                     #(vim.lsp.buf_detach_client bufnr client-id)
+                     10))})
+
+    ;; Disable diagnostics
+    ; (vim.api.nvim_create_autocmd
+    ;   :BufNewFile
+    ;   {:pattern :conjure-log-*
+    ;    : group
+    ;    :callback (fn [{:buf bufnr}]
+    ;                (vim.diagnostic.disable bufnr))})
 
     ;; Enable Baleia colourization
     (vim.api.nvim_create_autocmd
-      :BufReadPost
+      :BufWinEnter
       {:pattern :conjure-log-*
        : group
        :callback (fn [{:buf bufnr}]
-                   (let [baleia (require :baleia)]
+                   (let [baleia (-> (require :baleia)
+                                    (: :setup))]
                      (baleia.automatically bufnr)))})
 
     ;; Remove `Sponsored by` message
@@ -142,6 +153,9 @@
       :BufWinEnter
       {:pattern :conjure-log-*
        : group
+       ; :callback (fn [{:buf bufnr}]
+       ;             (vim.schedule
+       ;               #(vim.cmd "silent g/; Sponsored by @.*/d")))
        :command "silent g/; Sponsored by @.*/d _"}))
 
   ;; Clojure
