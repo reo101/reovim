@@ -132,7 +132,7 @@
     ;;      (. (require :ultimate-autopair.experimental.matchpair)
     ;;         :init)}]
 
-    (dk [:n]
+    (dk :n
         {}
         {:prefix :<leader>})))
 

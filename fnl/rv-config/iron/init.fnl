@@ -36,7 +36,7 @@
              :ignore_blank_lines true}]
     (iron.setup opt)
 
-    (dk [:n]
+    (dk :n
         {:r {:name :Repl
              :s [:<cmd>IronRepl<cr>]
              :r [:<cmd>IronRestart<cr>]

@@ -61,7 +61,7 @@
              :post_hook nil}]
     (Comment.setup opt)
 
-    (dk [:n]
+    (dk :n
         {:c {:name "Line Comment"
              :c [Comment-api.toggle.linewise.current "Toggle Line"]
              :o [Comment-api.toggle.linewise.below "o"]
@@ -71,12 +71,12 @@
              :c [Comment-api.toggle.blockwise.current "Toggle Line"]}}
         {:prefix :<leader>})
 
-    (dk [:o]
+    (dk :o
         {:c [Comment-api.toggle.linewise.current "Line Comment"]
          :C [Comment-api.toggle.blockwise.current "Block Comment"]}
         {:prefix :<leader>})))
 
-    ;; (dk [:n])))
+    ;; (dk :n
     ;;     {:c {:name "Line Comment"}})))
     ;;          :c [(Comment-api.call :toggle.linewise.current "g@$") "Toggle Line"]}})))
     ;;          :o [(Comment-api.call :insert.linewise.below   "g@")  "o"]}})))
@@ -86,12 +86,12 @@
     ;;          :c [(Comment-api.call :toggle.blockwise.current "g@$") "Toggle Line"]}})))
     ;;     {:prefix :<leader> :expr true})))
 
-    ;; (dk [:n])))
+    ;; (dk :n
     ;;     {:c [(Comment-api.call :toggle.linewise  "g@")]})))
     ;;      :C [(Comment-api.call :toggle.blockwise "g@")]})))
     ;;     {:prefix :<leader> :expr true})))
 
-    ;; (dk [:x]
+    ;; (dk :x
     ;;     {:c [#((Comment-api.locked :toggle.linewise)  (vim.fn.visualmode)) "Toggle Linewise"]
     ;;      :C [#((Comment-api.locked :toggle.blockwise) (vim.fn.visualmode)) "Toggle Blockwise"]}
     ;;     {:prefix :<leader> :expr true})))

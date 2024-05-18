@@ -7,7 +7,7 @@
             :> [">gv" :Indent]}]
       (dk [:n :v]
           mappings)
-      (dk [:v]
+      (dk :v
           visual-mappings))))
 
 {1 :junegunn/vim-easy-align

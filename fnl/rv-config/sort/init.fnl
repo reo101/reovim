@@ -21,7 +21,7 @@
         (tset mappings.gs.!
               delimiter
               [#(sort.sort "!" delimiter)]))
-      (dk [:v]
+      (dk :v
           mappings))))
 
 {1 :sQVe/sort.nvim

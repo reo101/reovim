@@ -126,7 +126,7 @@
                 :name :Crates}}]
     (crates.setup opt)
 
-    (dk [:n]
+    (dk :n
         {:r {:name :Crates
              :t [crates.toggle              "Toggle"]
              :r [crates.reload              "Reload"]
@@ -143,7 +143,7 @@
              :C [crates.open_crates_io      "Open crates.io"]}}
         {:prefix :<leader>})
 
-    (dk [:v]
+    (dk :v
         {:r {:name :Crates
              :u [crates.update_crates  "Update crates"]
              :U [crates.upgrade_crates "Upgrade crates"]}}

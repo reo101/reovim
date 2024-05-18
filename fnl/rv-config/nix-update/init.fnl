@@ -20,7 +20,7 @@
                ;;    (fn [stdout]
                ;;      {:rev (. stdout 1)})}}}]
 
-    (dk [:n]
+    (dk :n
         {:n {:name :NixUpdate
              :c [#(nix-update.prefetch_fetch) "Under cursor"]}}
         {:prefix :<leader>})

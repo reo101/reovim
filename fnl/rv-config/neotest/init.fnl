@@ -28,7 +28,7 @@
                     {})}}]
     (neotest.setup opt)
 
-    (dk [:n]
+    (dk :n
         {:l {:name :LSP
              :n {:name :Neotest
                  :r {:name :Run
@@ -43,7 +43,7 @@
                      :t [#(neotest.summary.toggle) "Toggle"]}
                  :q [#(neotest.quickfix) "Send to quickfix"]}}}
         {:prefix :<leader>})
-    (dk [:n]
+    (dk :n
         {"]n" [#(neotest.jump.prev {:status :failed}) "Prev failing test"]
          "[n" [#(neotest.jump.next {:status :failed}) "Next failing test"]}
         {})))

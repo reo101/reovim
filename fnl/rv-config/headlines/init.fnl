@@ -37,7 +37,7 @@
                                 :quote_string "┃")}}]
     (headlines.setup opt)
 
-    (dk [:n]
+    (dk :n
         {}
         {:prefix :<leader>})))
 

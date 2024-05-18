@@ -78,7 +78,7 @@
 
     (neogit.setup opt)
 
-    (dk [:n]
+    (dk :n
         {:g {:name :Git
              :s [neogit.open "Status"]}}
         {:prefix :<leader>})))

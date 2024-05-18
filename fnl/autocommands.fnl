@@ -111,6 +111,6 @@
 
 (vim.filetype.add {:pattern {"%.env%.[%w_.-]+" :sh}})
 
-(dk [:n]
+(dk :n
     {:w ["<C-w>" :Window]}
     {:prefix :<leader>})

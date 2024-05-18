@@ -30,7 +30,7 @@
 
     ;;; Mappings
     (fn agda-mappings []
-      (dk [:n]
+      (dk :n
           {:a {:name :Agda
                :l  [#(vim.cmd.CornelisLoad) :Load]
                :r  [#(vim.cmd.CornelisRefine) :Refine]
@@ -49,7 +49,7 @@
                     "Explain symbol"]}}
           {:prefix :<leader>
            :buffer false})
-      (dk [:n]
+      (dk :n
           {:gd  [#(vim.cmd.CornelisGoToDefinition) :Definition]
            :K   [#(vim.cmd.CornelisTypeInfer) "Type Infer"]
            "[/" [#(vim.cmd.CornelisPrevGoal) "Previous goal"]

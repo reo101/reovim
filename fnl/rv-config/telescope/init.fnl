@@ -113,7 +113,7 @@
       (builtin.resume))
 
     (local dk (require :def-keymaps))
-    (dk [:n]
+    (dk :n
         {:f {:name :Find
              :f [functions.find_files        "Find File"]
              :F [functions.search_all_files  "All Files"]

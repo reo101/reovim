@@ -2,7 +2,7 @@
 (local dap (require :dap))
 
 (fn dap-mappings []
-  (dk [:n]
+  (dk :n
       {:d {:name :DAP
            :b {:name :Breakpoint
                :t [dap.toggle_breakpoint :Toggle]

@@ -22,7 +22,7 @@
                ;; Pass along langs' setup
                : langs}]
     (tsj.setup opt)
-    (dk [:n]
+    (dk :n
         {:j {:name "SplitJoin"
              :s [#(tsj.split)  "Split"]
              :j [#(tsj.join)   "Join"]

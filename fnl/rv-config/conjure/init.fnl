@@ -106,10 +106,10 @@
         ; motion-mappings
         ;   {:u {:name :Conjure
         ;        :E ["Eval Motion"]}}]
-    (dk [:n]
+    (dk :n
         mappings
         {:prefix :<leader>})
-    (dk [:v]
+    (dk :v
         visual-mappings
         {:prefix :<leader>}))
     ; (dk [:x :o]

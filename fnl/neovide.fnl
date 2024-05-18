@@ -21,6 +21,6 @@
     (set vim.g.neovide_scale_factor
          (* vim.g.neovide_scale_factor
             delta)))
-  (dk [:n]
+  (dk :n
       {:<M-S-Up>   #(change-scale-factor 1.25)
        :<M-S-Down> #(change-scale-factor 0.8)}))

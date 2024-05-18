@@ -15,7 +15,7 @@
        :BufNewFile]
       {:pattern [:*.idr]
        :callback
-         #(do (dk [:n]
+         #(do (dk :n
                   {:i {:name :Idris
                        :e [idris2-repl.evaluate            "Evaluate"]
                        :c [idris2-code-action.case_split   "Case split"]

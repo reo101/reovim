@@ -31,7 +31,7 @@
              :requires [:nvim-lua/plenary.nvim]}]
     (rest.setup opt)
 
-    (dk [:n]
+    (dk :n
         {}
         {:prefix :<leader>})))
 

@@ -10,7 +10,7 @@
              ;; They must have background color, otherwise the default color will be used
              :highlights {:incoming :DiffAdd
                           :current  :DiffText}}]
-    (dk [:n]
+    (dk :n
         {:g {:name "Git"
              :c {:name "Choose"
                  :o [#(git-conflict.choose :ours)   "Ours"]
@@ -19,7 +19,7 @@
                  :B [#(git-conflict.choose :both)   "Both"]
                  :n [#(git-conflict.choose :none)   "None"]}}}
         {:prefix :<leader>})
-    (dk [:n]
+    (dk :n
         {"[x" [#(git-conflict.find_prev :ours) "Previous conflict"]
          "]x" [#(git-conflict.find_next :ours) "Next conflict"]})
     (git-conflict.setup opt)))

@@ -75,16 +75,16 @@
           direct-mappings
             {"]c" [gitsigns-actions.next_hunk "Next Hunk"]
              "[c" [gitsigns-actions.prev_hunk "Prev Hunk"]}]
-      (dk [:n]
+      (dk :n
           mappings
           {:prefix :<leader>})
-      (dk [:v]
+      (dk :v
           visual-mappings
           {:prefix :<leader>})
       (dk [:o :x]
           operator-mappings
           {:prefix :<leader>})
-      (dk [:n]
+      (dk :n
           direct-mappings))))
 
 {1 :lewis6991/gitsigns.nvim

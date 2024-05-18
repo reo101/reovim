@@ -132,7 +132,7 @@
     (neo-tree.setup opt)
     (vim.cmd "hi link NeoTreeDirectoryName Directory
               hi link NeoTreeDirectoryIcon NeoTreeDirectoryName")
-    (dk [:n]
+    (dk :n
         {:t {:name :Toggle
              :f [":Neotree reveal<CR>" :FileTree]}}
         {:prefix :<leader>})))

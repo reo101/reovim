@@ -4,7 +4,7 @@
         opt {}]
     (netman.setup opt)
 
-    (dk [:n]
+    (dk :n
         {}
         {:prefix :<leader>})))
 

@@ -51,7 +51,7 @@
                                false)}]
     (femaco.setup opt)
 
-    (dk [:n]
+    (dk :n
         {:l {:name :LSP
              :m [edit-code-block :FeMaco]}}
         {:prefix :<leader>})))

@@ -23,7 +23,7 @@
       hooks.type.SCOPE_HIGHLIGHT
       hooks.builtin.scope_highlight_from_extmark)
 
-    (dk [:n]
+    (dk :n
         {:t {:name :Toggle
              :i [#(if vim.o.list
                       (do

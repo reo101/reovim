@@ -15,7 +15,7 @@
                                       :hook (fn [keybinds]
                                               ;; TODO: implement
                                               ;; <https://github.com/nvim-neorg/neorg/wiki/User-Keybinds>
-                                              (dk [:n]
+                                              (dk :n
                                                   {:n {:name "Neorg"
                                                        :e [#(vim.cmd
                                                               (.. "Neorg export to-file "

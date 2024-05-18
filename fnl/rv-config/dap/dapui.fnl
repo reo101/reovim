@@ -45,7 +45,7 @@
              :windows {:indent 1}}]
     (dapui.setup opt)
 
-    (dk [:n]
+    (dk :n
         {:d {:name :Dap
              :t [dapui.toggle "Toggle dap-ui"]}}
         {:prefix :<leader>})))

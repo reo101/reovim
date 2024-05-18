@@ -127,7 +127,7 @@
                         :win_options {:winblend 0}}}]
     (oil.setup opt)
 
-    (dk [:n]
+    (dk :n
         {:t {:name :Toggle
              :o [#(vim.cmd :Oil) :Oil]}}
         {:prefix :<leader>})))

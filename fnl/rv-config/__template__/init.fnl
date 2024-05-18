@@ -4,7 +4,7 @@
         opt {}]
     (plugin.setup opt)
 
-    (dk [:n]
+    (dk :n
         {}
         {:prefix :<leader>})))
 

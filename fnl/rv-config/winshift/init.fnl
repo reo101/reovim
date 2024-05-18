@@ -36,7 +36,7 @@
                         []}})}]
     (winshift.setup opt)
 
-    (dk [:n]
+    (dk :n
         {:W [winshift.cmd_winshift :WinShift]}
         {:prefix :<leader>})))
 

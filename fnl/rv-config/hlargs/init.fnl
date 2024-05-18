@@ -18,7 +18,7 @@
                    :slow_parse 5000}}}]
     (hlargs.setup opt)
 
-    (dk [:n]
+    (dk :n
         {:t {:name :Toggle
              :h [hlargs.toggle "Highlight Arguments"]}}
         {:prefix :<leader>})))
