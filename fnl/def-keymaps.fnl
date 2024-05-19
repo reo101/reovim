@@ -26,8 +26,10 @@
         (has-which-key? which-key) (pcall require :which-key)
         opts (or ?opts {})
         {:prefix ?prefix
+         :debug  ?debug?
          &       opts} opts
         prefix (or ?prefix "")
+        debug? (or ?debug? false)
         {:hydra  hydra?
          :name   name?
          :hint   hint?
@@ -70,10 +72,16 @@
                              nil))
         canonicalized-keymaps (vim.tbl_map canonicalize-rhs keymaps)
         base-keymap-opts {:silent  true
-                          :noremap true}
+                          :remap false}
         keymap-opts (vim.tbl_extend "force"
                                     base-keymap-opts
-                                    opts)]
+                                    opts)
+        notify (fn [title mess]
+                 (vim.notify
+                   mess
+                   vim.log.levels.TRACE
+                   {: title})
+                 (vim.print (string.format "%s: %s" title mess)))]
     ;; Check for hydra
     (when (and hydra? (not has-hydra?))
       (vim.notify_once "Hydra not found, continuing normally")
@@ -81,45 +89,70 @@
     ;; Adding keybinds (with hydra and/or natively)
     (var just-hydra? false)
     (case hydra?
-      true (do
-             (hydra {:name   name?
-                     :hint   hint?
-                     :config config?
-                     :mode   mode
-                     :body   prefix
-                     :heads  (icollect [lhs rhs (pairs canonicalized-keymaps)]
-                               (if rhs.final
-                                   [lhs rhs.cmd {:desc rhs.desc}]))})
+      true (let [hydra-conf {:name   name?
+                             :hint   hint?
+                             :config config?
+                             :mode   mode
+                             :body   prefix
+                             :heads  (icollect [lhs rhs (pairs canonicalized-keymaps)]
+                                       (if rhs.final
+                                           [lhs rhs.cmd {:desc rhs.desc}]))}]
+             (when debug?
+               (notify
+                 "Setting (just) hydra keymap"
+                 (vim.inspect hydra-conf)))
+             (hydra hydra-conf)
              (set just-hydra? true))
-      hydra-keymaps (hydra {:name   name?
-                            :hint   hint?
-                            :config config?
-                            :mode   mode
-                            :body   prefix
-                            :heads (-> hydra-keymaps
-                                       pairs
-                                       vim.iter
-                                       (: :map #(values $1 (canonicalize-rhs $2)))
-                                       (: :filter #(. $2 :final))
-                                       (: :map (fn [lhs {: cmd : desc}]
-                                                 [lhs cmd {: desc}]))
-                                       (: :totable))}))
+      hydra-keymaps (let [hydra-conf {:name   name?
+                                      :hint   hint?
+                                      :config config?
+                                      :mode   mode
+                                      :body   prefix
+                                      :heads (-> hydra-keymaps
+                                                 pairs
+                                                 vim.iter
+                                                 (: :map #(values $1 (canonicalize-rhs $2)))
+                                                 (: :filter #(. $2 :final))
+                                                 (: :map (fn [lhs {: cmd : desc}]
+                                                           [lhs cmd {: desc}]))
+                                                 (: :totable))}]
+                      (when debug?
+                        (notify
+                          "Setting hydra keymap"
+                          (vim.inspect hydra-conf)))
+                      (hydra hydra-conf)))
     (when (not just-hydra?)
       (each [lhs rhs (pairs canonicalized-keymaps)]
         (let [lhs (.. prefix lhs)]
           (if
             rhs.final
             (if rhs.cmd
-                (vim.keymap.set mode
-                                lhs
-                                rhs.cmd
-                                (vim.tbl_extend
-                                  "force"
-                                  keymap-opts
-                                  {:desc rhs.desc}))
+                (do
+                  (when debug?
+                    (notify
+                      "Setting keymap"
+                      (vim.inspect {: mode
+                                    : lhs
+                                    : rhs
+                                    :opts (vim.tbl_extend
+                                            "force"
+                                            keymap-opts
+                                            {:desc rhs.desc})})))
+                  (vim.keymap.set mode
+                                  lhs
+                                  rhs.cmd
+                                  (vim.tbl_extend
+                                    "force"
+                                    keymap-opts
+                                    {:desc rhs.desc})))
                 ;; else
                 (when (and has-which-key?
                            rhs.desc)
+                  (when debug?
+                    (notify
+                      "Setting which-key desc"
+                      (vim.inspect {:lhs {lhs {:desc rhs.desc}}
+                                    : mode})))
                   (which-key.register {lhs {:desc rhs.desc}}
                                       {: mode})))
             ;; else
@@ -127,6 +160,11 @@
               (when (and has-which-key?
                          rhs.name)
                 ;; Add name for group
+                (when debug?
+                  (notify
+                    "Setting which-key group name"
+                    (vim.inspect {:lhs {lhs {:name rhs.name}}
+                                  : mode})))
                 (which-key.register {lhs {:name rhs.name}}
                                     {: mode}))
               (def-keymaps mode
