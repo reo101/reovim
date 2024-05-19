@@ -21,6 +21,6 @@
      (tset vim.g :rustaceanvim opt)))
 
 {1 :mrcjkb/rustaceanvim
- :tag :4.14.1
+ :tag :4.22.10
  :ft [:rust]
  : config}
