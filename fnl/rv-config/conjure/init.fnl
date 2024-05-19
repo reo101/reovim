@@ -127,7 +127,9 @@
        : group
        :callback (fn [{:buf bufnr :data {:client_id client-id}}]
                    (vim.defer_fn
-                     #(vim.lsp.buf_detach_client bufnr client-id)
+                     #(vim.lsp.buf_detach_client
+                        bufnr
+                        client-id)
                      10))})
 
     ;; Disable diagnostics
@@ -153,10 +155,18 @@
       :BufWinEnter
       {:pattern :conjure-log-*
        : group
-       ; :callback (fn [{:buf bufnr}]
-       ;             (vim.schedule
-       ;               #(vim.cmd "silent g/; Sponsored by @.*/d")))
-       :command "silent g/; Sponsored by @.*/d _"}))
+       :callback (fn [{:buf bufnr}]
+                   ;; NOTE: `conjure` hardcodes its `comment-prefix`
+                   ;;       this leads to mismatches (with lisps), so
+                   ;;       we also hardcode `;` as a valid prefix
+                   (let [;; commentstring (. vim.bo bufnr :commentstring)
+                         ;; message (string.format commentstring "Sponsored by @.*")
+                         ;; message (string.format "\\(;\\|%s\\)" message)
+                         ;; message (message:gsub "/" "\\/")
+                         message "Sponsored by @.*"
+                         command (string.format "silent g/%s/d _" message)]
+                     (vim.schedule
+                       #(vim.cmd command))))}))
 
   ;; Clojure
   (set-conjure-settings
@@ -181,15 +191,14 @@
 
 {1 :Olical/conjure
  :dependencies [{1 :PaterJason/cmp-conjure
-                 :config (fn []
-                           (local cmp (require :cmp))
-                           (local config (cmp.get_config))
-                           (table.insert
-                             config.sources
-                             {:name :buffer
-                              :option {:sources
-                                        [{:name :conjure}]}})
-                           (cmp.setup config))}
+                 :config #(let [cmp (require :cmp)
+                                config (cmp.get_config)]
+                            (table.insert
+                              config.sources
+                              {:name :buffer
+                               :option {:sources
+                                         [{:name :conjure}]}})
+                            (cmp.setup config))}
                 {1 :m00qek/baleia.nvim
                  :tag :v1.4.0
                  :config true}]
