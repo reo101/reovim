@@ -27,7 +27,7 @@
                           :q [vim.diagnostic.setloclist  "Send to loclist"]}
                       :f [#(vim.lsp.buf.format {:async true}) :Format]
                       :r [vim.lsp.buf.rename                  :Rename]
-                      :i [#(vim.lsp.inlay_hint.enable 0 (not (vim.lsp.inlay_hint.is_enabled 0)))
+                      :i [#(vim.lsp.inlay_hint.enable (not (vim.lsp.inlay_hint.is_enabled {})) {})
                           "Toggle inlay hints"]}}
         direct-mappings {:K [vim.lsp.buf.hover :Hover]
                          :g {:d [vim.lsp.buf.definition      :Definition]
@@ -74,8 +74,8 @@
     ((. (require :nvim-navic) :attach) client bufnr))
 
   (when client.server_capabilities.inlayHintProvider
-    (when (not (vim.lsp.inlay_hint.is_enabled bufnr))
-      (vim.lsp.inlay_hint.enable bufnr true))))
+    (when (not (vim.lsp.inlay_hint.is_enabled {}))
+      (vim.lsp.inlay_hint.enable true {}))))
 
 (fn lsp-on-init [client]
   (vim.notify "Language Server Client successfully started!"
