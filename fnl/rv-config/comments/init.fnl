@@ -1,40 +1,29 @@
 (fn config []
-  (let [opt {:extended {:above :<leader>cO
-                        :below :<leader>co
-                        :eol :<leader>cA}
-             :extra {:above :<leader>cO
-                     :below :<leader>co
-                     :eol :<leader>cA}
-             :ignore nil
-             :mappings {:basic true :extended false :extra true}
-             :opleader {:block :<leader>C :line :<leader>c}
-             :padding true
-             :post_hook nil
-             :pre_hook ((. (require :ts_context_commentstring.integrations.comment_nvim)
-                           :create_pre_hook))
-             :sticky true
-             :toggler {:block :<leader>Cc :line :<leader>cc}}]
-    ((. (require :Comment) :setup) opt)
-    (local comment-api (require :Comment.api))
-    (local dk (require :def-keymaps))
-    (local mappings
-           {:c {:name "Line Comment"
-                :c [comment-api.toggle.linewise.current
-                    "Toggle Line"]
-                :o [comment-api.insert.linewise.below :o]
-                :O [comment-api.insert.linewise.above :O]
-                :A [comment-api.insert.linewise.eol :A]}
-            :C {:name "Block Comment"
-                :c [comment-api.toggle.blockwise.current
-                    "Toggle line"]}})
-    (local operator-mappings
-           {:c [comment-api.toggle.linewise.current]
-            :C [comment-api.toggle.blockwise.current]})
-    (dk :n mappings {:prefix :<leader>})
-    (dk :o operator-mappings {:prefix :<leader>})))
+  (let [dk (require :def-keymaps)]
+    (dk [:n :v :x :o]
+        {:c "gc"}
+        {:prefix :<leader>
+         :remap true}))
+  (let [group (vim.api.nvim_create_augroup
+                :reovim-commentstring-space
+                {:clear true})]
+    (vim.api.nvim_create_autocmd
+      [:FileType]
+      {:desc "Force commentstring to include spaces"
+       : group
+       :callback (fn [event]
+                   (let [cs (. vim.bo event.buf :commentstring)]
+                     (tset (. vim.bo event.buf) :commentstring
+                           (-> cs
+                               (: :gsub "(%S)%%s" "%1 %%s")
+                               (: :gsub "%%s(%S)" "%%s %1")))))}))
+  (let [get-option vim.filetype.get_option]
+    (set vim.filetype.get_option
+         (fn [filetype option]
+           (case option
+             :commentstring ((-> (require :ts_context_commentstring.internal)
+                                 (. :calculate_commentstring)))
+             _ (get-option filetype option))))))
 
-[{1 :numToStr/Comment.nvim
-  :dependencies [:JoosepAlviste/nvim-ts-context-commentstring]
-  :keys [{1 :<leader>c :desc "Line Comment"  :mode [:n :o]}
-         {1 :<leader>C :desc "Block Comment" :mode [:n :o]}]
-  : config}]
+{1 :JoosepAlviste/nvim-ts-context-commentstring
+ : config}
