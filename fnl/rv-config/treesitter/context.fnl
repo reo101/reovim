@@ -29,7 +29,9 @@
     (treesitter-context.setup opt)
     (dk :n
         {:t {:name :Toggle
-             :c [treesitter-context.toggle :Context]}}
+             :s {:name :TreeSitter
+                 :c [#(treesitter-context.toggle) :Context]}}}
         {:prefix :<leader>})))
 
-{: config}
+{1 :romgrk/nvim-treesitter-context
+ : config}

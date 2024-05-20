@@ -240,16 +240,17 @@
                 :s {:name :TreeSitter
                     :h ["<Cmd>TSBufToggle highlight<CR>"
                         :Highlighting]
-                    :c [(. (require :treesitter-context)
-                           :toggleEnabled)
-                        :Context]
+                    ;; :c [(. (require :treesitter-context)
+                    ;;        :toggleEnabled)
+                    ;;     :Context]
                     :g [:<Cmd>TSPlaygroundToggle<CR>
                         :PlayGround]
                     ;; :t ["<Cmd>TSBufToggle autotag<CR>"
                     ;;     :Autotags]
                     :p ["<Cmd>TSBufToggle autopairs<CR>"
                         :Autopairs]}}
-            :s {:d {:name :Definitions
+            :s {:name :TreeSitter
+                :d {:name :Definitions
                     :g ["Goto definition"]
                     :l ["List definitions"]}
                 :r ["Smart rename"]
@@ -266,8 +267,7 @@
                     :n {:name "Swap next"
                         :p [:Parameter]
                         :c [:Class]
-                        :f [:Function]}}
-                :name :TreeSitter}})
+                        :f [:Function]}}}})
     (dk :n mappings {:prefix :<leader>})
     (local operator-mappings
            {:i {:name :inside
@@ -309,10 +309,11 @@
   :dependencies [:nvim-treesitter/nvim-treesitter-textobjects
                  :mfussenegger/nvim-ts-hint-textobject
                  ;; :nvim-treesitter/playground
-                 :romgrk/nvim-treesitter-context
+                 ;; :romgrk/nvim-treesitter-context
                  :JoosepAlviste/nvim-ts-context-commentstring
                  ;; :windwp/nvim-ts-autotag]
                  :RRethy/nvim-treesitter-textsubjects]
   :event :BufRead
   : config}
- (require (.. ... :.rainbow))]
+ (require (.. ... :.rainbow))
+ (require (.. ... :.context))]
