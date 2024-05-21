@@ -1,8 +1,8 @@
 (fn config []
-  (let [opt {}]
-    ((. (require :bqf) :setup) opt)
-    (local wk (require :which-key))
-
+  (let [bqf (require :bqf)
+        dk (require :def-keymaps)
+        opt {}]
+    (bqf.setup opt)
     (fn check [want]
       #(each [_ info (ipairs (vim.fn.getwininfo))]
          (vim.cmd
@@ -16,11 +16,11 @@
                    :lopen
                    :lclose)))))
 
-    (local mappings
-           {:t {:l [(check :loclist) :Loclist]
-                :name :Toggle
-                :q [(check :quickfix) :Quickfix]}})
-    (wk.register mappings {:mode :n :prefix :<leader>})))
+    (dk [:n]
+        {:t {:name :Toggle
+             :l [(check :loclist)  :Loclist]
+             :q [(check :quickfix) :Quickfix]}}
+        {:prefix :<leader>})))
 
 {1 :kevinhwang91/nvim-bqf
  :ft :qf
