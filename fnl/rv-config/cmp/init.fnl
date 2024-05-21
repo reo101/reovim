@@ -32,14 +32,14 @@
 (fn config []
   (let [cmp     (require :cmp)
         luasnip (require :luasnip)]
-    (fn esc [str]
-      (vim.api.nvim_replace_termcodes str true true true))
-    (fn check-back-space []
-      (let [col (- (vim.fn.col ".") 1)]
-        (or (= col 0)
-            (-m> (vim.fn.getline ".")
-                 [:sub col col]
-                 [:match "%s"]))))
+    ;; (fn esc [str]
+    ;;   (vim.api.nvim_replace_termcodes str true true true))
+    ;; (fn check-back-space []
+    ;;   (let [col (- (vim.fn.col ".") 1)]
+    ;;     (or (= col 0)
+    ;;         (-m> (vim.fn.getline ".")
+    ;;              [:sub col col]
+    ;;              [:match "%s"]))))
     (local
       opt
       {:mapping
@@ -169,7 +169,7 @@
               (tset
                 vim-item
                 :menu
-                (match entry.source.entry
+                (match entry.source.name
                   :path          "[Path]"
                   :calc          "[Calc]"
                   :spell         "[Spell]"
@@ -180,7 +180,8 @@
                   :tmux          "[Tmux]"
                   :latex_symbols "[LaTeX]"
                   :crates        "[Crates]"
-                  :neorg         "[Neorg]"))
+                  :neorg         "[Neorg]"
+                  :conjure       "[Conjure]"))
 
               ;; NOTE: Allow duplicates for certain sources
               (tset
@@ -204,8 +205,10 @@
                  ;; All buffers
                  ;; (vim.api.nvim_list_bufs)
                  ;; Buffers in current window
-                 (imap (vim.api.nvim_list_wins)
-                       vim.api.nvim_win_get_buf))}}
+                 (-> (vim.api.nvim_list_wins)
+                     vim.iter
+                     (: :map vim.api.nvim_win_get_buf)
+                     (: :totable)))}}
           ;; {:name "copilot"}
           {:name "nvim_lua"}
           {:name "path"}
@@ -213,6 +216,7 @@
           {:name "latex_symbols"
            :option {:strategy 0}}
           {:name "spell"}
+          {:name "conjure"}
           {:name "tmux"
            :option {:all_panes false}}
           {:name "crates"}
@@ -316,7 +320,7 @@
         format (require :cmp_git.format)
         sort (require :cmp_git.sort)
         opt {;; defaults
-             :filetypes ["gitcommit" "octo"]
+             :filetypes ["gitcommit" "neogitcommitmessage" "octo"]
              ;; in order of most to least prioritized
              :remotes ["upstream" "origin"]
              ;; enable git url rewrites, see https://git-scm.com/docs/git-config#Documentation/git-config.txt-urlltbasegtinsteadOf
