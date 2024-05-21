@@ -50,7 +50,7 @@ local opt = {
         "plugin",
         "ftplugin",
         "ftdetect",
-        "snippets",
+        "luasnippets",
         "after/plugin",
         "after/ftplugin",
         "after/ftdetect",
