@@ -83,12 +83,7 @@
              :s [neogit.open "Status"]}}
         {:prefix :<leader>})))
 
-[{1 :TimUntersberger/neogit
-  :keys [:<leader>gs]
-  :dependencies [:nvim-lua/plenary.nvim]
-  : config}
- (require (.. ... :.diffview))
- (require (.. ... :.gitsigns))
- ;; TODO: `git-worktree` and `octo.nvim`
- (require (.. ... :.gitlinker))
- (require (.. ... :.conflict))]
+{1 :TimUntersberger/neogit
+ :keys [:<leader>gs]
+ :dependencies [:nvim-lua/plenary.nvim]
+ : config}
