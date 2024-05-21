@@ -276,7 +276,8 @@
       "gitcommit"
       {:sources
          (cmp.config.sources
-           [{:name "cmdline"}
+           [{:name "git"}
+            {:name "cmdline"}
             {:name "nvim_lsp"}
             {:name "nvim_lua"}
             {:name "nvim_lsp_document_symbol"}
@@ -308,8 +309,91 @@
                compare.sort_text
                compare.length
                compare.order])}})
-
     (cmp.setup opt)))
+
+(fn cmp-git-config []
+  (let [cmp-git (require :cmp_git)
+        format (require :cmp_git.format)
+        sort (require :cmp_git.sort)
+        opt {;; defaults
+             :filetypes ["gitcommit" "octo"]
+             ;; in order of most to least prioritized
+             :remotes ["upstream" "origin"]
+             ;; enable git url rewrites, see https://git-scm.com/docs/git-config#Documentation/git-config.txt-urlltbasegtinsteadOf
+             :enableRemoteUrlRewrites false
+             :git
+               {:commits
+                  {:limit 100
+                   :sort_by sort.git.commits
+                   :format format.git.commits}}
+             :github
+               {;; list of private instances of github
+                :hosts {}
+                :issues
+                  {:fields ["title" "number" "body" "updatedAt" "state"]
+                   ;; assigned, created, mentioned, subscribed, all, repos
+                   :filter "all"
+                   :limit 100
+                   ;; open, closed, all
+                   :state "open"
+                   :sort_by sort.github.issues
+                   :format format.github.issues}
+                :mentions
+                  {:limit 100
+                   :sort_by sort.github.mentions
+                   :format format.github.mentions}
+                :pull_requests
+                  {:fields ["title" "number" "body" "updatedAt" "state"]
+                   :limit 100
+                   ;; open, closed, merged, all
+                   :state "open"
+                   :sort_by sort.github.pull_requests
+                   :format format.github.pull_requests}}
+             :gitlab
+               {;; list of private instances of gitlab
+                :hosts {}
+                :issues
+                  {:limit 100
+                   ;; opened, closed, all
+                   :state "opened"
+                   :sort_by sort.gitlab.issues
+                   :format format.gitlab.issues}
+                :mentions
+                  {:limit 100
+                   :sort_by sort.gitlab.mentions
+                   :format format.gitlab.mentions}
+                :merge_requests
+                  {:limit 100
+                   ;; opened, closed, locked, merged
+                   :state "opened"
+                   :sort_by sort.gitlab.merge_requests
+                   :format format.gitlab.merge_requests}}
+             :trigger_actions
+               [{:debug_name "git_commits"
+                 :trigger_character ":"
+                 :action (fn [sources trigger-char callback params git-info]
+                           (sources.git:get-commits callback params trigger-char))}
+                {:debug_name "gitlab_issues"
+                 :trigger_character "#"
+                 :action (fn [sources trigger-char callback params git-info]
+                           (sources.gitlab:get-issues callback git-info trigger-char))}
+                {:debug_name "gitlab_mentions"
+                 :trigger_character "@"
+                 :action (fn [sources trigger-char callback params git-info]
+                           (sources.gitlab:get-mentions callback git-info trigger-char))}
+                {:debug_name "gitlab_mrs"
+                 :trigger_character "!"
+                 :action (fn [sources trigger-char callback params git-info]
+                           (sources.gitlab:get-merge-requests callback git-info trigger-char))}
+                {:debug_name "github_issues_and_pr"
+                 :trigger_character "#"
+                 :action (fn [sources trigger-char callback params git-info]
+                           (sources.github:get-issues-and-prs callback git-info trigger-char))}
+                {:debug_name "github_mentions"
+                 :trigger_character "@"
+                 :action (fn [sources trigger-char callback params git-info]
+                           (sources.github:get-mentions callback git-info trigger-char))}]}]
+    (cmp-git.setup opt)))
 
 {1 :hrsh7th/nvim-cmp
  :dependencies [:nvim-treesitter/nvim-treesitter
@@ -325,7 +409,9 @@
                 :hrsh7th/cmp-cmdline
                 :hrsh7th/cmp-omni
                 :kdheepak/cmp-latex-symbols
-                :ryo33/nvim-cmp-rust]
+                :ryo33/nvim-cmp-rust
+                {1 :petertriho/cmp-git
+                 :config cmp-git-config}]
  :event        [:InsertEnter
                 :CmdlineEnter]
  : config}
