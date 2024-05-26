@@ -219,6 +219,33 @@
                   &into []]
          (,fun v#))))
 
+(fn inherit [...]
+  "Make a new table, inheriting values for certain keys from an existing one or from the surrounding environment"
+  (case [...]
+    ;; (inherit (tbl) :a :b :c)
+    (where [[tbl] & keys]
+           (and
+             (= (. (getmetatable tbl) 1) :SYMBOL)
+             (-> keys vim.iter (: :all #(= (type $) :string)))))
+    (-> keys
+        vim.iter
+        (: :map (fn [k] [k `(. ,tbl ,k)]))
+        (: :fold {}
+           (fn [res [k v]]
+             (tset res k v)
+             res)))
+    ;; (inherit a b c)
+    (where [& keys]
+           (-> keys vim.iter (: :all sym?)))
+    (-> keys
+        vim.iter
+        (: :map (fn [sym] (-?> sym in-scope? (#[$ sym]))))
+        (: :fold {}
+           (fn [res [k v]]
+             (tset res k v)
+             res)))
+    _ (assert-compile false "Invalid arguments")))
+
 {: rv
  : dbg!
  : assert-tbl
@@ -233,4 +260,5 @@
  : >== :foreach >==
  : i>== :forieach i>==
  : map
- : imap}
+ : imap
+ : inherit}
