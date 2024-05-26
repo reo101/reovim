@@ -15,7 +15,9 @@
       ;; Inactive Winbar
       InactiveWinbar
       {:init      (fn [self]
-                    (set vim.opt_local.winbar nil))
+                    (set vim.opt_local.winbar nil)
+                    (vim.schedule
+                      #(vim.cmd.redrawstatus)))
        :condition (fn [self]
                     (conditions.buffer_matches
                       {:filetype [:^git.*
