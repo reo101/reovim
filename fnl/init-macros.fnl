@@ -221,22 +221,42 @@
 
 (fn inherit [...]
   "Make a new table, inheriting values for certain keys from an existing one or from the surrounding environment"
+  (var error-elem nil)
+  (var error-msg nil)
+  (fn err [e msg ...]
+    (set error-elem e)
+    (set error-msg (string.format msg ...))
+    false)
+  (fn err! [e msg ...]
+    (assert-compile false (string.format msg ...) e))
   (case [...]
     ;; (inherit (tbl) :a :b :c)
-    (where [[tbl] & keys]
+    ;; BUG: using the `& rest` syntax loses AST location info
+    (where [mtbl & keys]
            (and
-             (= (. (getmetatable tbl) 1) :SYMBOL)
-             (-> keys vim.iter (: :all #(= (type $) :string)))))
-    (-> keys
-        vim.iter
-        (: :map (fn [k] [k `(. ,tbl ,k)]))
-        (: :fold {}
-           (fn [res [k v]]
-             (tset res k v)
-             res)))
+             (or (list? mtbl)
+                 (and (sequence? mtbl)
+                      (err! mtbl "Table not in (tbl) syntax")))
+             (or (sym? (. mtbl 1))
+                 (err (. mtbl 1) "Table is not a symbol"))
+             (-> keys
+                 vim.iter
+                 (: :all #(or (= (type $) :string)
+                              (err! $ "Binding is not a string"))))))
+    (let [tbl (. mtbl 1)]
+      (-> keys
+          vim.iter
+          (: :map (fn [k] [k `(. ,tbl ,k)]))
+          (: :fold {}
+             (fn [res [k v]]
+               (tset res k v)
+               res))))
     ;; (inherit a b c)
     (where [& keys]
-           (-> keys vim.iter (: :all sym?)))
+           (-> keys
+               vim.iter
+               (: :all #(or (sym? $)
+                            (err $ "Binding is not a symbol")))))
     (-> keys
         vim.iter
         (: :map (fn [sym] (-?> sym in-scope? (#[$ sym]))))
@@ -244,7 +264,15 @@
            (fn [res [k v]]
              (tset res k v)
              res)))
-    _ (assert-compile false "Invalid arguments")))
+    _ (if error-msg
+          (assert-compile false
+                          error-msg
+                          error-elem)
+          ;; else
+          (assert-compile false
+                          "Invalid arguments"))))
+
+
 
 {: rv
  : dbg!
