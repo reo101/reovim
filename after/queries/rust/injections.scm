@@ -36,3 +36,23 @@
   (#set! injection.include-children)
   (#set! "priority" 128)
 )
+
+(
+  (call_expression
+    function:
+      [
+        (generic_function
+          function:
+            (field_expression
+              field: (field_identifier) @_method))
+        (field_expression
+          field: (field_identifier) @_method)
+      ]
+    arguments: (arguments
+      .
+      (_
+        (string_content) @injection.content)))
+    (#any-of? @_method "execute" "execute_batch" "prepare" "query" "query_row")
+    (#set! injection.language "sql")
+    (#set! "priority" 128)
+)
