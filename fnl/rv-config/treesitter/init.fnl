@@ -167,12 +167,12 @@
                             :files  [:src/parser.c]
                             :branch :update-parser}
              :filetype :move}
-            :typst
-            {:install_info {:url    "https://github.com/frozolotl/tree-sitter-typst"
-                            :files  [:src/parser.c
-                                     :src/scanner.cc]
-                            :branch :master}
-             :filetype :typst}
+            ;; :typst
+            ;; {:install_info {:url    "https://github.com/frozolotl/tree-sitter-typst"
+            ;;                 :files  [:src/parser.c
+            ;;                          :src/scanner.cc]
+            ;;                 :branch :master}
+            ;;  :filetype :typst}
               ;; :typescript
               ;;  {:install_info {:url    "https://github.com/tree-sitter/tree-sitter-typescript"
               ;;                  :files  [:tsx/src/parser.c
@@ -221,10 +221,10 @@
                             :files  [:src/parser.c
                                      :src/scanner.c]
                             :branch :master}}
-            :odin
-            {:install_info {:url "https://github.com/MineBill/tree-sitter-odin"
-                            :files [:src/parser.c]
-                            :branch :master}}
+            ;; :odin
+            ;; {:install_info {:url "https://github.com/MineBill/tree-sitter-odin"
+            ;;                 :files [:src/parser.c]
+            ;;                 :branch :master}}
             :nu
             {:install_info {:url    "https://github.com/nushell/tree-sitter-nu"
                             :files  [:src/parser.c]
@@ -238,16 +238,16 @@
     (local mappings
            {:t {:name :Toggle
                 :s {:name :TreeSitter
-                    :h ["<Cmd>TSBufToggle highlight<CR>"
+                    :h [#(vim.cmd.TSBufToggle :highlight)
                         :Highlighting]
                     ;; :c [(. (require :treesitter-context)
                     ;;        :toggleEnabled)
                     ;;     :Context]
-                    :g [:<Cmd>TSPlaygroundToggle<CR>
+                    :g [#(vim.cmd.InspectTree)
                         :PlayGround]
                     ;; :t ["<Cmd>TSBufToggle autotag<CR>"
                     ;;     :Autotags]
-                    :p ["<Cmd>TSBufToggle autopairs<CR>"
+                    :p [#(vim.cmd.TSBufToggle :autopairs)
                         :Autopairs]}}
             :s {:name :TreeSitter
                 :d {:name :Definitions
@@ -293,7 +293,7 @@
             "i;" ["textsubjects-container-inner"]
             ","  ["textsubjects-last"]
             "."  ["textsubjects-smart"]})
-    (dk :o operator-mappings {:noremap false})
+    (dk :o operator-mappings)
     (local motion-mappings
            {"][" ["Next @class.outer end"]
             "[]" ["Previous @class.outer end"]
@@ -303,7 +303,7 @@
             "[[" ["Previous @class.outer start"]
             "]M" ["Next @function.outer end"]
             "[m" ["Previous @function.outer start"]})
-    (dk [:n :o] motion-mappings {:noremap false})))
+    (dk [:n :o] motion-mappings)))
 
 [{1 :nvim-treesitter/nvim-treesitter
   :dependencies [:nvim-treesitter/nvim-treesitter-textobjects

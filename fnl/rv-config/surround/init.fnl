@@ -1,5 +1,6 @@
 (fn config []
- (let [utils (require :nvim-surround.config)
+ (let [nvim-surround (require :nvim-surround)
+       utils (require :nvim-surround.config)
        opt {:keymaps {:insert          :<C-g>s
                       :insert_line     :<C-g>S
                       :normal          :ys
@@ -186,7 +187,7 @@
                           "`"]}
             :highlight {:duration 0}
             :move_cursor :begin}]
-  ((. (require :nvim-surround) :setup) opt)))
+  (nvim-surround.setup opt)))
 
 {1 :kylechui/nvim-surround
  : config}

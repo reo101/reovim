@@ -3,13 +3,13 @@
           : lsp-on-attach
           : lsp-capabilities
           : lsp-root-dir} (require :rv-config.lsp.utils)
-         opt {:lsp {: lsp-on-init
-                    : lsp-on-attach
-                    : lsp-capabilities
-                    : lsp-root-dir}
+         opt {:lsp {:on-init      lsp-on-init
+                    :on-attach    lsp-on-attach
+                    :capabilities lsp-capabilities
+                    :root-dir     lsp-root-dir}
               :ft  {:default :lean}
               :abbreviations {:enable false} ;; Using cmp-latex-symbols
-              :infoview {:autoopen     #true
+              :infoview {:autoopen     true
                          :separate_tab false}
               :progress_bars {:enable   true
                               :priority 10}
@@ -19,5 +19,9 @@
         ((. (require :lean) :setup) opt)))
 
 {1 :Julian/lean.nvim
- :ft ["lean"]
+ :dependencies [:neovim/nvim-lspconfig
+                :nvim-lua/plenary.nvim]
+ ;; :ft ["lean"]
+ :event ["BufReadPre *.lean"
+         "BufNewFile *.lean"]
  : config}

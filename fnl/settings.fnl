@@ -136,7 +136,9 @@
   ;;; Hide "Pattern not found" when no completion is available
   (: :append "c")
   ;;; Ensure autocmd works for Filetype
-  (: :remove "F"))
+  (: :remove "F")
+  ;;; Hide "written" when writing a file
+  (: :append "W"))
 
 ;;; we don't need to see things like -- INSERT -- anymore
 (tset vim.opt :showmode false)
@@ -210,7 +212,7 @@
 ;; (tset vim.wo :foldmethod "expr")
 ;; (tset vim.wo :foldminlines 1)
 ;; (tset vim.wo :foldnestmax 3)
-;; (tset vim.wo :foldtext [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) ]])
+;; (tset vim.wo :foldtext "substitute(getline(v:foldstart),'\\t',repeat('\\ ',&tabstop),'g').'...'.trim(getline(v:foldend))")
 
 ;;; Disable builtin plugins
 (let [disabled_plugins
