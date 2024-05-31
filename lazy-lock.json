@@ -123,7 +123,7 @@
   "toggleterm.nvim": { "branch": "main", "commit": "066cccf48a43553a80a210eb3be89a15d789d6e6" },
   "tokyonight.nvim": { "branch": "main", "commit": "634015fff1457ed66cf5364213a2bbbc51a82d6c" },
   "tree-sitter-nu": { "branch": "main", "commit": "a58513279e98dc3ff9ed149e3b4310cbb7e11068" },
-  "trouble.nvim": { "branch": "main", "commit": "b9cf677f20bb2faa2dacfa870b084e568dca9572" },
+  "trouble.nvim": { "branch": "main", "commit": "46a19388d3507f4c4bebb9994bf821a79b3bc342" },
   "typed-fennel": { "branch": "main", "commit": "8e19547344d087e205bd46c6475cc3748ca4d0e4" },
   "typst-preview.nvim": { "branch": "master", "commit": "5867db936576741f378b558a9d7428b928819df5" },
   "typst.nvim": { "branch": "main", "commit": "d7480653ea08847f144393d115a0dab8198fd817" },
