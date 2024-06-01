@@ -32,8 +32,8 @@
                         :color_devicons true
                         :wrap_results true
                         :winblend 20
-                        :mappings {:i {:<C-s> (. (require :trouble.providers.telescope)
-                                                 :open_with_trouble)}}}}]
+                        :mappings {:i {:<C-s> (. (require :trouble.sources.telescope)
+                                                 :open)}}}}]
     ;; Main setup
     (telescope.setup opt)
 
