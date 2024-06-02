@@ -56,11 +56,13 @@
     (neorg.setup opt)))
 
 {1 :vhyrro/neorg
- :dependencies [:vhyrro/luarocks.nvim
+ :dependencies [{1 :vhyrro/luarocks.nvim
+                 :event :VeryLazy}
                 {1 :nvim-neorg/neorg-telescope
                  :event :VeryLazy
                  :dependencies [:nvim-telescope/telescope.nvim]}]
  :tag :v8.2.1
+ :event :VeryLazy
  ; :ft [:norg]
  ; :cmd [:NeorgStart]
  : config}

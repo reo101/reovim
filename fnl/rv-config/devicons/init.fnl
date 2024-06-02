@@ -13,4 +13,5 @@
     (devicons.setup opt)))
 
 {1 :nvim-tree/nvim-web-devicons
+ :event :VeryLazy
  : config}

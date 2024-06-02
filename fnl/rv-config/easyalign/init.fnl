@@ -11,4 +11,5 @@
           visual-mappings))))
 
 {1 :junegunn/vim-easy-align
+ :event :VeryLazy
  : config}

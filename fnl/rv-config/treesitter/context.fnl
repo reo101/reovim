@@ -34,4 +34,5 @@
         {:prefix :<leader>})))
 
 {1 :romgrk/nvim-treesitter-context
+ :event :VeryLazy
  : config}

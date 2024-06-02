@@ -26,4 +26,5 @@
              _ (get-option filetype option))))))
 
 {1 :JoosepAlviste/nvim-ts-context-commentstring
+ :event :VeryLazy
  : config}
