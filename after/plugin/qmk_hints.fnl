@@ -1,3 +1,6 @@
+(do
+  (lua "return nil"))
+
 (local treesitter-query-parser (or (?. vim :treesitter :query :parse)
                                    (?. vim :treesitter :parse_query)))
 
