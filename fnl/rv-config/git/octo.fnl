@@ -209,7 +209,9 @@
                    :select_first_entry {:lhs "[Q" :desc "move to first changed file"}
                    :select_last_entry {:lhs "]Q" :desc "move to last changed file"}
                    :close_review_tab {:lhs "<C-c>" :desc "close review tab"}
-                   :toggle_viewed {:lhs "<localleader><localleader>" :desc "toggle viewer viewed state"}}}}]
+                   :toggle_viewed {:lhs "<localleader><localleader>" :desc "toggle viewer viewed state"}}}
+              :suppress_missing_scope
+               {:projects_v2 true}}]
     (octo.setup opt)
 
     (vim.treesitter.language.register :markdown :octo)
