@@ -71,7 +71,7 @@
                              ;; else
                              nil))
         canonicalized-keymaps (vim.tbl_map canonicalize-rhs keymaps)
-        base-keymap-opts {:silent  true
+        base-keymap-opts {:silent true
                           :remap false}
         keymap-opts (vim.tbl_extend "force"
                                     base-keymap-opts
