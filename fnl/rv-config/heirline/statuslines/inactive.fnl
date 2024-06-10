@@ -22,8 +22,8 @@
         {:condition (fn [self]
                       (not (conditions.is_active)))}
         [Filetype
-          Space
-          Filename
-          Align])]
+         Space
+         Filename
+         Align])]
 
   {: InactiveStatusline})

@@ -27,8 +27,8 @@
                                    :quickfix]
                          :filetype [:^.git.*]}))}
         [Filetype
-          Space
-          Filename
-          Align])]
+         Space
+         Filename
+         Align])]
 
   {: SpecialStatusline})

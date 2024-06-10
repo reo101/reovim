@@ -104,10 +104,6 @@
         {: DefaultWinbar}
         (require :rv-config.heirline.winbars.default)
 
-        ;; Inactive Winbar
-        {: InactiveWinbar}
-        (require :rv-config.heirline.winbars.inactive)
-
         ;;; Tablines
 
         {: DefaultTabline}
@@ -159,8 +155,8 @@
         (vim.tbl_extend
           :error
           {:fallthrough false}
-          [InactiveWinbar
-           DefaultWinbar])
+          ;; TODO: winbars for inactive buffers + terminal
+          [DefaultWinbar])
 
         ;; Tabline
         Tabline
@@ -206,7 +202,18 @@
                      :winbar       Winbar
                      :tabline      Tabline
                      :statuscolumn Statuscolumn
-                     :opts {:colors setup-colors}})
+                     :opts {:colors setup-colors
+                            :disable_winbar_cb
+                              (fn [{: buf}]
+                                (conditions.buffer_matches
+                                  {:filetype [:^git.*
+                                              :fugitive]
+                                   :buftype  [:nofile
+                                              :prompt
+                                              :help
+                                              :terminal
+                                              :quickfix]}
+                                  buf))}})
 
     (let [group (vim.api.nvim_create_augroup
                    :Heirline
