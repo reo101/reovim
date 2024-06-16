@@ -31,12 +31,6 @@
         dial-augend-common (require :dial.augend.common)
         (has-utf8? utf8) (pcall require :lua-utf8)
         dk (require :def-keymaps)
-        default [dial-augend.integer.alias.decimal
-                 dial-augend.integer.alias.hex
-                 dial-augend.integer.alias.binary
-                 (. dial-augend.date.alias "%Y/%m/%d")
-                 dial-augend.semver.alias.semver
-                 dial-augend.constant.alias.bool]
         haskell-boolean (dial-augend.constant.new
                           {:cyclic true
                            :desc "Haskell True/False"
@@ -112,6 +106,18 @@
                          (string.format "[%s]+"
                                         (table.concat
                                           selected)))})))
+        agda-scripts [(agda-script :_)
+                      (agda-script :^)
+                      (agda-script :b)
+                      (agda-script :B)
+                      (agda-script :F)]
+        default [dial-augend.integer.alias.decimal
+                 dial-augend.integer.alias.hex
+                 dial-augend.integer.alias.binary
+                 (. dial-augend.date.alias "%Y/%m/%d")
+                 dial-augend.semver.alias.semver
+                 dial-augend.constant.alias.bool
+                 (unpack agda-scripts)]
         augends-group {: default
                        :haskell (vim.tbl_extend
                                   :keep
@@ -134,38 +140,36 @@
                              dial-augend.constant.alias.bool
                              zig-octal]
                        :agda [dial-augend.integer.alias.decimal
-                              (agda-script :_)
-                              (agda-script :^)
-                              (agda-script :b)
-                              (agda-script :B)
-                              (agda-script :F)]}]
+                              (unpack agda-scripts)]}]
     (dial-config.augends:register_group augends-group)
+    ;; Default mappings
     (dk :n
-        {:<C-a> [dial-map.inc_normal :Increment]
-         :<C-x> [dial-map.dec_normal :Decrement]})
+        {:<C-a> [(dial-map.inc_normal) :Increment]
+         :<C-x> [(dial-map.dec_normal) :Decrement]})
     (dk :v
-        {:<C-a>  [dial-map.inc_visual  :Increment]
-         :<C-x>  [dial-map.dec_visual  :Decrement]
-         :g<C-a> [dial-map.inc_gvisual :Increment]
-         :g<C-x> [dial-map.dec_gvisual :Decrement]})
-    (local group (vim.api.nvim_create_augroup
-                   :dial-filetype-autocommands
-                   {:clear true}))
-    (each [_ lang (ipairs [:haskell :zig :rust :agda])]
-      (vim.api.nvim_create_autocmd
-        :FileType
-        {:pattern lang
-         : group
-         :callback
-           #(do
-              (dk :n
-                  {:<C-a> (dial-map.inc_normal lang)
-                   :<C-x> (dial-map.dec_normal lang)})
-              (dk :v
-                  {:<C-a>  [(dial-map.inc_visual lang)  :Increment]
-                   :<C-x>  [(dial-map.dec_visual lang)  :Decrement]
-                   :g<C-a> [(dial-map.inc_gvisual lang) :Increment]
-                   :g<C-x> [(dial-map.dec_gvisual lang) :Decrement]}))}))))
+        {:<C-a>  [(dial-map.inc_visual)  :Increment]
+         :<C-x>  [(dial-map.dec_visual)  :Decrement]
+         :g<C-a> [(dial-map.inc_gvisual) :Increment]
+         :g<C-x> [(dial-map.dec_gvisual) :Decrement]})
+    ;; Filetype-specific mappings
+    (let [group (vim.api.nvim_create_augroup
+                  :dial-filetype-autocommands
+                  {:clear true})]
+      (each [_ lang (ipairs [:haskell :zig :rust :agda])]
+        (vim.api.nvim_create_autocmd
+          :FileType
+          {:pattern lang
+           : group
+           :callback
+             #(do
+                (dk :n
+                    {:<C-a> [(dial-map.inc_normal lang) :Increment]
+                     :<C-x> [(dial-map.dec_normal lang) :Decrement]})
+                (dk :v
+                    {:<C-a>  [(dial-map.inc_visual lang)  :Increment]
+                     :<C-x>  [(dial-map.dec_visual lang)  :Decrement]
+                     :g<C-a> [(dial-map.inc_gvisual lang) :Increment]
+                     :g<C-x> [(dial-map.dec_gvisual lang) :Decrement]}))})))))
 
 {1 :monaqa/dial.nvim
  :event :VeryLazy
