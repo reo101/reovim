@@ -67,8 +67,6 @@
     "Hole should be a symbol")
   (local hole (tostring hole))
   (fn deep-sed [ast target res]
-    (vim.print {: ast
-                : target})
     (case (getmetatable ast)
       ;; Bottom of ast
       nil
