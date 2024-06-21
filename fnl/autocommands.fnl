@@ -34,7 +34,7 @@
      #(do
         (vim.keymap.set
           :t
-          :<Esc>
+          :<Esc><Esc>
           :<C-\><C-n>
           {:buffer true})
         (vim.cmd ":startinsert")
