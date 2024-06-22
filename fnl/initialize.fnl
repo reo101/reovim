@@ -37,4 +37,5 @@
 
 (require :autocommands)
 
-(require :neovide)
+(when vim.g.neovide
+  (require :neovide))
