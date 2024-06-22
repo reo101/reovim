@@ -9,7 +9,12 @@
 ;; (local lazy (require :lazy))
 
 (local main-plugins
-    [;; Fennel loader
+    [;; Nix helper
+     {1 :BirdeeHub/nixCats-nvim
+      :priority 1000
+      :lazy false}
+
+     ;; Fennel loader
      {1 :udayvir-singh/tangerine.nvim
       :priority 1000
       :lazy false}
