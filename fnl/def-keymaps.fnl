@@ -51,7 +51,7 @@
                              {:cmd   rhs
                               :final true}
                              ;; Documented rhs
-                             (and (vim.tbl_islist rhs)
+                             (and (vim.islist rhs)
                                   (= (length rhs) 2)
                                   (is-valid-cmd  (. rhs 1))
                                   (is-valid-desc (. rhs 2)))
@@ -59,14 +59,14 @@
                               :desc  (. rhs 2)
                               :final true}
                              ;; Empty (but documented) rhs
-                             (and (vim.tbl_islist rhs)
+                             (and (vim.islist rhs)
                                   (= (length rhs) 1)
                                   (is-valid-desc (. rhs 1)))
                              {:cmd   nil
                               :desc  (. rhs 1)
                               :final true}
                              ;; Nested table, leave be
-                             (not (vim.tbl_islist rhs))
+                             (not (vim.islist rhs))
                              rhs
                              ;; else
                              nil))

@@ -24,7 +24,7 @@
 
 ;;; Validation
 (fn List.list? [xs]
-  (vim.tbl_islist xs))
+  (vim.islist xs))
 
 ;;; Construction
 (fn List.new [...]
