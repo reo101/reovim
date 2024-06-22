@@ -1,5 +1,6 @@
 (import-macros
   {: -m>
+   : as->
    : imap}
   :init-macros)
 
@@ -169,7 +170,7 @@
               (tset
                 vim-item
                 :menu
-                (match entry.source.name
+                (case entry.source.name
                   :path          "[Path]"
                   :calc          "[Calc]"
                   :spell         "[Spell]"
@@ -181,7 +182,11 @@
                   :latex_symbols "[LaTeX]"
                   :crates        "[Crates]"
                   :neorg         "[Neorg]"
-                  :conjure       "[Conjure]"))
+                  :conjure       "[Conjure]"
+                  :git           "[Git]"
+                  name           (as-> $ name
+                                    (string.gsub $ "^%l" string.upper)
+                                    (string.format $ "[%s]"))))
 
               ;; NOTE: Allow duplicates for certain sources
               (tset
@@ -320,7 +325,7 @@
         format (require :cmp_git.format)
         sort (require :cmp_git.sort)
         opt {;; defaults
-             :filetypes ["gitcommit" "neogitcommitmessage" "octo"]
+             :filetypes ["gitcommit" "NeogitCommitMessage" "octo"]
              ;; in order of most to least prioritized
              :remotes ["upstream" "origin"]
              ;; enable git url rewrites, see https://git-scm.com/docs/git-config#Documentation/git-config.txt-urlltbasegtinsteadOf
