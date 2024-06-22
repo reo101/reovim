@@ -4,8 +4,7 @@
 
 (fn config []
   (let [dk (require :def-keymaps)
-        opt {:autopairs {:enable true}
-             :query_linter {:use_virtual_text true
+        opt {:query_linter {:use_virtual_text true
                             :enable true
                             :lint_events [:BufWrite
                                           :CursorHold]}
