@@ -214,8 +214,8 @@
 ;; (tset vim.wo :foldnestmax 3)
 ;; (tset vim.wo :foldtext "substitute(getline(v:foldstart),'\\t',repeat('\\ ',&tabstop),'g').'...'.trim(getline(v:foldend))")
 
-;;; Disable builtin plugins
-(let [disabled_plugins
+;;; Disable builtin plugins and language providers
+(let [disabled-plugins
        ["2html_plugin"
         "getscript"
         "getscriptPlugin"
@@ -235,6 +235,13 @@
         "vimball"
         "vimballPlugin"
         "zip"
-        "zipPlugin"]]
-  (each [_ plugin (ipairs disabled_plugins)]
-    (tset vim.g (.. "loaded_" plugin) 1)))
+        "zipPlugin"]
+      disabled-providers
+       ["node_provider"
+        "perl_provider"
+        "python3_provider"
+        "ruby_provider"]]
+  (each [_ plugin (ipairs disabled-plugins)]
+    (tset vim.g (.. "loaded_" plugin) 1))
+  (each [_ plugin (ipairs disabled-providers)]
+    (tset vim.g (.. "loaded_" plugin) 0)))
