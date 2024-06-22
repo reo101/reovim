@@ -83,6 +83,30 @@ local opt = {
         adviser = function (fennel)
             -- for example, adding a custom macro path:
             -- fennel["macro-path"] = fennel["macro-path"] .. ";/custom/path/?.fnl"
+            -- return fennel
+
+            local local_fennel_path = vim.env.HOME .. "/Projects/Home/Fennel/Fennel"
+
+            if vim.fn.isdirectory(local_fennel_path) == 1 then
+                -- Clean tangerine's fennel
+                vim.iter(package.preload):filter(function (k, v)
+                    return k:match("^fennel%.")
+                end):each(function (k)
+                    package.preload[k] = nil
+                    package.loaded[k] = nil
+                end)
+
+                -- Being in ours
+                package.path = local_fennel_path .. "/?.lua;" .. package.path
+                local local_fennel = require("fennel")
+                -- TODO: why is this not needed
+                -- for _, attr in ipairs({"path", "macro-path", "macroPath"}) do
+                --     fennel_dev[attr] = fennel[attr]
+                -- end
+
+                fennel = local_fennel
+            end
+
             return fennel
         end,
 
@@ -94,7 +118,7 @@ local opt = {
         -- "onsave" run every time you save fennel file in {source} dir
         -- "onload" run on VimEnter event
         -- "oninit" run before sourcing init.fnl [recommended than onload]
-        hooks = { --[[ "oninit", ]] "onsave"  },
+        hooks = { "onload", "onsave" },
     },
 
     eval = {
@@ -136,11 +160,6 @@ local opt = {
 require("tangerine").setup(opt)
 
 vim.opt.rtp:prepend(nvim_data .. "/tangerine.nvim")
-
--- --- BOOTSTRAP TYPED-FENNEL ---
---
--- bootstrap("https://github.com/reo101/typed-fennel", "subdirectories", "fnl/typed-fennel")
--- vim.opt.rtp:prepend(nvim_data .. "/lazy/typed-fennel")
 
 --- BOOTSTRAP NIXCATS ---
 
