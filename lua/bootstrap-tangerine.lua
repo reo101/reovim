@@ -1,5 +1,8 @@
 --- HELPERS ---
 
+local nvim_config = vim.fn.stdpath("config")
+local nvim_data   = vim.fn.stdpath("data")
+
 -- "tangerine", "packer", "paq", "lazy"
 local pack = "lazy"
 
@@ -22,10 +25,13 @@ local function bootstrap(url, ref, extra_path)
         end
 
         print(name .. ": installing in data dir...")
+        vim.fn.system({"git", "clone", "--filter=blob:none", url, path})
+        print(name .. ": installed")
 
-        vim.fn.system({"git", "clone", url, path})
         if ref then
+            print(name .. ": checking out " .. ref)
             vim.fn.system({"git", "-C", path, "checkout", ref})
+            print(name .. ": checked out " .. ref)
         end
 
         vim.cmd("redraw")
@@ -37,10 +43,12 @@ end
 
 bootstrap("https://github.com/udayvir-singh/tangerine.nvim")
 
---- CONFIGURE TANGERINE ---
+--- BOOTSTRAP TYPED-FENNEL ---
 
-local nvim_config = vim.fn.stdpath("config")
-local nvim_data   = vim.fn.stdpath("data")
+bootstrap("https://github.com/reo101/typed-fennel", "subdirectories")
+vim.opt.rtp:prepend(nvim_data .. "/lazy/typed-fennel")
+
+--- CONFIGURE TANGERINE ---
 
 local opt = {
     vimrc   = nvim_config .. "/init.fnl",
@@ -59,6 +67,7 @@ local opt = {
     custom = {
         -- list of custom [source target] chunks, for example:
         -- {"~/.config/awesome/fnl", "~/.config/awesome/lua"}
+        { nvim_data .. "/lazy/typed-fennel/fnl", nvim_data .. "/lazy/typed-fennel/lua" },
     },
 
     compiler = {
@@ -78,13 +87,14 @@ local opt = {
         end,
 
         -- version of fennel to use, [ latest, 1-4-0, 1-3-1, 1-3-0, 1-2-1, 1-2-0, 1-1-0, 1-0-0, 0-10-0, 0-9-2 ]
+        -- version = "1-5-0-dev",
         version = "latest",
 
         -- hooks for tangerine to compile on:
         -- "onsave" run every time you save fennel file in {source} dir
         -- "onload" run on VimEnter event
         -- "oninit" run before sourcing init.fnl [recommended than onload]
-        hooks = { "oninit", "onsave" },
+        hooks = { --[[ "oninit", ]] "onsave"  },
     },
 
     eval = {
@@ -127,11 +137,17 @@ require("tangerine").setup(opt)
 
 vim.opt.rtp:prepend(nvim_data .. "/tangerine.nvim")
 
---- BOOTSTRAP TYPED-FENNEL ---
-
-bootstrap("https://github.com/dokutan/typed-fennel", nil, "fnl")
+-- --- BOOTSTRAP TYPED-FENNEL ---
+--
+-- bootstrap("https://github.com/reo101/typed-fennel", "subdirectories", "fnl/typed-fennel")
 -- vim.opt.rtp:prepend(nvim_data .. "/lazy/typed-fennel")
+
+--- BOOTSTRAP NIXCATS ---
+
+bootstrap("https://github.com/BirdeeHub/nixCats-nvim")
+
+vim.opt.rtp:prepend(nvim_data .. "/nixCats-nvim")
 
 --- BOOTSTRAP LAZY.NVIM ---
 
-bootstrap("https://github.com/folke/lazy.nvim")
+-- bootstrap("https://github.com/folke/lazy.nvim")

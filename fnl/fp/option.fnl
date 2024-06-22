@@ -2,7 +2,24 @@
   {: mdo}
   :fp.mdo-macros)
 
+(local
+  {: has-type?}
+  (require :typed-fennel))
+
 (local Option {})
+
+;;; Metatable
+(local Option-mt
+       {:__call
+          (λ [self T]
+            #(do
+              (when (not (Option.option? $))
+                (error "Not an Option"))
+              (Option.elim $
+                true
+                #(or (has-type? $ T)
+                     (error "Unexpected Some type")))))})
+(setmetatable Option Option-mt)
 
 ;;; Validation
 (fn Option.some? [mx]
@@ -26,6 +43,12 @@
   (match x
     (nil) (Option.none)
     _     (Option.some x)))
+
+;;; Destruction
+(fn Option.elim [x d f]
+  (match x
+    [:some & some] (f (unpack some))
+    _              d))
 
 ;;; Monad
 (fn Option.pure [...]

@@ -2,6 +2,10 @@
   {: mdo}
   :fp.mdo-macros)
 
+(local
+  {: has-type?}
+  (require :typed-fennel))
+
 (local Result {})
 
 ;;; Metatable
@@ -10,7 +14,18 @@
           (fn [self key]
             (if (= (type key) :number)
                 (rawget self key)
-                ((. Result key) self)))})
+                ((. Result key) self)))
+        :__call
+          (λ [self T E]
+            #(do
+              (when (not (Result.result? $))
+                (error "Not a Result"))
+              (Result.elim $
+                #(or (has-type? $ T)
+                     (error "Unexpected Ok type"))
+                #(or (has-type? $ E)
+                     (error "Unexpected Err type")))))})
+(setmetatable Result Result-mt)
 
 ;;; Validation
 (fn Result.ok? [mx]
@@ -39,6 +54,12 @@
   (match (pcall ...)
     (true  ok)  (Result.ok  ok)
     (false err) (Result.err err)))
+
+;;; Destruction
+(fn Result.elim [mx of ef]
+  (match mx
+    [:ok  & ok]  (of (unpack ok))
+    [:err & err] (ef (unpack err))))
 
 ;;; Functor
 (fn Result.map [mx f]

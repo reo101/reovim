@@ -125,7 +125,6 @@
   "tokyonight.nvim": { "branch": "main", "commit": "7e5ef71a103e7de5fe6c05f5d6ab97d1640f08cf" },
   "tree-sitter-nu": { "branch": "main", "commit": "fae35745e32c015dc342136802f63b8456ccec7f" },
   "trouble.nvim": { "branch": "main", "commit": "46a19388d3507f4c4bebb9994bf821a79b3bc342" },
-  "typed-fennel": { "branch": "main", "commit": "8e19547344d087e205bd46c6475cc3748ca4d0e4" },
   "typst-preview.nvim": { "branch": "master", "commit": "5867db936576741f378b558a9d7428b928819df5" },
   "typst.nvim": { "branch": "main", "commit": "d7480653ea08847f144393d115a0dab8198fd817" },
   "ultimate-autopair.nvim": { "branch": "v0.6", "commit": "813e1b3391c3f50100345bf3956c618f7e522e74" },

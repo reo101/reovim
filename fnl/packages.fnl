@@ -6,7 +6,7 @@
    : dbg!}
   :init-macros)
 
-(local lazy (require :lazy))
+;; (local lazy (require :lazy))
 
 (local main-plugins
     [;; Fennel loader
@@ -20,8 +20,9 @@
       :opts {:rocks [:luautf8]}}
 
      ;; Typed fennel
-     {1 :dokutan/typed-fennel
-      :lazy true}
+     {1 :reo101/typed-fennel
+      ;; 1 :dokutan/typed-fennel
+      :branch :subdirectories}
 
      ;; Async IO
      {1 :nvim-neotest/nvim-nio
@@ -71,7 +72,39 @@
                   mod)]
        (require (.. path :. mod)))))
 
-(lazy.setup
+(local cats (require :cats))
+
+(cats.setup {:non-nix-value true})
+
+(var plugin-list nil)
+(var nix-lazy-path nil)
+(when cats.is-nix-cats
+  (local nix-cats (require :nixCats))
+  (local all-plugins nix-cats.pawsible.allPlugins)
+  (set plugin-list
+       (cats.mergePluginTables
+         all-plugins.start
+         all-plugins.opt))
+  ;; (tset plugin-list :Comment.nvim "")
+  ;; (tset plugin-list :LuaSnip "")
+  (set nix-lazy-path (. all-plugins.start :lazy.nvim)))
+(local lazy-options {:lockfile (.. (vim.fn.stdpath :config) :/lazy-lock.json)})
+
+;; (vim.print
+;;   {: plugin-list
+;;    : nix-lazy-path
+;;    :plugins [main-plugins
+;;              (preload :rv-config)]
+;;    : opts})
+
+(cats.lazy-setup
+  plugin-list
+  nix-lazy-path
   [main-plugins
    (preload :rv-config)]
   opts)
+
+;; (lazy.setup
+;;   [main-plugins
+;;    (preload :rv-config)]
+;;   opts)
