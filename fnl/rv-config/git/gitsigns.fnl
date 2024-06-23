@@ -3,61 +3,62 @@
         gitsigns-actions (require :gitsigns.actions)
         dk (require :def-keymaps)
         opt {:signs
-               {:add
-                  {:hl :GitSignsAdd
-                   :text "│"
-                   :numhl :GitSignsAddNr
-                   :linehl :GitSignsAddLn}
-                :change
-                  {:hl :GitSignsChange
-                   :text "│"
-                   :numhl :GitSignsChangeNr
-                   :linehl :GitSignsChangeLn}
-                :changedelete
-                  {:hl :GitSignsChange
-                                :text "~"
-                                :numhl :GitSignsChangeNr
-                                :linehl :GitSignsChangeLn}
-                :delete
-                  {:hl :GitSignsDelete
-                   :text "_"
-                   :numhl :GitSignsDeleteNr
-                   :linehl :GitSignsDeleteLn}
-                :topdelete
-                  {:hl :GitSignsDelete
-                   :text "‾"
-                   :numhl :GitSignsDeleteNr
-                   :linehl :GitSignsDeleteLn}}
+               {:add          {:text "│"}
+                :change       {:text "│"}
+                :delete       {:text "_"}
+                :topdelete    {:text "‾"}
+                :changedelete {:text "~"}
+                :untracked    {:text "┆"}}
+             :signcolumn true
              :numhl false
              :linehl false
+             :word_diff false
              :watch_gitdir
                {:interval 1000
                 :follow_files true}
+             :auto_attach true
+             :attach_to_untracked true
+             :current_line_blame false
+             :current_line_blame_opts
+               {:virt_text true
+                ;; :eol | :overlay | :right_align
+                :virt_text_pos :eol
+                :delay 1000
+                :ignore_whitespace false
+                :virt_text_priority 100}
+             :current_line_blame_formatter "<author>, <author_time:%R> - <summary>"
              :sign_priority 6
              :update_debounce 100
              ;; Use default
              :status_formatter nil
-             :word_diff false
-             :diff_opts
-               {;; If luajit is present
-                :internal true}}]
+             ;; Disable if file is longer than this (in lines)
+             :max_file_length 40000
+             :preview_config
+               {;; Options passed to nvim_open_win
+                :border "single"
+                :style "minimal"
+                :relative "cursor"
+                :row 0
+                :col 1}}]
     (gitsigns.setup opt)
 
     (let [mappings
             {:g {:name :Git
                  :h {:name :Hunks
-                     :s [gitsigns.stage_hunk         "Stage Hunk"]
-                     :u [gitsigns.undo_stage_hunk    "Undo Stage Hunk"]
-                     :r [gitsigns.reset_hunk         "Reset Hunk"]
-                     :R [gitsigns.reset_buffer       "Reset Buffer"]
-                     :p [gitsigns.preview_hunk       "Preview Hunk"]
-                     :b [#(gitsigns.blame_line true) "Blame Line"]}}
+                     :s [gitsigns.stage_hunk      "Stage Hunk"]
+                     :u [gitsigns.undo_stage_hunk "Undo Stage Hunk"]
+                     :r [gitsigns.reset_hunk      "Reset Hunk"]
+                     :R [gitsigns.reset_buffer    "Reset Buffer"]
+                     :p [gitsigns.preview_hunk    "Preview Hunk"]
+                     :d [gitsigns.diffthis        "Diff Hunk"]
+                     :d [#(gitsigns.diffthis "~") "Diff Hunk"]
+                     :b [#(gitsigns.blame_line {:full true}) "Blame Line"]}}
              :t {:name :Toggle
                  :g {:name :Git
-                     :w [gitsigns.toggle_word_diff          "Word Diff"]
-                     :n [gitsigns.toggle_numhl              "Number HL"]
-                     :l [gitsigns.toggle_linehl             "Line HL"]
-                     :s [gitsigns.toggle_signs              :Signs]
+                     :w [gitsigns.toggle_word_diff "Word Diff"]
+                     :n [gitsigns.toggle_numhl     "Number HL"]
+                     :l [gitsigns.toggle_linehl    "Line HL"]
+                     :s [gitsigns.toggle_signs     "Signs"]
                      :b [gitsigns.toggle_current_line_blame "Current Line Blame"]}}}
           visual-mappings
             {:h {:name :Hunk
@@ -71,7 +72,8 @@
                      :Reset]}}
           operator-mappings
             {:i {:name :Inside
-                 :h [gitsigns-actions.select_hunk :Hunk]}}
+                 ;; :h [gitsigns-actions.select_hunk :Hunk]}}
+                 :h [":<C-U>Gitsigns select_hunk<CR>" :Hunk]}}
           direct-mappings
             {"]c" [gitsigns-actions.next_hunk "Next Hunk"]
              "[c" [gitsigns-actions.prev_hunk "Prev Hunk"]}]
@@ -82,12 +84,12 @@
           visual-mappings
           {:prefix :<leader>})
       (dk [:o :x]
-          operator-mappings
-          {:prefix :<leader>})
+          operator-mappings)
       (dk :n
           direct-mappings))))
 
 {1 :lewis6991/gitsigns.nvim
  :dependencies [:nvim-lua/plenary.nvim]
+ :tag :v0.9.0
  :event :BufRead
  : config}
