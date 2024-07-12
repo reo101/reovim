@@ -25,7 +25,7 @@
     (jdtls.start_or_attach config)
     (local wk (require :which-key))
     (local mappings
-           {:l {:name :LSP
+           {:l {:group :LSP
                 :t [(jdtls.test_class 2 "Test Class")]
                 :n [(jdtls.test_nearest_method)
                     "Test Nearest Method"]
@@ -34,7 +34,7 @@
                 :e [(jdtls.extract_variable)
                     "Extract Variable"]}})
     (local visual-mappings
-           {:l {:name :LSP
+           {:l {:group :LSP
                 :m [#(jdtls.extract_method true)
                     "Extract Method"]
                 :e [#(jdtls.extract_variable true)

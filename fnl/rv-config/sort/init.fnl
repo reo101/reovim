@@ -12,8 +12,8 @@
                           "t"]}]
     (sort.setup opt)
 
-    (let [mappings {:gs {:name :Sort
-                         :! {:name :Reverse}}}]
+    (let [mappings {:gs {:group :Sort
+                         :! {:group :Reverse}}}]
       (each [_ delimiter (ipairs opt.delimiters)]
         (tset mappings.gs
               delimiter

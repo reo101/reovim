@@ -22,7 +22,7 @@
     (gitlinker.setup opt)
     (each [_ mode (ipairs [:n :v])]
       (dk mode
-          {:g {:name :Git
+          {:g {:group :Git
                :b [#(gitlinker.get_buf_range_url
                        {:action_callback gitlinker-actions.open_in_browser})
                    :Browse]}}

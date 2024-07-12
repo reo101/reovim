@@ -46,7 +46,7 @@
     (dapui.setup opt)
 
     (dk :n
-        {:d {:name :Dap
+        {:d {:group :Dap
              :t [dapui.toggle "Toggle dap-ui"]}}
         {:prefix :<leader>})))
 

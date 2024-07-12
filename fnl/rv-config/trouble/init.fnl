@@ -5,8 +5,8 @@
      (trouble.setup opt)
 
      (dk :n
-         {:t {:name :Toggle
-              :r {:name :Trouble
+         {:t {:group :Toggle
+              :r {:group :Trouble
                   :d [#(trouble.toggle
                          {:mode :diagnostics
                           :filter {:buf 0}})

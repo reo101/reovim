@@ -10,6 +10,6 @@
           :on_open       #(vim.notify "Octave opened")}))
 
 (let [dk (require :def-keymaps)
-      mappings {:t {:name :Toggle
+      mappings {:t {:group :Toggle
                     :o [#(octave:toggle) :Octave]}}]
   (dk mappings {:prefix :<leader>}))

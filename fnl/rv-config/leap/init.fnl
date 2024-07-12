@@ -18,13 +18,13 @@
                             :next_group    :<space>
                             :prev_group    :<tab>}}]
     (dk [:n :x :o]
-        {:h {:name "Leap (Hop)"
+        {:h {:group "Leap (Hop)"
              :s ["<Plug>(leap-forward)"      "Leap Forward"]
              :S ["<Plug>(leap-backward)"     "Leap Backward"]
              :w ["<Plug>(leap-cross-window)" "Leap Cross Window"]}}
         {:prefix :<leader>})
     (dk :o
-        {:h {:name "Leap (Hop)"
+        {:h {:group "Leap (Hop)"
              :x ["<Plug>(leap-forward-x)"  "Leap Forward (x)"]
              :X ["<Plug>(leap-backward-x)" "Leap Backward (x)"]}}
         {:prefix :<leader>})

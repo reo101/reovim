@@ -127,7 +127,7 @@
     (crates.setup opt)
 
     (dk :n
-        {:r {:name :Crates
+        {:r {:group :Crates
              :t [crates.toggle              "Toggle"]
              :r [crates.reload              "Reload"]
              :v [crates.show_versions_popup "Versions popup"]
@@ -144,7 +144,7 @@
         {:prefix :<leader>})
 
     (dk :v
-        {:r {:name :Crates
+        {:r {:group :Crates
              :u [crates.update_crates  "Update crates"]
              :U [crates.upgrade_crates "Upgrade crates"]}}
         {:prefix :<leader>})))

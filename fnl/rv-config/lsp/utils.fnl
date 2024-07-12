@@ -1,26 +1,26 @@
 (fn lsp-mappings []
   (let [dk (require :def-keymaps)
-        mappings {:l {:name :LSP
-                      :w {:name :Workspace
+        mappings {:l {:group :LSP
+                      :w {:group :Workspace
                           :a [vim.lsp.buf.add_workspace_folder    :Add]
                           :r [vim.lsp.buf.remove_workspace_folder :Remove]
                           :l [#(print (vim.inspect (vim.lsp.buf.list_workspace_folders)))
                               :List]}
                       :s [vim.lsp.buf.signature_help "Signature Help"]
                       :a [vim.lsp.buf.code_action    "Code Action"]
-                      :g {:name :Go
+                      :g {:group :Go
                           :d [vim.lsp.buf.definition      :Definition]
                           :i [vim.lsp.buf.implementation  :Implementation]
                           :r [vim.lsp.buf.references      :References]
                           :D [vim.lsp.buf.declaration     :Decaration]
                           :y [vim.lsp.buf.type_definition "Type Definition"]}
-                      :c {:name :Codelens
+                      :c {:group :Codelens
                           :s [vim.lsp.codelens.save    :Save]
                           :a [vim.lsp.codelens.display :Display]
                           :g [vim.lsp.codelens.get     :Get]
                           :r [vim.lsp.codelens.run     :Run]
                           :f [vim.lsp.codelens.refresh :Refresh]}
-                      :d {:name :Diagnostics
+                      :d {:group :Diagnostics
                           :l [vim.diagnostic.open_float  "Line Diagnostics"]
                           :n [vim.diagnostic.goto_next   :Next]
                           :p [vim.diagnostic.goto_prev   :Previous]

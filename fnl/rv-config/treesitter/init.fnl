@@ -177,6 +177,15 @@
               ;;                  :files  [:tsx/src/parser.c
               ;;                           :tsx/src/scanner.c]
               ;;                  :branch :master}}
+            :fennel
+            {:install_info {;; :url    "https://github.com/reo101/tree-sitter-fennel"
+                            ;; :files  [:src/parser.c
+                            ;;          :src/scanner.c]
+                            ;; :branch :feat/discard
+                            :url    "~/Projects/Home/Fennel/tree-sitter-fennel"
+                            :files  [:src/parser.c
+                                     :src/scanner.c]}
+             :filetype :fennel}
             :noir
             {:install_info {:url    "https://github.com/hhamud/tree-sitter-noir"
                             :files  [:src/parser.c
@@ -235,8 +244,8 @@
     ((. (require :nvim-treesitter.configs) :setup) opt)
 
     (local mappings
-           {:t {:name :Toggle
-                :s {:name :TreeSitter
+           {:t {:group :Toggle
+                :s {:group :TreeSitter
                     :h [#(vim.cmd.TSBufToggle :highlight)
                         :Highlighting]
                     ;; :c [(. (require :treesitter-context)
@@ -248,28 +257,28 @@
                     ;;     :Autotags]
                     :p [#(vim.cmd.TSBufToggle :autopairs)
                         :Autopairs]}}
-            :s {:name :TreeSitter
-                :d {:name :Definitions
+            :s {:group :TreeSitter
+                :d {:group :Definitions
                     :g ["Goto definition"]
                     :l ["List definitions"]}
                 :r ["Smart rename"]
-                :i {:name "Incremental Selection"
+                :i {:group "Incremental Selection"
                     :d ["Node Decremental"]
                     :s ["Scope Incremental"]
                     :i ["Node Incremental"]
                     :v ["Init selection"]}
-                :s {:name :Swap
-                    :p {:name "Swap previous"
+                :s {:group :Swap
+                    :p {:group "Swap previous"
                         :p [:Parameter]
                         :c [:Class]
                         :f [:Function]}
-                    :n {:name "Swap next"
+                    :n {:group "Swap next"
                         :p [:Parameter]
                         :c [:Class]
                         :f [:Function]}}}})
     (dk :n mappings {:prefix :<leader>})
     (local operator-mappings
-           {:i {:name :inside
+           {:i {:group :inside
                 :C  ["@class.inner"]
                 :c  ["@conditional.inner"]
                 :e  ["@block.inner"]
@@ -278,7 +287,7 @@
                 :m  ["@call.inner"]
                 :r  ["@parameter.inner"]
                 :s  ["@statement.inner"]}
-            :a {:name :around
+            :a {:group :around
                 :C  ["@class.outer"]
                 :c  ["@conditional.outer"]
                 :d  ["@comment.outer"]

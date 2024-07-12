@@ -133,7 +133,7 @@
     (vim.cmd "hi link NeoTreeDirectoryName Directory
               hi link NeoTreeDirectoryIcon NeoTreeDirectoryName")
     (dk :n
-        {:t {:name :Toggle
+        {:t {:group :Toggle
              :f [":Neotree reveal<CR>" :FileTree]}}
         {:prefix :<leader>})))
 

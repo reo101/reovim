@@ -114,7 +114,7 @@
 
     (local dk (require :def-keymaps))
     (dk :n
-        {:f {:name :Find
+        {:f {:group :Find
              :f [functions.find_files        "Find File"]
              :F [functions.search_all_files  "All Files"]
              :r [functions.oldfiles          "Recent Files"]

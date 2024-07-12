@@ -2,10 +2,10 @@
 
 (let [dk (require :def-keymaps)]
   (dk :n
-      {"]" {:name :Next
+      {"]" {:group :Next
             :q [vim.cmd.cnext "Quickfix List"]
             :l [vim.cmd.lnext "Location List"]}
-       "[" {:name :Previous
+       "[" {:group :Previous
             :q [vim.cmd.cprev "Quickfix List"]
             :l [vim.cmd.lprev "Location List"]}}))
 

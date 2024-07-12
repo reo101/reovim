@@ -128,7 +128,7 @@
     (oil.setup opt)
 
     (dk :n
-        {:t {:name :Toggle
+        {:t {:group :Toggle
              :o [#(vim.cmd :Oil) :Oil]}}
         {:prefix :<leader>})))
 

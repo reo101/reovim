@@ -23,7 +23,7 @@
                : langs}]
     (tsj.setup opt)
     (dk :n
-        {:j {:name "SplitJoin"
+        {:j {:group "SplitJoin"
              :s [#(tsj.split)  "Split"]
              :j [#(tsj.join)   "Join"]
              :m [#(tsj.toggle) "Toggle"]

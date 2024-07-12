@@ -35,13 +35,14 @@
             (= (. args 1 1) :void))
         (table.insert nodes (t ""))
         (do
-          (var index 1)
-          (each [node-type (-> (.. (. args 1 1) ",")
-                               (: :gmatch "(.-)%s*,%s*"))]
+          (each [index node-type
+                 (-> (.. (. args 1 1) ",")
+                     (: :gmatch "(.-)%s*,%s*")
+                     vim.iter
+                     (: :enumerate))]
             (table.insert nodes (t (.. node-type " ")))
             (table.insert nodes (i index (.. :param index)))
-            (table.insert nodes (t ", "))
-            (set index (+ index 1)))
+            (table.insert nodes (t ", ")))
           (table.remove nodes (length nodes))))
     (sn nil nodes)))
 

@@ -3,7 +3,7 @@
         mind (require :mind)
         opt nil]
     (dk :n
-        {:m {:name :Mind
+        {:m {:group :Mind
              :m [#(mind.open_main)    "Main"]
              :p [#(mind.open_project) "Project"]
              :c [#(mind.close)        "Close"]

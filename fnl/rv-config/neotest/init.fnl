@@ -29,15 +29,15 @@
     (neotest.setup opt)
 
     (dk :n
-        {:l {:name :LSP
-             :n {:name :Neotest
-                 :r {:name :Run
+        {:l {:group :LSP
+             :n {:group :Neotest
+                 :r {:group :Run
                      :n [#(neotest.run.run) "Nearest test"]
                      :f [#(neotest.run.run (vim.fn.expand :%)) "Whole file"]
                      :s [#(neotest.run.stop) "Stop"]
                      :d [#(neotest.run.attach) "Debug nearest test"]
                      :a [#(neotest.run.attach) "Attach to nearest test"]}
-                 :s {:name :Summary
+                 :s {:group :Summary
                      :o [#(neotest.summary.open) "Open"]
                      :c [#(neotest.summary.close) "Close"]
                      :t [#(neotest.summary.toggle) "Toggle"]}

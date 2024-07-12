@@ -5,7 +5,7 @@
     ;; (nabla.popup {})
 
     (dk :n
-        {:t {:name :Toggle
+        {:t {:group :Toggle
              :n [nabla.popup :Nable]}}
         {:prefix :<leader>})))
 

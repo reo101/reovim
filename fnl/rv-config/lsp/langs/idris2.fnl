@@ -16,7 +16,7 @@
       {:pattern [:*.idr]
        :callback
          #(do (dk :n
-                  {:i {:name :Idris
+                  {:i {:group :Idris
                        :e [idris2-repl.evaluate            "Evaluate"]
                        :c [idris2-code-action.case_split   "Case split"]
                        :m [idris2-code-action.make_case    "Make case"]

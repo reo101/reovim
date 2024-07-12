@@ -75,12 +75,12 @@
 
   (local dk (require :def-keymaps))
   (let [mappings
-          {:u {:name "Conjure"
-               :e {:name "Eval"
+          {:u {:group "Conjure"
+               :e {:group "Eval"
                    :e ["Current Form"]
                    :r ["Root Form"]
                    :w ["Word"]
-                   :c {:name "Comment"
+                   :c {:group "Comment"
                        :e ["Current Form"]
                        :r ["Root Form"]
                        :w ["Word"]}
@@ -88,7 +88,7 @@
                    :m ["Marked Form"]
                    :f ["File"]
                    :b ["Buffer"]}
-               :l {:name "Log"
+               :l {:group "Log"
                    :s ["Split"]
                    :v ["VSplit"]
                    :t ["Tab"]
@@ -101,10 +101,10 @@
                :gd ["Def Word"]
                :K ["Doc Word"]}}
         visual-mappings
-          {:u {:name :Conjure
+          {:u {:group :Conjure
                :E ["Eval Visual"]}}]
         ; motion-mappings
-        ;   {:u {:name :Conjure
+        ;   {:u {:group :Conjure
         ;        :E ["Eval Motion"]}}]
     (dk :n
         mappings
@@ -195,7 +195,7 @@
                                 config (cmp.get_config)]
                             (table.insert
                               config.sources
-                              {:name :buffer
+                              {:group :buffer
                                :option {:sources
                                          [{:name :conjure}]}})
                             (cmp.setup config))}

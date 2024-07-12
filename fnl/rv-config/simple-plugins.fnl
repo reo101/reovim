@@ -23,6 +23,7 @@
  ;;            {:use_lsp_features false})}
  {1 :nushell/tree-sitter-nu
   :ft [:nu]}
+ {1 :avm99963/vim-jjdescription}
  ;; Keymaps
  {1 :nvimtools/hydra.nvim
   :tag :v1.0.2}

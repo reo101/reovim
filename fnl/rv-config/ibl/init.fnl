@@ -24,7 +24,7 @@
       hooks.builtin.scope_highlight_from_extmark)
 
     (dk :n
-        {:t {:name :Toggle
+        {:t {:group :Toggle
              :i [#(if vim.o.list
                       (do
                         (set vim.opt.list false)
@@ -38,6 +38,6 @@
         {:prefix :<leader>})))
 
 {1 :lukas-reineke/indent-blankline.nvim
- :tag :v3.2.6
+ :tag :v3.7.1
  :event :BufRead
  : config}

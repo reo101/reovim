@@ -100,9 +100,9 @@ local opt = {
                 package.path = local_fennel_path .. "/?.lua;" .. package.path
                 local local_fennel = require("fennel")
                 -- TODO: why is this not needed
-                -- for _, attr in ipairs({"path", "macro-path", "macroPath"}) do
-                --     fennel_dev[attr] = fennel[attr]
-                -- end
+                for _, attr in ipairs({"path", "macro-path", "macroPath"}) do
+                    local_fennel[attr] = fennel[attr]
+                end
 
                 fennel = local_fennel
             end

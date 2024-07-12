@@ -221,7 +221,8 @@
           {:name "latex_symbols"
            :option {:strategy 0}}
           {:name "spell"}
-          {:name "conjure"}
+          ;; BUG: too much noise
+          ;; {:name "conjure"}
           {:name "tmux"
            :option {:all_panes false}}
           {:name "crates"}

@@ -19,7 +19,7 @@
     (hlargs.setup opt)
 
     (dk :n
-        {:t {:name :Toggle
+        {:t {:group :Toggle
              :h [hlargs.toggle "Highlight Arguments"]}}
         {:prefix :<leader>})))
 

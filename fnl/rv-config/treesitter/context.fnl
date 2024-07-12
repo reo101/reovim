@@ -28,8 +28,8 @@
                 ;;   ["impl_item"]
     (treesitter-context.setup opt)
     (dk :n
-        {:t {:name :Toggle
-             :s {:name :TreeSitter
+        {:t {:group :Toggle
+             :s {:group :TreeSitter
                  :c [#(treesitter-context.toggle) :Context]}}}
         {:prefix :<leader>})))
 

@@ -62,12 +62,12 @@
     (Comment.setup opt)
 
     (dk :n
-        {:c {:name "Line Comment"
+        {:c {:group "Line Comment"
              :c [Comment-api.toggle.linewise.current "Toggle Line"]
              :o [Comment-api.toggle.linewise.below "o"]
              :O [Comment-api.toggle.linewise.above "O"]
              :A [Comment-api.toggle.linewise.eol "A"]}
-         :C {:name "Block Comment"
+         :C {:group "Block Comment"
              :c [Comment-api.toggle.blockwise.current "Toggle Line"]}}
         {:prefix :<leader>})
 
@@ -77,12 +77,12 @@
         {:prefix :<leader>})))
 
     ;; (dk :n
-    ;;     {:c {:name "Line Comment"}})))
+    ;;     {:c {:group "Line Comment"}})))
     ;;          :c [(Comment-api.call :toggle.linewise.current "g@$") "Toggle Line"]}})))
     ;;          :o [(Comment-api.call :insert.linewise.below   "g@")  "o"]}})))
     ;;          :O [(Comment-api.call :insert.linewise.above   "g@")  "O"]}})))
     ;;          :A [(Comment-api.call :insert.linewise.eol     "g@")  "A"]}})))
-    ;;      :C {:name "Block Comment"}})))
+    ;;      :C {:group "Block Comment"}})))
     ;;          :c [(Comment-api.call :toggle.blockwise.current "g@$") "Toggle Line"]}})))
     ;;     {:prefix :<leader> :expr true})))
 

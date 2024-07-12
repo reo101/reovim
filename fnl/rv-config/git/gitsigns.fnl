@@ -43,8 +43,8 @@
     (gitsigns.setup opt)
 
     (let [mappings
-            {:g {:name :Git
-                 :h {:name :Hunks
+            {:g {:group :Git
+                 :h {:group :Hunks
                      :s [gitsigns.stage_hunk      "Stage Hunk"]
                      :u [gitsigns.undo_stage_hunk "Undo Stage Hunk"]
                      :r [gitsigns.reset_hunk      "Reset Hunk"]
@@ -53,15 +53,15 @@
                      :d [gitsigns.diffthis        "Diff Hunk"]
                      :d [#(gitsigns.diffthis "~") "Diff Hunk"]
                      :b [#(gitsigns.blame_line {:full true}) "Blame Line"]}}
-             :t {:name :Toggle
-                 :g {:name :Git
+             :t {:group :Toggle
+                 :g {:group :Git
                      :w [gitsigns.toggle_word_diff "Word Diff"]
                      :n [gitsigns.toggle_numhl     "Number HL"]
                      :l [gitsigns.toggle_linehl    "Line HL"]
                      :s [gitsigns.toggle_signs     "Signs"]
                      :b [gitsigns.toggle_current_line_blame "Current Line Blame"]}}}
           visual-mappings
-            {:h {:name :Hunk
+            {:h {:group :Hunk
                  :s [#(gitsigns.stage_hunk
                         [(vim.fn.line ".")
                          (vim.fn.line :v)])
@@ -71,7 +71,7 @@
                          (vim.fn.line :v)])
                      :Reset]}}
           operator-mappings
-            {:i {:name :Inside
+            {:i {:group :Inside
                  ;; :h [gitsigns-actions.select_hunk :Hunk]}}
                  :h [":<C-U>Gitsigns select_hunk<CR>" :Hunk]}}
           direct-mappings

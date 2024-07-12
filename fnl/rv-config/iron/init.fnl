@@ -37,7 +37,7 @@
     (iron.setup opt)
 
     (dk :n
-        {:r {:name :Repl
+        {:r {:group :Repl
              :s [:<cmd>IronRepl<cr>]
              :r [:<cmd>IronRestart<cr>]
              :f [:<cmd>IronFocus<cr>]

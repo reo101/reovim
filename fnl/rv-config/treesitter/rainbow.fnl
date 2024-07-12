@@ -16,8 +16,8 @@
     (tset vim.g :rainbow_delimiters opt)
 
     (dk :n
-        {:t {:name :Toggle
-             :s {:name  :TreeSitter
+        {:t {:group :Toggle
+             :s {:group  :TreeSitter
                  :r [#(rainbow-delimiters.toggle 0) "Rainbow Delimiters"]}}}
         {:prefix :<leader>})))
 

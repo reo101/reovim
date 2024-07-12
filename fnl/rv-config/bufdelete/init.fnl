@@ -2,7 +2,7 @@
   (let [bufdelete (require :bufdelete)
         dk (require :def-keymaps)]
     (dk :n
-        {:b {:name :Buffer
+        {:b {:group :Buffer
              :d [#(bufdelete.bufdelete 0 false) "Delete"]
              :D [#(bufdelete.bufdelete 0 true) "Force Delete"]}}
         {:prefix :<leader>})))

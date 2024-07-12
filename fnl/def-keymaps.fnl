@@ -5,7 +5,7 @@
 
    ```fennel
    (def-keymaps :n
-     {:a {:name :abc
+     {:a {:group :abc
           :hydra true
           :which-key false
           :b [#(print :ab) \"Print ab\"]
@@ -31,7 +31,7 @@
         prefix (or ?prefix "")
         debug? (or ?debug? false)
         {:hydra  hydra?
-         :name   name?
+         :group  group?
          :hint   hint?
          :config config?
          ;; :docs   docs?
@@ -89,7 +89,7 @@
     ;; Adding keybinds (with hydra and/or natively)
     (var just-hydra? false)
     (case hydra?
-      true (let [hydra-conf {:name   name?
+      true (let [hydra-conf {:group  group?
                              :hint   hint?
                              :config config?
                              :mode   mode
@@ -103,7 +103,7 @@
                  (vim.inspect hydra-conf)))
              (hydra hydra-conf)
              (set just-hydra? true))
-      hydra-keymaps (let [hydra-conf {:name   name?
+      hydra-keymaps (let [hydra-conf {:name   group?
                                       :hint   hint?
                                       :config config?
                                       :mode   mode
@@ -163,9 +163,9 @@
                 (when debug?
                   (notify
                     "Setting which-key group name"
-                    (vim.inspect {:lhs {lhs {:name rhs.name}}
+                    (vim.inspect {:lhs {lhs {:group rhs.group}}
                                   : mode})))
-                (which-key.register {lhs {:name rhs.name}}
+                (which-key.register {lhs {:group rhs.group}}
                                     {: mode}))
               (def-keymaps mode
                            rhs

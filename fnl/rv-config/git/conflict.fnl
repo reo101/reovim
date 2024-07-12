@@ -11,8 +11,8 @@
              :highlights {:incoming :DiffAdd
                           :current  :DiffText}}]
     (dk :n
-        {:g {:name "Git"
-             :c {:name "Choose"
+        {:g {:group "Git"
+             :c {:group "Choose"
                  :o [#(git-conflict.choose :ours)   "Ours"]
                  :t [#(git-conflict.choose :theirs) "Theirs"]
                  :b [#(git-conflict.choose :base)   "Base"]

@@ -18,13 +18,13 @@
     (local comment-api (require :Comment.api))
     (local dk (require :def-keymaps))
     (local mappings
-           {:c {:name "Line Comment"
+           {:c {:group "Line Comment"
                 :c [comment-api.toggle.linewise.current
                     "Toggle Line"]
                 :o [comment-api.insert.linewise.below :o]
                 :O [comment-api.insert.linewise.above :O]
                 :A [comment-api.insert.linewise.eol :A]}
-            :C {:name "Block Comment"
+            :C {:group "Block Comment"
                 :c [comment-api.toggle.blockwise.current
                     "Toggle line"]}})
     (local operator-mappings

@@ -5,7 +5,7 @@
     (harpoon.setup opt)
 
     (dk :n
-        {:h {:name :Harpoon
+        {:h {:group :Harpoon
              :hydra
                {:p [#(-> harpoon (: :list) (: :prev)) :Prev]
                 :n [#(-> harpoon (: :list) (: :next)) :Next]}

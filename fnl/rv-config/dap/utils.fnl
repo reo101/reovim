@@ -3,8 +3,8 @@
 
 (fn dap-mappings []
   (dk :n
-      {:d {:name :DAP
-           :b {:name :Breakpoint
+      {:d {:group :DAP
+           :b {:group :Breakpoint
                :t [dap.toggle_breakpoint :Toggle]
                :c [#(dap.set_breakpoint
                       (vim.fn.input
@@ -12,7 +12,7 @@
                    "Set conditional"]}
             :c [dap.continue :Continue]
             :C [dap.run_to_cursor "Run to Cursor"]
-            :s {:name :Step
+            :s {:group :Step
                 :hydra true
                 :o [dap.step_over :Over]
                 :i [dap.step_into :Into]

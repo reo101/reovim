@@ -7,7 +7,7 @@
      (vim.diagnostic.config {:virtual_text  false
                              :virtual_lines true})
      (dk :n
-         {:t {:name :Toggle
+         {:t {:group :Toggle
               :d [lsp-lines.toggle
                   "Diagnostics"]}}
          {:prefix :<leader>})))

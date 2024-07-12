@@ -29,8 +29,8 @@
     (lspconfig.jdtls.setup config)
 
     (dk :n
-        {:l {:name :LSP
-             :j {:name :Java
+        {:l {:group :LSP
+             :j {:group :Java
                  :r [java.test.run_current_class    "Run Current Class"]
                  :R [java.test.debug_current_class  "Debug Current Class"]
                  :m [java.test.run_current_method   "Run Current Method"]

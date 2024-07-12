@@ -17,7 +17,7 @@
                    :lclose)))))
 
     (dk [:n]
-        {:t {:name :Toggle
+        {:t {:group :Toggle
              :l [(check :loclist)  :Loclist]
              :q [(check :quickfix) :Quickfix]}}
         {:prefix :<leader>})))

@@ -31,7 +31,7 @@
     ;;; Mappings
     (fn agda-mappings []
       (dk :n
-          {:a {:name :Agda
+          {:a {:group :Agda
                :l  [#(vim.cmd.CornelisLoad) :Load]
                :r  [#(vim.cmd.CornelisRefine) :Refine]
                :d  [#(vim.cmd.CornelisMakeCase) :MakeCase]

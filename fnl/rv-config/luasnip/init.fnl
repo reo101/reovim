@@ -39,7 +39,7 @@
                   :/luasnippets)})
 
     (dk :n
-        {:t {:name :Toggle
+        {:t {:group :Toggle
              :l [luasnip-from-lua.edit_snippet_files "LuaSnip snippets"]}}
         {:prefix :<leader>})))
 

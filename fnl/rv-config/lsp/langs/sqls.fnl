@@ -1,28 +1,28 @@
 (fn config []
   ;; (fn register-mappings []
   ;;                 (let [wk (require :which-key)
-  ;;                       mappings {:q {:name :SQL
-  ;;                                     :w {:name :Switch
+  ;;                       mappings {:q {:group :SQL
+  ;;                                     :w {:group :Switch
   ;;                                         :d [:<CMD>SqlsSwitchDatabase<CR>
   ;;                                             :Database]
   ;;                                         :c [:<CMD>SqlsSwitchConnection<CR>
   ;;                                             :Connection]}
-  ;;                                     :s {:name :Show
+  ;;                                     :s {:group :Show
   ;;                                         :d [:<CMD>SqlsShowDatabases<CR>
   ;;                                             :Databases]
   ;;                                         :c [:<CMD>SqlsShowConnections<CR>
   ;;                                             :Connections]
   ;;                                         :s [:<CMD>SqlsShowSchemas<CR>
   ;;                                             :Schemas]}
-  ;;                                     :q {:name :Query
+  ;;                                     :q {:group :Query
   ;;                                         :e [:<CMD>SqlsExecuteQuery<CR>
   ;;                                             :Execute]
   ;;                                         :v [:<CMD>SqlsExecuteQueryVertical<CR>
   ;;                                             "Execute (Vertical)"]}}}]
   ;;                   (wk.register mappings {:prefix :<leader>})
   ;;                   (local operator-mappings
-  ;;                          {:q {:name :SQL
-  ;;                               :q {:name :Query
+  ;;                          {:q {:group :SQL
+  ;;                               :q {:group :Query
   ;;                                   :e ["<Plug>(sqls-execute-query)"
   ;;                                       :Execute]
   ;;                                   :v ["<Plug>(sqls-execute-query-vertical)"

@@ -110,18 +110,18 @@
                             opt-path
                             ;; else
                             local-path))))
-               path)))
-      (if (or (= lazy-cfg.dev.patterns nil)
-              (not= (type lazy-cfg.dev.patterns) :table))
-          (set lazy-cfg.dev.patterns
-               (M.get-table-names-or-list-values plugin-table))
-          (do
-            (var to-include nil)
-            (set to-include lazy-cfg.dev.patterns)
-            (vim.list_extend
-              to-include
-              (M.get-table-names-or-list-values plugin-table))
-            (set lazy-cfg.dev.patterns to-include))))
+               path))
+        (if (or (= lazy-cfg.dev.patterns nil)
+                (not= (type lazy-cfg.dev.patterns) :table))
+            (set lazy-cfg.dev.patterns
+                 (M.get-table-names-or-list-values plugin-table))
+            (do
+              (var to-include nil)
+              (set to-include lazy-cfg.dev.patterns)
+              (vim.list_extend
+                to-include
+                (M.get-table-names-or-list-values plugin-table))
+              (set lazy-cfg.dev.patterns to-include)))))
   (local lazy (require :lazy))
   (lazy.setup lazy-specs lazy-cfg))
 
