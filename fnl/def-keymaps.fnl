@@ -34,8 +34,11 @@
          :group  group?
          :hint   hint?
          :config config?
+         :mode   mode?
          ;; :docs   docs?
          &       keymaps} keymaps
+        ;; TODO: remove global `mode` parameter, bring closer to which-key v3 spec
+        mode (or mode? mode)
         is-valid-cmd (fn [cmd]
                        (vim.tbl_contains
                          [:string :function]
@@ -122,6 +125,16 @@
                           (vim.inspect hydra-conf)))
                       (hydra hydra-conf)))
     (when (not just-hydra?)
+      (when (and has-which-key? group?)
+        (when debug?
+          (notify
+            "Setting which-key group name"
+            (vim.inspect {: mode
+                          1 prefix
+                          :group group?})))
+        (which-key.add {: mode
+                        1 prefix
+                        :group group?}))
       (each [lhs rhs (pairs canonicalized-keymaps)]
         (let [lhs (.. prefix lhs)]
           (if
@@ -151,10 +164,12 @@
                   (when debug?
                     (notify
                       "Setting which-key desc"
-                      (vim.inspect {:lhs {lhs {:desc rhs.desc}}
-                                    : mode})))
-                  (which-key.register {lhs {:desc rhs.desc}}
-                                      {: mode})))
+                      (vim.inspect {: mode
+                                    1 lhs
+                                    :desc rhs.desc})))
+                  (which-key.add {: mode
+                                  1 lhs
+                                  :desc rhs.desc})))
             ;; else
             (do
               (when (and has-which-key?
@@ -163,15 +178,17 @@
                 (when debug?
                   (notify
                     "Setting which-key group name"
-                    (vim.inspect {:lhs {lhs {:group rhs.group}}
-                                  : mode})))
-                (which-key.register {lhs {:group rhs.group}}
-                                    {: mode}))
+                    (vim.inspect {: mode
+                                  1 lhs
+                                  :group rhs.group})))
+                (which-key.add {: mode
+                                1 lhs :group rhs.group}))
               (def-keymaps mode
                            rhs
                            (vim.tbl_extend
                              :force
                              opts
-                             {:prefix lhs})))))))))
+                             {:prefix lhs
+                              :debug debug?})))))))))
 
 def-keymaps
