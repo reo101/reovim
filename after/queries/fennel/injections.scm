@@ -1,17 +1,35 @@
 ;; extends
 
 (
-  (list
-    call:
-      (symbol) @_local
-    item:
-      (symbol) @_name
-    item:
+  (binding_pair
+    lhs:
+      (symbol_binding) @_name
+    rhs:
       (string
         content:
           (string_content) @injection.content))
-  (#eq? @_local "local")
-  (#lua-match? @_name "^[^-]*%-query%-string.*$")
-  (#offset! @injection.content 0 1 0 -1)
+  (#lua-match? @_name "^[^-]*%-query.*$")
   (#set! injection.language "query")
 )
+
+(
+  (list
+    call: (multi_symbol) @_fn
+    item: (string content: (string_content) @_lang)
+    item: (string content: (string_content) @injection.content))
+  (#lua-match? @_fn "^vim.treesitter.query.parse$")
+  (#set! injection.language "query")
+)
+
+;; (
+;;   (binding_pair
+;;     lhs:
+;;       (symbol_binding) @_name
+;;     rhs:
+;;       (string
+;;         content:
+;;           (string_content) @injection.content))
+;;   (#lua-match? @_name "^[^-]*%-code.*$")
+;;   (#gsub! @_name "(^[^-]*)%-code.*$" "%1")
+;;   (#set! injection.language @_name)
+;; )
