@@ -37,7 +37,8 @@
                  ;; :omnisharp  (. (require :rv-config.lsp.langs.omnisharp)  :config)
                  :solang     (. (require :rv-config.lsp.langs.solang)     :config)
                  ;; :agda       (. (require :rv-config.lsp.langs.agda)       :config)
-                 :wgsl       (. (require :rv-config.lsp.langs.wgsl)       :config)}]
+                 :wgsl       (. (require :rv-config.lsp.langs.wgsl)       :config)
+                 :typst      (. (require :rv-config.lsp.langs.typst)      :config)}]
     (fn setup-servers []
       (each [name opt (pairs servers)]
         (if (= (type opt) :function)

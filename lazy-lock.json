@@ -131,7 +131,7 @@
   "treesj": { "branch": "main", "commit": "6e8bd008bacd5ad001c3953017c1dca20709e915" },
   "trouble.nvim": { "branch": "main", "commit": "46a19388d3507f4c4bebb9994bf821a79b3bc342" },
   "typed-fennel": { "branch": "subdirectories", "commit": "ee2ff2ce410a736e8c106d8787f8ee233fa2a4ad" },
-  "typst-preview.nvim": { "branch": "master", "commit": "5867db936576741f378b558a9d7428b928819df5" },
+  "typst-preview.nvim": { "branch": "master", "commit": "15eaaffc0a2d8cd871f485f399d1d67ed3322a0b" },
   "typst.nvim": { "branch": "main", "commit": "d7480653ea08847f144393d115a0dab8198fd817" },
   "ultimate-autopair.nvim": { "branch": "v0.6", "commit": "035d92eab05ac1390afef7204e3fcad9a50fa443" },
   "vim-easy-align": { "branch": "master", "commit": "9815a55dbcd817784458df7a18acacc6f82b1241" },
