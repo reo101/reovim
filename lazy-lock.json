@@ -53,6 +53,7 @@
   "luarocks.nvim": { "branch": "main", "commit": "1db9093915eb16ba2473cfb8d343ace5ee04130a" },
   "luv-vimdocs": { "branch": "main", "commit": "997b9338fd3ac91a53bbdc19110c127e3bea01c4" },
   "mason.nvim": { "branch": "main", "commit": "f96a31855fa8aea55599cea412fe611b85a874ed" },
+  "markdown.nvim": { "branch": "main", "commit": "3bdae400e079a834ae12b658bf1115abf206bb4c" },
   "mind.nvim": { "branch": "v2.2", "commit": "79e0ca131d5e37dfa65f3f0e725d99742e4ff783" },
   "nabla.nvim": { "branch": "master", "commit": "27a6ea9ed7452bb9e0b19eb0942b5bcf7d051b2f" },
   "neo-tree.nvim": { "branch": "main", "commit": "f3941c57ec85d7bdb44fa53fd858fd80f159018f" },

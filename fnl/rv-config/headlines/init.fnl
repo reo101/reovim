@@ -45,5 +45,5 @@
  :dependencies [;; :nvim-orgmode/orgmode
                 :nvim-treesitter/nvim-treesitter]
  :tag :v4.0.0
- :ft [:markdown :norg]
+ :ft [:norg]
  : config}
