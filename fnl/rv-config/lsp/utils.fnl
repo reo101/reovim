@@ -84,22 +84,33 @@
 
 (local lsp-capabilities
   (do
-    (local capabilities (vim.lsp.protocol.make_client_capabilities))
-    (set capabilities.textDocument.completion.completionItem
-         {:resolveSupport {:properties [:documentation
-                                        :detail
-                                        :additionalTextEdits]}
-          :documentationFormat     [:markdown]
-          :deprecatedSupport       true
-          :snippetSupport          true
-          :commitCharactersSupport true
-          :labelDetailsSupport     true
-          :insertReplaceSupport    true
-          :preselectSupport        true
-          :tagSupport              {:valueSet [1]}})
-    (set capabilities.textDocument.foldingRange
-         {:dynamicRegistration false
-          :lineFoldingOnly true})
+    (local default-capabilities (vim.lsp.protocol.make_client_capabilities))
+    (local capabilities
+      (vim.tbl_deep_extend
+        :force
+        default-capabilities
+        {:textDocument
+          {:completion
+            {:completionItem
+              {:resolveSupport
+                {:properties [:documentation
+                              :detail
+                              :additionalTextEdits]}
+               :documentationFormat     [:markdown]
+               :deprecatedSupport       true
+               :snippetSupport          true
+               :commitCharactersSupport true
+               :labelDetailsSupport     true
+               :insertReplaceSupport    true
+               :preselectSupport        true
+               :tagSupport              {:valueSet [1]}}}
+           :foldingRange
+            {:dynamicRegistration false
+             :lineFoldingOnly true}
+           :workspace
+            {:didChangeWatchedFiles
+               {:dynamicRegistration true
+                :relative_pattern_support true}}}}))
     capabilities))
 
 (fn lsp-override-handlers []

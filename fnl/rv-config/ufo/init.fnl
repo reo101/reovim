@@ -1,12 +1,21 @@
+(fn init []
+  (set vim.opt.foldcolumn    :auto)
+  (set vim.opt.foldlevel      99)
+  (set vim.opt.foldlevelstart 99)
+  (set vim.opt.foldenable     true))
+
 (fn config []
   (let [ufo (require :ufo)
         dk  (require :def-keymaps)
-        ft-map {:fennel [:treesitter
+        ft-map {}
+               #_
+               {:fennel [:treesitter
                          :indent]
                 ""      ""}
         handler (fn [virt-text lnum end-lnum width truncate]
                   (let [new-virt-text {}]
-                    (var suffix (-> " 󰁂 %d " (: :format (- end-lnum lnum))))
+                    (var suffix (-> " 󰁂 %d "
+                                    (: :format (- end-lnum lnum))))
                     (local suf-width (vim.fn.strdisplaywidth suffix))
                     (local target-width (- width suf-width))
                     (var cur-width 0)
@@ -55,10 +64,6 @@
                                        :indent]))
              :fold_virt_text_handler handler}]
     (ufo.setup opt)
-    (set vim.o.foldcolumn     :0)
-    (set vim.o.foldlevel      99)
-    (set vim.o.foldlevelstart 99)
-    (set vim.o.foldenable     true)
     (dk :n
         {:zR [ufo.openAllFolds "Open all folds"]
          :zM [ufo.closeAllFolds "Close all folds"]
@@ -70,6 +75,7 @@
 
 {1 :kevinhwang91/nvim-ufo
  :dependencies [:kevinhwang91/promise-async]
+ :tag :v1.4.0
  :event :VeryLazy
- : config
- :enabled false}
+ : init
+ : config}
