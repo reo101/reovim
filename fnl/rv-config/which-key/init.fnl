@@ -7,6 +7,6 @@
         {:prefix :<leader>})))
 
 {1 :folke/which-key.nvim
- :tag :v3.0.0
+ :tag :v3.13.2
  :event :VeryLazy
  : config}

@@ -140,6 +140,6 @@
   "vim-numbertoggle": { "branch": "main", "commit": "075b7478777e694fbac330ee34a74590dad0fee1" },
   "vim-octave": { "branch": "master", "commit": "61268df03ceb49c2b4433d7d47db08f91d550b2e" },
   "vim-textobj-user": { "branch": "master", "commit": "41a675ddbeefd6a93664a4dc52f302fe3086a933" },
-  "which-key.nvim": { "branch": "main", "commit": "58d7f822ecc80ca4b43e9c14fd6ec962483e2168" },
+  "which-key.nvim": { "branch": "main", "commit": "6c1584eb76b55629702716995cca4ae2798a9cca" },
   "winshift.nvim": { "branch": "main", "commit": "37468ed6f385dfb50402368669766504c0e15583" }
 }
