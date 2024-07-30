@@ -107,6 +107,17 @@
 ;;; Ignore case in search patterns
 (tset vim.opt :ignorecase true)
 
+;;; Make cyrillic work in NORMAL mode (mostly)
+(tset vim.opt :langmap
+      [;; Cyrillic to Latin mappings for Bulgarian Phonetic Traditional
+       ;; Lowercase mappings
+       "аa" "бb" "вw" "гg" "дd" "еe" "жv" "зz" "иi" "йj" "кk" "лl" "мm" "нn"
+       "оo" "пp" "рr" "сs" "тt" "уu" "фf" "хh" "цc" "ч`" "ш[" "щ]" "ъy" "ьx" "ю\\" "яq"
+
+       ;; Uppercase mappings
+       "АA" "БB" "ВW" "ГG" "ДD" "ЕE" "ЖV" "ЗZ" "ИI" "ЙJ" "КK" "ЛL" "МM" "НN"
+       "ОO" "ПP" "РR" "СS" "ТT" "УU" "ФF" "ХH" "ЦC" "Ч~" "Ш[" "Щ]" "ЪY" "ЬX" "Ю|" "ЯQ"])
+
 ;;; Global statusline
 (tset vim.opt :laststatus 3)
 
