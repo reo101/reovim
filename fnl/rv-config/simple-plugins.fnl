@@ -21,8 +21,8 @@
  ;;  :config #((. (require "nu")
  ;;               :setup)
  ;;            {:use_lsp_features false})}
- {1 :nushell/tree-sitter-nu
-  :ft [:nu]}
+ {1 :nushell/tree-sitter-nu}
+  ;; :ft [:nu]}
  {1 :avm99963/vim-jjdescription}
  ;; Keymaps
  {1 :nvimtools/hydra.nvim

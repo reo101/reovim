@@ -4,4 +4,6 @@
  ;; TODO: `git-worktree`
  (require (.. ... :.gitlinker))
  (require (.. ... :.conflict))
- (require (.. ... :.octo))]
+ (require (.. ... :.octo))
+ ;; NOTE: jujustu
+ (require (.. ... :.hunk))]

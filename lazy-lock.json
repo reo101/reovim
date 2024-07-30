@@ -39,6 +39,7 @@
   "heirline-components.nvim": { "branch": "main", "commit": "2cb2702fe05479390b7cbd5cf97f3c3388270d63" },
   "heirline.nvim": { "branch": "master", "commit": "0d797435e54645a5f98bad7ad6046aac1ef95c1e" },
   "hlargs.nvim": { "branch": "main", "commit": "cc0d9ee75e5ffba730393049119361b9e3a5b1b6" },
+  "hunk.nvim": { "branch": "master", "commit": "c3edadb4dd21019aeb6d6dc91d5537ce48227d2a" },
   "hydra.nvim": { "branch": "main", "commit": "8578056a2226ed49fc608167edc143a87f75d809" },
   "idris2-nvim": { "branch": "main", "commit": "8bff02984a33264437e70fd9fff4359679d910da" },
   "indent-blankline.nvim": { "branch": "master", "commit": "65e20ab94a26d0e14acac5049b8641336819dfc7" },
