@@ -46,7 +46,6 @@ bootstrap("https://github.com/udayvir-singh/tangerine.nvim")
 --- BOOTSTRAP TYPED-FENNEL ---
 
 bootstrap("https://github.com/reo101/typed-fennel", "subdirectories")
-vim.opt.rtp:prepend(nvim_data .. "/lazy/typed-fennel")
 
 --- CONFIGURE TANGERINE ---
 
@@ -159,13 +158,9 @@ local opt = {
 
 require("tangerine").setup(opt)
 
-vim.opt.rtp:prepend(nvim_data .. "/tangerine.nvim")
-
 --- BOOTSTRAP NIXCATS ---
 
 bootstrap("https://github.com/BirdeeHub/nixCats-nvim")
-
-vim.opt.rtp:prepend(nvim_data .. "/nixCats-nvim")
 
 --- BOOTSTRAP LAZY.NVIM ---
 
