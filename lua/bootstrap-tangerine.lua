@@ -12,7 +12,6 @@ local function bootstrap(url, ref, extra_path)
 
     if pack == "lazy" then
         path = vim.fn.stdpath("data") .. "/lazy/" .. name
-        vim.opt.rtp:prepend(path)
         path = path .. "/" .. extra_path
     else
         path = vim.fn.stdpath("data") .. "/site/pack/".. pack .. "/start/" .. name .. "/" .. extra_path
@@ -37,6 +36,8 @@ local function bootstrap(url, ref, extra_path)
         vim.cmd("redraw")
         print(name .. ": finished installing")
     end
+
+    vim.opt.rtp:prepend(path)
 end
 
 --- BOOTSTRAP TANGERINE ---
@@ -117,7 +118,7 @@ local opt = {
         -- "onsave" run every time you save fennel file in {source} dir
         -- "onload" run on VimEnter event
         -- "oninit" run before sourcing init.fnl [recommended than onload]
-        hooks = { "onload", "onsave" },
+        hooks = { "oninit", "onsave" },
     },
 
     eval = {
@@ -164,4 +165,4 @@ bootstrap("https://github.com/BirdeeHub/nixCats-nvim")
 
 --- BOOTSTRAP LAZY.NVIM ---
 
--- bootstrap("https://github.com/folke/lazy.nvim")
+bootstrap("https://github.com/folke/lazy.nvim")
