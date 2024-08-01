@@ -14,6 +14,8 @@
              :start_in_insert true
              ;; whether or not the open mapping applies in insert mode
              :insert_mappings false
+             ;; whether or not the open mapping applies in terminal mode
+             :terminal_mappings false
              :persist_size false
              ;; "vertical" | "horizontal" | "tab" | "float"
              :direction :horizontal
