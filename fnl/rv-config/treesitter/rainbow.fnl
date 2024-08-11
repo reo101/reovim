@@ -1,6 +1,6 @@
 (fn config []
   (let [dk (require :def-keymaps)
-        rainbow-delimiters (require "rainbow-delimiters")
+        rainbow-delimiters (require :rainbow-delimiters)
         opt {:strategy {""   (. rainbow-delimiters :strategy :global)
                         :vim (. rainbow-delimiters :strategy :local)}
              :query    {""   :rainbow-delimiters

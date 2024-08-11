@@ -5,7 +5,7 @@
   :init-macros)
 
 ;; Pretty to clockwise
-(fn reorder-border [pretty]
+(macro reorder-border [pretty]
   ;;
   ;;  ["╭" "─" "╮"
   ;;   "│"     "│"
@@ -184,9 +184,9 @@
                   :neorg         "[Neorg]"
                   :conjure       "[Conjure]"
                   :git           "[Git]"
-                  name           (as-> $ name
-                                    (string.gsub $ "^%l" string.upper)
-                                    (string.format $ "[%s]"))))
+                  name           (-> name
+                                    (string.gsub "^%l" string.upper)
+                                    (string.format "[%s]"))))
 
               ;; NOTE: Allow duplicates for certain sources
               (tset

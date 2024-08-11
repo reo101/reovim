@@ -1,5 +1,8 @@
 (fn config []
-  (let [dk (require :def-keymaps)]
+  (let [dk (require :def-keymaps)
+        ts-context-commentstring (require :ts_context_commentstring)
+        opt {:enable_autocmd false}]
+    (ts-context-commentstring.setup opt)
     (dk [:n :v :x :o]
         {:c "gc"}
         {:prefix :<leader>

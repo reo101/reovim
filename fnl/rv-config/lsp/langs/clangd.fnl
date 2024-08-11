@@ -1,5 +1,6 @@
 (fn config []
-  (let [{: lsp-on-init
+  (let [dk (require :def-keymaps)
+        {: lsp-on-init
          : lsp-on-attach
          : lsp-capabilities
          : lsp-root-dir} (require :rv-config.lsp.utils)
@@ -21,10 +22,10 @@
              :on_attach lsp-on-attach
              :on_attach (fn [...]
                           (lsp-on-attach ...)
-                          ((. (require :which-key) :register)
-                           {:ls [:<Cmd>ClangdSwitchSourceHeader<CR>
-                                 "Switch Header"]}
-                           {:prefix :<leader>}))
+                          (dk :n
+                              {:ls [:<Cmd>ClangdSwitchSourceHeader<CR>
+                                    "Switch Header"]}
+                              {:prefix :<leader>}))
              :capabilities lsp-capabilities
              ;; :init_options {:fallbackFlags [:-std=c++20]}
              :root_dir (lsp-root-dir [:.clang-format

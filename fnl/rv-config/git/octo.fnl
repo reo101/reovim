@@ -226,4 +226,5 @@
                 ;; OR :ibhagwan/fzf-lua
                 :nvim-tree/nvim-web-devicons]
  : config
+ :cmd [:Octo]
  :enabled (= (vim.fn.executable :gh) 1)}

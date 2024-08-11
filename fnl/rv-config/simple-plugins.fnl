@@ -21,7 +21,8 @@
  ;;  :config #((. (require "nu")
  ;;               :setup)
  ;;            {:use_lsp_features false})}
- {1 :nushell/tree-sitter-nu}
+ {1 :nushell/tree-sitter-nu
+  :event :VeryLazy}
   ;; :ft [:nu]}
  {1 :avm99963/vim-jjdescription}
  ;; Keymaps

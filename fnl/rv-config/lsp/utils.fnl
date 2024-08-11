@@ -27,6 +27,7 @@
                           :q [vim.diagnostic.setloclist  "Send to loclist"]}
                       :f [#(vim.lsp.buf.format {:async true}) :Format]
                       :r [vim.lsp.buf.rename                  :Rename]
+                      ;; TODO: make buffer local?
                       :i [#(vim.lsp.inlay_hint.enable (not (vim.lsp.inlay_hint.is_enabled {})) {})
                           "Toggle inlay hints"]}}
         direct-mappings {:K [vim.lsp.buf.hover :Hover]

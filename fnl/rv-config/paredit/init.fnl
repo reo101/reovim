@@ -115,4 +115,5 @@
   : config}
  {1 :julienvincent/nvim-paredit-fennel
   :ft ["fennel"]
-  :config #((. (require :nvim-paredit-fennel) :setup))}]
+  :config #((. (require :nvim-paredit-fennel) :setup))
+  :enabled false}]

@@ -12,7 +12,7 @@
                  :nim        (. (require :rv-config.lsp.langs.nim)        :config)
                  :racket     (. (require :rv-config.lsp.langs.racket)     :config)
                  :python     (. (require :rv-config.lsp.langs.python)     :config)
-                 :haskell    (. (require :rv-config.lsp.langs.haskell)    :config)
+                 ;; :haskell    (. (require :rv-config.lsp.langs.haskell)    :config)
                  :cmake      (. (require :rv-config.lsp.langs.cmake)      :config)
                  :emmet_ls   (. (require :rv-config.lsp.langs.emmet-ls)   :config)
                  :go         (. (require :rv-config.lsp.langs.go)         :config)
@@ -60,7 +60,9 @@
   :event :BufRead
   : config}
  (require (.. ... :.lines))
+ ;; TODO: spearate out in different directory?
  (icollect [_ lang-plugin (ipairs [:rustaceanvim
+                                   :haskell-tools
                                    :lean
                                    :idris2
                                    :agda

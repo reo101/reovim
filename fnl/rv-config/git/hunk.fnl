@@ -1,6 +1,6 @@
 (fn config []
   (let [dk (require :def-keymaps)
-        hunk (require :gitlinkerhunk)
+        hunk (require :hunk)
         opt {}]
     (hunk.setup opt)))
 

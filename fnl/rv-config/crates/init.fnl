@@ -10,7 +10,6 @@
              :date_format "%Y-%m-%d" ;; the date format passed to os.date
              :thousands_separator "."
              :notification_title "Crates"
-             :disable_invalid_feature_diagnostic false
              :text
                {:loading    "   Loading"
                 :version    "   %s"
@@ -111,20 +110,33 @@
                    :goto_item      ["gd" "K" "<C;;eftMouse>"]
                    :jump_forward   ["<C-i>"]
                    :jump_back      ["<C-o>" "<C;;ightMouse>"]}}
-             :src
-               {:insert_closing_quote false
-                :text
-                  {:prerelease "  pre-release "
-                   :yanked     "  yanked "}
-                :cmp
-                  {:enabled true}
-                :coq
-                  {:enabled false
-                   :name :Crates}}
+             :lsp
+               {:enabled true
+                :on_attach (. (require :rv-config.lsp.utils)
+                              :lsp-on-attach)
+                :actions true
+                :completion true
+                :hover true}
+             :completion
+               {:crates
+                 {:enabled true
+                  ;; :max_results 10
+                  :min_chars 2}}
+                ;; :cmp
+                ;;  {:enbaled true}}
              :null_ls
                {:enabled false
-                :name :Crates}}]
+                :name :Crates}
+             :on_attach (fn [bufnr])}]
     (crates.setup opt)
+
+    (let [group (vim.api.nvim_create_augroup "CmpSourceCargo" {:clear true})]
+      (vim.api.nvim_create_autocmd
+        "BufRead"
+        {: group
+         :pattern "Cargo.toml"
+         :callback #(let [cmp (require :cmp)]
+                      cmp.setup.buffer {:sources [{:name "crates"}]})}))
 
     (dk :n
         {:r {:group :Crates
@@ -150,5 +162,6 @@
         {:prefix :<leader>})))
 
 {1 :saecki/crates.nvim
+ :tag :stable
  :event ["BufRead Cargo.toml"]
  : config}

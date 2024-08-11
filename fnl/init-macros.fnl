@@ -57,6 +57,7 @@
          (set ,res# (: ,res# ,f ,(unpack args))))))
   res)
 
+;; TODO: doesn't work for `(id:method args)`
 (fn as-> [hole val ...]
   "Thread a value through a list of operations with a placeholder for the hole"
   (assert-compile

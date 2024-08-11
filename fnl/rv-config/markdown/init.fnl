@@ -19,10 +19,9 @@
         {}
         {:prefix :<leader>})))
 
-{;; 1 :MeanderingProgrammer/markdown.nvim
- 1 :scottmckendry/markdown.nvim
+{1 :MeanderingProgrammer/markdown.nvim
  :dependencies ["nvim-treesitter/nvim-treesitter"
                 "nvim-tree/nvim-web-devicons"]
- ;; :tag :v5.0.0
+ :tag :v6.0.0
  :event :VeryLazy
  : config}

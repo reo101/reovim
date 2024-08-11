@@ -40,5 +40,6 @@
     (toggleterm.setup opt)))
 
 {1 :akinsho/toggleterm.nvim
+ :tag :v2.12.0
  :keys [:<leader>tt]
  : config}

@@ -65,6 +65,8 @@ NVIM_APPNAME=reovim nvim
 
 # Directory overview
 
+<!-- TODO: update -->
+
 - [`init.lua`](./init.lua) - Entry point for Neovim
 - [`lua/`](./lua/) - Lua config files
     - [`bootstrap-tangerine.lua`](./lua/bootstrap-tangerine.lua) - `tangerine` bootstrapper
