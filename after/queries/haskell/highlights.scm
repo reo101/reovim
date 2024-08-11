@@ -1,0 +1,3 @@
+;; extends
+
+(label) @function.macro

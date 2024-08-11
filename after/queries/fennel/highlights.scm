@@ -1,5 +1,8 @@
 ;; extends
 
+((discard) @comment
+ (#set! "priority" 155))
+
 ;; _VARARG
 ((symbol) @constant.builtin
  (#any-of? @constant.builtin
