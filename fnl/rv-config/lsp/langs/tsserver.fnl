@@ -20,6 +20,6 @@
                           :tsconfig.json])
              :init_options {:hostInfo :neovim}
              :single_file_support true}]
-    ((. (. (require :lspconfig) :tsserver) :setup) opt)))
+    ((. (. (require :lspconfig) :ts_ls) :setup) opt)))
 
 {: config}
