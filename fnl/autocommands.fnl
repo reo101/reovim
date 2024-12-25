@@ -17,9 +17,11 @@
 (vim.api.nvim_create_user_command
   :Dump
   (fn [input]
-    (let [cmd (.. "put =execute('" input.args "')")]
-      (vim.cmd cmd)))
-  {:nargs 1})
+    (let [output (vim.fn.execute input.args)
+          lines (vim.split output "\n" true)]
+      (vim.api.nvim_put lines "l" true true)))
+  {:nargs 1
+   :complete :command})
 
 (local group (vim.api.nvim_create_augroup
                :reovim-autocommands
