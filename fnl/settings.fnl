@@ -108,6 +108,7 @@
 (tset vim.opt :ignorecase true)
 
 ;;; Make cyrillic work in NORMAL mode (mostly)
+;; TODO: automate?
 (tset vim.opt :langmap
       [;; Cyrillic to Latin mappings for Bulgarian Phonetic Traditional
        ;; Lowercase mappings
@@ -116,7 +117,7 @@
 
        ;; Uppercase mappings
        "АA" "БB" "ВW" "ГG" "ДD" "ЕE" "ЖV" "ЗZ" "ИI" "ЙJ" "КK" "ЛL" "МM" "НN"
-       "ОO" "ПP" "РR" "СS" "ТT" "УU" "ФF" "ХH" "ЦC" "Ч~" "Ш[" "Щ]" "ЪY" "ЬX" "Ю|" "ЯQ"])
+       "ОO" "ПP" "РR" "СS" "ТT" "УU" "ФF" "ХH" "ЦC" "Ч~" "Ш{" "Щ}" "ЪY" "ЬX" "Ю|" "ЯQ"])
 
 ;;; Global statusline
 (tset vim.opt :laststatus 3)
@@ -219,11 +220,16 @@
 (tset vim.opt :writebackup false)
 
 ;; (tset vim.wo :fillchars "fold: ")
-;; (tset vim.wo :foldexpr "nvim_treesitter#foldexpr()")
-;; (tset vim.wo :foldmethod "expr")
+(tset vim.wo :foldexpr "nvim_treesitter#foldexpr()")
+;; (tset vim.wo :foldtext "nvim_treesitter#foldtext()")
+(tset vim.wo :foldmethod "expr")
 ;; (tset vim.wo :foldminlines 1)
 ;; (tset vim.wo :foldnestmax 3)
 ;; (tset vim.wo :foldtext "substitute(getline(v:foldstart),'\\t',repeat('\\ ',&tabstop),'g').'...'.trim(getline(v:foldend))")
+(tset vim.opt :foldcolumn     :0)
+(tset vim.opt :foldlevel      99)
+(tset vim.opt :foldlevelstart 99)
+(tset vim.opt :foldenable     true)
 
 ;;; Disable builtin plugins and language providers
 (let [disabled-plugins
@@ -254,5 +260,5 @@
         "ruby_provider"]]
   (each [_ plugin (ipairs disabled-plugins)]
     (tset vim.g (.. "loaded_" plugin) 1))
-  (each [_ plugin (ipairs disabled-providers)]
-    (tset vim.g (.. "loaded_" plugin) 0)))
+  (each [_ provider (ipairs disabled-providers)]
+    (tset vim.g (.. "loaded_" provider) 0)))
