@@ -28,17 +28,16 @@
                {:clear true}))
 
 ;; Terminal utilities
+(vim.keymap.set
+  :t
+  :<Esc><Esc>
+  :<C-\><C-n>)
 (vim.api.nvim_create_autocmd
   :TermOpen
   {:pattern :*
    : group
    :callback
      #(do
-        (vim.keymap.set
-          :t
-          :<Esc><Esc>
-          :<C-\><C-n>
-          {:buffer true})
         (vim.cmd ":startinsert")
         (vim.cmd "setlocal listchars= nonumber norelativenumber"))})
 
