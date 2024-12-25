@@ -382,27 +382,27 @@
                [{:debug_name "git_commits"
                  :trigger_character ":"
                  :action (fn [sources trigger-char callback params git-info]
-                           (sources.git:get-commits callback params trigger-char))}
+                           (sources.git:get_commits callback params trigger-char))}
                 {:debug_name "gitlab_issues"
                  :trigger_character "#"
                  :action (fn [sources trigger-char callback params git-info]
-                           (sources.gitlab:get-issues callback git-info trigger-char))}
+                           (sources.gitlab:get_issues callback git-info trigger-char))}
                 {:debug_name "gitlab_mentions"
                  :trigger_character "@"
                  :action (fn [sources trigger-char callback params git-info]
-                           (sources.gitlab:get-mentions callback git-info trigger-char))}
+                           (sources.gitlab:get_mentions callback git-info trigger-char))}
                 {:debug_name "gitlab_mrs"
                  :trigger_character "!"
                  :action (fn [sources trigger-char callback params git-info]
-                           (sources.gitlab:get-merge-requests callback git-info trigger-char))}
+                           (sources.gitlab:get_merge_requests callback git-info trigger-char))}
                 {:debug_name "github_issues_and_pr"
                  :trigger_character "#"
                  :action (fn [sources trigger-char callback params git-info]
-                           (sources.github:get-issues-and-prs callback git-info trigger-char))}
+                           (sources.github:get_issues_and_prs callback git-info trigger-char))}
                 {:debug_name "github_mentions"
                  :trigger_character "@"
                  :action (fn [sources trigger-char callback params git-info]
-                           (sources.github:get-mentions callback git-info trigger-char))}]}]
+                           (sources.github:get_mentions callback git-info trigger-char))}]}]
     (cmp-git.setup opt)))
 
 {1 :hrsh7th/nvim-cmp
