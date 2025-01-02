@@ -28,7 +28,10 @@
                        :alt [:OPTIM :OPTIMIZE :PERFORMANCE]}
                 :NOTE {:icon "󰍨 "
                        :color :hint
-                       :alt [:INFO]}}
+                       :alt [:INFO]}
+                :CONT {:icon ""
+                       :color :#FCA503
+                       :alt [:CONTINUE]}}
              ;; when true, custom keywords will be merged with the defaults
              :merge_keywords true
              ;; highlighting of the line containing the todo comment}
@@ -64,7 +67,7 @@
                 :hint    [:LspDiagnosticsDefaultHint
                           :#10B981]
                 :default [:Identifier
-                          :7CEAED]}
+                          :#7CEAED]}
              :search
                {:command :rg
                 :args [:--color=never
