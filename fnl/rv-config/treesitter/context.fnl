@@ -35,4 +35,5 @@
 
 {1 :romgrk/nvim-treesitter-context
  :event :VeryLazy
- : config}
+ : config
+ :enabled false}
