@@ -5,23 +5,26 @@
               {:default [:lsp :path :snippets :buffer :digraphs]
                :providers
                  {:digraphs
-                   {:module :blink.compat.source
-                    :name :digraphs
+                   {:name :digraphs
+                    :module :blink.compat.source
                     :opts {:cache_digraphs_on_start true}
                     :score_offset (- 3)}
-                  :latex
-                   {:module :blink.compat.source
-                    :name :latex
-                    :opts {:all_panes false}}
+                  ;; :latex
+                  ;;  {:module :blink.compat.source
+                  ;;   :name :latex
+                  ;;   :opts {:all_panes false}}
+                  :conjure
+                   {:name :conjure
+                    :module :blink.compat.source}
                   :crates
-                   {:module :blink.compat.source
-                    :name :crates}
+                   {:name :crates
+                    :module :blink.compat.source}
                   :ecolog
-                   {:module :blink.compat.source
-                    :name :ecolog}
+                   {:name :ecolog
+                    :module :ecolog.integrations.cmp.blink_cmp}
                   :agda
-                   {:module :blink.compat.source
-                    :name :agda}}}}]
+                   {:name :agda
+                    :module :blink.compat.source}}}}]
     (blink-cmp.setup opt)
 
     (dk :n

@@ -6,7 +6,7 @@
   (let [ecolog (require :ecolog)
         dk (require :def-keymaps)
         opt {:integrations
-               {:nvim_cmp true
+               {:blink_cmp true
                 :lsp true}
              :shelter
                {:configuration
@@ -37,17 +37,10 @@
         (. $ :register_many)
         ($ opt.providers))
 
-    (let [cmp (require :cmp)
-          config (cmp.get_config)]
-       (table.insert
-         config.sources
-         {:name :ecolog})
-       (cmp.setup config))
 
     (dk :n
         {}
         {:prefix :<leader>})))
 
 {1 :philosofonusus/ecolog.nvim
- :dependencies [:hrsh7th/nvim-cmp]
  : config}

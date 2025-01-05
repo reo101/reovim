@@ -161,7 +161,7 @@ require("tangerine").setup(opt)
 
 --- BOOTSTRAP NIXCATS ---
 
-bootstrap("https://github.com/BirdeeHub/nixCats-nvim")
+bootstrap("https://github.com/BirdeeHub/nixCats-nvim", "v6.0.8")
 
 --- BOOTSTRAP LAZY.NVIM ---
 
