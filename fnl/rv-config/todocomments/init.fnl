@@ -46,7 +46,9 @@
                 ;; "fg" or "bg" or empty
                 :after :fg
                 ;; pattern or table of patterns, used for highlightng (vim regex)
-                :pattern ".*<(KEYWORDS)\\s*:"
+                ;; :pattern ".*<(KEYWORDS)\\s*:"
+                :pattern ".*<((KEYWORDS)%(\\(.{-}\\))?):"
+                ;; :pattern "(KEYWORDS)\\s*(\\([^\\)]*\\))?:"
                 ;; uses treesitter to match keywords in comments only
                 :comments_only true
                 ;; ignore lines longer than this
@@ -79,7 +81,8 @@
              ;; don't replace the (KEYWORDS) placeholder
              ;; ripgrep regex
              ;; pattern "\\b(KEYWORDS)\\b" ;; match without the extra colon, will likely get false positives
-             :pattern "\\b(KEYWORDS):"}]
+             ;; :pattern "\\b(KEYWORDS):"
+             :pattern "\\b(KEYWORDS)(\\([^\\)]*\\))?:"}]
     (todo-comments.setup opt)))
 
 {1 :folke/todo-comments.nvim
