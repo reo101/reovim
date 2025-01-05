@@ -23,6 +23,8 @@
              :close_on_exit true
              ;; change the default shell
              :shell vim.o.shell
+             ;; automatically scroll to the bottom on terminal output
+             :auto_scroll false
              ;; This field is only relevant if direction is set to "float"
              :float_opts
                {;; The border key is *almost* the same as "nvim_open_win"
