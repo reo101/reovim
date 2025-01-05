@@ -51,6 +51,9 @@
                      :item    [:> :v]
                      :hunk    ["" ""]}
 
+             ;;; Logs
+             :graph_style :kitty
+
              ;;; Neogit only provides inline diffs. If you want a more traditional way to look at diffs, you can use `sindrets/diffview.nvim`.
              ;;; The diffview integration enables the diff popup, which is a wrapper around `sindrets/diffview.nvim`.
              :integrations {:diffview true}

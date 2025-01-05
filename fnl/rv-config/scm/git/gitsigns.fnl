@@ -9,6 +9,7 @@
                 :topdelete    {:text "‾"}
                 :changedelete {:text "~"}
                 :untracked    {:text "┆"}}
+             ;; FIXME: signs
              :signcolumn true
              :numhl false
              :linehl false
@@ -27,7 +28,8 @@
                 :ignore_whitespace false
                 :virt_text_priority 100}
              :current_line_blame_formatter "<author>, <author_time:%R> - <summary>"
-             :sign_priority 6
+             ;; NOTE: higher than `gitsigns`
+             :sign_priority 10
              :update_debounce 100
              ;; Use default
              :status_formatter nil
@@ -92,4 +94,6 @@
  :dependencies [:nvim-lua/plenary.nvim]
  :tag :v0.9.0
  :event :BufRead
- : config}
+ : config
+ ;; FIXME: slows down markdown for some reason
+ :enabled false}
