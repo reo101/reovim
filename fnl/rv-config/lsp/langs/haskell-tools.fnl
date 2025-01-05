@@ -9,7 +9,9 @@
                {:on_attach
                   (fn [client bufnr ht]
                     (lsp-on-attach client bufnr))
-                :capabilities lsp-capabilities}
+                :capabilities lsp-capabilities
+                :settings
+                  {:haskell {:formattingProvider :fourmolu}}}
              :dap {}}]
     (tset vim.g :haskell_tools opt)))
 
