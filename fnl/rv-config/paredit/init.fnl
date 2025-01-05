@@ -11,6 +11,11 @@
                 "racket"
                 "crisp"
                 "clojure"]
+             ;; This is some language specific configuration. Right now this is just used for
+             ;; setting character lists that are considered whitespace.
+             :languages
+               {:fennel {:whitespace_chars [" " ","]}
+                :clojure {:whitespace_chars [" " ","]}}
              ;; This controls where the cursor is placed when performing slurp/barf operations
              ;;
              ;; - "remain" - It will never change the cursor position, keeping it in the same place
@@ -20,6 +25,11 @@
              ;;              in the cursor no longer being within the original form.
              ;;              In this case it will place the cursor on the moved edge
              :cursor_behaviour :auto
+             :dragging
+               {;; If set to `true` paredit will attempt to infer if an element being
+                ;; dragged is part of a 'paired' form like as a map. If so then the element
+                ;; will be dragged along with it's pair.
+                :auto_drag_pairs true}
              :indent
                {;; This controls how nvim-paredit handles indentation when performing operations
                 ;; which should change the indentation of the form, such as when slurping or barfing
@@ -103,17 +113,13 @@
                       2 :Element
                       :repeatable false
                       :mode [:o :v]}}}]
-    (paredit.setup opt)
-    ((. (require :rv-config.paredit.extensions) :config))))
+    (paredit.setup opt)))
 
 [{1 :julienvincent/nvim-paredit
+  :version :1.1.1
   :ft ["fennel"
        "scheme"
        "racket"
        "crisp"
        "clojure"]
-  : config}
- {1 :julienvincent/nvim-paredit-fennel
-  :ft ["fennel"]
-  :config #((. (require :nvim-paredit-fennel) :setup))
-  :enabled false}]
+  : config}]
