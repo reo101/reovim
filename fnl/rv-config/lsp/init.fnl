@@ -59,16 +59,18 @@
 [{1 :neovim/nvim-lspconfig
   :event :BufRead
   : config}
- (require (.. ... :.lines))
+ #_(require (.. ... :.lines))
+ (require (.. ... :.diagnostics))
  ;; TODO: spearate out in different directory?
- (icollect [_ lang-plugin (ipairs [:rustaceanvim
-                                   :haskell-tools
-                                   :lean
-                                   :idris2
-                                   :agda
-                                   :metals
-                                   :nvim-java
-                                   :texmagic])]
+ (icollect [_ lang-plugin
+              (ipairs [:rustaceanvim
+                       :haskell-tools
+                       :lean
+                       :idris2
+                       :agda
+                       :metals
+                       :nvim-java
+                       :texmagic])]
    (require (.. ... :.langs. lang-plugin)))
  {1 :b0o/schemastore.nvim}]
  ;; {1 :Hoffs/omnisharp-extended-lsp.nvim}]

@@ -4,8 +4,9 @@
          opt {}]
      (lsp-lines.setup opt)
 
-     (vim.diagnostic.config {:virtual_text  false
-                             :virtual_lines true})
+     (vim.diagnostic.config
+       {:virtual_text  false
+        :virtual_lines true})
      (dk :n
          {:t {:group :Toggle
               :d [lsp-lines.toggle
