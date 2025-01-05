@@ -60,15 +60,15 @@
                        ;; "<C-t>" :actions.select_tab
                        ;; "<C-p>" :actions.preview
                        "<C-c>" :actions.close
-                       "<Esc>" :actions.close
+                       "<Esc><Esc>" :actions.close
                        "<C-l>" :actions.refresh
                        "-"     :actions.parent
                        ;; TODO: takovata
                        "<BS>"  :actions.parent
                        "_"     :actions.open_cwd
                        ;; "`"     :actions.cd
-                       "."     :actions.cd
-                       "~"     :actions.tcd
+                       "~~"    :actions.cd
+                       "~t"    :actions.tcd
                        "g."    :actions.toggle_hidden
                        "H"     :actions.toggle_hidden}
              ;; Set to false to disable all of the above keymaps
@@ -134,5 +134,5 @@
 
 {1 :stevearc/oil.nvim
  :dependencies [:nvim-tree/nvim-web-devicons]
- :keys [:<leader>to]
+ ;; :keys [:<leader>to]
  : config}
