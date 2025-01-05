@@ -96,7 +96,7 @@ local opt = {
                     package.loaded[k] = nil
                 end)
 
-                -- Being in ours
+                -- Bring in ours
                 package.path = local_fennel_path .. "/?.lua;" .. package.path
                 local local_fennel = require("fennel")
                 -- TODO: why is this not needed
@@ -118,7 +118,7 @@ local opt = {
         -- "onsave" run every time you save fennel file in {source} dir
         -- "onload" run on VimEnter event
         -- "oninit" run before sourcing init.fnl [recommended than onload]
-        hooks = { "oninit", "onsave" },
+        hooks = { "oninit", "onload", "onsave" },
     },
 
     eval = {
