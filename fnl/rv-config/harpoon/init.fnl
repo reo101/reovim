@@ -9,8 +9,8 @@
              :hydra
                {:p [#(-> harpoon (: :list) (: :prev)) :Prev]
                 :n [#(-> harpoon (: :list) (: :next)) :Next]}
-             :a [#(-> harpoon (: :list) (: :append)) :Append]
-             :e [#(harpoon.ui:toggle_quick_menu (harpoon:list)) :Edit]
+             :a [#(-> harpoon (: :list) (: :add)) :Add]
+             :h [#(-> harpoon.ui (: :toggle_quick_menu (harpoon:list))) :Edit]
              :1 [#(-> harpoon (: :list) (: :select 1)) :1]
              :2 [#(-> harpoon (: :list) (: :select 2)) :2]
              :3 [#(-> harpoon (: :list) (: :select 3)) :3]}}
