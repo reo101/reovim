@@ -70,7 +70,8 @@
                        :agda
                        :metals
                        :nvim-java
-                       :texmagic])]
+                       :texmagic
+                       #_:dotnvim
+                       :roslyn])]
    (require (.. ... :.langs. lang-plugin)))
  {1 :b0o/schemastore.nvim}]
- ;; {1 :Hoffs/omnisharp-extended-lsp.nvim}]
