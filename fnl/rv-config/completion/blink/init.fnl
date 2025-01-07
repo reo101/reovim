@@ -16,8 +16,8 @@
                :menu
                 {:draw
                   {:columns
-                    [{:src :kind_icon}
-                     {:src :label :gap 1}]
+                    [{1 :kind_icon}
+                     {1 :label :gap 1}]
                    :components
                     {:label
                       (let [colorful-menu (require :colorful-menu)]
@@ -65,9 +65,9 @@
                  :conjure
                   {:name :conjure
                    :module :blink.compat.source}
-                 :dadbod
-                  {:name :Dadbod
-                   :module :vim_dadbod_completion.blink}
+                 ;; :dadbod
+                 ;;  {:name :Dadbod
+                 ;;   :module :vim_dadbod_completion.blink}
                  :agda
                   {:name :agda
                    :module :blink.compat.source}
@@ -86,20 +86,23 @@
 
 [{:src "https://github.com/saghen/blink.compat"
   :version :v2.5.0
-  :lazy true
-  :opts {}}
+  :data {:on_require [:cmp :blink.compat]}}
  {:src "https://github.com/saghen/blink.cmp"
   :version :v1.6.0
-  :dependencies [:dmitmel/cmp-digraphs
-                 :hrsh7th/cmp-calc
-                 ;; :f3fora/cmp-spell
-                 :andersevenrud/cmp-tmux
-                 ;; :hrsh7th/cmp-cmdline
-                 ;; :hrsh7th/cmp-omni
-                 :kdheepak/cmp-latex-symbols
-                 :ryo33/nvim-cmp-rust
-                 :philosofonusus/ecolog.nvim
-                 :L3MON4D3/LuaSnip
-                 ;; NOTE: afterured in ../colorful-menu
-                 :xzbdmw/colorful-menu.nvim]
-  : after}]
+  :data {:dependencies [:dmitmel/cmp-digraphs
+                        :hrsh7th/cmp-calc
+                        ;; :f3fora/cmp-spell
+                        :andersevenrud/cmp-tmux
+                        ;; :hrsh7th/cmp-cmdline
+                        ;; :hrsh7th/cmp-omni
+                        :kdheepak/cmp-latex-symbols
+                        :ryo33/nvim-cmp-rust
+                        :philosofonusus/ecolog.nvim
+                        :L3MON4D3/LuaSnip
+                        ;; NOTE: configured in ../colorful-menu
+                        :xzbdmw/colorful-menu.nvim
+                        :philosofonusus/ecolog.nvim]
+         :event [:InsertEnter
+                 :CmdlineEnter]
+         :on_require [:blink]
+         : after}}]
