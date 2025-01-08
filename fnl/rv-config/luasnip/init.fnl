@@ -45,7 +45,7 @@
 
 [{1 :L3MON4D3/LuaSnip
   :dependencies [:nvim-treesitter/nvim-treesitter]
-  :tag :v2.2.0
+  ;; :tag :v2.2.0
   :event :InsertEnter
   : config}
  {1 :rafamadriz/friendly-snippets}]
