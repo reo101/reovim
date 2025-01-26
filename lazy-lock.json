@@ -58,7 +58,7 @@
   "luv-vimdocs": { "branch": "main", "commit": "997b9338fd3ac91a53bbdc19110c127e3bea01c4" },
   "m_taskwarrior_d.nvim": { "branch": "main", "commit": "d0cf7a7e882e308ab203d9973ce3147a328258f7" },
   "magazine.nvim": { "branch": "main", "commit": "e9a8078bd0465444328cffc7fd4bcd04d63d3fbf" },
-  "markview.nvim": { "branch": "main", "commit": "4d549f68b5d6d4edc2447bbbd0b650d5c8039942" },
+  "markview.nvim": { "branch": "main", "commit": "778c17e1815341a68c022252f492e896b7db1073" },
   "mason.nvim": { "branch": "main", "commit": "e2f7f9044ec30067bc11800a9e266664b88cda22" },
   "mind.nvim": { "branch": "v2.2", "commit": "79e0ca131d5e37dfa65f3f0e725d99742e4ff783" },
   "nabla.nvim": { "branch": "master", "commit": "27a6ea9ed7452bb9e0b19eb0942b5bcf7d051b2f" },
