@@ -92,6 +92,9 @@
 ;;; Convert tabs to spaces
 (tset vim.opt :expandtab true)
 
+;;; Project-local settings
+(tset vim.opt :exrc true)
+
 ;;; The encoding written to a file
 (tset vim.opt :fileencoding "utf-8")
 
@@ -107,7 +110,7 @@
 ;;; Ignore case in search patterns
 (tset vim.opt :ignorecase true)
 
-;;; Make cyrillic work in NORMAL mode (mostly)
+; Make cyrillic work in NORMAL mode (mostly)
 (let [bg-pho
        {;; Lowercase mappings
         :а "a" :б "b" :в "w" :г "g" :д "d" :е "e" :ж "v" :з "z" :и "i" :й "j" :к "k" :л "l" :м "m" :н "n"
