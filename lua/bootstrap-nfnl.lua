@@ -1,4 +1,4 @@
--- [nfnl] fnl/nfnl-bootstrap.fnl
+-- [nfnl] fnl/bootstrap-nfnl.fnl
 local nvim_config = vim.fn.stdpath("config")
 local nvim_data = vim.fn.stdpath("data")
 local nfnl_output_dir = (nvim_data .. "/nfnl")
@@ -32,6 +32,7 @@ local function trust_nfnl_config()
   local nfnl_config_path = (nvim_config .. "/.nfnl.fnl")
   if (1 == vim.fn.filereadable(nfnl_config_path)) then
     local bufnr = vim.fn.bufadd(nfnl_config_path)
+    vim.bo[bufnr].swapfile = false
     vim.fn.bufload(bufnr)
     return pcall(vim.secure.trust, {bufnr = bufnr, action = "allow"})
   else

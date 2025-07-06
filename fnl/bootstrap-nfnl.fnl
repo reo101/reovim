@@ -46,6 +46,7 @@
   (let [nfnl-config-path (.. nvim-config "/.nfnl.fnl")]
     (when (= 1 (vim.fn.filereadable nfnl-config-path))
       (let [bufnr (vim.fn.bufadd nfnl-config-path)]
+        (tset (. vim.bo bufnr) :swapfile false)
         (vim.fn.bufload bufnr)
         (pcall vim.secure.trust {: bufnr :action :allow})))))
 
