@@ -1,6 +1,9 @@
 { pkgs, lib }:
 
 let
+  # Import custom plugin build configurations for Rust-based plugins
+  pluginBuildsLib = import ./plugin-builds.nix { inherit pkgs lib; };
+
   parseGitHubUrl =
     url:
     let
@@ -58,17 +61,46 @@ let
           };
       # Plugin-specific nvimSkipModules to skip failing require checks
       skipModules = (import ./skip-modules.nix).${name} or [ ];
+      # Check for custom build configuration (e.g., for Rust-based plugins)
+      hasCustomBuild = pluginBuildsLib.hasCustomBuild name;
+      customBuildConfig = if hasCustomBuild 
+        then pluginBuildsLib.getBuildConfig name { inherit src hash; rev = entry.rev; } 
+        else null;
+      useCustomBuild = hasCustomBuild && customBuildConfig != null && builtins.hasAttr "useCustomBuild" customBuildConfig && customBuildConfig.useCustomBuild;
     in
-    pkgs.vimUtils.buildVimPlugin (
-      {
-        pname = name;
-        version = entry.rev;
-        inherit src;
-      }
-      // lib.optionalAttrs (skipModules != [ ]) {
-        nvimSkipModules = skipModules;
-      }
-    );
+    if useCustomBuild then
+      # Use the fully custom build (e.g., parinfer-rust with postInstall)
+      customBuildConfig.src
+    else if hasCustomBuild && customBuildConfig != null then
+      # Use standard buildVimPlugin with custom overrides (e.g., blink.cmp with preInstall)
+      pkgs.vimUtils.buildVimPlugin (
+        {
+          pname = name;
+          version = entry.rev;
+          inherit src;
+        }
+        // lib.optionalAttrs (skipModules != [ ]) {
+          nvimSkipModules = skipModules;
+        }
+        // lib.optionalAttrs (builtins.hasAttr "preInstall" customBuildConfig) {
+          preInstall = customBuildConfig.preInstall;
+        }
+        // lib.optionalAttrs (builtins.hasAttr "passthru" customBuildConfig) {
+          passthru = customBuildConfig.passthru;
+        }
+      )
+    else
+      # Standard build with no custom configuration
+      pkgs.vimUtils.buildVimPlugin (
+        {
+          pname = name;
+          version = entry.rev;
+          inherit src;
+        }
+        // lib.optionalAttrs (skipModules != [ ]) {
+          nvimSkipModules = skipModules;
+        }
+      );
 
   # Check if a plugin has a problematic IFD by checking platform-specific builds
   # Returns true if the plugin can be safely built on this platform
@@ -82,7 +114,7 @@ let
     isCornelis -> isDarwin;
 
   mkPluginsFromLockfile =
-    { lockfilePath }:
+    { lockfilePath, excludePlugins ? [] }:
     let
       lockfile = lib.importJSON lockfilePath;
       # Filter out local paths (starting with / or ./ or ../)
@@ -95,8 +127,10 @@ let
       remotePlugins = lib.filterAttrs isRemote lockfile.plugins;
       # Filter out plugins that can't be built on this platform (IFD issues)
       safePlugins = lib.filterAttrs canBuildSafely remotePlugins;
+      # Filter out explicitly excluded plugins (e.g., treesitter grammars handled separately)
+      finalPlugins = lib.filterAttrs (name: _: !(builtins.elem name excludePlugins)) safePlugins;
     in
-    lib.mapAttrs buildPluginFromLockfileEntry safePlugins;
+    lib.mapAttrs buildPluginFromLockfileEntry finalPlugins;
 
   # Get names of plugins that were skipped due to platform issues
   getSkippedPlugins =

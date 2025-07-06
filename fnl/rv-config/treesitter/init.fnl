@@ -3,142 +3,24 @@
   :init-macros)
 
 (fn after []
-  (let [dk (require :def-keymaps)
-        opt {:query_linter {:use_virtual_text true
-                            :enable true
-                            :lint_events [:BufWrite
-                                          :CursorHold]}
-             :autotag {:enable true
-                       :filetypes [:html
-                                   :javascriptreact
-                                   :typescriptreact
-                                   :markdown
-                                   :svelte
-                                   :vue
-                                   :xml]
-                       :skip_tags [:area
-                                   :base
-                                   :br
-                                   :col
-                                   :command
-                                   :embed
-                                   :hr
-                                   :img
-                                   :input
-                                   :keygen
-                                   :link
-                                   :menuitem
-                                   :meta
-                                   :param
-                                   :slot
-                                   :source
-                                   :track
-                                   :wbr]}
-             :indent {:enable true}
-             :textsubjects {:enable true
-                            :prev_selection ","
-                            :keymaps {";"  :textsubjects-container-outer
-                                      "."  :textsubjects-smart
-                                      "i;" :textsubjects-container-inner}}
-             :incremental_selection {:keymaps {:init_selection    :<leader>riv
-                                               :node_decremental  :<leader>rid
-                                               :node_incremental  :<leader>rii
-                                               :scope_incremental :<leader>ris}
-                                     :enable true}
-             :refactor {:navigation {:enable true
-                                     :keymaps {:list_definitions :<leader>rdl
-                                               :goto_definition  :<leader>rdg}}
-                        :highlight_definitions {:enable true}
-                        :smart_rename {:enable true
-                                       :keymaps {:smart_rename :<leader>rr}}}
-             :context {:enable true}
-             :textobjects {:enable true
-                           :swap {:enable true
-                                  :swap_previous {:<leader>rspp "@parameter.inner"
-                                                  :<leader>rspf "@function.outer"
-                                                  :<leader>rspc "@class.outer"}
-                                  :swap_next {:<leader>rsnc "@class.outer"
-                                              :<leader>rsnp "@parameter.inner"
-                                              :<leader>rsnf "@function.outer"}}
-                           :lsp_interop {:enable false}
-                           :move {:enable true
-                                  :set_jumps true
-                                  :goto_next_start {"]m" "@function.outer"
-                                                    "]]" "@class.outer"}
-                                  :goto_next_end   {"][" "@class.outer"
-                                                    "]M" "@function.outer"}
-                                  :goto_previous_start {"[[" "@class.outer"
-                                                        "[m" "@function.outer"}
-                                  :goto_previous_end   {"[M" "@function.outer"
-                                                        "[]" "@class.outer"}}
-                           :select {:lookahead true
-                                    :enable true
-                                    :keymaps {:ir "@parameter.inner"
-                                              :im "@call.inner"
-                                              :ad "@comment.outer"
-                                              :aC "@class.outer"
-                                              :af "@function.outer"
-                                              :ar "@parameter.outer"
-                                              :ie "@block.inner"
-                                              :is "@statement.inner"
-                                              :ic "@conditional.inner"
-                                              :am "@call.outer"
-                                              :al "@loop.outer"
-                                              :ac "@conditional.outer"
-                                              :il "@loop.inner"
-                                              :iC "@class.inner"
-                                              :ae "@block.outer"
-                                              :if "@function.inner"
-                                              :as "@statement.outer"}
-                                    :selection_modes {"@parameter.outer" :v
-                                                      "@function.outer"  :V}}
-                           :disable {}}
-             :highlight {:enable true
-                         :additional_vim_regex_highlighting ["circom"
-                                                             "typst"]}}]
-             ; :playground {:updatetime 25
-             ;              :enable true
-             ;              :disable {}
-             ;              :keybindings {:update                    :R
-             ;                            :goto_node                 :<CR>
-             ;                            :show_help                 :?
-             ;                            :focus_language            :f
-             ;                            :toggle_hl_groups          :i
-             ;                            :toggle_language_display   :I
-             ;                            :toggle_anonymous_nodes    :a
-             ;                            :toggle_injected_languages :t
-             ;                            :unfocus_language          :F
-             ;                            :toggle_query_editor       :o}
-             ;              :persist_queries false}}]
-    ;; ((. (require :rv-config.treesitter.context) :config))
-    (vim.api.nvim_create_user_command
-      :TSFullNodeUnderCursor
-      #((. (require :nvim-treesitter-playground.hl-info
-             :show_ts_node)
-          {:full_path true
-           :show_range false
-           :include_anonymous true
-           :highlight_node true}))
-      {})
-    ;; (#setgsub! conceal @conceal "ab(.)" "%1")
+  (let [dk (require :def-keymaps)]
+
+    ;; setgsub! - gsub on captured node text, store in metadata
+    ;; (#setgsub! metadata_key capture_idx pattern replacement)
     (vim.treesitter.query.add_directive
       :setgsub!
       (fn [matches _ts-pattern bufnr list metadata]
-        (let [[_directive key capture_id pattern replacement]
-              list]
-          (tset metadata
-                key
+        (let [[_directive key capture_id pattern replacement] list]
+          (tset metadata key
                 (string.gsub
-                  (vim.treesitter.get_node_text
-                    (. matches capture_id)
-                    bufnr
+                  (vim.treesitter.get_node_text (. matches capture_id) bufnr
                     {:metadata (. metadata capture_id)})
                   pattern
                   replacement))))
       true)
-    ;; Set extmark property at start/end of a node using pattern to find delimiters
-    ;; Usage: (#extmark-gsub! @capture property value pattern)
-    ;; Pattern must have 3 capture groups: (start_delim)(content)(end_delim)
+
+    ;; extmark-gsub! - mark delimiter positions with extmarks
+    ;; Pattern must capture (start_delim)(content)(end_delim)
     ;; Example: (#extmark-gsub! @bold "conceal" "" "^(%*%*)(.-)(%*%*)$")
     (local extmark-ns (vim.api.nvim_create_namespace :extmark-delims))
     (vim.treesitter.query.add_directive
@@ -146,9 +28,7 @@
       (fn [matches _ts-pattern bufnr list _metadata]
         (let [[_directive capture_id prop value pattern] list
               match-data (. matches capture_id)
-              node (if (vim.islist match-data)
-                       (. match-data 1)
-                       match-data)]
+              node (if (vim.islist match-data) (. match-data 1) match-data)]
           (when node
             (let [text (vim.treesitter.get_node_text node bufnr)
                   (start_delim _content end_delim) (string.match text pattern)]
@@ -156,229 +36,152 @@
                 (let [(sr sc er ec) (node:range)
                       start_len (length start_delim)
                       end_len (length end_delim)]
-                  ;; Apply property at start
                   (when (> start_len 0)
                     (vim.api.nvim_buf_set_extmark bufnr extmark-ns sr sc
-                      {:end_row sr
-                       :end_col (+ sc start_len)
-                       prop value}))
-                  ;; Apply property at end
+                      {:end_row sr :end_col (+ sc start_len) prop value}))
                   (when (> end_len 0)
                     (vim.api.nvim_buf_set_extmark bufnr extmark-ns er (- ec end_len)
-                      {:end_row er
-                       :end_col ec
-                       prop value}))))))))
+                      {:end_row er :end_col ec prop value}))))))))
       true)
+
+    ;; Skip if any child contains one of these text values
     (vim.treesitter.query.add_predicate
       :has-no-child?
       (fn [matches _ts-pattern bufnr pred]
         (let [[_directive capture_id & not-wanted] pred
               [node] (. matches capture_id)]
           (not
-            (faccumulate [any false
-                          i 0 (- (node:child_count) 1)]
+            (faccumulate [any false i 0 (- (node:child_count) 1)]
               (let [child (node:child i)
-                    child-text (vim.treesitter.get_node_text
-                                  child
-                                  bufnr)]
+                    child-text (vim.treesitter.get_node_text child bufnr)]
                 (or any (vim.tbl_contains not-wanted child-text)))))))
       {:all true})
 
-    ;; NOTE: way need to swap around to compile all parsers
-    (tset (require :nvim-treesitter.install)
-          :compilers
-          [:clang
-           "zig cc"
-           :gcc])
+    ;; Prefer these compilers for building parsers
+    (tset (require :nvim-treesitter.install) :compilers
+          [:clang "zig cc" :gcc])
 
-    (local confs
-           {:move
-            {;; :install_info {:url    "https://github.com/move-hub/tree-sitter-move"
-             ;;                :files  [:src/parser.c]
-             ;;                :branch :master
-             :install_info {:url    "https://github.com/reo101/tree-sitter-move"
-                            :files  [:src/parser.c]
-                            :branch :update-parser}
-             :filetype :move}
-            ;; :typst
-            ;; {:install_info {:url    "https://github.com/frozolotl/tree-sitter-typst"
-            ;;                 :files  [:src/parser.c
-            ;;                          :src/scanner.cc]
-            ;;                 :branch :master}
-            ;;  :filetype :typst}
-              ;; :typescript
-              ;;  {:install_info {:url    "https://github.com/tree-sitter/tree-sitter-typescript"
-              ;;                  :files  [:tsx/src/parser.c
-              ;;                           :tsx/src/scanner.c]
-              ;;                  :branch :master}}
-            :fennel
-            {:install_info {;; :url    "https://github.com/reo101/tree-sitter-fennel"
-                            ;; :files  [:src/parser.c
-                            ;;          :src/scanner.c]
-                            ;; :branch :feat/discard
-                            :url    "~/Projects/Home/Fennel/tree-sitter-fennel"
-                            :files  [:src/parser.c
-                                     :src/scanner.c]}
-             :filetype :fennel}
-            :jj_template
-            {:install_info {:url    "https://github.com/reo101/tree-sitter-jj_template"
-                            :files  [:src/parser.c]
-                            :branch :master}
-             :filetype :jj_template}
-            :uci
-            {:install_info {:url    "https://github.com/reo101/tree-sitter-uci"
-                            :files  []
-                            :branch :master}
-             :filetype :uci}
-            :noir
-            {:install_info {:url    "https://github.com/hhamud/tree-sitter-noir"
-                            :files  [:src/parser.c
-                                     :src/scanner.c]
-                            :branch :main}
-             :filetype :noir}
-              ;; NOTE: was using a PR
-              ;; :scala
-              ;;  {:install_info {:url    "https://github.com/eed3si9n/tree-sitter-scala"
-              ;;                  :files  [:src/parser.c
-              ;;                           :src/scanner.c]
-              ;;                  :branch :fork-integration
-              ;;                  :requires_generate_from_grammar false}}
-            :crisp
-            {:install_info {:url    "https://github.com/reo101/tree-sitter-crisp"
-                            :files  [:src/parser.c]
-                            :branch :master}}
-            :xml
-            {:install_info {:url    "https://github.com/dorgnarg/tree-sitter-xml"
-                            :files  [:src/parser.c]
-                            :branch :main
-                            :requires_generate_from_grammar true}}
-            :http
-            {:install_info {:url    "https://github.com/NTBBloodbath/tree-sitter-http"
-                            :files  [:src/parser.c]
-                            :branch :main}}
-            :norg_meta
-            {:install_info {:url    "https://github.com/nvim-neorg/tree-sitter-norg-meta"
-                            :files  [:src/parser.c]
-                            :branch :main}}
-            :norg_table
-            {:install_info {:url    "https://github.com/nvim-neorg/tree-sitter-norg-table"
-                            :files  [:src/parser.c]
-                            :branch :main}}
-            :brainfuck
-            {:install_info {:url    "https://github.com/reo101/tree-sitter-brainfuck"
-                            :files  [:src/parser.c]
-                            :branch :master}}
-            :hy
-            {:install_info {:url    "https://github.com/kwshi/tree-sitter-hy"
-                            :files  [:src/parser.c]
-                            :branch :main}
-             :filetype :hy}
-            :awk
-            {:install_info {:url    "https://github.com/Beaglefoot/tree-sitter-awk"
-                            :files  [:src/parser.c
-                                     :src/scanner.c]
-                            :branch :master}}
-            ;; :odin
-            ;; {:install_info {:url "https://github.com/MineBill/tree-sitter-odin"
-            ;;                 :files [:src/parser.c]
-            ;;                 :branch :master}}
-            :nu
-            {:install_info {:url    "https://github.com/nushell/tree-sitter-nu"
-                            :files  [:src/parser.c]
-                            :branch :main}}
-            :comment
-            {:install_info {:url    "https://github.com/OXY2DEV/tree-sitter-comment"
-                            :files  [:src/parser.c
-                                     :src/scanner.c]
-                            :branch :main
-                            :revision "87bb8707b694e7d9820947f21be36d6ce769e5cc"
-                            :requires_generate_from_grammar true}}})
-    (each [lang conf (pairs confs)]
-      (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
-            lang
-            conf))
-    ((. (require :nvim-treesitter.configs) :setup) opt)
+    ;; Grab the parser list so we can inject our grammars into it
+    (local parsers (require :nvim-treesitter.parsers))
+    (local list parsers.list)
 
-    (local mappings
-           {:t {:group :Toggle
-                :r {:group :TreeSitter
-                    :h [#(vim.cmd.TSBufToggle :highlight)
-                        :Highlighting]
-                    ;; :c [(. (require :treesitter-context)
-                    ;;        :toggleEnabled)
-                    ;;     :Context]
-                    :g [#(vim.cmd.InspectTree)
-                        :PlayGround]
-                    ;; :t ["<Cmd>TSBufToggle autotag<CR>"
-                    ;;     :Autotags]
-                    :p [#(vim.cmd.TSBufToggle :autopairs)
-                        :Autopairs]}}
-            :r {:group :TreeSitter
-                :d {:group :Definitions
-                    :g ["Goto definition"]
-                    :l ["List definitions"]}
-                :r ["Smart rename"]
-                :i {:group "Incremental Selection"
-                    :d ["Node Decremental"]
-                    :s ["Scope Incremental"]
-                    :i ["Node Incremental"]
-                    :v ["Init selection"]}
-                :s {:group :Swap
-                    :p {:group "Swap previous"
-                        :p [:Parameter]
-                        :c [:Class]
-                        :f [:Function]}
-                    :n {:group "Swap next"
-                        :p [:Parameter]
-                        :c [:Class]
-                        :f [:Function]}}}})
-    (dk :n mappings {:prefix :<leader>})
-    (local operator-mappings
-           {:i {:group :inside
-                :C  ["@class.inner"]
-                :c  ["@conditional.inner"]
-                :e  ["@block.inner"]
-                :f  ["@function.inner"]
-                :l  ["@loop.inner"]
-                :m  ["@call.inner"]
-                :r  ["@parameter.inner"]
-                :s  ["@statement.inner"]}
-            :a {:group :around
-                :C  ["@class.outer"]
-                :c  ["@conditional.outer"]
-                :d  ["@comment.outer"]
-                :e  ["@block.outer"]
-                :f  ["@function.outer"]
-                :l  ["@loop.outer"]
-                :m  ["@call.outer"]
-                :r  ["@parameter.outer"]
-                :s  ["@statement.outer"]}
-            ";"  ["textsubjects-container-outer"]
-            "i;" ["textsubjects-container-inner"]
-            ","  ["textsubjects-last"]
-            "."  ["textsubjects-smart"]})
-    (dk :o operator-mappings)
-    (local motion-mappings
-           {"][" ["Next @class.outer end"]
-            "[]" ["Previous @class.outer end"]
-            "]m" ["Next @function.outer start"]
-            "[M" ["Previous @function.outer end"]
-            "]]" ["Next @class.outer start"]
-            "[[" ["Previous @class.outer start"]
-            "]M" ["Next @function.outer end"]
-            "[m" ["Previous @function.outer start"]})
-    (dk [:n :o] motion-mappings)))
+    ;; My custom grammars - these get merged into nvim-treesitter's parser list
+    ;; Also exported for the Nix lockfile generator to pick up
+    (local custom-grammars
+      {:move
+        {:install_info {:url "https://github.com/reo101/tree-sitter-move"
+                        :files [:src/parser.c]
+                        :branch :update-parser}
+         :filetype :move}
+       :fennel
+       {:install_info {:url (if false
+                              (vim.fn.expand "~/Projects/Home/Fennel/tree-sitter-fennel")
+                              "https://github.com/reo101/tree-sitter-fennel")
+                       :files [:src/parser.c :src/scanner.c]
+                       :branch :feat/discard
+                       :generate true}
+        :filetype :fennel}
+       :jj_template
+        {:install_info {:url "https://github.com/reo101/tree-sitter-jj_template"
+                         :files [:src/parser.c]
+                         :branch :master}
+         :filetype :jj_template}
+       :uci
+        {:install_info {:url "https://github.com/reo101/tree-sitter-uci"
+                        :generate true
+                        :branch :master}
+         :filetype :uci}
+       :noir
+        {:install_info {:url "https://github.com/hhamud/tree-sitter-noir"
+                        :files [:src/parser.c :src/scanner.c]
+                        :branch :main}
+         :filetype :noir}
+       :crisp
+        {:install_info {:url "https://github.com/reo101/tree-sitter-crisp"
+                        :files [:src/parser.c]
+                        :branch :master}}
+       :xml
+        {:install_info {:url "https://github.com/dorgnarg/tree-sitter-xml"
+                        :files [:src/parser.c]
+                        :branch :main
+                        :generate true}}
+       :http
+        {:install_info {:url "https://github.com/NTBBloodbath/tree-sitter-http"
+                        :files [:src/parser.c]
+                        :branch :main}}
+       :norg_meta
+        {:install_info {:url "https://github.com/nvim-neorg/tree-sitter-norg-meta"
+                        :files [:src/parser.c]
+                        :branch :main}}
+       :norg_table
+        {:install_info {:url "https://github.com/nvim-neorg/tree-sitter-norg-table"
+                        :files [:src/parser.c]
+                        :branch :main}}
+       :brainfuck
+        {:install_info {:url "https://github.com/reo101/tree-sitter-brainfuck"
+                        :files [:src/parser.c]
+                        :branch :master}}
+       :hy
+        {:install_info {:url "https://github.com/kwshi/tree-sitter-hy"
+                        :files [:src/parser.c]
+                        :branch :main}
+         :filetype :hy}
+       :awk
+        {:install_info {:url "https://github.com/Beaglefoot/tree-sitter-awk"
+                        :files [:src/parser.c :src/scanner.c]
+                        :branch :master}}
+       :nu
+        {:install_info {:url "https://github.com/nushell/tree-sitter-nu"
+                        :files [:src/parser.c]
+                        :branch :main}}
+       :comment
+        {:install_info {:url "https://github.com/OXY2DEV/tree-sitter-comment"
+                        :files [:src/parser.c :src/scanner.c]
+                        :branch :main
+                        :revision "87bb8707b694e7d9820947f21be36d6ce769e5cc"
+                        :generate true}}})
 
-[#_{:src "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
-    :data {}}
- #_{:src "https://github.com/RRethy/nvim-treesitter-textsubjects"
-    :data {}}
- {:src "https://github.com/mfussenegger/nvim-ts-hint-textobject"
+    ;; Stash in global so the Nix updater can find it without loading the whole module
+    (tset _G :reovim/treesitter-grammars custom-grammars)
+
+    (fn register-custom-parsers []
+      (each [lang conf (pairs custom-grammars)]
+        (tset list lang conf)
+        (when conf.filetype
+          (vim.treesitter.language.register lang [conf.filetype]))))
+
+    (register-custom-parsers)
+
+    (vim.api.nvim_create_autocmd :User
+      {:pattern :TSUpdate
+       :callback register-custom-parsers
+       :desc "Register custom tree-sitter parsers"})
+
+    ;; nvim-treesitter handles its own autocmd registration when you call setup
+    (local configs (require :nvim-treesitter.configs))
+    (configs.setup
+      {:highlight {:enable true}
+       :indent {:enable true}})
+
+    ;; Catch up any buffers that opened before we loaded (for late-loaded plugins)
+    (each [_ bufnr (ipairs (vim.api.nvim_list_bufs))]
+      (when (vim.api.nvim_buf_is_loaded bufnr)
+        (let [ft (. vim.bo bufnr :filetype)]
+          (when (and (not= ft "") (= (. vim.bo bufnr :buftype) ""))
+            (pcall vim.treesitter.start bufnr)))))
+
+    ;; <leader>t for T**r**eesitter stuff
+    (let [mappings {:t {:group :Toggle
+                        :r {:group :TreeSitter
+                            :g [#(vim.cmd.InspectTree) :PlayGround]}}}]
+      (dk :n mappings {:prefix :<leader>}))))
+
+[{:src "https://github.com/mfussenegger/nvim-ts-hint-textobject"
   :data {:dep_of [:nvim-treesitter]}}
  {:src "https://github.com/OXY2DEV/tree-sitter-comment"
   :data {:dep_of [:nvim-treesitter]}}
  {:src "https://github.com/nvim-treesitter/nvim-treesitter"
-  :data {:event :DeferredUIEnter
+  :data {:build ":TSUpdate"
          : after}}
  (require (.. ... :.rainbow))
  (require (.. ... :.context))]

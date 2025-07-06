@@ -49,13 +49,9 @@ in
       fs = lib.fileset;
       neovimPkgs = pkgs.extend inputs.neovim-nightly-overlay.overlays.default;
 
-      # Build plugins using lockfile library with neovimPkgs
-      lockfilePlugins =
-        let
-          lockfileLib = import ../lib/lockfile.nix { pkgs = neovimPkgs; inherit lib; };
-          plugins = lockfileLib.mkPluginsFromLockfile { lockfilePath = config.reovim.lockfilePath; };
-        in
-        lib.attrValues plugins;
+      # Import library functions (evaluated, not built)
+      lockfileLib = import ../lib/lockfile.nix { pkgs = neovimPkgs; inherit lib; };
+      treesitterLib = import ../lib/treesitter.nix { pkgs = neovimPkgs; inherit lib; };
 
       neovimPackage = config.reovim.package neovimPkgs;
 
@@ -146,6 +142,18 @@ in
           fi
 
           echo ""
+          echo "=== Fennel compilation complete ==="
+          if [ $NVIM_EXIT_CODE -ne 0 ]; then
+            echo ""
+            echo "=== Fennel compilation failed with exit code $NVIM_EXIT_CODE ==="
+            if [ -f /tmp/nfnl-compile-results.lua ]; then
+              echo "=== Compilation results ==="
+              cat /tmp/nfnl-compile-results.lua
+            fi
+            exit 1
+          fi
+
+          echo ""
           echo "=== Compiled Lua files ==="
           find lua -name "*.lua" -type f 2>/dev/null | sort
           echo ""
@@ -208,6 +216,30 @@ in
         '';
       };
 
+      # Build treesitter grammars from lockfile
+      # Grammars are stored under the "grammars" key in nvim-pack-lock.json
+      # Returns list of { name = <name>; lang = <tree_sitter_lang>; drv = <derivation>; }
+      treesitterGrammars = treesitterLib.mkTreesitterGrammarsFromLockfile { 
+        lockfilePath = config.reovim.lockfilePath;
+      };
+      
+      # Create unified parser directory for all grammars
+      parserDir = treesitterLib.mkParserDir { 
+        grammars = treesitterGrammars; 
+      };
+      
+      # Build regular plugins, excluding treesitter grammars (handled as grammars, not plugins)
+      lockfilePlugins =
+        let
+          # Get grammar names to exclude from plugins
+          grammarNames = map (g: g.name) treesitterGrammars;
+          plugins = lockfileLib.mkPluginsFromLockfile { 
+            lockfilePath = config.reovim.lockfilePath;
+            excludePlugins = grammarNames;
+          };
+        in
+        lib.attrValues plugins;
+
       # Convert list of plugins to individual specs.
       # When a spec's data is a list, normalize.nix creates children with 'value = child'
       # but allPlugins expects 'v.data'. By making each plugin its own spec with data set,
@@ -219,6 +251,26 @@ in
           lazy = true;
         };
       }) lockfilePlugins);
+
+      # Create a "plugin" that just contains the parser directory
+      # This gets linked into the runtime path where nvim-treesitter can find it
+      parserPlugin = pkgs.runCommand "treesitter-parser-plugin" {} ''
+        mkdir -p $out
+        # Link parser directory - nvim-treesitter looks for parser/*.so in rtp
+        ln -s ${parserDir}/parser $out/parser
+        # Also link queries if they exist
+        if [ -d "${parserDir}/queries" ]; then
+          ln -s ${parserDir}/queries $out/queries
+        fi
+      '';
+
+      # Create spec for the parser plugin - should be in start/ (lazy = false)
+      parserPluginSpec = {
+        "treesitter-parsers" = {
+          data = parserPlugin;
+          lazy = false;
+        };
+      };
 
       wrapperModule = inputs.nix-wrapper-modules.lib.evalModule [
         { pkgs = lib.mkForce neovimPkgs; }
@@ -233,7 +285,7 @@ in
               vimdiffAlias = true;
               infoPluginName = "nix-info-plugin-name";
             };
-          config.specs = lockfilePluginSpecs;
+          config.specs = lockfilePluginSpecs // parserPluginSpec;
           config.extraPackages = [ fennelPackage ] ++ config.reovim.extraPackages;
           # Set NVIM_APPNAME to isolate reovim from user's regular neovim config
           config.env.NVIM_APPNAME = "reovim";
