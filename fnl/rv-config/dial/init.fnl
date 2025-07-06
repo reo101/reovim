@@ -8,7 +8,9 @@
             end-byte (if (< i num-chars)
                        (- (. positions (+ i 1)) 1)
                        s-len)]
+        ;; Slice the string and add it to our result table
         (table.insert result (string.sub s start-byte end-byte))))
+    ;; Return the populated table
     result))
 
 (fn after []
@@ -84,7 +86,8 @@
                            :^ ["⁰"  "¹"  "²"  "³"  "⁴"  "⁵"  "⁶"  "⁷"  "⁸"  "⁹"]
                            :b ["𝟘"  "𝟙"  "𝟚"  "𝟛"  "𝟜"  "𝟝"  "𝟞"  "𝟟"  "𝟠"  "𝟡"]
                            :B ["𝟎"  "𝟏"  "𝟐"  "𝟑"  "𝟒"  "𝟓"  "𝟔"  "𝟕"  "𝟖"  "𝟗"]
-                           :F ["０" "１" "２" "３" "４" "５" "６" "７" "８" "９"]}
+                           :F ["０" "１" "２" "３" "４" "５" "６" "７" "８" "９"]
+                           :k ["0️⃣"  "1️⃣"  "2️⃣"  "3️⃣"  "4️⃣"  "5️⃣"  "6️⃣"  "7️⃣"  "8️⃣"  "9️⃣"]}
                   selected (. scripts script)
                   from (collect [i d (ipairs selected)]
                          (values d (- i 1)))
@@ -119,7 +122,8 @@
                       (agda-script :^)
                       (agda-script :b)
                       (agda-script :B)
-                      (agda-script :F)]
+                      (agda-script :F)
+                      (agda-script :k)]
         default (-> [[dial-augend.integer.alias.decimal
                       dial-augend.integer.alias.hex
                       dial-augend.integer.alias.binary
@@ -135,7 +139,8 @@
                                   :keep
                                   [dial-augend.integer.alias.decimal
                                    haskell-boolean
-                                   haskell-octal]
+                                   haskell-octal
+                                   (unpack agda-scripts)]
                                   {})
                        :rust [dial-augend.integer.alias.decimal
                               dial-augend.integer.alias.hex
