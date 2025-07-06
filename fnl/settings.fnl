@@ -247,6 +247,12 @@
 (tset vim.opt :foldlevelstart 99)
 (tset vim.opt :foldenable     true)
 
+;;; External UI
+(let [extui (require :vim._extui)]
+  (extui.enable {:enable true
+                 :msg {:target :cmd
+                       :timeout 4000}}))
+
 ;;; Disable builtin plugins and language providers
 (let [disabled-plugins
        ["2html_plugin"
