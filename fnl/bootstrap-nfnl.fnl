@@ -1,7 +1,13 @@
 ;;; nfnl bootstrap
 ;;; Loads custom Fennel, sets up `rtp`, defines `:Fnl`
 
-(local nvim-config (vim.fn.stdpath :config))
+;; Get the actual config directory from this file's location
+;; (works for both Nix store paths and stdpath)
+(local this-file (-> (debug.getinfo 1 :S) (. :source) (: :sub 2)))
+(local this-dir (vim.fn.fnamemodify this-file ":h"))
+;; Go up one level from fnl/ to get config root
+(local nvim-config (vim.fn.fnamemodify this-dir ":h"))
+
 (local nvim-data (vim.fn.stdpath :data))
 (local nfnl-output-dir (.. nvim-data "/nfnl"))
 
@@ -19,14 +25,27 @@
 ;;; Paths
 
 (fn setup-paths []
-  "Add nfnl output dir to `rtp` and `package.path`"
-  (let [nfnl-lua-dir (.. nfnl-output-dir "/lua")]
+  "Add nfnl output dir and config lua dir to `rtp` and `package.path`"
+  (let [nfnl-lua-dir (.. nfnl-output-dir "/lua")
+        config-lua-dir (.. nvim-config "/lua")]
+    ;; Add nfnl output to rtp
     (when (not (vim.tbl_contains (vim.opt.runtimepath:get) nfnl-output-dir))
       (vim.opt.runtimepath:append nfnl-output-dir))
 
-    (local lua-path-pattern (.. nfnl-lua-dir "/?.lua;" nfnl-lua-dir "/?/init.lua;"))
-    (set package.path (.. lua-path-pattern
-                          (: package.path :gsub (vim.pesc lua-path-pattern) "")))))
+    ;; Add config lua dir to rtp (contains compiled files in Nix build)
+    (when (not (vim.tbl_contains (vim.opt.runtimepath:get) config-lua-dir))
+      (vim.opt.runtimepath:append config-lua-dir))
+
+    ;; Add both to package.path (config first for priority in Nix builds)
+    (local config-path-pattern (.. config-lua-dir "/?.lua;" config-lua-dir "/?/init.lua;"))
+    (local nfnl-path-pattern (.. nfnl-lua-dir "/?.lua;" nfnl-lua-dir "/?/init.lua;"))
+    
+    ;; Remove existing patterns to avoid duplicates
+    (set package.path (: package.path :gsub (vim.pesc config-path-pattern) ""))
+    (set package.path (: package.path :gsub (vim.pesc nfnl-path-pattern) ""))
+    
+    ;; Add config paths first (for Nix), then nfnl paths
+    (set package.path (.. config-path-pattern nfnl-path-pattern package.path))))
 
 ;;; Compilation
 
@@ -105,29 +124,48 @@
 
 ;;; Bootstrap nfnl
 
+(fn plugin-available? [name]
+  "Check if plugin is available via :packadd (from any packdir)"
+  (let [(ok _) (pcall vim.cmd.packadd {:args [name]})]
+    ok))
+
 (fn bootstrap-nfnl []
-  "Bootstrap nfnl plugin via `vim.pack`"
+  "Bootstrap nfnl plugin via `vim.pack` or :packadd if already available"
   (trust-nfnl-config)
-  (let [nfnl-path (.. nvim-data "/site/pack/core/opt/nfnl")
-        nfnl-lua-path (.. nfnl-path "/lua/?.lua")]
-    (if (= 1 (vim.fn.isdirectory nfnl-path))
-        (vim.cmd.packadd {:args [:nfnl]})
-        (vim.pack.add [{:src "https://github.com/Olical/nfnl"}] {:confirm false}))
-    (when (not (: package.path :match (vim.pesc nfnl-lua-path)))
-      (set package.path (.. nfnl-lua-path ";" package.path)))))
+  ;; Try :packadd first (works with Nix-installed plugins)
+  (if (plugin-available? :nfnl)
+      (do
+        (let [nfnl-path (.. nvim-data "/site/pack/core/opt/nfnl")
+              nfnl-lua-path (.. nfnl-path "/lua/?.lua")]
+          (when (= 1 (vim.fn.isdirectory nfnl-path))
+            (when (not (: package.path :match (vim.pesc nfnl-lua-path)))
+              (set package.path (.. nfnl-lua-path ";" package.path))))))
+      ;; Fall back to vim.pack.add if not available
+      (do
+        (vim.pack.add [{:src "https://github.com/Olical/nfnl"}] {:confirm false})
+        (let [nfnl-path (.. nvim-data "/site/pack/core/opt/nfnl")
+              nfnl-lua-path (.. nfnl-path "/lua/?.lua")]
+          (when (not (: package.path :match (vim.pesc nfnl-lua-path)))
+            (set package.path (.. nfnl-lua-path ";" package.path)))))))
 
 ;;; Bootstrap plugins
 
 (fn bootstrap-plugins []
-  "Bootstrap essential plugins via `vim.pack`"
+  "Bootstrap essential plugins via :packadd or `vim.pack`"
   (fn ensure-plugin [name src version]
-    (let [plugin-path (.. nvim-data "/site/pack/core/opt/" name)]
-      (if (= 1 (vim.fn.isdirectory plugin-path))
-          (vim.cmd.packadd {:args [name]})
-          (vim.pack.add [{: src : version}] {:confirm false}))))
+    ;; Try :packadd first - works with Nix-installed plugins in any packdir
+    (let [(ok _) (pcall vim.cmd.packadd {:args [name]})]
+      (when (not ok)
+        ;; Fall back to vim.pack.add if plugin not available
+        (vim.pack.add [{: src : version}] {:confirm false}))))
 
   (ensure-plugin :lze "https://github.com/BirdeeHub/lze" :v0.12.0)
   (ensure-plugin :typed-fennel "https://github.com/reo101/typed-fennel" :subdirectories))
+
+;;; Nix detection
+
+;; Check if we're running under Nix (nix-wrapper-modules sets nix_info_plugin_name)
+(local nix-runtime? (not= vim.g.nix_info_plugin_name nil))
 
 ;;; Main
 
@@ -136,7 +174,8 @@
 (create-nfnl-compile-command)
 (bootstrap-nfnl)
 (bootstrap-plugins)
-(when (needs-initial-compilation?)
+;; Skip initial compilation at Nix runtime - bootstrap files are pre-compiled in the store
+(when (and (needs-initial-compilation?) (not nix-runtime?))
   (compile-all-fennel)
   (setup-paths))
 (setup-fnl-autocommand)

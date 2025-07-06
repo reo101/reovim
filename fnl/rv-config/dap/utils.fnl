@@ -1,5 +1,6 @@
+(local {: autoload} (require :nfnl.module))
 (local dk (require :def-keymaps))
-(local dap (require :dap))
+(local dap (autoload :dap))
 
 (fn dap-mappings []
   (dk :n

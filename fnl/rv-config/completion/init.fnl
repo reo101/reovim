@@ -1,1 +1,2 @@
-(require (.. ... :.blink))
+[(require (.. ... :.colorful-menu))
+ (require (.. ... :.blink))]

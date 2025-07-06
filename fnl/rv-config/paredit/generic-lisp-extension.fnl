@@ -2,8 +2,9 @@
   {: as->}
   :init-macros)
 
-(local traversal (require :nvim-paredit.utils.traversal))
-(local common    (require :nvim-paredit.utils.common))
+(local {: autoload} (require :nfnl.module))
+(local traversal (autoload :nvim-paredit.utils.traversal))
+(local common    (autoload :nvim-paredit.utils.common))
 
 (local M {})
 

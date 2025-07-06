@@ -35,4 +35,4 @@
 
 {:src "https://github.com/ionide/ionide-vim"
  :data {: before
-         : after}}
+        : after}}

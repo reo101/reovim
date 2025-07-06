@@ -33,5 +33,8 @@
 
 (require :autocommands)
 
+;; Load nix lockfile helper (provides :NixUpdateLock command)
+(require :nix.lockfile)
+
 (when vim.g.neovide
   (require :neovide))

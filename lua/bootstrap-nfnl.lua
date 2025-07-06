@@ -1,5 +1,7 @@
 -- [nfnl] fnl/bootstrap-nfnl.fnl
-local nvim_config = vim.fn.stdpath("config")
+local this_file = debug.getinfo(1, "S").source:sub(2)
+local this_dir = vim.fn.fnamemodify(this_file, ":h")
+local nvim_config = vim.fn.fnamemodify(this_dir, ":h")
 local nvim_data = vim.fn.stdpath("data")
 local nfnl_output_dir = (nvim_data .. "/nfnl")
 local _local_1_ = require("fennel-loader")
@@ -10,12 +12,20 @@ inject_custom_fennel()
 setup_fennel_paths(require("fennel"))
 local function setup_paths()
   local nfnl_lua_dir = (nfnl_output_dir .. "/lua")
+  local config_lua_dir = (nvim_config .. "/lua")
   if not vim.tbl_contains(vim.opt.runtimepath:get(), nfnl_output_dir) then
     vim.opt.runtimepath:append(nfnl_output_dir)
   else
   end
-  local lua_path_pattern = (nfnl_lua_dir .. "/?.lua;" .. nfnl_lua_dir .. "/?/init.lua;")
-  package.path = (lua_path_pattern .. package.path:gsub(vim.pesc(lua_path_pattern), ""))
+  if not vim.tbl_contains(vim.opt.runtimepath:get(), config_lua_dir) then
+    vim.opt.runtimepath:append(config_lua_dir)
+  else
+  end
+  local config_path_pattern = (config_lua_dir .. "/?.lua;" .. config_lua_dir .. "/?/init.lua;")
+  local nfnl_path_pattern = (nfnl_lua_dir .. "/?.lua;" .. nfnl_lua_dir .. "/?/init.lua;")
+  package.path = package.path:gsub(vim.pesc(config_path_pattern), "")
+  package.path = package.path:gsub(vim.pesc(nfnl_path_pattern), "")
+  package.path = (config_path_pattern .. nfnl_path_pattern .. package.path)
   return nil
 end
 local function needs_initial_compilation_3f()
@@ -32,7 +42,7 @@ local function compile_all_fennel()
 end
 local function setup_fnl_autocommand()
   vim.api.nvim_create_augroup("nfnl_compile", {clear = true})
-  local function _4_(ev)
+  local function _5_(ev)
     local path = vim.api.nvim_buf_get_name(ev.buf)
     local dir = vim.fn.fnamemodify(path, ":h")
     local ok, nfnl_api = pcall(require, "nfnl.api")
@@ -49,11 +59,11 @@ local function setup_fnl_autocommand()
     end
     return nil
   end
-  return vim.api.nvim_create_autocmd("BufWritePost", {group = "nfnl_compile", pattern = "*.fnl", callback = _4_})
+  return vim.api.nvim_create_autocmd("BufWritePost", {group = "nfnl_compile", pattern = "*.fnl", callback = _5_})
 end
 local function create_fnl_command()
   local fennel = require("fennel")
-  local function _7_(opts)
+  local function _8_(opts)
     local code = opts.args
     local ok, result = pcall(fennel.eval, code, {env = "_COMPILER"})
     if ok then
@@ -62,14 +72,14 @@ local function create_fnl_command()
       return vim.notify(tostring(result), vim.log.levels.ERROR)
     end
   end
-  return vim.api.nvim_create_user_command("Fnl", _7_, {nargs = "+", desc = "Evaluate Fennel code using custom Fennel fork"})
+  return vim.api.nvim_create_user_command("Fnl", _8_, {nargs = "+", desc = "Evaluate Fennel code using custom Fennel fork"})
 end
 local function create_nfnl_compile_command()
-  local function _9_()
+  local function _10_()
     compile_all_fennel()
     return vim.notify("nfnl: Compiled all Fennel files", vim.log.levels.INFO)
   end
-  return vim.api.nvim_create_user_command("NfnlCompileAll", _9_, {desc = "Compile all Fennel files via nfnl"})
+  return vim.api.nvim_create_user_command("NfnlCompileAll", _10_, {desc = "Compile all Fennel files via nfnl"})
 end
 local function trust_nfnl_config()
   local nfnl_config_path = (nvim_config .. "/.nfnl.fnl")
@@ -82,40 +92,56 @@ local function trust_nfnl_config()
     return nil
   end
 end
+local function plugin_available_3f(name)
+  local ok, _ = pcall(vim.cmd.packadd, {args = {name}})
+  return ok
+end
 local function bootstrap_nfnl()
   trust_nfnl_config()
-  local nfnl_path = (nvim_data .. "/site/pack/core/opt/nfnl")
-  local nfnl_lua_path = (nfnl_path .. "/lua/?.lua")
-  if (1 == vim.fn.isdirectory(nfnl_path)) then
-    vim.cmd.packadd({args = {"nfnl"}})
+  if plugin_available_3f("nfnl") then
+    local nfnl_path = (nvim_data .. "/site/pack/core/opt/nfnl")
+    local nfnl_lua_path = (nfnl_path .. "/lua/?.lua")
+    if (1 == vim.fn.isdirectory(nfnl_path)) then
+      if not package.path:match(vim.pesc(nfnl_lua_path)) then
+        package.path = (nfnl_lua_path .. ";" .. package.path)
+        return nil
+      else
+        return nil
+      end
+    else
+      return nil
+    end
   else
     vim.pack.add({{src = "https://github.com/Olical/nfnl"}}, {confirm = false})
-  end
-  if not package.path:match(vim.pesc(nfnl_lua_path)) then
-    package.path = (nfnl_lua_path .. ";" .. package.path)
-    return nil
-  else
-    return nil
+    local nfnl_path = (nvim_data .. "/site/pack/core/opt/nfnl")
+    local nfnl_lua_path = (nfnl_path .. "/lua/?.lua")
+    if not package.path:match(vim.pesc(nfnl_lua_path)) then
+      package.path = (nfnl_lua_path .. ";" .. package.path)
+      return nil
+    else
+      return nil
+    end
   end
 end
 local function bootstrap_plugins()
   local function ensure_plugin(name, src, version)
-    local plugin_path = (nvim_data .. "/site/pack/core/opt/" .. name)
-    if (1 == vim.fn.isdirectory(plugin_path)) then
-      return vim.cmd.packadd({args = {name}})
-    else
+    local ok, _ = pcall(vim.cmd.packadd, {args = {name}})
+    if not ok then
       return vim.pack.add({{src = src, version = version}}, {confirm = false})
+    else
+      return nil
     end
   end
   ensure_plugin("lze", "https://github.com/BirdeeHub/lze", "v0.12.0")
   return ensure_plugin("typed-fennel", "https://github.com/reo101/typed-fennel", "subdirectories")
 end
+local nix_runtime_3f = (vim.g.nix_info_plugin_name ~= nil)
 setup_paths()
 create_fnl_command()
 create_nfnl_compile_command()
 bootstrap_nfnl()
 bootstrap_plugins()
-if needs_initial_compilation_3f() then
+if (needs_initial_compilation_3f() and not nix_runtime_3f) then
   compile_all_fennel()
   setup_paths()
 else

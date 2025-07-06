@@ -1,4 +1,26 @@
-[;; Filetype plugins
+[;; Library plugins - auto-load on require
+ {:src "https://github.com/vhyrro/luarocks.nvim"
+  :data {:event :DeferredUIEnter}}
+ {:src "https://github.com/nvim-lua/plenary.nvim"
+  :data {:event :DeferredUIEnter
+         :on_require [:plenary]}}
+ {:src "https://github.com/nvim-lua/popup.nvim"
+  :data {:event :DeferredUIEnter
+         :on_require [:popup]}}
+ {:src "https://github.com/MunifTanjim/nui.nvim"
+  :data {:event :DeferredUIEnter
+         :on_require [:nui]}}
+ {:src "https://github.com/nvim-mini/mini.icons"
+  :data {:event :DeferredUIEnter
+         :on_require [:mini.icons]}}
+ {:src "https://github.com/anuvyklack/nvim-keymap-amend"
+  :data {:event :DeferredUIEnter
+         :on_require [:keymap_amend]}}
+ {:src "https://github.com/nvimtools/hydra.nvim"
+  :data {:event :DeferredUIEnter
+         :version :v1.0.3
+         :on_require [:hydra]}}
+ ;; Filetype plugins
  {:src "https://github.com/mlochbaum/BQN"
   :data {:ft  ["bqn"]
          :config #(vim.opt.rtp:append (.. $.dir :/editors/vim))}}

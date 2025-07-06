@@ -34,6 +34,7 @@
 [{:src "https://github.com/mfussenegger/nvim-dap"
   :data {:dep_of [:nvim-dap-ui :nvim-dap-virtual-text]
          :keys [:<leader>d]
+         :on_require [:dap]
          : after}}
  ;; TODO: add those as pseudo-dependencies
  (require (.. ... :.virttext))

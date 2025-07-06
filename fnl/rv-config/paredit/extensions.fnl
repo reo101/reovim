@@ -1,9 +1,9 @@
-(local generic-lisp-extension (require :rv-config.paredit.generic-lisp-extension))
-(do
-  #_ (local [paredit (require :nvim-paredit)]))
+(fn get-generic-lisp-extension []
+  (require :rv-config.paredit.generic-lisp-extension))
 
 (fn after []
-  (let [paredit (require :nvim-paredit)]
+  (let [paredit (require :nvim-paredit)
+        generic-lisp-extension (get-generic-lisp-extension)]
     ;; Scheme and Racket
     (each [_ language (ipairs [:scheme :racket])]
       (paredit.extension.add_language_extension
