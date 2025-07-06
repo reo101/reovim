@@ -172,7 +172,7 @@
 (tset vim.opt :showtabline 2)
 
 ;;; Always show the sign column, otherwise it would shift the text each time
-(tset vim.opt :signcolumn "auto:3")
+;; (tset vim.opt :signcolumn "auto:3")
 
 ;;; Smart case
 (tset vim.opt :smartcase true)
