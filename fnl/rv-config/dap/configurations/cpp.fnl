@@ -1,4 +1,4 @@
-(fn after []
+(fn config []
   (let [dap (require :dap)
         dap-utils (require :dap.utils)]
     (tset dap.configurations :cpp
@@ -31,4 +31,4 @@
             :pid dap-utils.pick_process
             :args {}}])))
 
-{: after}
+{: config}
