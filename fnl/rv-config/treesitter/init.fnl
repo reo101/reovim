@@ -49,7 +49,7 @@
                                      :keymaps {:list_definitions :<leader>sdl
                                                :goto_definition  :<leader>sdg}}
                         :highlight_definitions {:enable true}
-                        :smart_rename { :enable true
+                        :smart_rename {:enable true
                                        :keymaps {:smart_rename :<leader>sr}}}
              :context {:enable true}
              :textobjects {:enable true
@@ -186,6 +186,11 @@
                             :files  [:src/parser.c
                                      :src/scanner.c]}
              :filetype :fennel}
+            :jj_template
+            {:install_info {:url    "https://github.com/reo101/tree-sitter-jj_template"
+                            :files  [:src/parser.c]
+                            :branch :master}
+             :filetype :jj_template}
             :noir
             {:install_info {:url    "https://github.com/hhamud/tree-sitter-noir"
                             :files  [:src/parser.c

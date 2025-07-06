@@ -21,6 +21,8 @@
  ;;         :config #((. (require "nu")
  ;;                      :setup)
  ;;                   {:use_lsp_features false})}
+ {:src "https://github.com/reo101/tree-sitter-jj_template"
+  :data {:event :DeferredUIEnter}}
  {:src "https://github.com/nushell/tree-sitter-nu"
   :data {:event :DeferredUIEnter}}
          ;; :ft [:nu]}}
