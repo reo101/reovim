@@ -135,6 +135,39 @@
                   pattern
                   replacement))))
       true)
+    ;; Set extmark property at start/end of a node using pattern to find delimiters
+    ;; Usage: (#extmark-gsub! @capture property value pattern)
+    ;; Pattern must have 3 capture groups: (start_delim)(content)(end_delim)
+    ;; Example: (#extmark-gsub! @bold "conceal" "" "^(%*%*)(.-)(%*%*)$")
+    (local extmark-ns (vim.api.nvim_create_namespace :extmark-delims))
+    (vim.treesitter.query.add_directive
+      :extmark-gsub!
+      (fn [matches _ts-pattern bufnr list _metadata]
+        (let [[_directive capture_id prop value pattern] list
+              match-data (. matches capture_id)
+              node (if (vim.islist match-data)
+                       (. match-data 1)
+                       match-data)]
+          (when node
+            (let [text (vim.treesitter.get_node_text node bufnr)
+                  (start_delim _content end_delim) (string.match text pattern)]
+              (when (and start_delim end_delim)
+                (let [(sr sc er ec) (node:range)
+                      start_len (length start_delim)
+                      end_len (length end_delim)]
+                  ;; Apply property at start
+                  (when (> start_len 0)
+                    (vim.api.nvim_buf_set_extmark bufnr extmark-ns sr sc
+                      {:end_row sr
+                       :end_col (+ sc start_len)
+                       prop value}))
+                  ;; Apply property at end
+                  (when (> end_len 0)
+                    (vim.api.nvim_buf_set_extmark bufnr extmark-ns er (- ec end_len)
+                      {:end_row er
+                       :end_col ec
+                       prop value}))))))))
+      true)
     (vim.treesitter.query.add_predicate
       :has-no-child?
       (fn [matches _ts-pattern bufnr pred]
