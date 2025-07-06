@@ -31,7 +31,12 @@
                        :alt [:INFO]}
                 :CONT {:icon ""
                        :color :#FCA503
-                       :alt [:CONTINUE]}}
+                       :alt [:CONTINUE]}
+                :TASK {:icon ""
+                       :color :#CD32BF}
+                :PULL {:icon ""
+                       :color :#FCA503
+                       :alt [:PR]}}
              ;; when true, custom keywords will be merged with the defaults
              :merge_keywords true
              ;; highlighting of the line containing the todo comment}
