@@ -21,8 +21,7 @@
 
      ;; Luarocks
      {:src "https://github.com/vhyrro/luarocks.nvim"
-      :priority 1000
-      :opts {:rocks [:luautf8]}}
+      :priority 1000}
 
      ;; Typed fennel
      {:src "https://github.com/reo101/typed-fennel"

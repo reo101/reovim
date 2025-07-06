@@ -1,3 +1,16 @@
+(fn utf8-chars [s]
+  (let [positions (vim.str_utf_pos s)
+        num-chars (length positions)
+        s-len (length s)
+        result []]
+    (for [i 1 num-chars]
+      (let [start-byte (. positions i)
+            end-byte (if (< i num-chars)
+                       (- (. positions (+ i 1)) 1)
+                       s-len)]
+        (table.insert result (string.sub s start-byte end-byte))))
+    result))
+
 (fn after []
   ;; |Alias Name                                |Explanation                                      |Examples                           |
   ;; |------------------------------------------|-------------------------------------------------|-----------------------------------|
@@ -29,7 +42,6 @@
         dial-config (require :dial.config)
         dial-augend (require :dial.augend)
         dial-augend-common (require :dial.augend.common)
-        (has-utf8? utf8) (pcall require :lua-utf8)
         dk (require :def-keymaps)
         haskell-boolean (dial-augend.constant.new
                           {:cyclic true
@@ -68,8 +80,6 @@
         haskell-octal octal
         agda-script
           (fn [script]
-            (when (not has-utf8?)
-              (lua "return nil"))
             (let [scripts {:_ ["₀"  "₁"  "₂"  "₃"  "₄"  "₅"  "₆"  "₇"  "₈"  "₉"]
                            :^ ["⁰"  "¹"  "²"  "³"  "⁴"  "⁵"  "⁶"  "⁷"  "⁸"  "⁹"]
                            :b ["𝟘"  "𝟙"  "𝟚"  "𝟛"  "𝟜"  "𝟝"  "𝟞"  "𝟟"  "𝟠"  "𝟡"]
@@ -81,13 +91,13 @@
                   to (collect [i d (ipairs selected)]
                        (values (- i 1) d))]
               (dial-augend.user.new
-                {:add
+                {:desc (string.format "Agda %sscript" script)
+                 :add
                   (fn [text addend _cursor]
                     (local new
                       (-> text
-                          (#[(utf8.byte $ 1 (utf8.len $))])
+                          utf8-chars
                           vim.iter
-                          (: :map utf8.char)
                           (: :map #(. from $))
                           (: :fold 0 (fn [acc digit]
                                        (+ digit (* 10 acc))))
@@ -101,7 +111,6 @@
                           table.concat))
                     {:text new
                      :cursor nil})
-                 :desc (string.format "Agda %sscript" script)
                  :find (dial-augend-common.find_pattern
                          (string.format "[%s]+"
                                         (table.concat
@@ -111,13 +120,16 @@
                       (agda-script :b)
                       (agda-script :B)
                       (agda-script :F)]
-        default [dial-augend.integer.alias.decimal
-                 dial-augend.integer.alias.hex
-                 dial-augend.integer.alias.binary
-                 (. dial-augend.date.alias "%Y/%m/%d")
-                 dial-augend.semver.alias.semver
-                 dial-augend.constant.alias.bool
-                 (unpack agda-scripts)]
+        default (-> [[dial-augend.integer.alias.decimal
+                      dial-augend.integer.alias.hex
+                      dial-augend.integer.alias.binary
+                      (. dial-augend.date.alias "%Y/%m/%d")
+                      dial-augend.semver.alias.semver
+                      dial-augend.constant.alias.bool]
+                     agda-scripts]
+                    vim.iter
+                    (: :flatten)
+                    (: :totable))
         augends-group {: default
                        :haskell (vim.tbl_extend
                                   :keep
