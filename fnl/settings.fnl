@@ -137,6 +137,9 @@
 ;;; Set relatively numbered lines
 (tset vim.opt :relativenumber true)
 
+;;; Constant status message of where one is in a file
+(tset vim.opt :ruler false)
+
 ;;; Always keep the cursor 3 lines away from the edge
 (tset vim.opt :scrolloff 3)
 
@@ -146,11 +149,11 @@
 ;;; Configure shorter statusline indicators
 (doto vim.opt.shortmess
   ;;; Hide "Pattern not found" when no completion is available
-  (: :append "c")
-  ;;; Ensure autocmd works for Filetype
-  (: :remove "F")
+  (tset :c true)
+  ;;; Hide file info when editing a file
+  (tset :F true)
   ;;; Hide "written" when writing a file
-  (: :append "W"))
+  (tset :W true))
 
 ;;; we don't need to see things like -- INSERT -- anymore
 (tset vim.opt :showmode false)
