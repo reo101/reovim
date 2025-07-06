@@ -108,16 +108,26 @@
 (tset vim.opt :ignorecase true)
 
 ;;; Make cyrillic work in NORMAL mode (mostly)
-;; TODO: automate?
-(tset vim.opt :langmap
-      [;; Cyrillic to Latin mappings for Bulgarian Phonetic Traditional
-       ;; Lowercase mappings
-       "аa" "бb" "вw" "гg" "дd" "еe" "жv" "зz" "иi" "йj" "кk" "лl" "мm" "нn"
-       "оo" "пp" "рr" "сs" "тt" "уu" "фf" "хh" "цc" "ч`" "ш[" "щ]" "ъy" "ьx" "ю\\" "яq"
+(let [bg-pho
+       {;; Lowercase mappings
+        :а "a" :б "b" :в "w" :г "g" :д "d" :е "e" :ж "v" :з "z" :и "i" :й "j" :к "k" :л "l" :м "m" :н "n"
+        :о "o" :п "p" :р "r" :с "s" :т "t" :у "u" :ф "f" :х "h" :ц "c" :ч "`" :ш "[" :щ "]" :ъ "y" :ь "x" :ю "\\" :я "q"
 
-       ;; Uppercase mappings
-       "АA" "БB" "ВW" "ГG" "ДD" "ЕE" "ЖV" "ЗZ" "ИI" "ЙJ" "КK" "ЛL" "МM" "НN"
-       "ОO" "ПP" "РR" "СS" "ТT" "УU" "ФF" "ХH" "ЦC" "Ч~" "Ш{" "Щ}" "ЪY" "ЬX" "Ю|" "ЯQ"])
+        ;; Uppercase mappings
+        :А "A" :Б "B" :В "W" :Г "G" :Д "D" :Е "E" :Ж "V" :З "Z" :И "I" :Й "J" :К "K" :Л "L" :М "M" :Н "N"
+        :О "O" :П "P" :Р "R" :С "S" :Т "T" :У "U" :Ф "F" :Х "H" :Ц "C" :Ч "~" :Ш "{" :Щ "}" :Ъ "Y" :Ь "X" :Ю "|" :Я "Q"}
+      langmap
+       (-> [bg-pho]
+           vim.iter
+           (: :map
+              #(-> $
+                   vim.iter
+                   (: :map #(table.concat [$...]))
+                   (: :totable)))
+           (: :flatten)
+           (: :totable))]
+
+  (tset vim.opt :langmap langmap))
 
 ;;; Global statusline
 (tset vim.opt :laststatus 3)
