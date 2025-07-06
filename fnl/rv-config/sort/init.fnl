@@ -17,10 +17,11 @@
       (each [_ delimiter (ipairs opt.delimiters)]
         (tset mappings.gs
               delimiter
-              [#(sort.sort "" delimiter)])
+              #(sort.sort "" delimiter))
         (tset mappings.gs.!
               delimiter
-              [#(sort.sort "!" delimiter)]))
+              #(sort.sort "!" delimiter)))
+      #_(vim.print mappings)
       (dk :v
           mappings))))
 
