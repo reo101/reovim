@@ -13,5 +13,6 @@
 
 {:src "https://github.com/Selyss/mind.nvim"
  :version :v2.2
- :data {;; :keys [{:src :<leader>m :desc :Mind}]
+ :data {:event :DeferredUIEnter
+        ;; :keys [{:src :<leader>m :desc :Mind}]
         : after}}

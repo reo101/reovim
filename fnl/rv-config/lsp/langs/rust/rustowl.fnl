@@ -12,6 +12,6 @@
 
 {:src "https://github.com/cordx56/rustowl"
  :version :v0.3.4
- :data {;; :ft [:rust]
+ :data {:ft [:rust]
         : after
         :enabled (= (vim.fn.executable :rustowl) 1)}}

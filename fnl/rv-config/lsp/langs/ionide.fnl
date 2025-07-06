@@ -34,5 +34,6 @@
               (lsp-on-attach client args.buf))))})))
 
 {:src "https://github.com/ionide/ionide-vim"
- :data {: before
+ :data {:ft [:fsharp]
+        : before
         : after}}

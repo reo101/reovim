@@ -10,4 +10,5 @@
         {:prefix :<leader>})))
 
 {:src "https://github.com/sourcegraph/amp.nvim"
- :data {: after}}
+ :data {:event :DeferredUIEnter
+        : after}}

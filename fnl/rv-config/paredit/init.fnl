@@ -122,4 +122,5 @@
              "racket"
              "crisp"
              "clojure"]
+        :on_require [:nvim-paredit]
         : after}}

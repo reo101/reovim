@@ -18,4 +18,5 @@
 
 {:src "https://github.com/folke/snacks.nvim"
  :version :v2.30.0
- :data {: after}}
+ :data {:event :DeferredUIEnter
+        : after}}

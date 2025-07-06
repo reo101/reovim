@@ -32,4 +32,5 @@
       {:prefix :<leader>})))
 
 {:src "https://github.com/folke/sidekick.nvim"
- :data {: after}}
+ :data {:event :DeferredUIEnter
+        : after}}
