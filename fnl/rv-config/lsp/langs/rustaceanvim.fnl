@@ -10,9 +10,9 @@
                 {:capabilities lsp-capabilities
                  :on_init lsp-on-init
                  :on_attach lsp-on-attach
-                 :settings {:rust-analyzer {:procMacro {:enable true}
-                                            :checkOnSave {:command :clippy}
-                                            :trace {:server :verbose}}
+                 :settings {;; :rust-analyzer {:procMacro {:enable true}
+                            ;;                 :checkOnSave {:command :clippy}
+                            ;;                 :trace {:server :verbose}
                             :assist {:importGranularity :module
                                      :importPrefix :self}
                             :cargo {:loadOutDirsFromCheck true
@@ -21,6 +21,6 @@
      (tset vim.g :rustaceanvim opt)))
 
 {:src "https://github.com/mrcjkb/rustaceanvim"
- :version :4.22.10
+ :version :v6.4.0
  :data {:ft [:rust]
         : after}}
