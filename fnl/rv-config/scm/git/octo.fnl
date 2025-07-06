@@ -35,7 +35,7 @@
              ;; timeline marker
              :timeline_marker " "
              ;; timeline indentation
-             :timeline_indent "2"
+             :timeline_indent 2
              ;; bubble delimiter
              :right_bubble_delimiter ""
              ;; bubble delimiter
