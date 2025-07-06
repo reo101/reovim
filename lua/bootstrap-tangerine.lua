@@ -158,4 +158,4 @@ vim.pack.add({{ src = "https://github.com/BirdeeHub/nixCats-nvim", version = "vi
 --- BOOTSTRAP LZE ---
 
 -- TODO: fetch version from some lockfile, maybe in a nix-y way
-vim.pack.add({{ src = "https://github.com/BirdeeHub/lze", version = "v0.11.5" }}, { confirm = false })
+vim.pack.add({{ src = "https://github.com/BirdeeHub/lze", version = "v0.12.0" }}, { confirm = false })
