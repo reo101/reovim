@@ -30,7 +30,9 @@
              :M [#(tsj.toggle {:split {:recursive true}}) "Toggle (recursive)"]}}
         {:prefix :<leader>})))
 
-{:src "https://github.com/Wansmer/treesj"
+{;; :src "https://github.com/Wansmer/treesj"
+ :src "https://github.com/reo101/treesj"
+ :version :feat/nix-attrset-shorthand
  :data {:dependencies [:nvim-treesitter/nvim-treesitter]
         :event :BufRead
         : after}}
