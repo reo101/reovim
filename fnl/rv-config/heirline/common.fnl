@@ -19,8 +19,6 @@
       heirline-components (require :heirline-components.all)
       navic   (require :nvim-navic)
       luasnip (require :luasnip)
-      ;; neogit  (require :neogit)
-      dap     (require :dap)
       icons   (require :nvim-web-devicons)]
   {: heirline
    : conditions
@@ -29,5 +27,4 @@
    : heirline-components
    : navic
    : luasnip
-   : dap
    : icons})
