@@ -134,7 +134,7 @@
               hi link NeoTreeDirectoryIcon NeoTreeDirectoryName")
     (dk :n
         {:t {:group :Toggle
-             :f [":Neotree reveal<CR>" :FileTree]}}
+             :n [":Neotree reveal<CR>" :Neotree]}}
         {:prefix :<leader>})))
 
 {:src "https://github.com/nvim-neo-tree/neo-tree.nvim"
@@ -142,5 +142,5 @@
  :data {:dependencies [:nvim-lua/plenary.nvim
                        :nvim-tree/nvim-web-devicons
                        :MunifTanjim/nui.nvim]
-        :keys [:<leader>tf]
+        :keys [:<leader>tn]
         : after}}
