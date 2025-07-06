@@ -79,4 +79,20 @@ local function inject_custom_fennel()
   package.loaded["nfnl.fennel"] = fennel
   return fennel
 end
-return {["dev-fennel-path"] = dev_fennel_path, ["find-nix-fennel-path"] = find_nix_fennel_path, ["has-discard-support?"] = has_discard_support_3f, ["find-custom-fennel"] = find_custom_fennel, ["purge-fennel-modules"] = purge_fennel_modules, ["inject-custom-fennel"] = inject_custom_fennel}
+local function typed_fennel_macro_path()
+  return (vim.fn.stdpath("data") .. "/site/pack/core/opt/typed-fennel/fnl/?.fnl")
+end
+local function setup_fennel_paths(fennel)
+  local macro_path = typed_fennel_macro_path()
+  if (type(fennel) == "table") then
+    if (fennel.macro_path and not fennel.macro_path:match(vim.pesc(macro_path))) then
+      fennel.macro_path = (macro_path .. ";" .. fennel.macro_path)
+      return nil
+    else
+      return nil
+    end
+  else
+    return nil
+  end
+end
+return {["dev-fennel-path"] = dev_fennel_path, ["find-nix-fennel-path"] = find_nix_fennel_path, ["has-discard-support?"] = has_discard_support_3f, ["find-custom-fennel"] = find_custom_fennel, ["purge-fennel-modules"] = purge_fennel_modules, ["inject-custom-fennel"] = inject_custom_fennel, ["typed-fennel-macro-path"] = typed_fennel_macro_path, ["setup-fennel-paths"] = setup_fennel_paths}

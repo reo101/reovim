@@ -7,8 +7,14 @@
 
 ;;; Custom Fennel
 
-(local {: inject-custom-fennel} (require :fennel-loader))
+(local {: inject-custom-fennel
+        : typed-fennel-macro-path
+        : setup-fennel-paths}
+  (require :fennel-loader))
 (inject-custom-fennel)
+
+;; Setup typed-fennel macro path for :Fnl command
+(setup-fennel-paths (require :fennel))
 
 ;;; Paths
 
@@ -21,6 +27,44 @@
     (local lua-path-pattern (.. nfnl-lua-dir "/?.lua;" nfnl-lua-dir "/?/init.lua;"))
     (set package.path (.. lua-path-pattern
                           (: package.path :gsub (vim.pesc lua-path-pattern) "")))))
+
+;;; Compilation
+
+(fn needs-initial-compilation? []
+  "Check if nfnl `lua/` output dir exists"
+  (let [nfnl-lua-dir (.. nfnl-output-dir "/lua")]
+    (not= 1 (vim.fn.isdirectory nfnl-lua-dir))))
+
+(fn compile-all-fennel []
+  "Compile all Fennel files via `nfnl.api`"
+  (local (ok nfnl-api) (pcall require :nfnl.api))
+  (when ok
+    (nfnl-api.compile-all-files nvim-config)))
+
+(fn setup-fnl-autocommand []
+  "Recompile `.fnl` files on save"
+  (vim.api.nvim_create_augroup :nfnl_compile {:clear true})
+  (vim.api.nvim_create_autocmd
+    :BufWritePost
+    {:group :nfnl_compile
+     :pattern "*.fnl"
+     :callback (fn [ev]
+                  (local path (vim.api.nvim_buf_get_name ev.buf))
+                  (local dir (vim.fn.fnamemodify path ":h"))
+
+                  (local (ok nfnl-api) (pcall require :nfnl.api))
+                  (when (not ok)
+                    (vim.notify (.. "nfnl: Failed to load nfnl.api: " (tostring nfnl-api))
+                                vim.log.levels.WARN)
+                    (lua "return nil"))
+
+                  (local (ok result) (pcall nfnl-api.compile-file {: path : dir}))
+                  (when (not ok)
+                    (vim.notify (.. "nfnl: Compilation error: " (tostring result))
+                                vim.log.levels.ERROR)
+                    (lua "return nil"))
+
+                  nil)}))
 
 ;;; `:Fnl` command
 
@@ -38,6 +82,15 @@
                           vim.log.levels.ERROR))))
       {:nargs "+"
        :desc "Evaluate Fennel code using custom Fennel fork"})))
+
+(fn create-nfnl-compile-command []
+  "Create `:NfnlCompileAll` user command to compile all Fennel files"
+  (vim.api.nvim_create_user_command
+    :NfnlCompileAll
+    (fn []
+      (compile-all-fennel)
+      (vim.notify "nfnl: Compiled all Fennel files" vim.log.levels.INFO))
+    {:desc "Compile all Fennel files via nfnl"}))
 
 ;;; Trust `.nfnl.fnl`
 
@@ -73,49 +126,14 @@
           (vim.cmd.packadd {:args [name]})
           (vim.pack.add [{: src : version}] {:confirm false}))))
 
-  (ensure-plugin :nixCats-nvim "https://github.com/BirdeeHub/nixCats-nvim" :vim_pack)
-  (ensure-plugin :typed-fennel "https://github.com/reo101/typed-fennel" :subdirectories)
-  (ensure-plugin :lze "https://github.com/BirdeeHub/lze" :v0.12.0))
-
-;;; Compilation
-
-(fn needs-initial-compilation? []
-  "Check if nfnl `lua/` output dir exists"
-  (let [nfnl-lua-dir (.. nfnl-output-dir "/lua")]
-    (not= 1 (vim.fn.isdirectory nfnl-lua-dir))))
-
-(fn compile-all-fennel []
-  "Compile all Fennel files via `nfnl.api`"
-  (local (ok nfnl-api) (pcall require :nfnl.api))
-  (when ok
-    (nfnl-api.compile-all-files nvim-config)))
-
-(fn setup-fnl-autocommand []
-  "Recompile `.fnl` files on save"
-  (vim.api.nvim_create_augroup :nfnl_compile {:clear true})
-  (vim.api.nvim_create_autocmd
-    :BufWritePost
-    {:group :nfnl_compile
-     :pattern "*.fnl"
-     :callback (fn [ev]
-                  (local path (vim.api.nvim_buf_get_name ev.buf))
-                  (local dir (vim.fn.fnamemodify path ":h"))
-
-                  (local (ok nfnl-api) (pcall require :nfnl.api))
-                  (when (not ok)
-                    (vim.notify (.. "nfnl: Failed to load nfnl.api: " (tostring nfnl-api))
-                                vim.log.levels.WARN)
-                    (lua "return nil"))
-
-                  (local (ok result) (pcall nfnl-api.compile-file {: path : dir}))
-                  (when (not ok)
-                    (vim.notify (.. "nfnl: Compilation error: " (tostring result))
-                                vim.log.levels.ERROR)))}))
+  (ensure-plugin :lze "https://github.com/BirdeeHub/lze" :v0.12.0)
+  (ensure-plugin :typed-fennel "https://github.com/reo101/typed-fennel" :subdirectories))
 
 ;;; Main
 
 (setup-paths)
 (create-fnl-command)
+(create-nfnl-compile-command)
 (bootstrap-nfnl)
 (bootstrap-plugins)
 (when (needs-initial-compilation?)

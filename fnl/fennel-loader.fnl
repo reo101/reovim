@@ -64,9 +64,26 @@
       (tset package.loaded :nfnl.fennel fennel)
       fennel)))
 
+;; Path to typed-fennel for macro support (shared between nfnl and :Fnl)
+(fn typed-fennel-macro-path []
+  "Returns the macro path for typed-fennel annotations"
+  (.. (vim.fn.stdpath :data) "/site/pack/core/opt/typed-fennel/fnl/?.fnl"))
+
+;; Configure fennel with typed-fennel macro path
+(fn setup-fennel-paths [fennel]
+  "Setup fennel macro path to include typed-fennel"
+  (let [macro-path (typed-fennel-macro-path)]
+    (when (= (type fennel) :table)
+      ;; Add typed-fennel to macro path if not already present
+      (when (and fennel.macro_path
+                 (not (: fennel.macro_path :match (vim.pesc macro-path))))
+        (set fennel.macro_path (.. macro-path ";" fennel.macro_path))))))
+
 {: dev-fennel-path
  : find-nix-fennel-path
  : has-discard-support?
  : find-custom-fennel
  : purge-fennel-modules
- : inject-custom-fennel}
+ : inject-custom-fennel
+ : typed-fennel-macro-path
+ : setup-fennel-paths}
