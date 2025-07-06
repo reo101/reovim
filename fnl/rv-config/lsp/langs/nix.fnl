@@ -11,6 +11,7 @@
              :root_dir (lsp-root-dir
                          [:flake.nix]
                          true)
+             :settings {:nil {:formatting {:command ["nixfmt"]}}}
              :single_file_support true}]
     ((. (. (require :lspconfig) :nil_ls) :setup) opt)))
 
