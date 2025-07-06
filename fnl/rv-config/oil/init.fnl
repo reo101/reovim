@@ -41,9 +41,9 @@
              ;; Skip the confirmation popup for simple operations
              :skip_confirm_for_simple_edits false
              ;; Deleted files will be removed with the trash_command (below).
-             :delete_to_trash false
+             ;; :delete_to_trash false
              ;; Change this to customize the command used when deleting to trash
-             :trash_command :trash-put
+             ;; :trash_command :trash-put
              ;; Selecting a new/moved/renamed file or directory will prompt you to save changes first
              :prompt_save_on_select_new_entry true
              ;; Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
