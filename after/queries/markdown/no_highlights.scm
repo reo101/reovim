@@ -1,6 +1,25 @@
 ; ((shortcut_link) @conceal (#set! conceal "󰄱") (eq? @conceal "[ ]"))
 ; ((shortcut_link) @conceal (#set! conceal "☒") (eq? @conceal "[x]"))
 
+; Code blocks (conceal backticks and language annotation)
+(indented_code_block) @markup.raw.block
+
+((fenced_code_block) @markup.raw.block
+  (#set! priority 90))
+
+(fenced_code_block
+  (fenced_code_block_delimiter) @markup.raw.block
+  (#set! conceal "")
+  (#set! conceal_lines ""))
+
+(fenced_code_block
+  (info_string
+    (language) @label
+    (#set! conceal "")
+    (#set! conceal_lines "")))
+
+;;;
+
 (atx_heading (inline) @text.title)
 (setext_heading (paragraph) @text.title)
 

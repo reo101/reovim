@@ -1,11 +1,15 @@
 ;; extends
 
-(binding
-  attrpath: (attrpath (identifier) @_path)
-  expression: [
-               (string_expression (string_fragment) @bash)
-               (indented_string_expression (string_fragment) @bash)]
-  (#match? @_path "(^\\w+(Phase|Hook)|(pre|post)[A-Z]\\w+|script)$"))
+(
+  (binding
+    attrpath: (attrpath (identifier) @_path)
+    expression: [
+     (string_expression (string_fragment) @injection.content)
+     (indented_string_expression (string_fragment) @injection.content)
+    ])
+  (#match? @_path "(^\\w+(Phase|Hook)|(pre|post)[A-Z]\\w+|script)$")
+  (#set! injection.language "bash")
+)
 
 (
   (apply_expression

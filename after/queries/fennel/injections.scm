@@ -1,35 +1,4 @@
-;; extends
-
-(
-  (binding_pair
-    lhs:
-      (symbol_binding) @_name
-    rhs:
-      (string
-        content:
-          (string_content) @injection.content))
-  (#lua-match? @_name "^[^-]*%-query.*$")
-  (#set! injection.language "query")
-)
-
-(
-  (list
-    call: (multi_symbol) @_fn
-    item: (string content: (string_content) @_lang)
-    item: (string content: (string_content) @injection.content))
-  (#lua-match? @_fn "^vim.treesitter.query.parse$")
-  (#set! injection.language "query")
-)
-
-;; (
-;;   (binding_pair
-;;     lhs:
-;;       (symbol_binding) @_name
-;;     rhs:
-;;       (string
-;;         content:
-;;           (string_content) @injection.content))
-;;   (#lua-match? @_name "^[^-]*%-code.*$")
-;;   (#gsub! @_name "(^[^-]*)%-code.*$" "%1")
-;;   (#set! injection.language @_name)
-;; )
+; Override default comment injection - don't use combined since fennel only has line comments
+; The code block syntax (```) won't work across line comments, but other features will
+((comment_body) @injection.content
+  (#set! injection.language "comment"))

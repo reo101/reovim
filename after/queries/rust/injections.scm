@@ -48,21 +48,44 @@
 )
 
 (
-  (call_expression
-    function:
-      [
-        (generic_function
-          function:
-            (field_expression
-              field: (field_identifier) @_method))
-        (field_expression
-          field: (field_identifier) @_method)
-      ]
-    arguments: (arguments
-      .
-      (_
-        (string_content) @injection.content)))
-    (#any-of? @_method "execute" "execute_batch" "prepare" "query" "query_row")
-    (#set! injection.language "sql")
-    (#set! "priority" 128)
+  [
+    (macro_invocation
+      macro:
+        [
+          (identifier) @_method
+          (scoped_identifier
+            name:
+              (identifier) @_method)
+        ]
+      (token_tree
+        (source_file
+          (expression_statement
+            (tuple_expression
+              (_
+                (string_content) @injection.content))))))
+    (call_expression
+      function:
+        [
+          (scoped_identifier
+            name: (identifier) @_method)
+          (generic_function
+            function:
+              [
+                (field_expression
+                  field: (field_identifier) @_method)
+                (scoped_identifier
+                  name: (identifier) @_method)
+              ])
+          (field_expression
+            field: (field_identifier) @_method)
+        ]
+      arguments:
+        (arguments
+          .
+          (_
+            (string_content) @injection.content)))
+  ]
+  (#any-of? @_method "execute" "execute_batch" "prepare" "query" "query_row" "query_as")
+  (#set! injection.language "sql")
+  (#set! "priority" 128)
 )
