@@ -205,15 +205,19 @@
                      :opts {:colors setup-colors
                             :disable_winbar_cb
                               (fn [{: buf}]
-                                (conditions.buffer_matches
-                                  {:filetype [:^git.*
-                                              :fugitive]
-                                   :buftype  [:nofile
-                                              :prompt
-                                              :help
-                                              :terminal
-                                              :quickfix]}
-                                  buf))}})
+                                (or (-> buf
+                                        vim.api.nvim_buf_get_name
+                                        (vim.startswith "hunk://")
+                                        not)
+                                    (conditions.buffer_matches
+                                      {:filetype [:^git.*
+                                                  :fugitive]
+                                       :buftype  [:nofile
+                                                  :prompt
+                                                  :help
+                                                  :terminal
+                                                  :quickfix]}
+                                      buf)))}})
 
     (let [group (vim.api.nvim_create_augroup
                    :Heirline
