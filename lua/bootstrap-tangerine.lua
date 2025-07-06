@@ -46,6 +46,7 @@ local opt = {
     source  = nvim_config .. "/fnl",
     target  = nvim_data .. "/tangerine",
     rtpdirs = {
+        "lsp",
         "plugin",
         "ftplugin",
         "ftdetect",

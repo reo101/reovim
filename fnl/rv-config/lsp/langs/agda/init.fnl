@@ -66,24 +66,33 @@
     (agda-mappings)
 
     ;;; cmp latex-like thing
-    (let [cmp (require :cmp)
-          source (require :rv-config.lsp.langs.agda.source)]
-      (cmp.register_source
-        :agda
-        (source.new))
-      (cmp.setup.filetype
-        :agda
-        {:sources
-          (cmp.config.sources
-            [{:name "buffer"}
-             {:name "luasnip"}
-             {:name :agda}])}))))
-      ;; (cmp.setup.cmdline
-      ;;   ":"
-      ;;   {:sources
-      ;;      (cmp.config.sources
-      ;;        [{:name :cmdline}
-      ;;         {:name :agda}])}))))
+    ;; (let [cmp (require :cmp)
+    ;;       source (require :rv-config.lsp.langs.agda.cmp-source)]
+    ;;   (cmp.register_source
+    ;;     :agda
+    ;;     (source.new))
+    ;;   (cmp.setup.filetype
+    ;;     :agda
+    ;;     {:sources
+    ;;       (cmp.config.sources
+    ;;         [{:name "buffer"}
+    ;;          {:name "luasnip"}
+    ;;          {:name :agda}])}))
+    ;;   (cmp.setup.cmdline
+    ;;     ":"
+    ;;     {:sources
+    ;;        (cmp.config.sources
+    ;;          [{:name :cmdline}
+    ;;           {:name :agda}])})
+
+    (local blink-cmp (require :blink-cmp))
+    (local agda-source (require :rv-config.lsp.langs.agda.blink-source))
+    (blink-cmp.setup
+      {:sources
+       {:agda-symbols
+        {:name :agda-symbols
+         :source (agda-source.new)
+         :group_index 1}}})))
 
 {:src "https://github.com/isovector/cornelis"
  :data {:dependencies [:neovimhaskell/nvim-hs.vim

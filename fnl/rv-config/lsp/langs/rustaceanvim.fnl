@@ -10,9 +10,10 @@
                 {:capabilities lsp-capabilities
                  :on_init lsp-on-init
                  :on_attach lsp-on-attach
-                 :settings {;; :rust-analyzer {:procMacro {:enable true}
-                            ;;                 :checkOnSave {:command :clippy}
-                            ;;                 :trace {:server :verbose}
+                 :settings {:rust-analyzer {:procMacro {:enable true}
+                                            :checkOnSave {:command :clippy}
+                                            :trace {:server :verbose}
+                                            :files {:excludeDirs [:.direnv]}}
                             :assist {:importGranularity :module
                                      :importPrefix :self}
                             :cargo {:loadOutDirsFromCheck true

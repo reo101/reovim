@@ -35,7 +35,9 @@
              :on_attach lsp-on-attach
              :capabilities lsp-capabilities
              :settings {:fennel-ls
-                         {:fennel-path
+                         {:extra-globals
+                            (table.concat [:vim])
+                          :fennel-path
                             (table.concat
                               ["./?.fnl"
                                "./?/init.fnl"
@@ -43,20 +45,19 @@
                                "src/?/init.fnl"]
                               ";")
                           :macro-path
-                            (table.concat
-                              ["./?.fnl"
-                               "./?/init-macros.fnl"
-                               "./?/init.fnl"
-                               "src/?.fnl"
-                               "src/?/init-macros.fnl"
-                               "src/?/init.fnl"
-                               ;; NOTE: mine
-                               (.. (vim.fn.stdpath "config") :/fnl/?.fnl)
-                               ;; TODO: different when `nixCats`?
-                               (.. (vim.fn.stdpath "data") :/lazy/typed-fennel/fnl/?.fnl)]
-                              ";")
-                          :extra-globals
-                            (table.concat [:vim])}}
+                            #_(table.concat
+                                ["./?.fnl"
+                                 "./?/init-macros.fnl"
+                                 "./?/init.fnl"
+                                 "src/?.fnl"
+                                 "src/?/init-macros.fnl"
+                                 "src/?/init.fnl"
+                                 ;; NOTE: mine
+                                 (.. (vim.fn.stdpath "config") :/fnl/?.fnl)
+                                 ;; TODO: different when `nixCats`?
+                                 (.. (vim.fn.stdpath "data") :/site/pack/core/opt/typed-fennel/fnl/?.fnl)]
+                                ";")
+                            (-> :fennel require (. :macro-path))}}
              :root_dir (lsp-root-dir
                          []
                          true)
