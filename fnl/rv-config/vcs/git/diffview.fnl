@@ -85,4 +85,5 @@
 
 {:src "https://github.com/sindrets/diffview.nvim"
  :data {:lazy true
+        :cmd [:DiffviewOpen]
         : after}}

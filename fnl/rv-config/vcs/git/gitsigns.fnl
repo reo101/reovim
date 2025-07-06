@@ -96,4 +96,4 @@
         :event :BufRead
         : after
         ;; FIXME: slows down markdown for some reason
-        :enabled false}}
+        :enabled true}}
