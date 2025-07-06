@@ -1,4 +1,4 @@
-; extends
+;; extends
 
 ;; NOTE: all atoms
 
@@ -83,7 +83,7 @@
     (expr) @sentinel) ;; @container
   .
   (";" @delimiter)?
-)
+) @container
 
 ; (lambda
 ;   .
@@ -230,7 +230,7 @@
   (id)
   .
   (";" @delimiter)?
-)
+) @container
 
 ;; NOTE: relics, early hardcoded half-working solutions
 
