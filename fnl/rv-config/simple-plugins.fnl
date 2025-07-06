@@ -23,13 +23,17 @@
  ;;                   {:use_lsp_features false})}
  {:src "https://github.com/reo101/tree-sitter-jj_template"
   :data {:event :DeferredUIEnter}}
+ {:src "https://github.com/reo101/tree-sitter-uci"
+  :data {:event :DeferredUIEnter}}
  {:src "https://github.com/nushell/tree-sitter-nu"
+  :data {:event :DeferredUIEnter}}
+ {:src "https://github.com/kwshi/tree-sitter-hy"
   :data {:event :DeferredUIEnter}}
          ;; :ft [:nu]}}
  {:src "https://github.com/avm99963/vim-jjdescription"}
  ;; Keymaps
  {:src "https://github.com/nvimtools/hydra.nvim"
-  :data {:version :v:src.0.2}}
+  :data {:version :v1.0.3}}
  ;; Lua docs
  {:src "https://github.com/nanotee/luv-vimdocs"}
  {:src "https://github.com/milisims/nvim-luaref"}
