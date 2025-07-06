@@ -18,5 +18,5 @@
         {:prefix :<leader>})))
 
 {:src "https://github.com/stevearc/quicker.nvim"
- :version :v1.0.0
+ :version :v1.4.0
  :data {: after}}

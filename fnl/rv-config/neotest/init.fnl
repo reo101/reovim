@@ -50,7 +50,7 @@
 
 {:src "https://github.com/nvim-neotest/neotest"
  ;; TODO: <https://github.com/nvim-neotest/neotest/issues/441>
- :version :v5.9.1
+ :version :v5.13.4
  :data {:dependencies [:nvim-neotest/nvim-nio
                        :nvim-lua/plenary.nvim
                        :mrcjkb/neotest-haskell
