@@ -52,7 +52,7 @@
 (fn lsp-on-attach [client bufnr]
   (lsp-mappings)
 
-  (when client.server_capabilities.codeLensProvider
+  (when (?. client :server_capabilities :codeLensProvider)
     (vim.api.nvim_create_augroup :LspCodeLens {:clear true})
     (vim.api.nvim_create_autocmd [:InsertEnter
                                   :InsertLeave]
@@ -71,10 +71,10 @@
                                   :group    :LspDocumentHighlight
                                   :callback vim.lsp.buf.clear_references}))
 
-  (when client.server_capabilities.documentSymbolProvider
+  (when (?. client :server_capabilities :documentSymbolProvider)
     ((. (require :nvim-navic) :attach) client bufnr))
 
-  (when client.server_capabilities.inlayHintProvider
+  (when (?. client :server_capabilities :inlayHintProvider)
     (when (not (vim.lsp.inlay_hint.is_enabled {}))
       (vim.lsp.inlay_hint.enable true {}))))
 

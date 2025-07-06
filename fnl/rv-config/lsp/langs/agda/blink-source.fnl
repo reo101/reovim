@@ -11,33 +11,35 @@
     self))
 
 (fn source.enabled [self]
-  "Enables the source only for Agda filetypes."
+  "Enable this source for Haskell and Agda."
   (or (= vim.bo.filetype :agda)
-      (= vim.bo.filetype :lagda.md)))
+      (= vim.bo.filetype :lagda.md)
+      (= vim.bo.filetype :haskell)
+      (= vim.bo.filetype :lhaskell)))
 
 (fn source.get_trigger_characters [self]
   "Triggers completion on backslash."
-  ["'"
-   " "
-   "!"
-   "\""
-   "("
-   ")"
-   "*"
-   "+"
-   "-"
-   "."
-   ":"
-   "<"
-   "="
-   ">"
-   "^"
-   "_"
-   "`"
-   "{"
-   "|"
-   "}"
-   "~"
+  [;; "'"
+   ;; " "
+   ;; "!"
+   ;; "\""
+   ;; "("
+   ;; ")"
+   ;; "*"
+   ;; "+"
+   ;; "-"
+   ;; "."
+   ;; ":"
+   ;; "<"
+   ;; "="
+   ;; ">"
+   ;; "^"
+   ;; "_"
+   ;; "`"
+   ;; "{"
+   ;; "|"
+   ;; "}"
+   ;; "~"
    "\\"])
 
 (fn source.get_keyword_pattern [self]

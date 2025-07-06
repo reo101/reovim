@@ -7,11 +7,15 @@
          opt {:tools
                 {:executor executors.toggleterm}
               :server
-                {:capabilities lsp-capabilities
+                {:capabilities (->> lsp-capabilities
+                                    (vim.tbl_deep_extend
+                                      :error
+                                      {:experimental {:colorDiagnosticOutput true}}))
                  :on_init lsp-on-init
                  :on_attach lsp-on-attach
+                 :load_vscode_settings false
                  :settings {:rust-analyzer {:procMacro {:enable true}
-                                            :checkOnSave {:command :clippy}
+                                            :checkOnSave true ;; {:command :clippy}
                                             :trace {:server :verbose}
                                             :files {:excludeDirs [:.direnv]}}
                             :assist {:importGranularity :module
@@ -21,7 +25,8 @@
               :dap {}}]
      (tset vim.g :rustaceanvim opt)))
 
-{:src "https://github.com/mrcjkb/rustaceanvim"
- :version :v6.4.0
- :data {:ft [:rust]
-        : after}}
+{:src "https://github.com/TamerlanG/gh-actions-lsp.nvim"
+ :version :v1.0.2
+ :data {:ft [:yaml]
+        : after
+        :enabled false}}

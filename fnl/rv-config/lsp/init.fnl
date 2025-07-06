@@ -38,7 +38,10 @@
                  :solang
                  ;; :agda
                  :wgsl
-                 :typst]]
+                 :d
+                 :typst
+                 :copilot]]
+                 ;; :hyls]]
 
     (each [_ name (ipairs servers)]
       ;; All defined in `../../../lsp/${name}.json`
@@ -60,7 +63,8 @@
  (require (.. ... :.diagnostics))
  ;; TODO: spearate out in different directory?
  (icollect [_ lang-plugin
-              (ipairs [:rustaceanvim
+              (ipairs [:rust.rustaceanvim
+                       :rust.rustowl
                        :haskell-tools
                        :lean
                        :idris2
@@ -69,6 +73,7 @@
                        :nvim-java
                        :texmagic
                        #_:dotnvim
-                       :roslyn])]
+                       :roslyn
+                       :ionide])]
    (require (.. ... :.langs. lang-plugin)))
  {:src "https://github.com/b0o/schemastore.nvim"}]
