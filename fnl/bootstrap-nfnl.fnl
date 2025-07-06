@@ -39,11 +39,11 @@
     ;; Add both to package.path (config first for priority in Nix builds)
     (local config-path-pattern (.. config-lua-dir "/?.lua;" config-lua-dir "/?/init.lua;"))
     (local nfnl-path-pattern (.. nfnl-lua-dir "/?.lua;" nfnl-lua-dir "/?/init.lua;"))
-    
+
     ;; Remove existing patterns to avoid duplicates
     (set package.path (: package.path :gsub (vim.pesc config-path-pattern) ""))
     (set package.path (: package.path :gsub (vim.pesc nfnl-path-pattern) ""))
-    
+
     ;; Add config paths first (for Nix), then nfnl paths
     (set package.path (.. config-path-pattern nfnl-path-pattern package.path))))
 

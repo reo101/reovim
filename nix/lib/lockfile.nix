@@ -63,8 +63,8 @@ let
       skipModules = (import ./skip-modules.nix).${name} or [ ];
       # Check for custom build configuration (e.g., for Rust-based plugins)
       hasCustomBuild = pluginBuildsLib.hasCustomBuild name;
-      customBuildConfig = if hasCustomBuild 
-        then pluginBuildsLib.getBuildConfig name { inherit src hash; rev = entry.rev; } 
+      customBuildConfig = if hasCustomBuild
+        then pluginBuildsLib.getBuildConfig name { inherit src hash; rev = entry.rev; }
         else null;
       useCustomBuild = hasCustomBuild && customBuildConfig != null && builtins.hasAttr "useCustomBuild" customBuildConfig && customBuildConfig.useCustomBuild;
     in

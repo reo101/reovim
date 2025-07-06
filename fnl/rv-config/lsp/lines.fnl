@@ -12,7 +12,7 @@
              :d [lsp-lines.toggle
                  "Diagnostics"]}}
         {:prefix :<leader>})))
- 
+
 {:src "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
  :data {:event :BufRead
         : after}}

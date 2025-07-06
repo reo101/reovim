@@ -219,21 +219,21 @@ in
       # Build treesitter grammars from lockfile
       # Grammars are stored under the "grammars" key in nvim-pack-lock.json
       # Returns list of { name = <name>; lang = <tree_sitter_lang>; drv = <derivation>; }
-      treesitterGrammars = treesitterLib.mkTreesitterGrammarsFromLockfile { 
+      treesitterGrammars = treesitterLib.mkTreesitterGrammarsFromLockfile {
         lockfilePath = config.reovim.lockfilePath;
       };
-      
+
       # Create unified parser directory for all grammars
-      parserDir = treesitterLib.mkParserDir { 
-        grammars = treesitterGrammars; 
+      parserDir = treesitterLib.mkParserDir {
+        grammars = treesitterGrammars;
       };
-      
+
       # Build regular plugins, excluding treesitter grammars (handled as grammars, not plugins)
       lockfilePlugins =
         let
           # Get grammar names to exclude from plugins
           grammarNames = map (g: g.name) treesitterGrammars;
-          plugins = lockfileLib.mkPluginsFromLockfile { 
+          plugins = lockfileLib.mkPluginsFromLockfile {
             lockfilePath = config.reovim.lockfilePath;
             excludePlugins = grammarNames;
           };

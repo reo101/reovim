@@ -41,14 +41,14 @@
   ;; At runtime (non-Nix), they're in stdpath('data')/nfnl/lua/
   (local rv-nix-module (require :rv-nix))
   (local is-nix? rv-nix-module.is-nix)
-  
+
   ;; Get the directory of this script (works for both Nix and non-Nix)
   ;; debug.getinfo returns source as @/path/to/file.lua, strip the @
   (local this-file (-> (debug.getinfo 1 :S) (. :source) (: :sub 2)))
   (local this-dir (vim.fn.fnamemodify this-file ":h"))
   ;; Go up one level from fnl/ to get the config root
   (local config-dir (vim.fn.fnamemodify this-dir ":h"))
-  
+
   (local nfnl-dir (vim.fs.joinpath (vim.fn.stdpath :data) :nfnl :lua))
 
   ;; Build list of directories to search

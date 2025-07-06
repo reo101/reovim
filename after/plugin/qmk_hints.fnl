@@ -85,7 +85,7 @@
   ;;; Get the AST root
   (local (ok root) (get-root bufnr))
   (when (not ok)
-    (vim.notify 
+    (vim.notify
       (string.format
         "Error: %s"
         root)))

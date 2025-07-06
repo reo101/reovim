@@ -11,7 +11,7 @@
                      :css_fn   true ;; Enable all CSS *functions*: rgb_fn, hsl_fn
                      ;; Available modes: foreground, background, virtualtext
                      :mode        "background" ;; Set the display mode.
-                     :virtualtext "■"}         ;; Set the virtualtext text 
+                     :virtualtext "■"}         ;; Set the virtualtext text
                :html {:mode "foreground"}
                1 :javascript}
              :user_default_options {:mode "background"}}]
