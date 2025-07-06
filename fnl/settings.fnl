@@ -278,6 +278,9 @@
     (tset vim.g (.. "loaded_" plugin) 1))
   (each [_ provider (ipairs disabled-providers)]
     (tset vim.g (.. "loaded_" provider) 0)))
+
+;; Default keymaps
+(local dk (require :def-keymaps))
 (dk :n
     {:b {:group :Buffer
          :s ["<Cmd>:w<CR>" :Save]
