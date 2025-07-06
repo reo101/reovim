@@ -31,9 +31,6 @@
   :data {:event :DeferredUIEnter}}
          ;; :ft [:nu]}}
  {:src "https://github.com/avm99963/vim-jjdescription"}
- ;; Keymaps
- {:src "https://github.com/nvimtools/hydra.nvim"
-  :data {:version :v1.0.3}}
  ;; Lua docs
  {:src "https://github.com/nanotee/luv-vimdocs"}
  {:src "https://github.com/milisims/nvim-luaref"}
