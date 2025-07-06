@@ -1,4 +1,4 @@
-(fn after []
+(fn config []
   (let [{: lsp-on-init
          : lsp-on-attach
          : lsp-capabilities
@@ -32,4 +32,4 @@
                          [:angular.json])}]
     ((. (. (require :lspconfig) :angularls) :setup) opt)))
 
-{: after}
+{: config}

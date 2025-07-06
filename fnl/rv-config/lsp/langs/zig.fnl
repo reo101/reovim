@@ -1,4 +1,4 @@
-(fn after []
+(fn config []
   (let [{: lsp-on-init
          : lsp-on-attach
          : lsp-capabilities
@@ -16,4 +16,4 @@
     (tset vim.g :zig_fmt_autosave 0)
     ((. (. (require :lspconfig) :zls) :setup) opt)))
 
-{: after}
+{: config}

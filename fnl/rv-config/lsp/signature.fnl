@@ -1,4 +1,4 @@
-(fn after []
+(fn config []
    (let [opt {:hint_scheme :String
               :bind true
               :use_lspsaga false
@@ -14,4 +14,4 @@
               :hint_prefix "🐼 "}]
      ((. (require :lsp_signature) :on_attach) opt)))
 
-{: after}
+{: config}

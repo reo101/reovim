@@ -1,4 +1,4 @@
-(fn after []
+(fn config []
   (local configs (require :lspconfig.configs))
   (local util (require :lspconfig.util))
   (local server_name :noir)
@@ -23,4 +23,4 @@
              :single_file_support true}]
     ((. (require :lspconfig) :noir :setup) opt)))
 
-{: after}
+{: config}

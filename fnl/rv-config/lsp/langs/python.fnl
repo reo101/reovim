@@ -1,4 +1,4 @@
-(fn after []
+(fn config []
   (let [{: lsp-on-init
          : lsp-on-attach
          : lsp-capabilities
@@ -21,4 +21,4 @@
              :single_file_support true}]
     ((. (. (require :lspconfig) :pylsp) :setup) opt)))
 
-{: after}
+{: config}

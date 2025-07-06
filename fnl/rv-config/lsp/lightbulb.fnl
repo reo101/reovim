@@ -1,4 +1,4 @@
-(fn after []
+(fn config []
    (let [opt {:status_text {:text "💡"
                             :text_unavailable ""
                             :enabled false}
@@ -12,4 +12,4 @@
      ((. (require :nvim-lightbulb) :update_lightbulb) opt)
      (vim.cmd "autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()")))
 
-{: after}
+{: config}

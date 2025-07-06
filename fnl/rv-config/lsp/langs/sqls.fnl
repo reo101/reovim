@@ -1,4 +1,4 @@
-(fn after []
+(fn config []
   ;; (fn register-mappings []
   ;;                 (let [wk (require :which-key)
   ;;                       mappings {:q {:group :SQL
@@ -54,4 +54,4 @@
     ; (set vim.g.dbext_default_usermaps 0)
     ((. (. (require :lspconfig) :sqlls) :setup) opt)))
 
-{: after}
+{: config}

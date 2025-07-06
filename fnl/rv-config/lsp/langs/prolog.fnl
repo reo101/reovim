@@ -1,4 +1,4 @@
-(fn after []
+(fn config []
   (local configs (require :lspconfig.configs))
   (local util (require :lspconfig.util))
   (local server_name :prolog_lsp)
@@ -37,4 +37,4 @@
     ((. (. (require :lspconfig) :prolog_lsp) :setup) opt)))
     ;; (set vim.g.filetype_pl "prolog")))
 
-{: after}
+{: config}

@@ -1,4 +1,4 @@
-(fn after []
+(fn config []
   (let [{: lsp-on-init
          : lsp-on-attach
          : lsp-capabilities
@@ -24,4 +24,4 @@
     ((. (. (require :lspconfig) :terraformls) :setup) opt)))
     ;; ((. (. (require :lspconfig) :terraform_lsp) :setup) opt)))
 
-{: after}
+{: config}

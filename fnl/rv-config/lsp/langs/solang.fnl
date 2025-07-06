@@ -1,4 +1,4 @@
-(fn after []
+(fn config []
   (let [{: lsp-on-init
          : lsp-on-attach
          : lsp-capabilities
@@ -17,4 +17,4 @@
              :init_options {}}]
     ((. (. (require :lspconfig) :solang) :setup) opt)))
 
-{: after}
+{: config}
