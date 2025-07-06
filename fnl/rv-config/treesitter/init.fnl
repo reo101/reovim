@@ -40,26 +40,26 @@
                             :keymaps {";"  :textsubjects-container-outer
                                       "."  :textsubjects-smart
                                       "i;" :textsubjects-container-inner}}
-             :incremental_selection {:keymaps {:init_selection    :<leader>siv
-                                               :node_decremental  :<leader>sid
-                                               :node_incremental  :<leader>sii
-                                               :scope_incremental :<leader>sis}
+             :incremental_selection {:keymaps {:init_selection    :<leader>riv
+                                               :node_decremental  :<leader>rid
+                                               :node_incremental  :<leader>rii
+                                               :scope_incremental :<leader>ris}
                                      :enable true}
              :refactor {:navigation {:enable true
-                                     :keymaps {:list_definitions :<leader>sdl
-                                               :goto_definition  :<leader>sdg}}
+                                     :keymaps {:list_definitions :<leader>rdl
+                                               :goto_definition  :<leader>rdg}}
                         :highlight_definitions {:enable true}
                         :smart_rename {:enable true
-                                       :keymaps {:smart_rename :<leader>sr}}}
+                                       :keymaps {:smart_rename :<leader>rr}}}
              :context {:enable true}
              :textobjects {:enable true
                            :swap {:enable true
-                                  :swap_previous {:<leader>sspp "@parameter.inner"
-                                                  :<leader>sspf "@function.outer"
-                                                  :<leader>sspc "@class.outer"}
-                                  :swap_next {:<leader>ssnc "@class.outer"
-                                              :<leader>ssnp "@parameter.inner"
-                                              :<leader>ssnf "@function.outer"}}
+                                  :swap_previous {:<leader>rspp "@parameter.inner"
+                                                  :<leader>rspf "@function.outer"
+                                                  :<leader>rspc "@class.outer"}
+                                  :swap_next {:<leader>rsnc "@class.outer"
+                                              :<leader>rsnp "@parameter.inner"
+                                              :<leader>rsnf "@function.outer"}}
                            :lsp_interop {:enable false}
                            :move {:enable true
                                   :set_jumps true
@@ -94,7 +94,8 @@
                                                       "@function.outer"  :V}}
                            :disable {}}
              :highlight {:enable true
-                         :additional_vim_regex_highlighting ["circom"]}}]
+                         :additional_vim_regex_highlighting ["circom"
+                                                             "typst"]}}]
              ; :playground {:updatetime 25
              ;              :enable true
              ;              :disable {}
@@ -224,6 +225,11 @@
                             :files  [:src/parser.c]
                             :branch :master}
              :filetype :jj_template}
+            :uci
+            {:install_info {:url    "https://github.com/reo101/tree-sitter-uci"
+                            :files  []
+                            :branch :master}
+             :filetype :uci}
             :noir
             {:install_info {:url    "https://github.com/hhamud/tree-sitter-noir"
                             :files  [:src/parser.c
@@ -262,6 +268,11 @@
             {:install_info {:url    "https://github.com/reo101/tree-sitter-brainfuck"
                             :files  [:src/parser.c]
                             :branch :master}}
+            :hy
+            {:install_info {:url    "https://github.com/kwshi/tree-sitter-hy"
+                            :files  [:src/parser.c]
+                            :branch :main}
+             :filetype :hy}
             :awk
             {:install_info {:url    "https://github.com/Beaglefoot/tree-sitter-awk"
                             :files  [:src/parser.c
@@ -274,7 +285,14 @@
             :nu
             {:install_info {:url    "https://github.com/nushell/tree-sitter-nu"
                             :files  [:src/parser.c]
-                            :branch :main}}})
+                            :branch :main}}
+            :comment
+            {:install_info {:url    "https://github.com/OXY2DEV/tree-sitter-comment"
+                            :files  [:src/parser.c
+                                     :src/scanner.c]
+                            :branch :main
+                            :revision "87bb8707b694e7d9820947f21be36d6ce769e5cc"
+                            :requires_generate_from_grammar true}}})
     (each [lang conf (pairs confs)]
       (tset ((. (require :nvim-treesitter.parsers) :get_parser_configs))
             lang
@@ -283,7 +301,7 @@
 
     (local mappings
            {:t {:group :Toggle
-                :s {:group :TreeSitter
+                :r {:group :TreeSitter
                     :h [#(vim.cmd.TSBufToggle :highlight)
                         :Highlighting]
                     ;; :c [(. (require :treesitter-context)
@@ -295,7 +313,7 @@
                     ;;     :Autotags]
                     :p [#(vim.cmd.TSBufToggle :autopairs)
                         :Autopairs]}}
-            :s {:group :TreeSitter
+            :r {:group :TreeSitter
                 :d {:group :Definitions
                     :g ["Goto definition"]
                     :l ["List definitions"]}
@@ -359,9 +377,10 @@
   :data {:dependencies [:mfussenegger/nvim-ts-hint-textobject
                         ;; :nvim-treesitter/playground
                         ;; :romgrk/nvim-treesitter-context
-                        :JoosepAlviste/nvim-ts-context-commentstring]
+                        :JoosepAlviste/nvim-ts-context-commentstring
+                        :OXY2DEV/tree-sitter-comment]
                         ;; :windwp/nvim-ts-autotag]
-         :event :BufRead
+         :event :DeferredUIEnter
          : after}}
  (require (.. ... :.rainbow))
  (require (.. ... :.context))]

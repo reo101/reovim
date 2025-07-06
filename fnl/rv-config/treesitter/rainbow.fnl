@@ -5,7 +5,8 @@
                         :vim (. rainbow-delimiters :strategy :local)}
              :query    {""   :rainbow-delimiters
                         :lua :rainbow-blocks}
-             :priority {:agda 500}
+             :priority {:agda 500
+                        :fsharp 200}
              :highlight [:RainbowDelimiterRed
                          :RainbowDelimiterYellow
                          :RainbowDelimiterBlue

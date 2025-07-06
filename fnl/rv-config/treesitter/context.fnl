@@ -29,7 +29,7 @@
     (treesitter-context.setup opt)
     (dk :n
         {:t {:group :Toggle
-             :s {:group :TreeSitter
+             :r {:group :TreeSitter
                  :c [#(treesitter-context.toggle) :Context]}}}
         {:prefix :<leader>})))
 
