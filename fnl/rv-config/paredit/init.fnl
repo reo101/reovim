@@ -117,9 +117,9 @@
 
 {:src :https://github.com/julienvincent/nvim-paredit
  :version :v1.1.1
- :ft ["fennel"
-      "scheme"
-      "racket"
-      "crisp"
-      "clojure"]
- : after}
+ :data {:ft ["fennel"
+             "scheme"
+             "racket"
+             "crisp"
+             "clojure"]
+        : after}}
