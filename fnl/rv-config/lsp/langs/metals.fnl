@@ -48,7 +48,5 @@
           :callback #(metals.initialize_or_attach metals-config)}))))
 
 {:src "https://github.com/scalameta/nvim-metals"
- :data {:dependencies [:nvim-lua/plenary.nvim
-                       :nvim-telescope/telescope.nvim]
-        :ft [:scala :sbt]
+ :data {:ft [:scala :sbt]
         : after}}

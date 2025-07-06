@@ -133,6 +133,5 @@
         {:prefix :<leader>})))
 
 {:src "https://github.com/stevearc/oil.nvim"
- :data {:dependencies [:nvim-tree/nvim-web-devicons]
-        ;; :keys [:<leader>to]
+ :data {;; :keys [:<leader>to]
         : after}}

@@ -5,6 +5,5 @@
     (jj.setup opt)))
 
 {:src "https://github.com/yannvanhalewyn/jujutsu.nvim"
- :data {:dependencies [#_:https://github.com/sindrets/diffview.nvim]
-        :cmd [:JJ]
+ :data {:cmd [:JJ]
         : after}}

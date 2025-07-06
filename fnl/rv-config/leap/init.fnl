@@ -32,8 +32,9 @@
     (vim.tbl_extend :force leap.opts opt)))
     ;; (tset leap :opts opt)))
 
-[{:src "https://github.com/ggandor/leap.nvim"
-  :data {:dependencies [:tpope/vim-repeat]
-         : after
+[{:src "https://github.com/tpope/vim-repeat"
+  :data {:dep_of [:leap.nvim]}}
+ {:src "https://github.com/ggandor/leap.nvim"
+  :data {: after
          :enabled false}}
  (require (.. ... :.ast))]

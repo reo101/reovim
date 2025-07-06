@@ -11,6 +11,4 @@
 
 {:src "https://github.com/A7Lavinraj/fyler.nvim"
  :version "v2.0.0"
- :data {:dependencies [:nvim-mini/mini.icons
-                       #_:nvim-tree/nvim-web-devicons]
-        : after}}
+ :data {: after}}

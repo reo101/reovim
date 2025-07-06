@@ -228,6 +228,10 @@
       "rev": "68ad9a01b7da30213441016667ad3f946d080fe8",
       "src": "https://github.com/Julian/lean.nvim"
     },
+    "luarocks.nvim": {
+      "rev": "1db9093915eb16ba2473cfb8d343ace5ee04130a",
+      "src": "https://github.com/vhyrro/luarocks.nvim"
+    },
     "luv-vimdocs": {
       "rev": "997b9338fd3ac91a53bbdc19110c127e3bea01c4",
       "src": "https://github.com/nanotee/luv-vimdocs"

@@ -87,6 +87,5 @@
         {:prefix :<leader>})))
 
 {:src "https://github.com/TimUntersberger/neogit"
- :data {:dependencies [:nvim-lua/plenary.nvim]
-        :keys [:<leader>gs]
+ :data {:keys [:<leader>gs]
         : after}}

@@ -4,7 +4,5 @@
     nil))
 
 {:src "https://github.com/rafikdraoui/jj-diffconflicts"
- :data {:dependencies [:nvim-tree/nvim-web-devicons
-                       :MunifTanjim/nui.nvim]
-        :cmd [:JJDiffConflicts]
+ :data {:cmd [:JJDiffConflicts]
         : after}}

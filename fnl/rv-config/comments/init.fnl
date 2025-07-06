@@ -29,5 +29,6 @@
              _ (get-option filetype option))))))
 
 {:src "https://github.com/JoosepAlviste/nvim-ts-context-commentstring"
- :data {:event :DeferredUIEnter
+ :data {:dep_of [:nvim-treesitter]
+        :event :DeferredUIEnter
         : after}}

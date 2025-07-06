@@ -29,7 +29,5 @@
                   {:prefix :<leader>}))})))
 
 {:src "https://github.com/ShinKage/idris2-nvim"
- :data {:dependencies [:neovim/nvim-lspconfig
-                       :MunifTanjim/nui.nvim]
-        :ft [:idris]
+ :data {:ft [:idris]
         : after}}

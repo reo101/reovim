@@ -18,4 +18,5 @@
     (set vim.notify notify)))
 
 {:src "https://github.com/rcarriga/nvim-notify"
- :data {: after}}
+ :data {:dep_of [:noice.nvim]
+        : after}}

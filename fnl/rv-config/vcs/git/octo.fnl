@@ -221,10 +221,6 @@
         {:prefix :<localleader>})))
 
 {:src "https://github.com/pwntester/octo.nvim"
- :data {:dependencies [:nvim-lua/plenary.nvim
-                       :nvim-telescope/telescope.nvim
-                       ;; OR :ibhagwan/fzf-lua
-                       :nvim-tree/nvim-web-devicons]
-        : after
+ :data {: after
         :cmd [:Octo]
         :enabled (= (vim.fn.executable :gh) 1)}}

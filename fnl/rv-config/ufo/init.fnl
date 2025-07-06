@@ -73,10 +73,11 @@
                    (vim.lsp.buf.hover)))
               "Peek folded lines"]})))
 
-{:src "https://github.com/kevinhwang91/nvim-ufo"
- :version :v1.4.0
- :data {:dependencies [:kevinhwang91/promise-async]
-        :event :DeferredUIEnter
-        : before
-        : after
-        :enabled false}}
+[{:src "https://github.com/kevinhwang91/promise-async"
+  :data {:dep_of [:nvim-ufo]}}
+ {:src "https://github.com/kevinhwang91/nvim-ufo"
+  :version :v1.4.0
+  :data {:event :DeferredUIEnter
+         : before
+         : after
+         :enabled false}}]

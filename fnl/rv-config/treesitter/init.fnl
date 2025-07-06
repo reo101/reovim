@@ -370,17 +370,15 @@
     (dk [:n :o] motion-mappings)))
 
 [#_{:src "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
-    :data {:dependencies [:nvim-treesitter/nvim-treesitter]}}
+    :data {}}
  #_{:src "https://github.com/RRethy/nvim-treesitter-textsubjects"
-    :data {:dependencies [:nvim-treesitter/nvim-treesitter]}}
+    :data {}}
+ {:src "https://github.com/mfussenegger/nvim-ts-hint-textobject"
+  :data {:dep_of [:nvim-treesitter]}}
+ {:src "https://github.com/OXY2DEV/tree-sitter-comment"
+  :data {:dep_of [:nvim-treesitter]}}
  {:src "https://github.com/nvim-treesitter/nvim-treesitter"
-  :data {:dependencies [:mfussenegger/nvim-ts-hint-textobject
-                        ;; :nvim-treesitter/playground
-                        ;; :romgrk/nvim-treesitter-context
-                        :JoosepAlviste/nvim-ts-context-commentstring
-                        :OXY2DEV/tree-sitter-comment]
-                        ;; :windwp/nvim-ts-autotag]
-         :event :DeferredUIEnter
+  :data {:event :DeferredUIEnter
          : after}}
  (require (.. ... :.rainbow))
  (require (.. ... :.context))]

@@ -56,8 +56,6 @@
         {:prefix :<leader>})))
 
 {:src "https://github.com/OXY2DEV/markview.nvim"
- :data {:dependencies ["nvim-treesitter/nvim-treesitter"
-                       "nvim-tree/nvim-web-devicons"]
-        :version :25
-        :ft [:markdown]
+ :version :25
+ :data {:ft [:markdown]
         : after}}

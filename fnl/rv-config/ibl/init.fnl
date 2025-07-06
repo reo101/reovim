@@ -39,6 +39,5 @@
 
 {:src "https://github.com/lukas-reineke/indent-blankline.nvim"
  :version :v3.9.0
- :data {:dependencies [:HiPhish/rainbow-delimiters.nvim]
-        :event :BufRead
+ :data {:event :BufRead
         : after}}

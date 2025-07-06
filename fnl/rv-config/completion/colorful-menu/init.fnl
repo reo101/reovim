@@ -11,4 +11,5 @@
         {:prefix :<leader>})))
 
 {:src "https://github.com/xzbdmw/colorful-menu.nvim"
- :data {:opts {}}}
+ :data {:dep_of [:blink.cmp]
+        :opts {}}}

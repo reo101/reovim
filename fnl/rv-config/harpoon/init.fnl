@@ -18,7 +18,5 @@
 
 {:src "https://github.com/ThePrimeagen/harpoon"
  :version :harpoon2
- :data {:dependencies [:nvim-lua/plenary.nvim
-                       :L3MON4D3/LuaSnip]
-        ;; :keys [{:src :<leader>h :desc :Harpoon}]
+ :data {;; :keys [{:src :<leader>h :desc :Harpoon}]
         : after}}

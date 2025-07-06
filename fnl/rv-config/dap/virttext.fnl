@@ -29,6 +29,5 @@
     (nvim-dap-virtual-text.setup opt)))
 
 {:src "https://github.com/theHamsta/nvim-dap-virtual-text"
- :data {:dependencies [:mfussenegger/nvim-dap]
-        :keys [:<leader>d]
+ :data {:keys [:<leader>d]
         : after}}

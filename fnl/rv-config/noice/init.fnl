@@ -20,7 +20,5 @@
     ((. (require :noice) :setup) opt)))
 
 {:src "https://github.com/folke/noice.nvim"
- :data {:dependencies [:MunifTanjim/nui.nvim
-                       :rcarriga/nvim-notify]
-        :enabled false
+ :data {:enabled false
         : after}}

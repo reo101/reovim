@@ -139,8 +139,5 @@
 
 {:src "https://github.com/nvim-neo-tree/neo-tree.nvim"
  :version :3.17
- :data {:dependencies [:nvim-lua/plenary.nvim
-                       :nvim-tree/nvim-web-devicons
-                       :MunifTanjim/nui.nvim]
-        :keys [:<leader>tn]
+ :data {:keys [:<leader>tn]
         : after}}

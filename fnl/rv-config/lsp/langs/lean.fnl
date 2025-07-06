@@ -19,9 +19,7 @@
         ((. (require :lean) :setup) opt)))
 
 {:src "https://github.com/Julian/lean.nvim"
- :data {:dependencies [:neovim/nvim-lspconfig
-                       :nvim-lua/plenary.nvim]
-        ;; :ft ["lean"]
+ :data {;; :ft ["lean"]
         :event ["BufReadPre *.lean"
                 "BufNewFile *.lean"]
         : after}}

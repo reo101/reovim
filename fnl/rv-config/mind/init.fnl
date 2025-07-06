@@ -13,7 +13,5 @@
 
 {:src "https://github.com/Selyss/mind.nvim"
  :version :v2.2
- :data {:dependencies [:nvim-lua/plenary.nvim
-                       :nvim-tree/nvim-web-devicons]
-        ;; :keys [{:src :<leader>m :desc :Mind}]
+ :data {;; :keys [{:src :<leader>m :desc :Mind}]
         : after}}

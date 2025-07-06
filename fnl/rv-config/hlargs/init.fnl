@@ -24,6 +24,5 @@
         {:prefix :<leader>})))
 
 {:src "https://github.com/m-demare/hlargs.nvim"
- :data {:dependencies [:nvim-treesitter/nvim-treesitter]
-        :event :BufRead
+ :data {:event :BufRead
         : after}}

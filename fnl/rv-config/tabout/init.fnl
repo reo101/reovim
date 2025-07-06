@@ -33,6 +33,5 @@
     (tabout.setup opt)))
 
 {:src "https://github.com/abecodes/tabout.nvim"
- :data {:dependencies [:nvim-treesitter/nvim-treesitter]
-        :event :InsertEnter
+ :data {:event :InsertEnter
         : after}}

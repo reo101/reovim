@@ -92,8 +92,7 @@
 
 {:src "https://github.com/lewis6991/gitsigns.nvim"
  :version :v2.0.0
- :data {:dependencies [:nvim-lua/plenary.nvim]
-        :event :BufRead
+ :data {:event :BufRead
         : after
         ;; FIXME: slows down markdown for some reason
         :enabled true}}

@@ -27,6 +27,5 @@
 
 {:src "https://github.com/folke/trouble.nvim"
  :version :v3.1.0
- :data {:dependencies [:nvim-tree/nvim-web-devicons]
-        :keys [:<leader>tr]
+ :data {:keys [:<leader>tr]
         : after}}

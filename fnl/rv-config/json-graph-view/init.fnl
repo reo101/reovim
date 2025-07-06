@@ -46,6 +46,7 @@
         {}
         {:prefix :<leader>})))
 
-{:src "https://github.com/Owen-Dechow/videre.nvim"
- :data {:dependencies [:Owen-Dechow/graph_view_yaml_parser]
-        : after}}
+[{:src "https://github.com/Owen-Dechow/graph_view_yaml_parser"
+  :data {:dep_of [:videre.nvim]}}
+ {:src "https://github.com/Owen-Dechow/videre.nvim"
+  :data {: after}}]

@@ -37,10 +37,10 @@
         (. $ :register_many)
         ($ opt.providers))
 
-
     (dk :n
         {}
         {:prefix :<leader>})))
 
 {:src "https://github.com/philosofonusus/ecolog.nvim"
- :data {: after}}
+ :data {:dep_of [:blink.cmp]
+        : after}}

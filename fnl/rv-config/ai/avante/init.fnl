@@ -28,41 +28,4 @@
  :data {: after
         :enabled false
         :build :make
-        :event :DeferredUIEnter
-        ;;-@module "avante"
-        ;;-@type avante.Config
-        :dependencies
-         [:nvim-lua/plenary.nvim
-          :MunifTanjim/nui.nvim
-          ;;; The below dependencies are optional
-          ;;; for file_selector provider mini.pick
-          ;; :echasnovski/mini.pick
-          ;;; for file_selector provider telescope
-          :nvim-telescope/telescope.nvim
-          ;;; autocompletion for avante commands and mentions
-          ;; :hrsh7th/nvim-cmp
-          ;;; for file_selector provider fzf
-          ;; :ibhagwan/fzf-lua
-          ;;; for input provider dressing
-          :stevearc/dressing.nvim
-          ;;; for input provider snacks
-          ;; :folke/snacks.nvim
-          ;;; or echasnovski/mini.icons
-          :nvim-tree/nvim-web-devicons
-          ;;; for providers="copilot"
-          :zbirenbaum/copilot.lua]}}
-          ;; support for image pasting
-          ;; {:src "HakonHarnes/img-clip.nvim"
-          ;;   :data {:event "VeryLazy"
-          ;;          :opts
-          ;;           {;; recommended settings
-          ;;            :default
-          ;;             {:embed_image_as_base64 false
-          ;;              :prompt_for_file_name false
-          ;;              :drag_and_drop {:insert_mode true}
-          ;;              ;; required for Windows users
-          ;;              :use_absolute_path = true}}}}
-          ;; ;; Make sure to set this up properly if you have lazy=true
-          ;; {:src "MeanderingProgrammer/render-markdown.nvim"
-          ;;  :data {:opts {:file_types ["markdown" "Avante"]}
-          ;;         :ft ["markdown" "Avante"]}}]}}
+        :event :DeferredUIEnter}}

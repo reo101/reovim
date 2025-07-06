@@ -51,6 +51,5 @@
         {:prefix :<leader>})))
 
 {:src "https://github.com/rcarriga/nvim-dap-ui"
- :data {:dependencies [:mfussenegger/nvim-dap]
-        :keys [:<leader>dt]
+ :data {:keys [:<leader>dt]
         : after}}

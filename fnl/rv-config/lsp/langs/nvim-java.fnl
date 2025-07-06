@@ -38,14 +38,15 @@
                  :v [java.test.view_last_report     "View Last Report"]}}}
         {:prefix :<leader>})))
 
-{:src "https://github.com/nvim-java/nvim-java"
- :data {:dependencies [:nvim-java/lua-async-await
-                       :nvim-java/nvim-java-core
-                       :nvim-java/nvim-java-test
-                       :nvim-java/nvim-java-dap
-                       :MunifTanjim/nui.nvim
-                       :neovim/nvim-lspconfig
-                       :mfussenegger/nvim-dap]
-        :ft     ["java"]
-        : after
-        :enabled false}}
+[{:src "https://github.com/nvim-java/lua-async-await"
+  :data {:dep_of [:nvim-java]}}
+ {:src "https://github.com/nvim-java/nvim-java-core"
+  :data {:dep_of [:nvim-java]}}
+ {:src "https://github.com/nvim-java/nvim-java-test"
+  :data {:dep_of [:nvim-java]}}
+ {:src "https://github.com/nvim-java/nvim-java-dap"
+  :data {:dep_of [:nvim-java]}}
+ {:src "https://github.com/nvim-java/nvim-java"
+  :data {:ft     ["java"]
+         : after
+         :enabled false}}]

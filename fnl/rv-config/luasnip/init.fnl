@@ -44,8 +44,7 @@
         {:prefix :<leader>})))
 
 [{:src "https://github.com/L3MON4D3/LuaSnip"
-  :data {:dependencies [:nvim-treesitter/nvim-treesitter]
-         ;; :tag :v2.2.0
+  :data {;; :tag :v2.2.0
          :event :InsertEnter
          :on_require [:luasnip]
          : after}}

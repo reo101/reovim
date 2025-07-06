@@ -233,12 +233,10 @@
         {:callback #(utils.on_colorscheme setup-colors)
          : group}))))
 
-{:src "https://github.com/rebelot/heirline.nvim"
- :data {:dependencies [:SmiteshP/nvim-navic
-                       :nvim-tree/nvim-web-devicons
-                       :lewis6991/gitsigns.nvim
-                       :L3MON4D3/LuaSnip
-                       :mfussenegger/nvim-dap
-                       :Zeioth/heirline-components.nvim]
-        :event :DeferredUIEnter
-        : after}}
+[{:src "https://github.com/SmiteshP/nvim-navic"
+  :data {:dep_of [:heirline.nvim]}}
+ {:src "https://github.com/Zeioth/heirline-components.nvim"
+  :data {:dep_of [:heirline.nvim]}}
+ {:src "https://github.com/rebelot/heirline.nvim"
+  :data {:event :DeferredUIEnter
+         : after}}]

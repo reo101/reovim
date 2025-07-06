@@ -24,5 +24,6 @@
 
 
 {:src "https://github.com/HiPhish/rainbow-delimiters.nvim"
- :data {:event :BufRead
+ :data {:dep_of [:indent-blankline.nvim]
+        :event :BufRead
         : after}}

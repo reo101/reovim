@@ -6,7 +6,6 @@
         {:prefix :<leader>})))
 
 {:src "https://github.com/ggandor/leap-ast.nvim"
- :data {:dependencies [:ggandor/leap.nvim]
-        :keys [:<leader>ha]
+ :data {:keys [:<leader>ha]
         : after
         :enabled false}}

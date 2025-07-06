@@ -43,7 +43,5 @@
 
 {:src "https://github.com/lukas-reineke/headlines.nvim"
  :version :v4.0.0
- :data {:dependencies [;; :nvim-orgmode/orgmode
-                       :nvim-treesitter/nvim-treesitter]
-        :ft [:norg]
+ :data {:ft [:norg]
         : after}}

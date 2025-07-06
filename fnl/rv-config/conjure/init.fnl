@@ -199,11 +199,10 @@
                (cmp.setup config))}}
  {:src "https://github.com/m00qek/baleia.nvim"
   :version :v1.4.0
-  :data {:config true}}
+  :data {:dep_of [:conjure]
+         :config true}}
  {:src "https://github.com/Olical/conjure"
-  :data {:dependencies [#_:PaterJason/cmp-conjure
-                        :m00qek/baleia.nvim]
-         :ft [:clojure
+  :data {:ft [:clojure
               :fennel
               :racket
               :rust

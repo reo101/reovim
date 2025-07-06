@@ -84,25 +84,24 @@
         {}
         {:prefix :<leader>})))
 
-[{:src "https://github.com/saghen/blink.compat"
+[{:src "https://github.com/dmitmel/cmp-digraphs"
+  :data {:dep_of [:blink.cmp]}}
+ {:src "https://github.com/hrsh7th/cmp-calc"
+  :data {:dep_of [:blink.cmp]}}
+ {:src "https://github.com/andersevenrud/cmp-tmux"
+  :data {:dep_of [:blink.cmp]}}
+ {:src "https://github.com/kdheepak/cmp-latex-symbols"
+  :data {:dep_of [:blink.cmp]}}
+ {:src "https://github.com/ryo33/nvim-cmp-rust"
+  :data {:dep_of [:blink.cmp]}}
+ {:src "https://github.com/Kaiser-Yang/blink-cmp-avante"
+  :data {:dep_of [:blink.cmp]}}
+ {:src "https://github.com/saghen/blink.compat"
   :version :v2.5.0
   :data {:on_require [:cmp :blink.compat]}}
  {:src "https://github.com/saghen/blink.cmp"
   :version :v1.6.0
-  :data {:dependencies [:dmitmel/cmp-digraphs
-                        :hrsh7th/cmp-calc
-                        ;; :f3fora/cmp-spell
-                        :andersevenrud/cmp-tmux
-                        ;; :hrsh7th/cmp-cmdline
-                        ;; :hrsh7th/cmp-omni
-                        :kdheepak/cmp-latex-symbols
-                        :ryo33/nvim-cmp-rust
-                        :philosofonusus/ecolog.nvim
-                        :L3MON4D3/LuaSnip
-                        ;; NOTE: configured in ../colorful-menu
-                        :xzbdmw/colorful-menu.nvim
-                        :philosofonusus/ecolog.nvim]
-         :event [:InsertEnter
+  :data {:event [:InsertEnter
                  :CmdlineEnter]
          :on_require [:blink]
          : after}}]

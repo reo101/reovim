@@ -92,13 +92,12 @@
     (neorg.setup opt)))
 
 [{:src "https://github.com/nvim-neorg/neorg-telescope"
-  :data {:dependencies [:nvim-telescope/telescope.nvim]}
-        :event :DeferredUIEnter}
+  :data {:dep_of [:neorg]
+         :event :DeferredUIEnter}}
  {:src "https://github.com/pocco81/true-zen.nvim"
-  :data {:lazy true}}
+  :data {:lazy true
+         :dep_of [:neorg]}}
  {:src "https://github.com/nvim-neorg/neorg"
   :version :v9.1.1
-  :data {:dependencies [:nvim-neorg/neorg-telescope
-                        :pocco81/true-zen.nvim]
-         :ft [:norg]
+  :data {:ft [:norg]
          : after}}]

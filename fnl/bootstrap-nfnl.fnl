@@ -24,7 +24,7 @@
 
 ;;; `:Fnl` command
 
-(fn create-fnl-command [fennel]
+(fn create-fnl-command []
   "Create `:Fnl` user command for evaluating Fennel"
   (let [fennel (require :fennel)]
     (vim.api.nvim_create_user_command
@@ -110,10 +110,7 @@
                   (local (ok result) (pcall nfnl-api.compile-file {: path : dir}))
                   (when (not ok)
                     (vim.notify (.. "nfnl: Compilation error: " (tostring result))
-                                vim.log.levels.ERROR)
-                    (lua "return nil"))
-
-                  (vim.notify (.. "Compiled: " result) vim.log.levels.INFO))}))
+                                vim.log.levels.ERROR)))}))
 
 ;;; Main
 

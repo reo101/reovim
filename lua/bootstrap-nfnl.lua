@@ -15,13 +15,13 @@ local function setup_paths()
   package.path = (lua_path_pattern .. package.path:gsub(vim.pesc(lua_path_pattern), ""))
   return nil
 end
-local function create_fnl_command(fennel)
-  local fennel0 = require("fennel")
+local function create_fnl_command()
+  local fennel = require("fennel")
   local function _3_(opts)
     local code = opts.args
-    local ok, result = pcall(fennel0.eval, code, {env = "_COMPILER"})
+    local ok, result = pcall(fennel.eval, code, {env = "_COMPILER"})
     if ok then
-      return vim.print(fennel0.view(result))
+      return vim.print(fennel.view(result))
     else
       return vim.notify(tostring(result), vim.log.levels.ERROR)
     end
@@ -32,7 +32,7 @@ local function trust_nfnl_config()
   local nfnl_config_path = (nvim_config .. "/.nfnl.fnl")
   if (1 == vim.fn.filereadable(nfnl_config_path)) then
     local bufnr = vim.fn.bufadd(nfnl_config_path)
-    vim.bo[bufnr].swapfile = false
+    vim.bo[bufnr]["swapfile"] = false
     vim.fn.bufload(bufnr)
     return pcall(vim.secure.trust, {bufnr = bufnr, action = "allow"})
   else
@@ -93,11 +93,10 @@ local function setup_fnl_autocommand()
     end
     local ok0, result = pcall(nfnl_api["compile-file"], {path = path, dir = dir})
     if not ok0 then
-      vim.notify(("nfnl: Compilation error: " .. tostring(result)), vim.log.levels.ERROR)
-      return nil
+      return vim.notify(("nfnl: Compilation error: " .. tostring(result)), vim.log.levels.ERROR)
     else
+      return nil
     end
-    return vim.notify(("Compiled: " .. result), vim.log.levels.INFO)
   end
   return vim.api.nvim_create_autocmd("BufWritePost", {group = "nfnl_compile", pattern = "*.fnl", callback = _10_})
 end

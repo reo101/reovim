@@ -94,9 +94,10 @@
          :source (agda-source.new)
          :group_index 1}}})))
 
-{:src "https://github.com/isovector/cornelis"
- :data {:dependencies [:neovimhaskell/nvim-hs.vim
-                       :kana/vim-textobj-user
-                       :junegunn/vim-easy-align]
-        :ft [:agda]
-        : after}}
+[{:src "https://github.com/kana/vim-textobj-user"
+  :data {:dep_of [:cornelis]}}
+ {:src "https://github.com/neovimhaskell/nvim-hs.vim"
+  :data {:dep_of [:cornelis]}}
+ {:src "https://github.com/isovector/cornelis"
+  :data {:ft [:agda]
+         : after}}]

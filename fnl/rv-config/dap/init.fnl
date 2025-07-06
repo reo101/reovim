@@ -32,8 +32,9 @@
     (dap-utils.dap-set-repl)))
 
 [{:src "https://github.com/mfussenegger/nvim-dap"
-  :keys [:<leader>d]
-  : after}
+  :data {:dep_of [:nvim-dap-ui :nvim-dap-virtual-text]
+         :keys [:<leader>d]
+         : after}}
  ;; TODO: add those as pseudo-dependencies
  (require (.. ... :.virttext))
  (require (.. ... :.dapui))]

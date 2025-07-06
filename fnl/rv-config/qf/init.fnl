@@ -1,7 +1,7 @@
 ;; TODO: tidy up
 
 (let [dk (require :def-keymaps)]
-  #_#_
+  #_#_#_
   (fn check [want]
     #(each [_ info (ipairs (vim.fn.getwininfo))]
        (vim.cmd
@@ -25,7 +25,8 @@
             :l [vim.cmd.lnext "Location List"]}
        "[" {:group :Previous
             :q [vim.cmd.cprev "Quickfix List"]
-            :l [vim.cmd.lprev "Location List"]}}))
+            :l [vim.cmd.lprev "Location List"]}})
+  nil)
 
 [(require (.. ... :.bqf))
  #_(require (.. ... :.pqf))

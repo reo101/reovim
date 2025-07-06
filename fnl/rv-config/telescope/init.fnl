@@ -129,9 +129,7 @@
         {:prefix :<leader>})))
 
 [{:src "https://github.com/nvim-telescope/telescope.nvim"
-  :data {:dependencies [:nvim-lua/popup.nvim
-                        :nvim-lua/plenary.nvim]
-         :keys [:<leader>f]
+  :data {:keys [:<leader>f]
          :cmd [:Telescope]
          : after}}
  (let [telescope-plugins

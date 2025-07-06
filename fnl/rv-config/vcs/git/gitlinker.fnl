@@ -29,6 +29,5 @@
           {:prefix :<leader>}))))
 
 {:src "https://github.com/ruifm/gitlinker.nvim"
- :data {:dependencies [:nvim-lua/plenary.nvim]
-        :keys [:<leader>gb]
+ :data {:keys [:<leader>gb]
         : after}}

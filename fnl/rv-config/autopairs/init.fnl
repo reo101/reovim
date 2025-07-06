@@ -145,7 +145,6 @@
 
 {:src "https://github.com/altermo/ultimate-autopair.nvim"
  :version :v0.6
- :data {:dependencies [:nvim-treesitter/nvim-treesitter]
-        :event  [:InsertEnter
+ :data {:event  [:InsertEnter
                  :CmdlineEnter]
         : after}}

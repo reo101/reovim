@@ -48,16 +48,19 @@
          "[n" [#(neotest.jump.next {:status :failed}) "Next failing test"]}
         {})))
 
-{:src "https://github.com/nvim-neotest/neotest"
- ;; TODO: <https://github.com/nvim-neotest/neotest/issues/441>
- :version :v5.13.4
- :data {:dependencies [:nvim-neotest/nvim-nio
-                       :nvim-lua/plenary.nvim
-                       :mrcjkb/neotest-haskell
-                       :lawrence-laz/neotest-zig
-                       :llllvvuu/neotest-foundry
-                       :mrcjkb/rustaceanvim
-                       ;; :rouge8/neotest-rust
-                       :HiPhish/neotest-busted]
-        :keys [:<leader>ln]
-        : after}}
+[{:src "https://github.com/nvim-neotest/nvim-nio"
+  :version :v1.8.0
+  :data {:dep_of [:neotest]}}
+ {:src "https://github.com/mrcjkb/neotest-haskell"
+  :data {:dep_of [:neotest]}}
+ {:src "https://github.com/lawrence-laz/neotest-zig"
+  :data {:dep_of [:neotest]}}
+ {:src "https://github.com/llllvvuu/neotest-foundry"
+  :data {:dep_of [:neotest]}}
+ {:src "https://github.com/HiPhish/neotest-busted"
+  :data {:dep_of [:neotest]}}
+ {:src "https://github.com/nvim-neotest/neotest"
+  ;; TODO: <https://github.com/nvim-neotest/neotest/issues/441>
+  :version :v5.13.4
+  :data {:keys [:<leader>ln]
+         : after}}]

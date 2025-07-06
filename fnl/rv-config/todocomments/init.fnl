@@ -91,7 +91,5 @@
     (todo-comments.setup opt)))
 
 {:src "https://github.com/folke/todo-comments.nvim"
- :data {:dependencies [:nvim-lua/plenary.nvim
-                       :anuvyklack/nvim-keymap-amend]
-        :event [:BufRead]
+ :data {:event [:BufRead]
         : after}}

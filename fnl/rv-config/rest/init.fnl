@@ -36,7 +36,6 @@
         {:prefix :<leader>})))
 
 {:src "https://github.com/rest-nvim/rest.nvim"
- :data {:dependencies [:nvim-lua/plenary.nvim]
-        :ft [:http]
+ :data {:ft [:http]
         : after
         :enabled false}}
