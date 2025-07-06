@@ -116,8 +116,9 @@
 
 (fn lsp-override-handlers []
   (let [border :single]
-    (tset vim.lsp.handlers :textDocument/hover
-          (vim.lsp.with vim.lsp.handlers.hover {: border}))
+    ;; NOTE: now done in `../../settings.fnl` with the `winborder` option
+    ;; (tset vim.lsp.handlers :textDocument/hover
+    ;;       (vim.lsp.with vim.lsp.handlers.hover {: border}))
     (tset vim.lsp.handlers :textDocument/signatureHelp
           (vim.lsp.with vim.lsp.handlers.signature_help {: border}))
     (tset vim.lsp.handlers :textDocument/publishDiagnostics

@@ -210,6 +210,9 @@
 ;;; Winblend for floating windows
 (tset vim.opt :winblend 20)
 
+;;; Global border for all floating windows
+(tset vim.opt :winborder :rounded)
+
 ;;; Display lines as one long line
 (tset vim.opt :wrap true)
 
