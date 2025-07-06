@@ -172,11 +172,6 @@
         {:init (fn [self]
                  (local dk (require :def-keymaps))
                  (dk :n
-                     {:b {:group :Buffer
-                          :s ["<Cmd>:w<CR>" :Save]
-                          :e ["<Cmd>:e<CR>" :Edit]}}
-                     {:prefix :<leader>})
-                 (dk :n
                      {:<A-Left>  #(vim.cmd ":bprev")
                       :<A-Right> #(vim.cmd ":bnext")}))}
         [TabLineOffset

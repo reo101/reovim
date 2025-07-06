@@ -265,3 +265,8 @@
     (tset vim.g (.. "loaded_" plugin) 1))
   (each [_ provider (ipairs disabled-providers)]
     (tset vim.g (.. "loaded_" provider) 0)))
+(dk :n
+    {:b {:group :Buffer
+         :s ["<Cmd>:w<CR>" :Save]
+         :e ["<Cmd>:e<CR>" :Edit]}}
+    {:prefix :<leader>})
