@@ -155,18 +155,16 @@
       :BufWinEnter
       {:pattern :conjure-log-*
        : group
-       :callback (fn [{:buf bufnr}]
+       :callback (fn [{:buf bufnr}])}))
                    ;; NOTE: `conjure` hardcodes its `comment-prefix`
                    ;;       this leads to mismatches (with lisps), so
                    ;;       we also hardcode `;` as a valid prefix
-                   (let [;; commentstring (. vim.bo bufnr :commentstring)
-                         ;; message (string.format commentstring "Sponsored by @.*")
-                         ;; message (string.format "\\(;\\|%s\\)" message)
-                         ;; message (message:gsub "/" "\\/")
-                         message "Sponsored by @.*"
-                         command (string.format "silent g/%s/d _" message)]
-                     (vim.schedule
-                       #(vim.cmd command))))}))
+                   ;; (let [commentstring (. vim.bo bufnr :commentstring)
+                   ;;       ;; message (string.format "\\(;\\|%s\\)" message)
+                   ;;       message (message:gsub "/" "\\/")
+                   ;;       command (string.format "silent g/%s/d _" message)}]
+                   ;;   (vim.schedule
+                   ;;     #(vim.cmd command)))}))
 
   ;; Clojure
   (set-conjure-settings
