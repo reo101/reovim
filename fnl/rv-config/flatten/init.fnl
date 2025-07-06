@@ -23,7 +23,7 @@
                      (set saved-terminal (term.get term-id)))
                 :post_open
                   (fn [{: bufnr : winnr : ft :is_blocking is-blocking}]
-                    (vim.print {: is-blocking : saved-terminal})
+                    #_(vim.print {: is-blocking : saved-terminal})
                     (if (and is-blocking saved-terminal)
                         (saved-terminal:close)
                         (vim.api.nvim_set_current_win winnr))
@@ -52,6 +52,6 @@
         {:prefix :<leader>})))
 
 {:src "https://github.com/willothy/flatten.nvim"
- :data {;; :version :1.0.0
-        :priotity 1001
+ ;; :version :v0.5.1
+ :data {:priotity 1001
         : after}}
