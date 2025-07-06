@@ -7,9 +7,9 @@
                  {:build_tools [:stack :cabal]
                   :frameworks [:hspec :tasty :sydtest]})
                 (require :neotest-busted)
-                ;; (require :rustaceanvim.neotest)
-                ((require :neotest-rust)
-                 {})
+                (require :rustaceanvim.neotest)
+                ;; ((require :neotest-rust)
+                ;;  {})
                 ((require :neotest-zig)
                  {})
                 ((require :neotest-foundry)
@@ -49,14 +49,15 @@
         {})))
 
 {:src "https://github.com/nvim-neotest/neotest"
- :version :v5.0.1
+ ;; TODO: <https://github.com/nvim-neotest/neotest/issues/441>
+ :version :v5.9.1
  :data {:dependencies [:nvim-neotest/nvim-nio
                        :nvim-lua/plenary.nvim
                        :mrcjkb/neotest-haskell
                        :lawrence-laz/neotest-zig
                        :llllvvuu/neotest-foundry
-                       ;; :mrcjkb/rustaceanvim
-                       :rouge8/neotest-rust
+                       :mrcjkb/rustaceanvim
+                       ;; :rouge8/neotest-rust
                        :HiPhish/neotest-busted]
         :keys [:<leader>ln]
         : after}}
