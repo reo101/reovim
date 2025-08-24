@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [fidget (require :fidget)
         opt {
              ;; Options related to LSP progress subsystem
@@ -117,7 +117,7 @@
 
     (fidget.setup opt)))
 
-{1 :j-hui/fidget.nvim
- :tag :v1.1.0
- :event :BufRead
- : config}
+{:src "https://github.com/j-hui/fidget.nvim"
+ :version :v1.1.0
+ :data {:event :BufRead
+        : after}}

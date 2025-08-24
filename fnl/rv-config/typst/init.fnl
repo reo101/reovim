@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [typst-preview (require :typst-preview)
         dk (require :def-keymaps)
         opt {;; Setting this true will enable printing debug information with print()
@@ -27,11 +27,11 @@
                               path-of-buffer)}]
     (typst-preview.setup opt)))
 
-[{1 :SeniorMars/typst.nvim
-  :ft ["typst"]}
- {1 :chomosuke/typst-preview.nvim
-  :dependencies [:niuiic/core.nvim]
+[{:src "https://github.com/SeniorMars/typst.nvim"
+  :data {:ft ["typst"]}}
+ {:src "https://github.com/chomosuke/typst-preview.nvim"
   :version :v0.3.*
-  :ft ["typst"]
-  :build #(-> (require :typst-preview) (. :update) (#($)))
-  : config}]
+  :data {:dependencies [:niuiic/core.nvim]
+         :ft ["typst"]
+         :build #(-> (require :typst-preview) (. :update) (#($)))
+         : after}}]

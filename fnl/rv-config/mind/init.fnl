@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk  (require :def-keymaps)
         mind (require :mind)
         opt nil]
@@ -11,9 +11,9 @@
         {:prefix :<leader>})
     (mind.setup opt)))
 
-{1             :Selyss/mind.nvim
- :dependencies [:nvim-lua/plenary.nvim
-                :nvim-tree/nvim-web-devicons]
- :branch       :v2.2
- :keys [{1 :<leader>m :desc :Mind}]
- : config}
+{:src "https://github.com/Selyss/mind.nvim"
+ :version :v2.2
+ :data {:dependencies [:nvim-lua/plenary.nvim
+                       :nvim-tree/nvim-web-devicons]
+        ;; :keys [{:src :<leader>m :desc :Mind}]
+        : after}}

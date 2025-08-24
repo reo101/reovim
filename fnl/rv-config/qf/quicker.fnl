@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [quicker (require :quicker)
         dk (require :def-keymaps)
         opt {:keys
@@ -17,6 +17,6 @@
              :q [#(quicker.toggle {:loclist false}) :Quickfix]}}
         {:prefix :<leader>})))
 
-{1 :stevearc/quicker.nvim
- :tag :v1.0.0
- : config}
+{:src "https://github.com/stevearc/quicker.nvim"
+ :version :v1.0.0
+ :data {: after}}

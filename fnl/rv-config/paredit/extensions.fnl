@@ -2,7 +2,7 @@
 (do
   #_ (local [paredit (require :nvim-paredit)]))
 
-(fn config []
+(fn after []
   (let [paredit (require :nvim-paredit)]
     ;; Scheme and Racket
     (each [_ language (ipairs [:scheme :racket])]
@@ -52,5 +52,5 @@
                       :iter_body]
          :whitespace-chars [" " ","]}))))
 
-{: config
+{: after
  : generic-lisp-extension}

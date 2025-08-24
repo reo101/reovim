@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
    (let [dk (require :def-keymaps)
          tiny-inline-diagnostic (require :tiny-inline-diagnostic)
          opt {:preset :modern
@@ -16,7 +16,7 @@
                   "Diagnostics"]}}
          {:prefix :<leader>})))
 
-{1 :rachartier/tiny-inline-diagnostic.nvim
- :event :VeryLazy
- :priority 1000
- : config}
+{:src "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
+ :data {:priority 1000
+        :event :DeferredUIEnter
+        : after}}

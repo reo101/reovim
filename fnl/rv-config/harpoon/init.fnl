@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [harpoon (require :harpoon)
         dk (require :def-keymaps)
         opt {}]
@@ -16,7 +16,9 @@
              :3 [#(-> harpoon (: :list) (: :select 3)) :3]}}
         {:prefix :<leader>})))
 
-{1 :ThePrimeagen/harpoon
- :branch :harpoon2
- :keys [{1 :<leader>h :desc :Harpoon}]
- : config}
+{:src "https://github.com/ThePrimeagen/harpoon"
+ :version :harpoon2
+ :data {:dependencies [:nvim-lua/plenary.nvim
+                       :L3MON4D3/LuaSnip]
+        ;; :keys [{:src :<leader>h :desc :Harpoon}]
+        : after}}

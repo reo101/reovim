@@ -2,7 +2,7 @@
   {: dbg!}
   :init-macros)
 
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)
         opt {:query_linter {:use_virtual_text true
                             :enable true
@@ -313,15 +313,17 @@
             "[m" ["Previous @function.outer start"]})
     (dk [:n :o] motion-mappings)))
 
-[{1 :nvim-treesitter/nvim-treesitter
-  :dependencies [:nvim-treesitter/nvim-treesitter-textobjects
-                 :mfussenegger/nvim-ts-hint-textobject
-                 ;; :nvim-treesitter/playground
-                 ;; :romgrk/nvim-treesitter-context
-                 :JoosepAlviste/nvim-ts-context-commentstring
-                 ;; :windwp/nvim-ts-autotag]
-                 :RRethy/nvim-treesitter-textsubjects]
-  :event :BufRead
-  : config}
+[#_{:src "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
+    :data {:dependencies [:nvim-treesitter/nvim-treesitter]}}
+ #_{:src "https://github.com/RRethy/nvim-treesitter-textsubjects"
+    :data {:dependencies [:nvim-treesitter/nvim-treesitter]}}
+ {:src "https://github.com/nvim-treesitter/nvim-treesitter"
+  :data {:dependencies [:mfussenegger/nvim-ts-hint-textobject
+                        ;; :nvim-treesitter/playground
+                        ;; :romgrk/nvim-treesitter-context
+                        :JoosepAlviste/nvim-ts-context-commentstring]
+                        ;; :windwp/nvim-ts-autotag]
+         :event :BufRead
+         : after}}
  (require (.. ... :.rainbow))
  (require (.. ... :.context))]

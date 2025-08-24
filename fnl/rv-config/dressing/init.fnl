@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dressing (require :dressing)
         opt {:input
                {;; Set to false to disable the vim.ui.input implementation
@@ -150,6 +150,6 @@
                    :get_config nil}}}]
     (dressing.setup opt)))
 
-{1 :stevearc/dressing.nvim
- :event :VeryLazy
- : config}
+{:src "https://github.com/stevearc/dressing.nvim"
+ :data {:event :DeferredUIEnter
+        : after}}

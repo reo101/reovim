@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
    (let [dk (require :def-keymaps)
          lsp-lines (require :lsp_lines)
          opt {}]
@@ -13,6 +13,6 @@
                   "Diagnostics"]}}
          {:prefix :<leader>})))
 
-{1 "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
- :event :BufRead
- : config}
+{:src "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
+ :data {:event :BufRead
+        : after}}

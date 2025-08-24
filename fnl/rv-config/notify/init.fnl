@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [notify (require :notify)
         opt {;; Animation style (see below for details)
              :stages :fade_in_slide_out
@@ -17,5 +17,5 @@
 
     (set vim.notify notify)))
 
-{1 :rcarriga/nvim-notify
- : config}
+{:src "https://github.com/rcarriga/nvim-notify"
+ :data {: after}}

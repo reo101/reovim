@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [{: lsp-on-init
          : lsp-on-attach
          : lsp-capabilities
@@ -57,6 +57,6 @@
                   :IncludePrereleases true}}}]
     ((. (. (require :lspconfig) :omnisharp) :setup) opt)))
 
-[{1 :Hoffs/omnisharp-extended-lsp.nvim
-  : config
+[{:src "https://github.com/Hoffs/omnisharp-extended-lsp.nvim"
+  : after
   :ft [:cs :vb]}]

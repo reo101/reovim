@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [todo-comments (require :todo-comments)
         opt {;; show icons in the signs column
              :signs false
@@ -85,8 +85,8 @@
              :pattern "\\b(KEYWORDS)(\\([^\\)]*\\))?:"}]
     (todo-comments.setup opt)))
 
-{1 :folke/todo-comments.nvim
- :dependencies [:nvim-lua/plenary.nvim
-                :anuvyklack/nvim-keymap-amend]
- :event [:BufRead]
- : config}
+{:src "https://github.com/folke/todo-comments.nvim"
+ :data {:dependencies [:nvim-lua/plenary.nvim
+                       :anuvyklack/nvim-keymap-amend]
+        :event [:BufRead]
+        : after}}

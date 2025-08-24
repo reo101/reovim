@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (var saved-terminal nil)
   (let [flatten (require :flatten)
         dk (require :def-keymaps)
@@ -51,7 +51,7 @@
         {}
         {:prefix :<leader>})))
 
-{1 :willothy/flatten.nvim
- ;; :version :1.0.0
- :priotity 1001
- : config}
+{:src "https://github.com/willothy/flatten.nvim"
+ :data {;; :version :1.0.0
+        :priotity 1001
+        : after}}

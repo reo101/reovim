@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [blink-cmp (require :blink-cmp)
         dk (require :def-keymaps)
         opt {:completion
@@ -16,8 +16,8 @@
                :menu
                 {:draw
                   {:columns
-                    [{1 :kind_icon}
-                     {1 :label :gap 1}]
+                    [{:src :kind_icon}
+                     {:src :label :gap 1}]
                    :components
                     {:label
                       (let [colorful-menu (require :colorful-menu)]
@@ -84,12 +84,12 @@
         {}
         {:prefix :<leader>})))
 
-[{1 :saghen/blink.compat
-  :version "*"
+[{:src "https://github.com/saghen/blink.compat"
+  :version :v2.5.0
   :lazy true
   :opts {}}
- {1 :saghen/blink.cmp
-  :version :0.*
+ {:src "https://github.com/saghen/blink.cmp"
+  :version :v1.6.0
   :dependencies [:dmitmel/cmp-digraphs
                  :hrsh7th/cmp-calc
                  ;; :f3fora/cmp-spell
@@ -99,7 +99,7 @@
                  :kdheepak/cmp-latex-symbols
                  :ryo33/nvim-cmp-rust
                  :philosofonusus/ecolog.nvim
-                 {1 :L3MON4D3/LuaSnip :version :v2.*}
-                 ;; NOTE: configured in ../colorful-menu
+                 :L3MON4D3/LuaSnip
+                 ;; NOTE: afterured in ../colorful-menu
                  :xzbdmw/colorful-menu.nvim]
-  : config}]
+  : after}]

@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
  (let [nvim-surround (require :nvim-surround)
        utils (require :nvim-surround.config)
        opt {:keymaps {:insert          :<C-g>s
@@ -189,5 +189,5 @@
             :move_cursor :begin}]
   (nvim-surround.setup opt)))
 
-{1 :kylechui/nvim-surround
- : config}
+{:src "https://github.com/kylechui/nvim-surround"
+ :data {: after}}

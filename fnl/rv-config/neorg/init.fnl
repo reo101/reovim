@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)
         neorg (require :neorg)
         opt {:lazy_loading true
@@ -11,7 +11,6 @@
                     ;;; Configure keybinds
                     :core.keybinds {:config
                                      {:default_keybinds false}}
-                                      
                     ;;; Enable the calendar module
                     :core.ui.calendar {}
                     ;;; Allows for use of icons
@@ -92,12 +91,14 @@
          :callback #(keymaps)}))
     (neorg.setup opt)))
 
-{1 :nvim-neorg/neorg
- :dependencies [{1 :nvim-neorg/neorg-telescope
-                 :event :VeryLazy
-                 :dependencies [:nvim-telescope/telescope.nvim]}
-                {1 :pocco81/true-zen.nvim
-                 :lazy true}]
- :tag :v9.1.1
- :ft [:norg]
- : config}
+[{:src "https://github.com/nvim-neorg/neorg-telescope"
+  :data {:dependencies [:nvim-telescope/telescope.nvim]}
+        :event :DeferredUIEnter}
+ {:src "https://github.com/pocco81/true-zen.nvim"
+  :data {:lazy true}}
+ {:src "https://github.com/nvim-neorg/neorg"
+  :version :v9.1.1
+  :data {:dependencies [:nvim-neorg/neorg-telescope
+                        :pocco81/true-zen.nvim]
+         :ft [:norg]
+         : after}}]

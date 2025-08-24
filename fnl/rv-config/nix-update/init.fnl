@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)
         nix-update (require :nix-update)
         opt {:extra-prefetchers
@@ -27,6 +27,6 @@
 
     (nix-update.setup opt)))
 
-{1 :reo101/nix-update.nvim
- :ft [:nix]
- : config}
+{:src "https://github.com/reo101/nix-update.nvim"
+ :data {:ft [:nix]
+        : after}}

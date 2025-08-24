@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [eyeliner (require :eyeliner)
         opt {;; show highlights only after keypress
              :highlight_on_key true
@@ -6,6 +6,6 @@
              :dim true}]
     (eyeliner.setup opt)))
 
-{1 :jinh0/eyeliner.nvim
- :event :BufRead
- : config}
+{:src "https://github.com/jinh0/eyeliner.nvim"
+ :data {:event :BufRead
+        : after}}

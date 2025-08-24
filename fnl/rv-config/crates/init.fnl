@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [crates (require :crates)
         dk (require :def-keymaps)
         opt {:smart_insert true ;; try to be smart about inserting versions
@@ -161,7 +161,7 @@
              :U [crates.upgrade_crates "Upgrade crates"]}}
         {:prefix :<leader>})))
 
-{1 :saecki/crates.nvim
- :tag :stable
- :event ["BufRead Cargo.toml"]
- : config}
+{:src "https://github.com/saecki/crates.nvim"
+ :version :stable
+ :data {:event ["BufRead Cargo.toml"]
+        : after}}

@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [da (require :diffview.actions)
         opt {:diff_binaries false
              :enhanced_diff_hl false
@@ -83,6 +83,6 @@
              :use_icons true}]
     ((. (require :diffview) :setup) opt)))
 
-{1 :sindrets/diffview.nvim
- :lazy true
- : config}
+{:src "https://github.com/sindrets/diffview.nvim"
+ :data {:lazy true
+        : after}}

@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [image (require :image)
         opt {:backend :ueberzug
              :integrations
@@ -38,7 +38,7 @@
                v)))
     (image.setup opt)))
 
-{1 :3rd/image.nvim
- :event :VeryLazy
- : config
- :enabled false}
+{:src "https://github.com/3rd/image.nvim"
+ :data {:event :DeferredUIEnter
+        : after
+        :enabled false}}

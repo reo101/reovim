@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [configs     (require :lspconfig.configs)
         server-name :circom-lsp
         {: lsp-on-init
@@ -21,4 +21,4 @@
              :single_file_support true}})
     ((. (require :lspconfig) server-name :setup) opt)))
 
-{: config}
+{: after}

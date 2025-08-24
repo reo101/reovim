@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [winshift (require :winshift)
         winshift-lib (require :winshift.lib)
         dk (require :def-keymaps)
@@ -40,6 +40,6 @@
         {:W [winshift.cmd_winshift :WinShift]}
         {:prefix :<leader>})))
 
-{1 :sindrets/winshift.nvim
- :keys [{1 :<leader>W :desc :WinShift}]
- : config}
+{:src "https://github.com/sindrets/winshift.nvim"
+ :data {;; :keys [{:src :<leader>W :desc :WinShift}]
+        : after}}

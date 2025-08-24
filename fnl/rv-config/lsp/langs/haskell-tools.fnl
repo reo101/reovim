@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)
         {: lsp-on-attach
          : lsp-capabilities} (require :rv-config.lsp.utils)
@@ -15,6 +15,6 @@
              :dap {}}]
     (tset vim.g :haskell_tools opt)))
 
-{1 :MrcJkb/haskell-tools.nvim
- :version :^4
- : config}
+{:src "https://github.com/MrcJkb/haskell-tools.nvim"
+ :data {:version :^4
+        : after}}

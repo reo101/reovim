@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dap
           (require :dap)
         dap-utils
@@ -31,9 +31,9 @@
     (dap-utils.dap-override-icons)
     (dap-utils.dap-set-repl)))
 
-[{1 :mfussenegger/nvim-dap
+[{:src "https://github.com/mfussenegger/nvim-dap"
   :keys [:<leader>d]
-  : config}
+  : after}
  ;; TODO: add those as pseudo-dependencies
  (require (.. ... :.virttext))
  (require (.. ... :.dapui))]

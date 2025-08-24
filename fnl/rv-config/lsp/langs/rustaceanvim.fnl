@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
    (let [{: lsp-on-init
           : lsp-on-attach
           : lsp-capabilities
@@ -20,7 +20,7 @@
               :dap {}}]
      (tset vim.g :rustaceanvim opt)))
 
-{1 :mrcjkb/rustaceanvim
- :tag :4.22.10
- :ft [:rust]
- : config}
+{:src "https://github.com/mrcjkb/rustaceanvim"
+ :version :4.22.10
+ :data {:ft [:rust]
+        : after}}

@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)
         rainbow-delimiters (require :rainbow-delimiters)
         opt {:strategy {""   (. rainbow-delimiters :strategy :global)
@@ -22,6 +22,6 @@
         {:prefix :<leader>})))
 
 
-{1 :HiPhish/rainbow-delimiters.nvim
- :event :BufRead
- : config}
+{:src "https://github.com/HiPhish/rainbow-delimiters.nvim"
+ :data {:event :BufRead
+        : after}}

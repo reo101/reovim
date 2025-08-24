@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [bufdelete (require :bufdelete)
         dk (require :def-keymaps)]
     (dk :n
@@ -7,7 +7,7 @@
              :D [#(bufdelete.bufdelete 0 true) "Force Delete"]}}
         {:prefix :<leader>})))
 
-{1 :famiu/bufdelete.nvim
- :keys [:<leader>bd
-        :<leader>bD]
- : config}
+{:src "https://github.com/famiu/bufdelete.nvim"
+ :data {:keys [:<leader>bd
+               :<leader>bD]
+        : after}}

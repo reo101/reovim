@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [sort (require :sort)
         dk (require :def-keymaps)
         opt {;; List of delimiters, in descending order of priority, to automatically sort on
@@ -24,6 +24,6 @@
       (dk :v
           mappings))))
 
-{1 :sQVe/sort.nvim
- :cmd ["Sort"]
- : config}
+{:src "https://github.com/sQVe/sort.nvim"
+ :data {:cmd ["Sort"]
+        : after}}

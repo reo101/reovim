@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk                  (require :def-keymaps)
         luasnip             (require :luasnip)
         luasnip-types       (require :luasnip.util.types)
@@ -43,9 +43,10 @@
              :l [luasnip-from-lua.edit_snippet_files "LuaSnip snippets"]}}
         {:prefix :<leader>})))
 
-[{1 :L3MON4D3/LuaSnip
-  :dependencies [:nvim-treesitter/nvim-treesitter]
-  ;; :tag :v2.2.0
-  :event :InsertEnter
-  : config}
- {1 :rafamadriz/friendly-snippets}]
+[{:src "https://github.com/L3MON4D3/LuaSnip"
+  :data {:dependencies [:nvim-treesitter/nvim-treesitter]
+         ;; :tag :v2.2.0
+         :event :InsertEnter
+         :on_require [:luasnip]
+         : after}}
+ {:src "https://github.com/rafamadriz/friendly-snippets"}]

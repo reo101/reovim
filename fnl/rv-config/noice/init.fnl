@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [opt {:lsp
               {:override
                 {:vim.lsp.util.stylize_markdown                true
@@ -19,8 +19,8 @@
 
     ((. (require :noice) :setup) opt)))
 
-{1 :folke/noice.nvim
- :dependencies [:MunifTanjim/nui.nvim
-                :rcarriga/nvim-notify]
- :enabled false
- : config}
+{:src "https://github.com/folke/noice.nvim"
+ :data {:dependencies [:MunifTanjim/nui.nvim
+                       :rcarriga/nvim-notify]
+        :enabled false
+        : after}}

@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [ibl (require :ibl)
         hooks (require :ibl.hooks)
         dk (require :def-keymaps)
@@ -37,7 +37,8 @@
                  "Indentations"]}}
         {:prefix :<leader>})))
 
-{1 :lukas-reineke/indent-blankline.nvim
- :tag :v3.7.1
- :event :BufRead
- : config}
+{:src "https://github.com/lukas-reineke/indent-blankline.nvim"
+ :version :v3.9.0
+ :data {:dependencies [:HiPhish/rainbow-delimiters.nvim]
+        :event :BufRead
+        : after}}

@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [neogit (require :neogit)
         dk (require :def-keymaps)
         opt {:disable_signs false
@@ -86,7 +86,7 @@
              :s [neogit.open "Status"]}}
         {:prefix :<leader>})))
 
-{1 :TimUntersberger/neogit
- :dependencies [:nvim-lua/plenary.nvim]
- :keys [:<leader>gs]
- : config}
+{:src "https://github.com/TimUntersberger/neogit"
+ :data {:dependencies [:nvim-lua/plenary.nvim]
+        :keys [:<leader>gs]
+        : after}}

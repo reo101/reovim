@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [toggleterm (require :toggleterm)
         opt {;; size can be a number or function which is passed the current terminal
              :size (fn [term]
@@ -41,7 +41,7 @@
                    :background :Normal}}}]
     (toggleterm.setup opt)))
 
-{1 :akinsho/toggleterm.nvim
- :tag :v2.12.0
- :keys [:<leader>tt]
- : config}
+{:src "https://github.com/akinsho/toggleterm.nvim"
+ :version :v2.12.0
+ :data {:keys [:<leader>tt]
+        : after}}

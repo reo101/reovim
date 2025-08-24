@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [tabout (require :tabout)
         opt {;; key to trigger tabout, set to an empty string to disable
              :tabkey :<Tab>
@@ -32,7 +32,7 @@
              :exclude []}]
     (tabout.setup opt)))
 
-{1 :abecodes/tabout.nvim
- :dependencies [:nvim-treesitter/nvim-treesitter]
- :event :InsertEnter
- : config}
+{:src "https://github.com/abecodes/tabout.nvim"
+ :data {:dependencies [:nvim-treesitter/nvim-treesitter]
+        :event :InsertEnter
+        : after}}

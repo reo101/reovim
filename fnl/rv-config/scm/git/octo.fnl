@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [octo (require :octo)
         dk (require :def-keymaps)
         opt {;; use local files on right side of reviews
@@ -220,11 +220,11 @@
         {}
         {:prefix :<localleader>})))
 
-{1 :pwntester/octo.nvim
- :dependencies [:nvim-lua/plenary.nvim
-                :nvim-telescope/telescope.nvim
-                ;; OR :ibhagwan/fzf-lua
-                :nvim-tree/nvim-web-devicons]
- : config
- :cmd [:Octo]
- :enabled (= (vim.fn.executable :gh) 1)}
+{:src "https://github.com/pwntester/octo.nvim"
+ :data {:dependencies [:nvim-lua/plenary.nvim
+                       :nvim-telescope/telescope.nvim
+                       ;; OR :ibhagwan/fzf-lua
+                       :nvim-tree/nvim-web-devicons]
+        : after
+        :cmd [:Octo]
+        :enabled (= (vim.fn.executable :gh) 1)}}

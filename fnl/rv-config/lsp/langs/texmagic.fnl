@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
    (let [opt {:engines {:pdflatex {:isContinuous false
                                    :executable :latexmk
                                    :args [:-pdflatex
@@ -38,7 +38,7 @@
                                   :args ["%f"]}}}]
      ((. (require :texmagic) :setup) opt)))
 
-{1 :jakewvincent/texmagic.nvim
- :ft ["tex"
-      "latex"]
- : config}
+{:src "https://github.com/jakewvincent/texmagic.nvim"
+ :data {:ft ["tex"
+             "latex"]
+        : after}}

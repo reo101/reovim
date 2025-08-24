@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [{: lsp-on-init
          : lsp-on-attach
          : lsp-capabilities
@@ -22,4 +22,4 @@
                          true)}]
     ((. (require :lspconfig) :ocamllsp :setup) opt)))
 
-{: config}
+{: after}

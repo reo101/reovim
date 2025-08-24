@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [rest (require :rest)
         dk (require :def-keymaps)
         ;; TODO: tidy up <https://github.com/rest-nvim/rest.nvim>
@@ -35,8 +35,8 @@
         {}
         {:prefix :<leader>})))
 
-{1 :rest-nvim/rest.nvim
- :dependencies [:nvim-lua/plenary.nvim]
- :ft [:http]
- : config
- :enabled false}
+{:src "https://github.com/rest-nvim/rest.nvim"
+ :data {:dependencies [:nvim-lua/plenary.nvim]
+        :ft [:http]
+        : after
+        :enabled false}}

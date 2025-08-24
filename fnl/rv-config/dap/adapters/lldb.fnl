@@ -1,8 +1,8 @@
-(fn config []
+(fn after []
   (let [dap (require :dap)]
     (tset dap.adapters :lldb
           {:name :lldb
            :type :executable
            :command :lldb-vscode})))
 
-{: config}
+{: after}

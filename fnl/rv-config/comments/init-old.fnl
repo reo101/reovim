@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [opt {:extended {:above :<leader>cO
                         :below :<leader>co
                         :eol :<leader>cA}
@@ -33,8 +33,8 @@
     (dk :n mappings {:prefix :<leader>})
     (dk :o operator-mappings {:prefix :<leader>})))
 
-[{1 :numToStr/Comment.nvim
+[{:src "https://github.com/numToStr/Comment.nvim"
   :dependencies [:JoosepAlviste/nvim-ts-context-commentstring]
   :keys [{1 :<leader>c :desc "Line Comment"  :mode [:n :o]}
          {1 :<leader>C :desc "Block Comment" :mode [:n :o]}]
-  : config}]
+  : after}]

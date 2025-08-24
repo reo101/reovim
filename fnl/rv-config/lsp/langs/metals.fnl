@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
    (let [{: lsp-on-init
           : lsp-on-attach
           : lsp-capabilities
@@ -47,7 +47,7 @@
           : group
           :callback #(metals.initialize_or_attach metals-config)}))))
 
-{1 :scalameta/nvim-metals
- :dependencies [:nvim-lua/plenary.nvim]
- :ft [:scala :sbt]
- : config}
+{:src "https://github.com/scalameta/nvim-metals"
+ :data {:dependencies [:nvim-lua/plenary.nvim]
+        :ft [:scala :sbt]
+        : after}}

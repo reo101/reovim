@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [neotest (require :neotest)
         neotest-lib (require :neotest.lib)
         dk (require :def-keymaps)
@@ -48,15 +48,15 @@
          "[n" [#(neotest.jump.next {:status :failed}) "Next failing test"]}
         {})))
 
-{1 :nvim-neotest/neotest
- :dependencies [:nvim-neotest/nvim-nio
-                :nvim-lua/plenary.nvim
-                :mrcjkb/neotest-haskell
-                :lawrence-laz/neotest-zig
-                :llllvvuu/neotest-foundry
-                ;; :mrcjkb/rustaceanvim
-                :rouge8/neotest-rust
-                :HiPhish/neotest-busted]
- :tag :v5.0.1
- :keys [:<leader>ln]
- : config}
+{:src "https://github.com/nvim-neotest/neotest"
+ :version :v5.0.1
+ :data {:dependencies [:nvim-neotest/nvim-nio
+                       :nvim-lua/plenary.nvim
+                       :mrcjkb/neotest-haskell
+                       :lawrence-laz/neotest-zig
+                       :llllvvuu/neotest-foundry
+                       ;; :mrcjkb/rustaceanvim
+                       :rouge8/neotest-rust
+                       :HiPhish/neotest-busted]
+        :keys [:<leader>ln]
+        : after}}

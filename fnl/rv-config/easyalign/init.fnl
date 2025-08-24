@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)]
     (let [mappings
            {:ga ["<Plug>(EasyAlign)" :EasyAlign]}
@@ -10,6 +10,6 @@
       (dk :v
           visual-mappings))))
 
-{1 :junegunn/vim-easy-align
- :event :VeryLazy
- : config}
+{:src "https://github.com/junegunn/vim-easy-align"
+ :data {:event :DeferredUIEnter
+        : after}}

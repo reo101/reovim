@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [nabla (require :nabla)
         dk (require :def-keymaps)]
     ;; Customize with (nabla.popup {border ...}) ;; `single` (default), `double`, `rounded`
@@ -9,7 +9,7 @@
              :n [nabla.popup :Nable]}}
         {:prefix :<leader>})))
 
-{1       :jbyuki/nabla.nvim
- :ft     ["tex"
-          "latex"]
- : config}
+{:src "https://github.com/jbyuki/nabla.nvim"
+ :data {:ft     ["tex"
+                 "latex"]
+        : after}}

@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [Comment (require :Comment)
         Comment-api (require :Comment.api)
         dk (require :def-keymaps)
@@ -96,5 +96,5 @@
     ;;      :C [#((Comment-api.locked :toggle.blockwise) (vim.fn.visualmode)) "Toggle Blockwise"]}
     ;;     {:prefix :<leader> :expr true})))
 
-{1 :numToStr/Comment.nvim
- : config}
+{:src "https://github.com/numToStr/Comment.nvim"
+ :data {: after}}

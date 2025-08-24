@@ -1,7 +1,7 @@
-(fn config []
+(fn after []
   (require :follow-md-links))
 
-{1             :jghauser/follow-md-links.nvim
- :dependencies [:nvim-treesitter/nvim-treesitter]
- :ft           [:markdown]
- : config}
+{:src "https://github.com/jghauser/follow-md-links.nvim"
+ :data {:dependencies [:nvim-treesitter/nvim-treesitter]
+        :ft :markdown
+        : after}}

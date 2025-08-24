@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [{: lsp-on-init
          : lsp-on-attach
          : lsp-capabilities
@@ -18,4 +18,4 @@
              :single_file_support true}]
     ((. (. (require :lspconfig) :jdtls) :setup) opt)))
 
-{: config}
+{: after}

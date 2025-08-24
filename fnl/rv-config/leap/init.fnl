@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [leap (require :leap)
         dk  (require :def-keymaps)
         opt {:case_sensitive false
@@ -32,8 +32,8 @@
     (vim.tbl_extend :force leap.opts opt)))
     ;; (tset leap :opts opt)))
 
-[{1 :ggandor/leap.nvim
-  :dependencies [:tpope/vim-repeat]
-  : config
-  :enabled false}
+[{:src "https://github.com/ggandor/leap.nvim"
+  :data {:dependencies [:tpope/vim-repeat]
+         : after
+         :enabled false}}
  (require (.. ... :.ast))]

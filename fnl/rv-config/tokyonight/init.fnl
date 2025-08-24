@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [tokyonight (require :tokyonight)
         opt {;; The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
              :style :night
@@ -39,10 +39,9 @@
              ;; function will be called with a Highlights and ColorScheme table
              :on_highlights (fn [highlights colors])}]
    (tokyonight.setup opt)
-   (vim.schedule
-     #(vim.cmd.colorscheme :tokyonight))))
+   (vim.cmd.colorscheme :tokyonight)))
 
-{1 :folke/tokyonight.nvim
- :priority 1000
- :lazy false
- : config}
+{:src "https://github.com/folke/tokyonight.nvim"
+ :data {:priority 1000
+        :lazy false
+        : after}}

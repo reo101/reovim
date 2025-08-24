@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dap (require :dap)
         dap-utils (require :dap.utils)]
     (tset dap.configurations :rust
@@ -26,4 +26,4 @@
             ;; https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
             :runInTerminal false}])))
 
-{: config}
+{: after}

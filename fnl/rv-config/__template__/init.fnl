@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [plugin (require :plugin)
         dk (require :def-keymaps)
         opt {}]
@@ -8,6 +8,6 @@
         {}
         {:prefix :<leader>})))
 
-{1 :user/repo
- : config
- :enabled false}
+{:src "https://github.com/user/repo"
+ :data {: after
+        :enabled false}}

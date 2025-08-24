@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [hlargs (require :hlargs)
         dk (require :def-keymaps)
         opt {:color :#ef9062
@@ -23,7 +23,7 @@
              :h [hlargs.toggle "Highlight Arguments"]}}
         {:prefix :<leader>})))
 
-{1 :m-demare/hlargs.nvim
- :dependencies [:nvim-treesitter/nvim-treesitter]
- :event :BufRead
- : config}
+{:src "https://github.com/m-demare/hlargs.nvim"
+ :data {:dependencies [:nvim-treesitter/nvim-treesitter]
+        :event :BufRead
+        : after}}

@@ -1,8 +1,8 @@
-(fn config []
+(fn after []
   (let [bqf (require :bqf)
         opt {}]
     (bqf.setup opt)))
 
-{1 :kevinhwang91/nvim-bqf
- :ft :qf
- : config}
+{:src "https://github.com/kevinhwang91/nvim-bqf"
+ :data {:ft :qf
+        : after}}

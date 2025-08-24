@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)
         ts-context-commentstring (require :ts_context_commentstring)
         opt {:enable_autocmd false}]
@@ -28,6 +28,6 @@
                                  (. :calculate_commentstring)))
              _ (get-option filetype option))))))
 
-{1 :JoosepAlviste/nvim-ts-context-commentstring
- :event :VeryLazy
- : config}
+{:src "https://github.com/JoosepAlviste/nvim-ts-context-commentstring"
+ :data {:event :DeferredUIEnter
+        : after}}

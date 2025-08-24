@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)
         gitlinker (require :gitlinker)
         gitlinker-actions (require :gitlinker.actions)
@@ -28,7 +28,7 @@
                    :Browse]}}
           {:prefix :<leader>}))))
 
-{1 :ruifm/gitlinker.nvim
- :dependencies [:nvim-lua/plenary.nvim]
- :keys [:<leader>gb]
- : config}
+{:src "https://github.com/ruifm/gitlinker.nvim"
+ :data {:dependencies [:nvim-lua/plenary.nvim]
+        :keys [:<leader>gb]
+        : after}}

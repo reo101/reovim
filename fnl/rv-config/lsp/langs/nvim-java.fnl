@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [java  (require :java)
         lspconfig (require :lspconfig)
         dk (require :def-keymaps)
@@ -38,13 +38,14 @@
                  :v [java.test.view_last_report     "View Last Report"]}}}
         {:prefix :<leader>})))
 
-{1 :nvim-java/nvim-java
- :dependencies [:nvim-java/lua-async-await
-                :nvim-java/nvim-java-core
-                :nvim-java/nvim-java-test
-                :nvim-java/nvim-java-dap
-                :MunifTanjim/nui.nvim
-                :neovim/nvim-lspconfig
-                :mfussenegger/nvim-dap]
- :ft     ["java"]
- : config}
+{:src "https://github.com/nvim-java/nvim-java"
+ :data {:dependencies [:nvim-java/lua-async-await
+                       :nvim-java/nvim-java-core
+                       :nvim-java/nvim-java-test
+                       :nvim-java/nvim-java-dap
+                       :MunifTanjim/nui.nvim
+                       :neovim/nvim-lspconfig
+                       :mfussenegger/nvim-dap]
+        :ft     ["java"]
+        : after
+        :enabled false}}

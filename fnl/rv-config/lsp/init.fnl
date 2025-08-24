@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [lspconfig (require :lspconfig)
         utils (require :rv-config.lsp.utils)
         servers {:latex      (. (require :rv-config.lsp.langs.latex)      :config)
@@ -56,9 +56,9 @@
     (setup-servers)
     (utils.lsp-override-handlers)))
 
-[{1 :neovim/nvim-lspconfig
-  :event :BufRead
-  : config}
+[{:src "https://github.com/neovim/nvim-lspconfig"
+  :data {:event :BufRead
+         : after}}
  #_(require (.. ... :.lines))
  (require (.. ... :.diagnostics))
  ;; TODO: spearate out in different directory?
@@ -74,4 +74,4 @@
                        #_:dotnvim
                        :roslyn])]
    (require (.. ... :.langs. lang-plugin)))
- {1 :b0o/schemastore.nvim}]
+ {:src "https://github.com/b0o/schemastore.nvim"}]

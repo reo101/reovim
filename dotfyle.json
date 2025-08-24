@@ -39,7 +39,6 @@
         "eraserhd/parinfer-rust",
         "f3fora/cmp-spell",
         "famiu/bufdelete.nvim",
-        "folke/lazy.nvim",
         "folke/todo-comments.nvim",
         "folke/tokyonight.nvim",
         "folke/trouble.nvim",
@@ -140,7 +139,6 @@
         "vim-scripts/bnf.vim",
         "yorickpeterse/nvim-pqf"
     ],
-    "pluginManager": "lazy.nvim",
     "treesitterParsers": [
         "ada",
         "agda",

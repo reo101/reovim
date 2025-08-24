@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [headlines (require :headlines)
         dk (require :def-keymaps)
         opt {:markdown {:codeblock_highlight :CodeBlock
@@ -41,9 +41,9 @@
         {}
         {:prefix :<leader>})))
 
-{1 :lukas-reineke/headlines.nvim
- :dependencies [;; :nvim-orgmode/orgmode
-                :nvim-treesitter/nvim-treesitter]
- :tag :v4.0.0
- :ft [:norg]
- : config}
+{:src "https://github.com/lukas-reineke/headlines.nvim"
+ :version :v4.0.0
+ :data {:dependencies [;; :nvim-orgmode/orgmode
+                       :nvim-treesitter/nvim-treesitter]
+        :ft [:norg]
+        : after}}

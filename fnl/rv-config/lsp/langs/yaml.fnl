@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [{: lsp-on-init
          : lsp-on-attach
          : lsp-capabilities
@@ -18,4 +18,4 @@
                         :yaml {:schemas {:https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json "/.gitlab-ci.yml"}}}}]
     ((. (. (require :lspconfig) :yamlls) :setup) opt)))
 
-{: config}
+{: after}

@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
    (let [trouble (require :trouble)
          dk (require :def-keymaps)
          opt {}]
@@ -25,8 +25,8 @@
                   :L [#(trouble.toggle :loclist) "Location List"]}}}
          {:prefix :<leader>})))
 
-{1 :folke/trouble.nvim
- :dependencies [:nvim-tree/nvim-web-devicons]
- :tag :v3.1.0
- :keys [:<leader>tr]
- : config}
+{:src "https://github.com/folke/trouble.nvim"
+ :version :v3.1.0
+ :data {:dependencies [:nvim-tree/nvim-web-devicons]
+        :keys [:<leader>tr]
+        : after}}

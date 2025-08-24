@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   ;; |Alias Name                                |Explanation                                      |Examples                           |
   ;; |------------------------------------------|-------------------------------------------------|-----------------------------------|
   ;; |`augend.integer.alias.decimal`            |decimal natural number                           |`0`, `1`, ..., `9`, `10`, `11`, ...|
@@ -171,6 +171,6 @@
                      :g<C-a> [(dial-map.inc_gvisual lang) :Increment]
                      :g<C-x> [(dial-map.dec_gvisual lang) :Decrement]}))})))))
 
-{1 :monaqa/dial.nvim
- :event :VeryLazy
- : config}
+{:src "https://github.com/monaqa/dial.nvim"
+ :data {:event :DeferredUIEnter
+        : after}}

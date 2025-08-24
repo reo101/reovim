@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [idris2 (require :idris2)
         idris2-repl (require :idris2.repl)
         idris2-code-action (require :idris2.code_action)
@@ -28,8 +28,8 @@
                        :i [idris2-code-action.intro        "Intro"]}}
                   {:prefix :<leader>}))})))
 
-{1 :ShinKage/idris2-nvim
- :dependencies [:neovim/nvim-lspconfig
-                :MunifTanjim/nui.nvim]
- :ft [:idris]
- : config}
+{:src "https://github.com/ShinKage/idris2-nvim"
+ :data {:dependencies [:neovim/nvim-lspconfig
+                       :MunifTanjim/nui.nvim]
+        :ft [:idris]
+        : after}}

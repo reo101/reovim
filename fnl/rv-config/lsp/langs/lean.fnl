@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
    (let [{: lsp-on-init
           : lsp-on-attach
           : lsp-capabilities
@@ -18,10 +18,10 @@
                        :on_lines nil}}]
         ((. (require :lean) :setup) opt)))
 
-{1 :Julian/lean.nvim
- :dependencies [:neovim/nvim-lspconfig
-                :nvim-lua/plenary.nvim]
- ;; :ft ["lean"]
- :event ["BufReadPre *.lean"
-         "BufNewFile *.lean"]
- : config}
+{:src "https://github.com/Julian/lean.nvim"
+ :data {:dependencies [:neovim/nvim-lspconfig
+                       :nvim-lua/plenary.nvim]
+        ;; :ft ["lean"]
+        :event ["BufReadPre *.lean"
+                "BufNewFile *.lean"]
+        : after}}

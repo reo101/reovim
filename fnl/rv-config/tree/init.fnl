@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)
         neo-tree (require :neo-tree)
         opt {:sources
@@ -137,10 +137,10 @@
              :f [":Neotree reveal<CR>" :FileTree]}}
         {:prefix :<leader>})))
 
-{1 :nvim-neo-tree/neo-tree.nvim
- :dependencies [:nvim-lua/plenary.nvim
-                :nvim-tree/nvim-web-devicons
-                :MunifTanjim/nui.nvim]
- :tag :3.17
- :keys [:<leader>tf]
- : config}
+{:src "https://github.com/nvim-neo-tree/neo-tree.nvim"
+ :version :3.17
+ :data {:dependencies [:nvim-lua/plenary.nvim
+                       :nvim-tree/nvim-web-devicons
+                       :MunifTanjim/nui.nvim]
+        :keys [:<leader>tf]
+        : after}}

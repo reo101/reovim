@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [oil (require :oil)
         dk (require :def-keymaps)
         opt {;; Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
@@ -6,7 +6,7 @@
              :default_file_explorer true
              ;; Id is automatically added at the beginning, and name at the end
              ;; See :help oil-columns
-             :columns [{1 :permissions
+             :columns [{:src :permissions
                         :highlight
                           (fn [permission-str]
                             (local permission-hlgroups
@@ -132,7 +132,7 @@
              :o [#(vim.cmd :Oil) :Oil]}}
         {:prefix :<leader>})))
 
-{1 :stevearc/oil.nvim
- :dependencies [:nvim-tree/nvim-web-devicons]
- ;; :keys [:<leader>to]
- : config}
+{:src "https://github.com/stevearc/oil.nvim"
+ :data {:dependencies [:nvim-tree/nvim-web-devicons]
+        ;; :keys [:<leader>to]
+        : after}}

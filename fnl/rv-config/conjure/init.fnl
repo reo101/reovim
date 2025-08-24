@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (fn flatten-table [tbl merge-keys]
     (-> tbl
         vim.iter
@@ -189,23 +189,26 @@
     (conjure-main.main)
     (conjure-mapping.on-filetype)))
 
-{1 :Olical/conjure
- :dependencies [{1 :PaterJason/cmp-conjure
-                 :config #(let [cmp (require :cmp)
-                                config (cmp.get_config)]
-                            (table.insert
-                              config.sources
-                              {:group :buffer
-                               :option {:sources
-                                         [{:name :conjure}]}})
-                            (cmp.setup config))}
-                {1 :m00qek/baleia.nvim
-                 :tag :v1.4.0
-                 :config true}]
- :ft [:clojure
-      :fennel
-      :racket
-      :rust
-      :lisp
-      :hy]
- : config}
+[#_{:src "https://github.com/PaterJason/cmp-conjure"
+    :data {:config
+            #(let [cmp (require :cmp)
+                   config (cmp.get_config)]
+               (table.insert
+                 config.sources
+                 {:group :buffer
+                  :option {:sources
+                            [{:name :conjure}]}})
+               (cmp.setup config))}}
+ {:src "https://github.com/m00qek/baleia.nvim"
+  :version :v1.4.0
+  :data {:config true}}
+ {:src "https://github.com/Olical/conjure"
+  :data {:dependencies [#_:PaterJason/cmp-conjure
+                        :m00qek/baleia.nvim]
+         :ft [:clojure
+              :fennel
+              :racket
+              :rust
+              :lisp
+              :hy]
+         : after}}]

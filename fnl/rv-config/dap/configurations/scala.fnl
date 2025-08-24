@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dap (require :dap)
         dap-utils (require :dap.utils)]
     (tset dap.configurations :scala
@@ -18,4 +18,4 @@
             :metals {:runType :testTarget
                      :args []}}])))
 
-{: config}
+{: after}

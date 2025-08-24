@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [nvim-dap-virtual-text (require :nvim-dap-virtual-text)
         opt {:enable_commands true
              :highlight_changed_variables true
@@ -28,7 +28,7 @@
              :virt_text_win_col nil}]
     (nvim-dap-virtual-text.setup opt)))
 
-{1 :theHamsta/nvim-dap-virtual-text
- :dependencies [:mfussenegger/nvim-dap]
- :keys [:<leader>d]
- : config}
+{:src "https://github.com/theHamsta/nvim-dap-virtual-text"
+ :data {:dependencies [:mfussenegger/nvim-dap]
+        :keys [:<leader>d]
+        : after}}

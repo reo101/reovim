@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)
         {: lsp-on-init
          : lsp-on-attach
@@ -37,4 +37,4 @@
              :single_file_support true}]
     ((. (. (require :lspconfig) :clangd) :setup) opt)))
 
-{: config}
+{: after}

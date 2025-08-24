@@ -2,7 +2,7 @@
   {: -m>}
   :init-macros)
 
-(fn config []
+(fn after []
   (let [telescope    (require :telescope)
         actions      (require :telescope.actions)
         action-state (require :telescope.actions.state)
@@ -32,8 +32,8 @@
                         :color_devicons true
                         :wrap_results true
                         :winblend 20
-                        :mappings {:i {:<C-s> (. (require :trouble.sources.telescope)
-                                                 :open)}}}}]
+                        :mappings {#_#_:i {:<C-s> (. (require :trouble.sources.telescope)
+                                                     :open)}}}}]
     ;; Main setup
     (telescope.setup opt)
 
@@ -128,12 +128,12 @@
              :R [functions.resume            :Resume]}}
         {:prefix :<leader>})))
 
-[{1             :nvim-telescope/telescope.nvim
-  :dependencies [:nvim-lua/popup.nvim
-                 :nvim-lua/plenary.nvim]
-  :keys [:<leader>f]
-  :cmd [:Telescope]
-  : config}
+[{:src "https://github.com/nvim-telescope/telescope.nvim"
+  :data {:dependencies [:nvim-lua/popup.nvim
+                        :nvim-lua/plenary.nvim]
+         :keys [:<leader>f]
+         :cmd [:Telescope]
+         : after}}
  (let [telescope-plugins
          [:nvim-telescope/telescope-packer.nvim
           :nvim-telescope/telescope-github.nvim
@@ -143,9 +143,8 @@
           :luc-tielen/telescope_hoogle]
         convert-to-telescope-opt
          (fn [telescope-plugin]
-           (let [opt {1 telescope-plugin
-                      :lazy true
-                      :dependencies [:nvim-telescope/telescope.nvim]}]
+           (let [opt {:src (.. "https://github.com/" telescope-plugin)
+                      :data {:dep_of :telescope.nvim}}]
              opt))]
    (vim.tbl_map
      convert-to-telescope-opt

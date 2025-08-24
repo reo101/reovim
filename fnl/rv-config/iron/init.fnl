@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [iron (require :iron.core)
         iron-view (require :iron.view)
         dk (require :def-keymaps)
@@ -44,7 +44,7 @@
              :h [:<cmd>IronHide<cr>]}}
         {:prefix :<leader>})))
 
-{1 :Vigemus/iron.nvim
- :tag :v3.0
- :enabled false
- : config}
+{:src "https://github.com/Vigemus/iron.nvim"
+ :version :v9.1.1
+ :data {:enabled false
+        : after}}

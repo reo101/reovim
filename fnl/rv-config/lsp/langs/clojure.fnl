@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [{: lsp-on-init
          : lsp-on-attach
          : lsp-capabilities
@@ -16,4 +16,4 @@
                           :shadow-cljs.edn])}]
     ((. (. (require :lspconfig) :clojure_lsp) :setup) opt)))
 
-{: config}
+{: after}

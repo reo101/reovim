@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [netman (require :netman)
         dk (require :def-keymaps)
         opt {}]
@@ -8,7 +8,7 @@
         {}
         {:prefix :<leader>})))
 
-{1 :miversen33/netman.nvim
- :tag :v1.15
- :event :VeryLazy
- : config}
+{:src "https://github.com/miversen33/netman.nvim"
+ :version :v1.15
+ :data {:event :DeferredUIEnter
+        : after}}

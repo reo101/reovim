@@ -1,10 +1,10 @@
-(fn init []
+(fn before []
   (set vim.opt.foldcolumn    :auto)
   (set vim.opt.foldlevel      99)
   (set vim.opt.foldlevelstart 99)
   (set vim.opt.foldenable     true))
 
-(fn config []
+(fn after []
   (let [ufo (require :ufo)
         dk  (require :def-keymaps)
         ft-map {}
@@ -73,9 +73,10 @@
                    (vim.lsp.buf.hover)))
               "Peek folded lines"]})))
 
-{1 :kevinhwang91/nvim-ufo
- :dependencies [:kevinhwang91/promise-async]
- :tag :v1.4.0
- :event :VeryLazy
- : init
- : config}
+{:src "https://github.com/kevinhwang91/nvim-ufo"
+ :version :v1.4.0
+ :data {:dependencies [:kevinhwang91/promise-async]
+        :event :DeferredUIEnter
+        : before
+        : after
+        :enabled false}}

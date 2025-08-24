@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dapui (require :dapui)
         dk (require :def-keymaps)
         ;; position may be `:left` | `:right` | `:top` | `:bottom`
@@ -50,7 +50,7 @@
              :t [dapui.toggle "Toggle dap-ui"]}}
         {:prefix :<leader>})))
 
-{1 :rcarriga/nvim-dap-ui
- :dependencies [:mfussenegger/nvim-dap]
- :keys [:<leader>dt]
- : config}
+{:src "https://github.com/rcarriga/nvim-dap-ui"
+ :data {:dependencies [:mfussenegger/nvim-dap]
+        :keys [:<leader>dt]
+        : after}}

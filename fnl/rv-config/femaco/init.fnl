@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [femaco (require :femaco)
         {:clip_val clip-val} (require :femaco.utils)
         {:edit_code_block edit-code-block} (require :femaco.edit)
@@ -56,6 +56,6 @@
              :m [edit-code-block :FeMaco]}}
         {:prefix :<leader>})))
 
-{1 :AckslD/nvim-FeMaco.lua
- :ft [:markdown]
- : config}
+{:src "https://github.com/AckslD/nvim-FeMaco.lua"
+ :data {:ft [:markdown]
+        : after}}

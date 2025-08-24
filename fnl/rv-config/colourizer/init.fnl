@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [opt {:filetypes
               {:css {:RGB      true ;; #RGB hex codes
                      :RRGGBB   true ;; #RRGGBB hex codes
@@ -17,6 +17,6 @@
              :user_default_options {:mode "background"}}]
     ((. (require "colorizer") :setup) opt)))
 
-{1 :NvChad/nvim-colorizer.lua
- :ft :BufRead
- : config}
+{:src "https://github.com/NvChad/nvim-colorizer.lua"
+ :data {:ft :BufRead
+        : after}}

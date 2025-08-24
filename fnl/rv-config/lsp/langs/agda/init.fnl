@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)
         opts {:use-global-binary true
               :max-size          30
@@ -85,9 +85,9 @@
       ;;        [{:name :cmdline}
       ;;         {:name :agda}])}))))
 
-{1 :isovector/cornelis
- :dependencies [:neovimhaskell/nvim-hs.vim
-                :kana/vim-textobj-user
-                :junegunn/vim-easy-align]
- :ft [:agda]
- : config}
+{:src "https://github.com/isovector/cornelis"
+ :data {:dependencies [:neovimhaskell/nvim-hs.vim
+                       :kana/vim-textobj-user
+                       :junegunn/vim-easy-align]
+        :ft [:agda]
+        : after}}

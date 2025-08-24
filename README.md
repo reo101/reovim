@@ -59,7 +59,7 @@ git clone https://www.github.com/reo101/reovim "~/.config/reovim"
 NVIM_APPNAME=reovim nvim
 ```
 
-- Run `nvim`. On the first run, it will bootstrap the `tangerine` Fennel Loader, the `lazy.nvim` package manager and then the rest of the packages.
+- Run `nvim`. On the first run, it will bootstrap the `tangerine` Fennel Loader and then the rest of the packages.
 
 > NOTE: (hopefully) soon with Nix
 

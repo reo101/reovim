@@ -1,35 +1,35 @@
 [;; Filetype plugins
- {1    :mlochbaum/BQN
-  :ft  ["bqn"]
-  :config #(vim.opt.rtp:append (.. $.dir :/editors/vim))}
- {1   :shirk/vim-gas
-  :ft ["gas"]}
- {1   :aklt/plantuml-syntax
-  :ft ["plantuml"]}
- {1   :calincru/flex-bison-syntax
-  :ft ["lex"]}
- {1   :McSinyx/vim-octave
-  :ft ["octave"]}
- {1   :kmonad/kmonad-vim
-  :ft ["kmonad"]}
- {1   :vim-scripts/bnf.vim
-  :ft ["bnf"]}
- {1 :vim-scripts/applescript.vim
-  :ft ["applescript"]}
- ;; {1 :LhKipp/nvim-nu
- ;;  :build ":TSInstall nu"
- ;;  :config #((. (require "nu")
- ;;               :setup)
- ;;            {:use_lsp_features false})}
- {1 :nushell/tree-sitter-nu
-  :event :VeryLazy}
-  ;; :ft [:nu]}
- {1 :avm99963/vim-jjdescription}
+ {:src "https://github.com/mlochbaum/BQN"
+  :data {:ft  ["bqn"]
+         :config #(vim.opt.rtp:append (.. $.dir :/editors/vim))}}
+ {:src "https://github.com/shirk/vim-gas"
+  :data {:ft ["gas"]}}
+ {:src "https://github.com/aklt/plantuml-syntax"
+  :data {:ft ["plantuml"]}}
+ {:src "https://github.com/calincru/flex-bison-syntax"
+  :data {:ft ["lex"]}}
+ {:src "https://github.com/McSinyx/vim-octave"
+  :data {:ft ["octave"]}}
+ {:src "https://github.com/kmonad/kmonad-vim"
+  :data {:ft ["kmonad"]}}
+ {:src "https://github.com/vim-scripts/bnf.vim"
+  :data {:ft ["bnf"]}}
+ {:src "https://github.com/vim-scripts/applescript.vim"
+  :data {:ft ["applescript"]}}
+ ;; {:src :LhKipp/nvim-nu
+ ;;  :data {:build ":TSInstall nu"
+ ;;         :config #((. (require "nu")
+ ;;                      :setup)
+ ;;                   {:use_lsp_features false})}
+ {:src "https://github.com/nushell/tree-sitter-nu"
+  :data {:event :DeferredUIEnter}}
+         ;; :ft [:nu]}}
+ {:src "https://github.com/avm99963/vim-jjdescription"}
  ;; Keymaps
- {1 :nvimtools/hydra.nvim
-  :tag :v1.0.2}
+ {:src "https://github.com/nvimtools/hydra.nvim"
+  :data {:version :v:src.0.2}}
  ;; Lua docs
- {1 :nanotee/luv-vimdocs}
- {1 :milisims/nvim-luaref}
+ {:src "https://github.com/nanotee/luv-vimdocs"}
+ {:src "https://github.com/milisims/nvim-luaref"}
  ;; Vimscript
- {1 :jeffkreeftmeijer/vim-numbertoggle}]
+ {:src "https://github.com/jeffkreeftmeijer/vim-numbertoggle"}]

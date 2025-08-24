@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [git-conflict (require :git-conflict)
         dk (require :def-keymaps)
         opt {;; Disable buffer local mapping created by this plugin
@@ -24,6 +24,6 @@
          "]x" [#(git-conflict.find_next :ours) "Next conflict"]})
     (git-conflict.setup opt)))
 
-{1 :akinsho/git-conflict.nvim
- :event :BufRead
- : config}
+{:src "https://github.com/akinsho/git-conflict.nvim"
+ :data {:event :BufRead
+        : after}}

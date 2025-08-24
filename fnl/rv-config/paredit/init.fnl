@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [paredit (require :nvim-paredit)
         opt {;; should plugin use default keybindings? (= default true)
              :use_default_keys false
@@ -115,11 +115,11 @@
                       :mode [:o :v]}}}]
     (paredit.setup opt)))
 
-[{1 :julienvincent/nvim-paredit
-  :version :1.1.1
-  :ft ["fennel"
-       "scheme"
-       "racket"
-       "crisp"
-       "clojure"]
-  : config}]
+{:src :https://github.com/julienvincent/nvim-paredit
+ :version :v1.1.1
+ :ft ["fennel"
+      "scheme"
+      "racket"
+      "crisp"
+      "clojure"]
+ : after}

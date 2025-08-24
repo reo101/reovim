@@ -2,53 +2,44 @@
 
 local nvim_config = vim.fn.stdpath("config")
 local nvim_data   = vim.fn.stdpath("data")
-
--- "tangerine", "packer", "paq", "lazy"
-local pack = "lazy"
-
-local function bootstrap(url, ref, extra_path)
-    local name = url:gsub(".*/", "")
-    local extra_path = extra_path or ""
-
-    if pack == "lazy" then
-        path = vim.fn.stdpath("data") .. "/lazy/" .. name
-        path = path .. "/" .. extra_path
-    else
-        path = vim.fn.stdpath("data") .. "/site/pack/".. pack .. "/start/" .. name .. "/" .. extra_path
-    end
-
-    if vim.fn.isdirectory(path) == 0 then
-        local p = vim.fn.fnamemodify(path, ":p")
-        if vim.fn.isdirectory(p) == 0 then
-            vim.fn.mkdir(p, "p")
-        end
-
-        print(name .. ": installing in data dir...")
-        vim.fn.system({"git", "clone", "--filter=blob:none", url, path})
-        print(name .. ": installed")
-
-        if ref then
-            print(name .. ": checking out " .. ref)
-            vim.fn.system({"git", "-C", path, "checkout", ref})
-            print(name .. ": checked out " .. ref)
-        end
-
-        vim.cmd("redraw")
-        print(name .. ": finished installing")
-    end
-
-    vim.opt.rtp:prepend(path)
-end
+local pack_data   = nvim_data .. "/site/pack/core/opt"
 
 --- BOOTSTRAP TANGERINE ---
 
-bootstrap("https://github.com/udayvir-singh/tangerine.nvim")
+vim.pack.add({{ src = "https://github.com/udayvir-singh/tangerine.nvim" }}, { confirm = false })
 
 --- BOOTSTRAP TYPED-FENNEL ---
 
-bootstrap("https://github.com/reo101/typed-fennel", "subdirectories")
+vim.pack.add({{ src = "https://github.com/reo101/typed-fennel", version = "subdirectories" }}, { confirm = false })
 
 --- CONFIGURE TANGERINE ---
+
+local seen_fnl_dirs = {}
+local function attach_to_fennel(fennel)
+  local rtp_dirs = vim.split(vim.o.runtimepath, ",")
+
+  -- ["?.fnl" "?/init.fnl"]
+  local default_patterns = vim.split(fennel["macro-path"], ";")
+
+  local new_path_parts = {}
+
+  -- Add all rtp dirs that have `fnl` subdirectories
+  for _, rtp_dir in ipairs(rtp_dirs) do
+    local fnl_dir = rtp_dir .. "/fnl"
+
+    if vim.fn.isdirectory(fnl_dir) == 1 and not seen_fnl_dirs[fnl_dir] then
+      for _, pattern in ipairs(default_patterns) do
+        table.insert(new_path_parts, fnl_dir .. "/" .. pattern)
+      end
+      seen_fnl_dirs[fnl_dir] = true
+    end
+  end
+
+  if #new_path_parts > 0 then
+    local new_paths_str = table.concat(new_path_parts, ";")
+    fennel["macro-path"] = new_paths_str .. ";" .. fennel["macro-path"]
+  end
+end
 
 local opt = {
     vimrc   = nvim_config .. "/init.fnl",
@@ -67,7 +58,7 @@ local opt = {
     custom = {
         -- list of custom [source target] chunks, for example:
         -- {"~/.config/awesome/fnl", "~/.config/awesome/lua"}
-        { nvim_data .. "/lazy/typed-fennel/fnl", nvim_data .. "/lazy/typed-fennel/lua" },
+        { pack_data .. "/typed-fennel/fnl", pack_data .. "/typed-fennel/lua" },
     },
 
     compiler = {
@@ -161,8 +152,9 @@ require("tangerine").setup(opt)
 
 --- BOOTSTRAP NIXCATS ---
 
-bootstrap("https://github.com/BirdeeHub/nixCats-nvim", "v6.0.8")
+vim.pack.add({{ src = "https://github.com/BirdeeHub/nixCats-nvim", version = "vim_pack" }}, { confirm = false }) -- "v6.0.8"
 
---- BOOTSTRAP LAZY.NVIM ---
+--- BOOTSTRAP LZE ---
 
-bootstrap("https://github.com/folke/lazy.nvim")
+-- TODO: fetch version from some lockfile, maybe in a nix-y way
+vim.pack.add({{ src = "https://github.com/BirdeeHub/lze", version = "v0.11.5" }}, { confirm = false })

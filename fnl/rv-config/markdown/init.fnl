@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [markdown (require :markview)
         presets  (require :markview.presets)
         dk (require :def-keymaps)
@@ -55,9 +55,9 @@
         {}
         {:prefix :<leader>})))
 
-{1 :OXY2DEV/markview.nvim
- :dependencies ["nvim-treesitter/nvim-treesitter"
-                "nvim-tree/nvim-web-devicons"]
- :version :25
- :ft [:markdown]
- : config}
+{:src "https://github.com/OXY2DEV/markview.nvim"
+ :data {:dependencies ["nvim-treesitter/nvim-treesitter"
+                       "nvim-tree/nvim-web-devicons"]
+        :version :25
+        :ft [:markdown]
+        : after}}

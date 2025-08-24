@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [gitsigns (require :gitsigns)
         gitsigns-actions (require :gitsigns.actions)
         dk (require :def-keymaps)
@@ -90,10 +90,10 @@
       (dk :n
           direct-mappings))))
 
-{1 :lewis6991/gitsigns.nvim
- :dependencies [:nvim-lua/plenary.nvim]
- :tag :v0.9.0
- :event :BufRead
- : config
- ;; FIXME: slows down markdown for some reason
- :enabled false}
+{:src "https://github.com/lewis6991/gitsigns.nvim"
+ :version :v0.9.0
+ :data {:dependencies [:nvim-lua/plenary.nvim]
+        :event :BufRead
+        : after
+        ;; FIXME: slows down markdown for some reason
+        :enabled false}}

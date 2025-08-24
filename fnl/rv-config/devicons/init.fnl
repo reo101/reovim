@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [devicons (require :nvim-web-devicons)
         opt {;; your personnal icons can go here (to override)
              ;; DevIcon will be appended to `name`
@@ -12,6 +12,6 @@
              :default true}]
     (devicons.setup opt)))
 
-{1 :nvim-tree/nvim-web-devicons
- :event :VeryLazy
- : config}
+{:src "https://github.com/nvim-tree/nvim-web-devicons"
+ :data {:on_require [:nvim-web-devicons]
+        : after}}

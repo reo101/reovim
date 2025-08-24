@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (set vim.g.parinfer_mode                 :smart)
   (set vim.g.parinfer_enabled              1)
   (set vim.g.parinfer_force_balance        0)
@@ -11,8 +11,8 @@
   (set vim.g.parinfer_janet_long_strings   0))
   ;; (set vim.g.parinfer_logfile              (.. (vim.fn.stdpath :cache) :/parinfer.log)))
 
-{1       :eraserhd/parinfer-rust
- :build  "cargo build --release"
- :cond   (or true
-             (= (vim.fn.executable :cargo) 1))
- : config}
+{:src "https://github.com/eraserhd/parinfer-rust"
+ :data {:build "cargo build --release"
+        :cond (or true
+                  (= (vim.fn.executable :cargo) 1))
+        : after}}

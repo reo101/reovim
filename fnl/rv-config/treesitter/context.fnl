@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)
         treesitter-context (require :treesitter-context)
         opt {;; Enable this plugin (Can be enabled/disabled later via commands)
@@ -33,7 +33,7 @@
                  :c [#(treesitter-context.toggle) :Context]}}}
         {:prefix :<leader>})))
 
-{1 :romgrk/nvim-treesitter-context
- :event :VeryLazy
- : config
- :enabled false}
+{:src "https://github.com/romgrk/nvim-treesitter-context"
+ :data {:event :DeferredUIEnter
+        : after
+        :enabled false}}

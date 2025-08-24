@@ -1,11 +1,11 @@
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)
         hunk (require :hunk)
         opt {}]
     (hunk.setup opt)))
 
-{1 :julienvincent/hunk.nvim
- :dependencies [:nvim-tree/nvim-web-devicons
-                :MunifTanjim/nui.nvim]
- :cmd [:DiffEditor]
- : config}
+{:src "https://github.com/julienvincent/hunk.nvim"
+ :data {:dependencies [:nvim-tree/nvim-web-devicons
+                       :MunifTanjim/nui.nvim]
+        :cmd [:DiffEditor]
+        : after}}

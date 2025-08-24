@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [{: lsp-on-init
          : lsp-on-attach
          : lsp-capabilities
@@ -25,4 +25,4 @@
                           :shell.nix])}]
     ((. (. (require :lspconfig) :purescriptls) :setup) opt)))
 
-{: config}
+{: after}

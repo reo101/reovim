@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [dk    (require :def-keymaps)
         tsj   (require :treesj)
         langs {}
@@ -30,7 +30,7 @@
              :M [#(tsj.toggle {:split {:recursive true}}) "Toggle (recursive)"]}}
         {:prefix :<leader>})))
 
-{1 :Wansmer/treesj
- :dependencies [:nvim-treesitter/nvim-treesitter]
- :event :BufRead
- : config}
+{:src "https://github.com/Wansmer/treesj"
+ :data {:dependencies [:nvim-treesitter/nvim-treesitter]
+        :event :BufRead
+        : after}}

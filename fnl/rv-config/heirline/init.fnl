@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [{: heirline
          : conditions
          : utils
@@ -229,12 +229,12 @@
         {:callback #(utils.on_colorscheme setup-colors)
          : group}))))
 
-{1 :rebelot/heirline.nvim
- :dependencies [:SmiteshP/nvim-navic
-                :nvim-tree/nvim-web-devicons
-                :lewis6991/gitsigns.nvim
-                :L3MON4D3/LuaSnip
-                :mfussenegger/nvim-dap
-                :Zeioth/heirline-components.nvim]
- :event :VeryLazy
- : config}
+{:src "https://github.com/rebelot/heirline.nvim"
+ :data {:dependencies [:SmiteshP/nvim-navic
+                       :nvim-tree/nvim-web-devicons
+                       :lewis6991/gitsigns.nvim
+                       :L3MON4D3/LuaSnip
+                       :mfussenegger/nvim-dap
+                       :Zeioth/heirline-components.nvim]
+        :event :DeferredUIEnter
+        : after}}

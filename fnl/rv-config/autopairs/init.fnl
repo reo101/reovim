@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [ultimate-autopair (require :ultimate-autopair)
         dk (require :def-keymaps)
         opt {:profile :default
@@ -91,8 +91,10 @@
                  2 "'"
                  :surround true
                  :cond #(and (not ($.in_lisp))
-                             (not ($.in_string)))
-                 :alpha true
+                             (not ($.in_string))
+                             ;; NOTE: for `rust` lifetimes
+                             (not ($.in_node [:type_parameters])))
+                 ;; :alpha true
                  :nft [:tex
                        :latex]
                  :multiline false}
@@ -117,7 +119,12 @@
                  :dosurround true
                  :newline true
                  :ft [:nix]
-                 :conf #(not ($.in_string))}]
+                 :conf #(not ($.in_string))}
+                {1 :<!--
+                 2 :-->
+                 :newline true
+                 :ft [:html
+                      :markdown]}]
              :config_internal_pairs []}]
     ;; (tset (require :ultimate-autopair.core)
     ;;       :modes
@@ -136,9 +143,9 @@
         {}
         {:prefix :<leader>})))
 
-{1 :altermo/ultimate-autopair.nvim
- :dependencies [:nvim-treesitter/nvim-treesitter]
- :branch :v0.6
- :event  [:InsertEnter
-          :CmdlineEnter]
- : config}
+{:src "https://github.com/altermo/ultimate-autopair.nvim"
+ :version :v0.6
+ :data {:dependencies [:nvim-treesitter/nvim-treesitter]
+        :event  [:InsertEnter
+                 :CmdlineEnter]
+        : after}}

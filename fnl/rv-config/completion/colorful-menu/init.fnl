@@ -1,4 +1,4 @@
-(fn config []
+(fn after []
   (let [colorful-menu (require :colorful-menu)
         dk (require :def-keymaps)
         opt {:ls {}
@@ -10,5 +10,5 @@
         {}
         {:prefix :<leader>})))
 
-{1 :xzbdmw/colorful-menu.nvim
- :opts {}}
+{:src "https://github.com/xzbdmw/colorful-menu.nvim"
+ :data {:opts {}}}

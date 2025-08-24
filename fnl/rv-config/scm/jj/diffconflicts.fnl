@@ -1,10 +1,10 @@
-(fn config []
+(fn after []
   (let [dk (require :def-keymaps)
         jj-diffconflicts (require :jj-diffconflicts)]
     nil))
 
-{1 :rafikdraoui/jj-diffconflicts
- :dependencies [:nvim-tree/nvim-web-devicons
-                :MunifTanjim/nui.nvim]
- :cmd [:JJDiffConflicts]
- : config}
+{:src "https://github.com/rafikdraoui/jj-diffconflicts"
+ :data {:dependencies [:nvim-tree/nvim-web-devicons
+                       :MunifTanjim/nui.nvim]
+        :cmd [:JJDiffConflicts]
+        : after}}

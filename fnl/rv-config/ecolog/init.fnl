@@ -2,7 +2,7 @@
   {: as->}
   :init-macros)
 
-(fn config []
+(fn after []
   (let [ecolog (require :ecolog)
         dk (require :def-keymaps)
         opt {:integrations
@@ -42,5 +42,5 @@
         {}
         {:prefix :<leader>})))
 
-{1 :philosofonusus/ecolog.nvim
- : config}
+{:src "https://github.com/philosofonusus/ecolog.nvim"
+ :data {: after}}
