@@ -21,17 +21,8 @@
 ;;      \__\::::/      \__\/      \  \:\       ;;
 ;;          ~~~~                   \__\/       ;;
 
-(require :globals)
+;; Bootstrap nfnl and custom Fennel compiler
+(require :bootstrap-nfnl)
 
-(require :settings)
-
-(when vim.loader
-  (vim.loader.enable))
-(tset vim.g :loader_luv true)
-
-(require :packages)
-
-(require :autocommands)
-
-(when vim.g.neovide
-  (require :neovide))
+;; We are now in fennel land
+(require :initialize)

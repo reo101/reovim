@@ -1,4 +1,5 @@
-;; fennel-ls: macro-file.
+;; [nfnl-macro]
+;; fennel-ls: macro-file
 
 (fn rv [path]
   (assert-compile

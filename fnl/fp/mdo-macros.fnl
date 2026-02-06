@@ -1,3 +1,4 @@
+;; [nfnl-macro]
 ;; fennel-ls: macro-file
 
 (fn mdo [dMonad ...]

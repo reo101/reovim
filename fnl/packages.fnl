@@ -9,13 +9,13 @@
 ;; (local lazy (require :lazy))
 
 (local main-plugins
-    [;; Nix helper
+    [;; Nix helper (bootstrapped in <./bootstrap-nfnl.fnl>)
      {:src "https://github.com/BirdeeHub/nixCats-nvim"
       :priority 1000
       :lazy false}
 
-     ;; Fennel loader
-     {:src "https://github.com/udayvir-singh/tangerine.nvim"
+     ;; Fennel compiler (bootstrapped in <./bootstrap-nfnl.fnl>)
+     {:src "https://github.com/Olical/nfnl"
       :priority 1000
       :lazy false}
 
@@ -23,7 +23,7 @@
      {:src "https://github.com/vhyrro/luarocks.nvim"
       :priority 1000}
 
-     ;; Typed fennel
+     ;; Typed fennel (bootstrapped in <./bootstrap-nfnl.fnl>)
      {:src "https://github.com/reo101/typed-fennel"
       ;; :src "https://github.com/dokutan/typed-fennel"
       :branch :subdirectories}
@@ -33,12 +33,16 @@
       :version :v1.8.0}])
 
 (fn preload [path]
-  (icollect [mod (-> (vim.fn.stdpath :config)
-                     (vim.fs.joinpath :fnl path)
+  ;; NOTE: nfnl output directory is set up in <./bootstrap-nfnl.fnl>
+  (icollect [mod (-> (vim.fn.stdpath :data)
+                     (vim.fs.joinpath :nfnl :lua path)
                      vim.fs.dir)]
-    (let [mod (or (mod:match "^(.*)%.fnl$")
+    (let [mod (or (mod:match "^(.*)%.lua$")
                   mod)]
-       (require (.. path :. mod)))))
+      ;; Skip template files/directories and init.lua
+      (when (and (not (mod:match "^__"))
+                 (not= mod :init))
+        (require (.. path :. mod))))))
 
 (fn flatten [seq ?res]
   (local res (or ?res []))

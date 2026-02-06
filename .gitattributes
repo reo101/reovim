@@ -1,5 +1,3 @@
 *.fnl linguist-language=Fennel
-after/**/*.lua linguist-generated
-ftdetect/**/*.lua linguist-generated
-ftplugins/**/*.lua linguist-generated
+*.lua linguist-generated
 doc/* linguist-documentation
