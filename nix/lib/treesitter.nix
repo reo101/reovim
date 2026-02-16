@@ -4,7 +4,7 @@
 { pkgs, lib }:
 
 let
-  inherit (pkgs) stdenv tree-sitter neovimUtils;
+  inherit (pkgs) stdenv tree-sitter;
 
   # Parse GitHub URL to extract owner/repo
   parseGitHubUrl = url:
@@ -19,10 +19,11 @@ let
     } else null;
 
   # Build a single treesitter grammar from lockfile entry
-  # Returns { name = <entry-name>; lang = <tree_sitter_lang>; drv = <derivation>; }
+  # Returns { name = <entry-name>; lang = <language_name>; drv = <derivation>; }
   buildGrammarFromLockfile = name: entry:
     let
       language = lib.removePrefix "tree-sitter-" name;
+      # Neovim expects parser/<language>.so where language uses underscores
       grammarName = lib.replaceStrings ["-"] ["_"] language;
 
       githubParsed = parseGitHubUrl entry.src;
@@ -43,34 +44,24 @@ let
             inherit hash;
           };
 
+      # Determine if we need tree-sitter generate:
+      # - If the lockfile entry has no "files" field, it needs generate
+      # - If files is empty, it needs generate
+      # - If files doesn't include "src/parser.c", it needs generate
+      # This avoids IFD (builtins.pathExists on a derivation path)
+      files = entry.files or [];
+      needsGenerate = files == [] || !(builtins.elem "src/parser.c" files);
+
       drv = tree-sitter.buildGrammar {
         language = grammarName;
         version = builtins.substring 0 7 entry.rev;
         inherit src;
-
-        # Auto-detect if we need to generate (no parser.c means we need tree-sitter generate)
-        generate = lib.optionalString
-          (!(builtins.pathExists "${src}/src/parser.c"))
-          "true";
-
-        nativeBuildInputs = [
-          pkgs.nodejs
-          pkgs.tree-sitter
-          pkgs.jq
-        ];
-
-        preBuild = ''
-          if [ -f package.json ] && [ ! -d node_modules ]; then
-            if grep -q "tree-sitter" package.json 2>/dev/null; then
-              npm install 2>/dev/null || true
-            fi
-          fi
-        '';
+        generate = needsGenerate;
       };
     in
     {
       inherit name drv;
-      lang = "tree_sitter_${grammarName}";
+      lang = grammarName;
     };
 
   # Check if an entry is a treesitter grammar
@@ -79,7 +70,7 @@ let
 
   # Build all treesitter grammars from lockfile
   # Grammars are stored under a "grammars" key in nvim-pack-lock.json
-  # Returns list of { name = <name>; lang = <tree_sitter_lang>; drv = <derivation>; }
+  # Returns list of { name = <name>; lang = <language_name>; drv = <derivation>; }
   mkTreesitterGrammarsFromLockfile = { lockfilePath }:
     let
       lockfile = lib.importJSON lockfilePath;
@@ -97,9 +88,10 @@ let
   # Get the appropriate shared library extension for the platform
   inherit (stdenv.hostPlatform.extensions) sharedLibrary;
 
-  # Create a unified parser directory with all grammars using linkFarm
-  # We use runCommand with shell script to avoid IFD from builtins.pathExists
-  # grammars is a list of { name = <name>; lang = <tree_sitter_lang>; drv = <derivation>; }
+  # Create a unified parser directory with all grammars
+  # buildGrammar outputs: $out/parser (the .so binary), $out/queries/*.scm (optional)
+  # Neovim expects: parser/<lang>.so and queries/<lang>/*.scm in rtp
+  # grammars is a list of { name = <name>; lang = <language_name>; drv = <derivation>; }
   mkParserDir = { grammars }:
     pkgs.runCommand "treesitter-parsers" {} ''
       mkdir -p $out/parser
@@ -107,12 +99,14 @@ let
 
       ${lib.concatStrings (map (grammarInfo: ''
         # Link parser for ${grammarInfo.name}
-        ln -s ${grammarInfo.drv}/lib/${grammarInfo.lang}/parser/${grammarInfo.lang}${sharedLibrary} $out/parser/
+        ln -s ${grammarInfo.drv}/parser $out/parser/${grammarInfo.lang}${sharedLibrary}
 
-        # Link queries if they exist (using shell test, not IFD)
-        if [ -d "${grammarInfo.drv}/lib/${grammarInfo.lang}/queries/${grammarInfo.lang}" ]; then
+        # Link queries if they exist
+        # buildGrammar puts queries directly in $out/queries/ (no lang subdirectory)
+        # but Neovim expects them in queries/<lang>/
+        if [ -d "${grammarInfo.drv}/queries" ]; then
           mkdir -p $out/queries/${grammarInfo.lang}
-          for query in ${grammarInfo.drv}/lib/${grammarInfo.lang}/queries/${grammarInfo.lang}/*; do
+          for query in ${grammarInfo.drv}/queries/*; do
             if [ -f "$query" ]; then
               ln -s "$query" $out/queries/${grammarInfo.lang}/
             fi
