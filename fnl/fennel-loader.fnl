@@ -4,6 +4,28 @@
 
 (local dev-fennel-path (.. vim.env.HOME "/Projects/Home/Fennel/Fennel"))
 
+;;; State
+
+(local specials-registry {})
+(local macro-registry {})
+(local fennel-module-prefixes
+       [:fennel
+        :nfnl.fennel
+        :conjure.aniseed.deps.fennel
+        :conjure.aniseed.fennel
+        :conjure.nfnl.fennel])
+(local fennel-submodules
+       [:compiler
+        :parser
+        :specials
+        :utils
+        :view
+        :repl
+        :friend
+        :binary])
+
+;;; Internal Helpers
+
 (fn find-nix-fennel-path []
   "Find Fennel installed via Nix in PATH, returns lua module path or nil"
   (let [fennel-bin (vim.fn.exepath :fennel)]
@@ -39,13 +61,174 @@
         (when (and nix-path (has-discard-support? nix-path))
           nix-path))))
 
+;;; Module Management
+
+(fn fennel-module-key? [k]
+  (when (= (type k) :string)
+    (accumulate [match? false
+                 _ prefix (ipairs fennel-module-prefixes)]
+      (or match?
+          (= k prefix)
+          (vim.startswith k (.. prefix "."))))))
+
+(fn sync-fennel-submodules! [prefix]
+  (each [_ sub (ipairs fennel-submodules)]
+    (let [standard-key (.. "fennel." sub)
+          target-key (.. prefix "." sub)
+          mod (. package.loaded standard-key)]
+      (when mod
+        (tset package.loaded target-key mod)))))
+
 (fn purge-fennel-modules []
   "Remove all fennel modules from `package.loaded` and `package.preload`"
   (each [_ tbl (ipairs [:loaded :preload])]
     (each [k _ (pairs (. package tbl))]
-      (when (or (k:match "^fennel%.")
-                (k:match "^nfnl%.fennel"))
+      (when (fennel-module-key? k)
         (tset (. package tbl) k nil)))))
+
+(fn sync-fennel-modules [fennel]
+  "Synchronize all known Fennel module prefixes to one instance"
+  (let [f (or fennel package.loaded.fennel)]
+    (when (and f (= (type f) :table))
+      (each [_ sub (ipairs fennel-submodules)]
+        (pcall require (.. "fennel." sub)))
+      (each [_ prefix (ipairs fennel-module-prefixes)]
+        (tset package.loaded prefix f)
+        (sync-fennel-submodules! prefix)))))
+
+;;; Macro/Special Injection
+
+(fn patch-table [t registry]
+  "Inject registry aliases into a table (e.g. specials or macros)"
+  (when (and (= (type t) :table) (= (type registry) :table))
+    (each [name target (pairs registry)]
+      (let [val (or (. t target) target)]
+        (when (and val (not (. t name)))
+          (tset t name val))))
+    true))
+
+(fn patch-scope [scope]
+  (when (= (type scope) :table)
+    (patch-table (?. scope :specials) specials-registry)
+    (patch-table (?. scope :macros) macro-registry)
+    scope))
+
+(fn patch-specials-module []
+  (let [(ok specials) (pcall require :fennel.specials)]
+    (when (and ok (= (type specials) :table))
+      (patch-table specials specials-registry))))
+
+(fn apply-registries []
+  "Patch the canonical compiler/specials tables in place"
+  (let [(ok-compiler compiler) (pcall require :fennel.compiler)]
+    (when ok-compiler
+      (patch-scope (?. compiler :scopes :global))
+      (patch-scope (?. compiler :scopes :compiler))))
+  (patch-specials-module))
+
+(fn merge-registry! [registry defs]
+  (when (= (type defs) :table)
+    (each [name value (pairs defs)]
+      (tset registry name
+            (if (and (= (type value) :table) (not= (. value :clone) nil))
+                (or (. value :value) (. value :clone))
+                value)))))
+
+(fn registry-snapshot [registry]
+  (let [copy {}]
+    (each [name value (pairs (or registry {}))]
+      (tset copy name value))
+    copy))
+
+(fn register-macro-defs [defs]
+  "Register one normalized defs table: `{:specials {...} :macros {...}}`"
+  (merge-registry! specials-registry defs.specials)
+  (merge-registry! macro-registry defs.macros)
+  (apply-registries))
+
+(fn registered-defs []
+  {:specials (registry-snapshot specials-registry)
+   :macros (registry-snapshot macro-registry)})
+
+(fn nfnl-output-lua-path []
+  (let [nfnl-lua-dir (.. (vim.fn.stdpath :data) "/nfnl/lua")]
+    (.. nfnl-lua-dir "/?.lua;" nfnl-lua-dir "/?/init.lua")))
+
+(fn prepend-package-path! [path-prefix]
+  (when (not (: package.path :match (vim.pesc path-prefix)))
+    (set package.path (.. path-prefix ";" package.path))))
+
+(fn maybe-packadd! [plugin-name]
+  (pcall vim.cmd.packadd {:args [plugin-name]}))
+
+(fn runtime-file [plugin-name file-name]
+  (maybe-packadd! plugin-name)
+  (let [candidates (vim.api.nvim_get_runtime_file file-name true)
+        preferred-pattern (.. "/" (vim.pesc plugin-name) "/" (vim.pesc file-name) "$")]
+    (or (accumulate [found-path nil
+                     _ path (ipairs candidates)]
+          (or found-path
+              (and (: path :match preferred-pattern)
+                   path)))
+        (. candidates 1))))
+
+(fn register-macros-from-module [module-name]
+  (tset package.loaded module-name nil)
+  (let [(ok defs) (pcall require module-name)]
+    (if ok
+        (register-macro-defs defs)
+        (vim.notify (.. "fennel-loader: Failed to load macros from module "
+                        module-name
+                        ": "
+                        (tostring defs))
+                    vim.log.levels.WARN))))
+
+(fn inject-all-global-macros []
+  "Inject the compiled config macro hub universally"
+  (prepend-package-path! (nfnl-output-lua-path))
+  (each [_ module-name (ipairs ["macros.init" "macros.jp"])]
+    (tset package.loaded module-name nil))
+  (register-macros-from-module "macros.init"))
+
+;;; Path Setup
+
+(fn typed-fennel-plugin-parent []
+  (let [init-macros-path (runtime-file "typed-fennel" "init-macros.fnl")]
+    (when init-macros-path
+      (vim.fs.dirname (vim.fs.dirname init-macros-path)))))
+
+(fn typed-fennel-path []
+  (let [plugin-parent (typed-fennel-plugin-parent)]
+    (when plugin-parent
+      (.. plugin-parent "/?/init.fnl"))))
+
+(fn typed-fennel-macro-path []
+  (let [plugin-parent (typed-fennel-plugin-parent)]
+    (when plugin-parent
+      (.. plugin-parent "/?/init-macros.fnl"))))
+
+(fn config-fennel-path [config-dir]
+  (.. config-dir "/?.fnl;"
+      config-dir "/?/init.fnl;"
+      config-dir "/fnl/?.fnl;"
+      config-dir "/fnl/?/init.fnl"))
+
+(fn prepend-search-path! [fennel key path-prefix]
+  (let [current (. fennel key)]
+    (when (and (= (type current) :string)
+               (not (: current :match (vim.pesc path-prefix))))
+      (tset fennel key (.. path-prefix ";" current)))))
+
+(fn setup-fennel-paths [fennel ?config-dir]
+  (let [config-dir (or ?config-dir (vim.fn.stdpath :config))]
+    (when (= (type fennel) :table)
+      (prepend-search-path! fennel :path (config-fennel-path config-dir))
+      (let [typed-fennel-path (typed-fennel-path)]
+        (when typed-fennel-path
+          (prepend-search-path! fennel :path typed-fennel-path)))
+      (let [macro-path (typed-fennel-macro-path)]
+        (when macro-path
+          (prepend-search-path! fennel "macro-path" macro-path))))))
 
 (fn inject-custom-fennel []
   "Find, load, and inject custom Fennel into `package.loaded`"
@@ -54,52 +237,17 @@
       (error (.. "Custom Fennel with #_ support not found.\n"
                  "Checked: " dev-fennel-path "\n"
                  "Also checked PATH for Nix-built fennel.")))
-
     (purge-fennel-modules)
-
     (when (not (: package.path :match (vim.pesc fennel-path)))
       (set package.path (.. fennel-path "/?.lua;" package.path)))
-
     (let [fennel (require :fennel)]
-      (tset package.loaded :nfnl.fennel fennel)
+      (sync-fennel-modules fennel)
+      (apply-registries)
       fennel)))
 
-;; Path to typed-fennel for macro support (shared between nfnl and :Fnl)
-(fn typed-fennel-macro-path []
-  "Returns the macro path for typed-fennel annotations"
-  (.. (vim.fn.stdpath :data) "/site/pack/core/opt/typed-fennel/fnl/?.fnl"))
-
-;; Configure fennel with typed-fennel macro path
-(fn setup-fennel-paths [fennel]
-  "Setup fennel macro path to include typed-fennel"
-  (let [macro-path (typed-fennel-macro-path)]
-    (when (= (type fennel) :table)
-      ;; Add typed-fennel to macro path if not already present
-      (when (and fennel.macro_path
-                 (not (: fennel.macro_path :match (vim.pesc macro-path))))
-        (set fennel.macro_path (.. macro-path ";" fennel.macro_path))))))
-
-(fn inject-jp-macros [config-dir]
-  "Inject Japanese macro aliases into Fennel's global compiler scope"
-  (let [jp-macro-path (.. config-dir "/fnl/jp-macros.fnl")
-        fh (io.open jp-macro-path :r)]
-    (when fh
-      (let [fennel (require :fennel)
-            compiler (require :fennel.compiler)
-            global-macros compiler.scopes.global.macros
-            jp-macro-src (fh:read :*a)
-            jp-macros (fennel.eval jp-macro-src {:env :_COMPILER
-                                                 :filename jp-macro-path})]
-        (fh:close)
-        (each [name func (pairs jp-macros)]
-          (tset global-macros name func))))))
-
-{: dev-fennel-path
- : find-nix-fennel-path
- : has-discard-support?
- : find-custom-fennel
- : purge-fennel-modules
+{: sync-fennel-modules
  : inject-custom-fennel
+ : inject-all-global-macros
+ : registered-defs
  : typed-fennel-macro-path
- : setup-fennel-paths
- : inject-jp-macros}
+ : setup-fennel-paths}

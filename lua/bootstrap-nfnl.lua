@@ -6,10 +6,10 @@ local _local_1_ = require("fennel-loader")
 local inject_custom_fennel = _local_1_["inject-custom-fennel"]
 local typed_fennel_macro_path = _local_1_["typed-fennel-macro-path"]
 local setup_fennel_paths = _local_1_["setup-fennel-paths"]
-local inject_jp_macros = _local_1_["inject-jp-macros"]
+local inject_all_global_macros = _local_1_["inject-all-global-macros"]
 inject_custom_fennel()
 setup_fennel_paths(require("fennel"))
-inject_jp_macros(nvim_config)
+inject_all_global_macros()
 local function setup_paths()
   local nfnl_lua_dir = (nfnl_output_dir .. "/lua")
   local nfnl_after_dir = (nfnl_output_dir .. "/after")

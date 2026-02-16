@@ -12,9 +12,8 @@
   (set package.path (.. lua-path ";" package.path)))
 
 (local {: inject-custom-fennel
-        : typed-fennel-macro-path
         : setup-fennel-paths
-        : inject-jp-macros}
+        : inject-all-global-macros}
   (require :fennel-loader))
 (inject-custom-fennel)
 
@@ -83,8 +82,8 @@
 
 (setup-fennel-paths (require :fennel))
 
-;;; Japanese macro aliases (globally available during nfnl compilation)
-(inject-jp-macros config-dir)
+;;; Global macro aliases (available during nfnl compilation)
+(inject-all-global-macros)
 
 (local nfnl-config (require :nfnl.config))
 (local default-config (nfnl-config.default))
@@ -96,6 +95,5 @@
   {:source-file-patterns (if foreign-config? bootstrap-patterns source-patterns)
    : fnl-path->lua-path
    :orphan-detection {:auto? false}
-   :fennel-macro-path (.. (typed-fennel-macro-path) ";" default-config.fennel-macro-path)
    :compiler-options {:compilerEnv _G
                       :allowedGlobals false}})

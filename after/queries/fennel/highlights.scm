@@ -1,5 +1,7 @@
 ;; extends
 
+;; Alias highlighting for injected Fennel specials/macros is generated at runtime.
+
 ((discard) @comment
  (#set! "priority" 155))
 

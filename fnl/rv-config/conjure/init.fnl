@@ -179,8 +179,9 @@
                 {:enabled false}}}}}}})
 
   ;; Use neovim's fennel
-  (tset package.loaded :conjure.aniseed.deps.fennel
-        package.loaded.fennel)
+  (let [fl (require :fennel-loader)]
+    (fl.sync-fennel-modules)
+    (fl.inject-all-global-macros))
 
   (let [conjure-main (require :conjure.main)
         conjure-mapping (require :conjure.mapping)]

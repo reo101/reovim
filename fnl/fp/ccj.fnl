@@ -1,5 +1,4 @@
 ;;; Delimited continuations (日本語版)
-;;; Uses globally-injected Japanese macros from `jp-macros.fnl`
 
 (ローカル 死体 :dead)
 
@@ -12,7 +11,7 @@
 (関数 _G.触る [コル 状態 ...]
   (場合 (非 状態)
     (誤る (文字列にする ...)))
-  (if (= (コルーチン.状態 コル) 死体)
+  (もし (= (コルーチン.状態 コル) 死体)
       ...
       (付く [シフトの関数 ...]
         (ローカル コルを捕った (コルーチン.クローン コル))

@@ -14,15 +14,15 @@
 (local {: inject-custom-fennel
         : typed-fennel-macro-path
         : setup-fennel-paths
-        : inject-jp-macros}
+        : inject-all-global-macros}
   (require :fennel-loader))
 (inject-custom-fennel)
 
 ;; Setup typed-fennel macro path for :Fnl command
 (setup-fennel-paths (require :fennel))
 
-;;; Japanese macro aliases (globally available)
-(inject-jp-macros nvim-config)
+;;; Global macro aliases (JP and typed-fennel)
+(inject-all-global-macros)
 
 ;;; Paths
 
