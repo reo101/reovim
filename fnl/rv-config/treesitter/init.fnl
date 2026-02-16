@@ -189,6 +189,9 @@
 
     (prefer-single-parser-provider nvim-treesitter-root)
 
+    (let [fennel-highlights (require :rv-config.treesitter.fennel-highlights)]
+      (fennel-highlights.setup))
+
     (fn warn-missing-highlights-query [lang]
       ;; Keep fallback warnings opt-in: some environments intentionally rely on regex syntax.
       (when vim.g.reovim_treesitter_warn_missing_highlights_query
