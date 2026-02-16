@@ -48,10 +48,9 @@
  {:src "https://github.com/reo101/tree-sitter-uci"
   :data {:event :DeferredUIEnter}}
  {:src "https://github.com/nushell/tree-sitter-nu"
-  :data {:event :DeferredUIEnter}}
+  :data {:ft [:nu]}}
  {:src "https://github.com/kwshi/tree-sitter-hy"
   :data {:event :DeferredUIEnter}}
-         ;; :ft [:nu]}}
  {:src "https://github.com/avm99963/vim-jjdescription"}
  ;; Lua docs
  {:src "https://github.com/nanotee/luv-vimdocs"}

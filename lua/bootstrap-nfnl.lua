@@ -12,9 +12,14 @@ inject_custom_fennel()
 setup_fennel_paths(require("fennel"))
 local function setup_paths()
   local nfnl_lua_dir = (nfnl_output_dir .. "/lua")
+  local nfnl_after_dir = (nfnl_output_dir .. "/after")
   local config_lua_dir = (nvim_config .. "/lua")
   if not vim.tbl_contains(vim.opt.runtimepath:get(), nfnl_output_dir) then
     vim.opt.runtimepath:append(nfnl_output_dir)
+  else
+  end
+  if ((1 == vim.fn.isdirectory(nfnl_after_dir)) and not vim.tbl_contains(vim.opt.runtimepath:get(), nfnl_after_dir)) then
+    vim.opt.runtimepath:append(nfnl_after_dir)
   else
   end
   if not vim.tbl_contains(vim.opt.runtimepath:get(), config_lua_dir) then
@@ -42,7 +47,7 @@ local function compile_all_fennel()
 end
 local function setup_fnl_autocommand()
   vim.api.nvim_create_augroup("nfnl_compile", {clear = true})
-  local function _5_(ev)
+  local function _6_(ev)
     local path = vim.api.nvim_buf_get_name(ev.buf)
     local dir = vim.fn.fnamemodify(path, ":h")
     local ok, nfnl_api = pcall(require, "nfnl.api")
@@ -59,11 +64,11 @@ local function setup_fnl_autocommand()
     end
     return nil
   end
-  return vim.api.nvim_create_autocmd("BufWritePost", {group = "nfnl_compile", pattern = "*.fnl", callback = _5_})
+  return vim.api.nvim_create_autocmd("BufWritePost", {group = "nfnl_compile", pattern = "*.fnl", callback = _6_})
 end
 local function create_fnl_command()
   local fennel = require("fennel")
-  local function _8_(opts)
+  local function _9_(opts)
     local code = opts.args
     local ok, result = pcall(fennel.eval, code, {env = "_COMPILER"})
     if ok then
@@ -72,21 +77,24 @@ local function create_fnl_command()
       return vim.notify(tostring(result), vim.log.levels.ERROR)
     end
   end
-  return vim.api.nvim_create_user_command("Fnl", _8_, {nargs = "+", desc = "Evaluate Fennel code using custom Fennel fork"})
+  return vim.api.nvim_create_user_command("Fnl", _9_, {nargs = "+", desc = "Evaluate Fennel code using custom Fennel fork"})
 end
 local function create_nfnl_compile_command()
-  local function _10_()
+  local function _11_()
     compile_all_fennel()
     return vim.notify("nfnl: Compiled all Fennel files", vim.log.levels.INFO)
   end
-  return vim.api.nvim_create_user_command("NfnlCompileAll", _10_, {desc = "Compile all Fennel files via nfnl"})
+  return vim.api.nvim_create_user_command("NfnlCompileAll", _11_, {desc = "Compile all Fennel files via nfnl"})
 end
 local function trust_nfnl_config()
   local nfnl_config_path = (nvim_config .. "/.nfnl.fnl")
   if (1 == vim.fn.filereadable(nfnl_config_path)) then
     local bufnr = vim.fn.bufadd(nfnl_config_path)
+    local saved_ei = vim.o.eventignore
     vim.bo[bufnr]["swapfile"] = false
+    vim.o.eventignore = "all"
     vim.fn.bufload(bufnr)
+    vim.o.eventignore = saved_ei
     return pcall(vim.secure.trust, {bufnr = bufnr, action = "allow"})
   else
     return nil
@@ -146,4 +154,13 @@ if (needs_initial_compilation_3f() and not nix_runtime_3f) then
   setup_paths()
 else
 end
-return setup_fnl_autocommand()
+setup_fnl_autocommand()
+local function _19_()
+  local ft = vim.bo[vim.fn.bufnr()].filetype
+  if (ft == "") then
+    return vim.cmd("filetype detect")
+  else
+    return nil
+  end
+end
+return vim.api.nvim_create_autocmd("VimEnter", {once = true, callback = _19_})

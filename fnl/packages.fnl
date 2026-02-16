@@ -184,9 +184,11 @@
                        vim.iter
                        (: :filter #(. $1 :src))  ; Only specs with src
                        (: :map #(let [name (src->name $1.src)]
+                                  ;; Preserve root-level fields (version/rev/branch/build)
+                                  ;; while still exposing data fields at the top-level for lze.
                                   (vim.tbl_extend :force
-                                    {:name name
-                                     :src $1.src}
+                                    {:name name}
+                                    $1
                                     (or $1.data {}))))
                        (: :totable))
         ;; All plugin specs for vim.pack.add (just for downloading)

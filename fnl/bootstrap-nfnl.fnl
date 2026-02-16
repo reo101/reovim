@@ -27,10 +27,16 @@
 (fn setup-paths []
   "Add nfnl output dir and config lua dir to `rtp` and `package.path`"
   (let [nfnl-lua-dir (.. nfnl-output-dir "/lua")
+        nfnl-after-dir (.. nfnl-output-dir "/after")
         config-lua-dir (.. nvim-config "/lua")]
     ;; Add nfnl output to rtp
     (when (not (vim.tbl_contains (vim.opt.runtimepath:get) nfnl-output-dir))
       (vim.opt.runtimepath:append nfnl-output-dir))
+
+    ;; Add nfnl after/ to rtp so after/ftdetect, after/ftplugin, after/plugin are sourced
+    (when (and (= 1 (vim.fn.isdirectory nfnl-after-dir))
+              (not (vim.tbl_contains (vim.opt.runtimepath:get) nfnl-after-dir)))
+      (vim.opt.runtimepath:append nfnl-after-dir))
 
     ;; Add config lua dir to rtp (contains compiled files in Nix build)
     (when (not (vim.tbl_contains (vim.opt.runtimepath:get) config-lua-dir))
@@ -114,12 +120,18 @@
 ;;; Trust `.nfnl.fnl`
 
 (fn trust-nfnl-config []
-  "Pre-trust `.nfnl.fnl` via `vim.secure.trust`"
+  "Pre-trust `.nfnl.fnl` via `vim.secure.trust`.
+   Uses noautocmd for bufload to prevent BufRead from firing for .nfnl.fnl,
+   which would consume lze's once=true event handlers before the real first
+   file triggers them."
   (let [nfnl-config-path (.. nvim-config "/.nfnl.fnl")]
     (when (= 1 (vim.fn.filereadable nfnl-config-path))
-      (let [bufnr (vim.fn.bufadd nfnl-config-path)]
+      (let [bufnr (vim.fn.bufadd nfnl-config-path)
+            saved-ei vim.o.eventignore]
         (tset (. vim.bo bufnr) :swapfile false)
+        (set vim.o.eventignore :all)
         (vim.fn.bufload bufnr)
+        (set vim.o.eventignore saved-ei)
         (pcall vim.secure.trust {: bufnr :action :allow})))))
 
 ;;; Bootstrap nfnl
@@ -179,3 +191,12 @@
   (compile-all-fennel)
   (setup-paths))
 (setup-fnl-autocommand)
+
+;; Re-detect filetype for the first buffer after rtp is fully set up.
+;; ftdetect/ files from dynamically-added rtp entries (e.g. nfnl output dir)
+;; may not have been sourced when the first buffer was opened.
+(vim.api.nvim_create_autocmd :VimEnter
+  {:once true
+   :callback #(let [ft (. vim.bo (vim.fn.bufnr) :filetype)]
+                (when (= ft "")
+                  (vim.cmd "filetype detect")))})
