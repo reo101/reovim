@@ -72,22 +72,25 @@ let
       # Use the fully custom build (e.g., parinfer-rust with postInstall)
       customBuildConfig.src
     else if hasCustomBuild && customBuildConfig != null then
-      # Use standard buildVimPlugin with custom overrides (e.g., blink.cmp with preInstall)
+      # Use standard buildVimPlugin with custom overrides (e.g., blink.cmp with postInstall)
       pkgs.vimUtils.buildVimPlugin (
-        {
-          pname = name;
-          version = entry.rev;
-          inherit src;
-        }
-        // lib.optionalAttrs (skipModules != [ ]) {
-          nvimSkipModules = skipModules;
-        }
-        // lib.optionalAttrs (builtins.hasAttr "preInstall" customBuildConfig) {
-          preInstall = customBuildConfig.preInstall;
-        }
-        // lib.optionalAttrs (builtins.hasAttr "passthru" customBuildConfig) {
-          passthru = customBuildConfig.passthru;
-        }
+       {
+         pname = name;
+         version = entry.rev;
+         inherit src;
+       }
+       // lib.optionalAttrs (skipModules != [ ]) {
+         nvimSkipModules = skipModules;
+       }
+       // lib.optionalAttrs (builtins.hasAttr "preInstall" customBuildConfig) {
+         preInstall = customBuildConfig.preInstall;
+       }
+       // lib.optionalAttrs (builtins.hasAttr "postInstall" customBuildConfig) {
+         postInstall = customBuildConfig.postInstall;
+       }
+       // lib.optionalAttrs (builtins.hasAttr "passthru" customBuildConfig) {
+         passthru = customBuildConfig.passthru;
+       }
       )
     else
       # Standard build with no custom configuration

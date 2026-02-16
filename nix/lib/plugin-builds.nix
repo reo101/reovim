@@ -62,7 +62,7 @@ let
       };
 
     # blink.cmp: Needs Rust compilation for the fuzzy matcher library
-    blink.cmp = entry:
+    "blink.cmp" = entry:
       let
         inherit (entry) src;
         # Build the Rust fuzzy library separately
@@ -72,6 +72,11 @@ let
           inherit src;
 
           cargoHash = "sha256-Qdt8O7IGj2HySb1jxsv3m33ZxJg96Ckw26oTEEyQjfs=";
+
+          # Pin frizbee to 0.6.0 to avoid nightly-only std::simd in 0.7.0
+          cargoPatches = [
+            ./blink-cmp-pin-frizbee-0.6.0.patch
+          ];
 
           nativeBuildInputs = with pkgs; [
             gitMinimal
@@ -90,7 +95,9 @@ let
       in
       {
         inherit src;
-        # Pre-install hook to link the compiled library
+        # Pre-install hook to link the compiled library into the build directory
+        # blink.cmp looks for the library at: plugin_root/target/release/libblink_cmp_fuzzy.{so,dylib}
+        # preInstall runs before `cp -r . $target`, so target/ gets copied into the output
         preInstall = ''
           mkdir -p target/release
           ln -s ${blink-fuzzy-lib}/lib/libblink_cmp_fuzzy${sharedLibExt} target/release/libblink_cmp_fuzzy${sharedLibExt}
