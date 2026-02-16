@@ -187,7 +187,8 @@
                           "`"]}
             :highlight {:duration 0}
             :move_cursor :begin}]
-  (nvim-surround.setup opt)))
+  (tset vim.g :nvim_surround opt)))
 
 {:src "https://github.com/kylechui/nvim-surround"
+ :version :4.0.0
  :data {: after}}
