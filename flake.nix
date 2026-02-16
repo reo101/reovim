@@ -49,70 +49,85 @@
     ];
   };
 
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, lib, ... }: let
-    fs = lib.fileset;
-    # Define the config files once, reused in both flakeModules and perSystem
-    configFiles = fs.unions [
-      ./.nfnl.fnl
-      ./init.fnl
-      ./init.lua
-      ./fnl
-      ./lua
-      ./after
-      ./syntax
-      ./lsp
-      ./luasnippets
-    ];
-  in {
-      systems = import inputs.systems.outPath;
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+      { withSystem, lib, ... }:
+      let
+        fs = lib.fileset;
+        # Define the config files once, reused in both flakeModules and perSystem
+        configFiles = fs.unions [
+          ./.nfnl.fnl
+          ./init.fnl
+          ./init.lua
+          ./fnl
+          ./lua
+          ./after
+          ./syntax
+          ./lsp
+          ./luasnippets
+        ];
+      in
+      {
+        systems = import inputs.systems.outPath;
 
-      imports = [
-        # Reovim-specific configuration
-        ./nix/flake/reovim.nix
-      ];
+        imports = [
+          # Reovim-specific configuration
+          ./nix/flake/reovim.nix
+        ];
 
-      perSystem = { lib, pkgs, self', ... }: {
-        packages = {
-          fennel = pkgs.callPackage ./nix/pkgs/fennel.nix {
-            lua = pkgs.luajit;
-            src = inputs.fennel-src;
+        perSystem =
+          {
+            lib,
+            pkgs,
+            self',
+            ...
+          }:
+          {
+            packages = {
+              fennel = pkgs.callPackage ./nix/pkgs/fennel.nix {
+                lua = pkgs.luajit;
+                src = inputs.fennel-src;
+              };
+              luajitcoroutineclone = pkgs.callPackage ./nix/pkgs/luajitcoroutineclone/default.nix { };
+            };
+
+            devShells.default = pkgs.callPackage ./nix/shells/default/default.nix { };
+
+            apps = {
+              reovim = {
+                type = "app";
+                program = "${self'.packages.reovim}/bin/nvim";
+              };
+              default = self'.apps.reovim;
+            };
+            formatter = pkgs.nixfmt;
+          };
+
+        flake = {
+          inherit configFiles;
+
+          flakeModules.reovim =
+            let
+              configSource = fs.toSource {
+                root = ./.;
+                fileset = configFiles;
+              };
+            in
+            inputs.nix-wrapper-modules.lib.evalModule {
+              imports = [ inputs.nix-wrapper-modules.lib.wrapperModules.neovim ];
+              # Convert the source to a string path for Lua concatenation
+              config.settings.config_directory = "${configSource}";
+            };
+
+          nixosModules = {
+            default = inputs.self.nixosModules.reovim;
+            reovim = inputs.nix-wrapper-modules.lib.mkInstallModule {
+              name = "reovim";
+              value = inputs.self.flakeModules.reovim;
+            };
           };
         };
-
-        devShells.default = pkgs.callPackage ./nix/shells/default/default.nix { };
-
-        apps = {
-          reovim = {
-            type = "app";
-            program = "${self'.packages.reovim}/bin/nvim";
-          };
-          default = self'.apps.reovim;
-        };
-        formatter = pkgs.nixfmt;
-      };
-
-      flake = {
-        inherit configFiles;
-
-        flakeModules.reovim = let
-          configSource = fs.toSource {
-            root = ./.;
-            fileset = configFiles;
-          };
-        in inputs.nix-wrapper-modules.lib.evalModule {
-          imports = [ inputs.nix-wrapper-modules.lib.wrapperModules.neovim ];
-          # Convert the source to a string path for Lua concatenation
-          config.settings.config_directory = "${configSource}";
-        };
-
-        nixosModules = {
-          default = inputs.self.nixosModules.reovim;
-          reovim = inputs.nix-wrapper-modules.lib.mkInstallModule {
-            name = "reovim";
-            value = inputs.self.flakeModules.reovim;
-          };
-        };
-      };
-    });
+      }
+    );
 }

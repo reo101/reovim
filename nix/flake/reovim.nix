@@ -58,12 +58,33 @@ in
       }:
       let
         fennelPackage =
-          if config.reovim.fennelPackage != null then
-            config.reovim.fennelPackage
-          else
-            self'.packages.fennel;
+          if config.reovim.fennelPackage != null then config.reovim.fennelPackage else self'.packages.fennel;
         fs = lib.fileset;
-        neovimPkgs = pkgs.extend inputs.neovim-nightly-overlay.overlays.default;
+        patchedNeovimOverlay =
+          final: prev:
+          let
+            patchedNeovim = prev.neovim.override {
+              luajit = self'.packages.luajitcoroutineclone;
+            };
+            patchedNeovimDebug = prev.neovim-debug.override {
+              neovim = patchedNeovim;
+            };
+          in
+          {
+            neovim = patchedNeovim;
+            neovim-unwrapped = patchedNeovim;
+            neovim-debug = patchedNeovimDebug;
+            neovim-developer = prev.neovim-developer.override {
+              neovim-debug = patchedNeovimDebug;
+              neovim-unwrapped = patchedNeovim;
+            };
+          };
+        neovimPkgs = pkgs.extend (
+          lib.composeManyExtensions [
+            inputs.neovim-nightly-overlay.overlays.default
+            patchedNeovimOverlay
+          ]
+        );
 
         lockfileLib = import ../lib/lockfile.nix {
           pkgs = neovimPkgs;
@@ -86,7 +107,7 @@ in
           name = "reovim-config-with-compiled-lua";
           src = rawConfigSource;
           nativeBuildInputs = [
-            neovimPkgs.neovim
+            neovimPackage
             fennelPackage
           ];
           buildPhase = ''
@@ -178,9 +199,9 @@ in
           inputs.nix-wrapper-modules.lib.wrapperModules.neovim
           {
             config = {
+              package = neovimPackage;
               settings = {
                 config_directory = "${configSource}";
-                package = neovimPackage;
                 viAlias = true;
                 vimAlias = true;
                 vimdiffAlias = true;
@@ -196,8 +217,8 @@ in
       in
       {
         packages = {
-          reovim = wrapperModule.config.wrap { inherit pkgs; };
-          default = wrapperModule.config.wrap { inherit pkgs; };
+          reovim = wrapperModule.config.wrap { pkgs = neovimPkgs; };
+          default = wrapperModule.config.wrap { pkgs = neovimPkgs; };
         };
       };
 

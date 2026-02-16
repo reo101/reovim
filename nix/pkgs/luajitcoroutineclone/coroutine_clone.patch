@@ -1,0 +1,100 @@
+diff --git a/src/lib_base.c b/src/lib_base.c
+index d644b4f2..3e6c0870 100644
+--- a/src/lib_base.c
++++ b/src/lib_base.c
+@@ -610,6 +610,35 @@ LJLIB_ASM(coroutine_yield)
+   return FFH_UNREACHABLE;
+ }
+ 
++LJLIB_CF(coroutine_clone)
++{
++  ErrMsg em;
++  lua_State *L1;
++  lua_State *L2;
++
++  // Check if the argument is a coroutine
++  if (!(L->base < L->top && tvisthread(L->base)))
++    lj_err_arg(L, 1, LJ_ERR_NOCORO);
++
++  // Fetch the original coroutine
++  L1 = threadV(L->base);
++
++  // Only clone coroutines that coroutine.resume would accept.
++  if (L1->cframe != NULL || L1->status > LUA_YIELD ||
++      (L1->status == LUA_OK && L1->top == L1->base)) {
++    em = L1->cframe ? LJ_ERR_CORUN : LJ_ERR_CODEAD;
++    lj_err_caller(L, em);
++  }
++
++  // Clone the coroutine using lj_clonethread
++  L2 = lj_clonethread(L, L1);
++
++  // Return the cloned coroutine
++  setthreadV(L, L->top++, L2);
++
++  return 1;
++}
++
+ static int ffh_resume(lua_State *L, lua_State *co, int wrap)
+ {
+   if (co->cframe != NULL || co->status > LUA_YIELD ||
+diff --git a/src/lj_state.c b/src/lj_state.c
+index 6fd7d9ce..7ccba167 100644
+--- a/src/lj_state.c
++++ b/src/lj_state.c
+@@ -164,6 +164,43 @@ int LJ_FASTCALL lj_state_cpgrowstack(lua_State *L, MSize need)
+   return lj_vm_cpcall(L, NULL, &need, cpgrowstack);
+ }
+ 
++LUA_API lua_State *lj_clonethread(lua_State *L, lua_State *from) {
++  lua_State *to;
++  TValue *f, *t, *tend;
++
++  // Create a new thread
++  to = lj_state_new(L);
++
++  // Grow the destination stack to match the source stack capacity.
++  if (to->stacksize < from->stacksize)
++    lj_state_growstack(to, from->stacksize - LJ_STACK_EXTRA - 1);
++
++  // Copy stack slots
++  for (f = tvref(from->stack), t = tvref(to->stack); f < from->top; f++, t++) {
++    copyTV(to, t, f);
++  }
++  to->top = t;
++  tend = tvref(to->stack) + to->stacksize;
++  for (; t < tend; t++) {
++    setnilV(t);
++  }
++
++  // stack[0] stores the current thread for curr_funcisL() on empty stacks.
++  setthreadV(to, tvref(to->stack), to);
++  to->base = tvref(to->stack) + (from->base - tvref(from->stack));
++
++  // Copy other relevant fields
++  to->status = from->status;
++  to->cframe = NULL;
++  setmrefr(to->glref, from->glref);
++
++  // Copy GC-managed references without reinterpreting them as raw pointers.
++  setgcrefr(to->env, from->env);
++
++  // Return the new thread
++  return to;
++}
++
+ /* Allocate basic stack for new state. */
+ static void stack_init(lua_State *L1, lua_State *L)
+ {
+diff --git a/src/lj_state.h b/src/lj_state.h
+index 3850e5a1..f6d0c6d3 100644
+--- a/src/lj_state.h
++++ b/src/lj_state.h
+@@ -19,6 +19,7 @@ LJ_FUNC void lj_state_shrinkstack(lua_State *L, MSize used);
+ LJ_FUNCA void LJ_FASTCALL lj_state_growstack(lua_State *L, MSize need);
+ LJ_FUNC void LJ_FASTCALL lj_state_growstack1(lua_State *L);
+ LJ_FUNC int LJ_FASTCALL lj_state_cpgrowstack(lua_State *L, MSize need);
++LUA_API lua_State *lj_clonethread(lua_State *L, lua_State *from);
+ 
+ static LJ_AINLINE void lj_state_checkstack(lua_State *L, MSize need)
+ {
