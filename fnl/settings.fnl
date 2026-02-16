@@ -252,7 +252,6 @@
 
 ;;; External UI
 (let [extui (-> [:vim._core.ui2 :vim._extui]
-                ipairs
                 vim.iter
                 (: :map #(let [(ok? m) (pcall require $)]
                            (if ok? m nil)))
