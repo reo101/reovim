@@ -251,15 +251,10 @@
 (tset vim.opt :foldenable     true)
 
 ;;; External UI
-(let [extui (-> [:vim._core.ui2 :vim._extui]
-                vim.iter
-                (: :map #(let [(ok? m) (pcall require $)]
-                           (if ok? m nil)))
-                (: :find #(~= $1 nil)))]
-  (when extui
-    (pcall extui.enable {:enable true
-                         :msg {:target :cmd
-                               :timeout 4000}})))
+(let [extui (require :vim._core.ui2)]
+  (extui.enable {:enable true
+                 :msg {:target :cmd
+                       :timeout 4000}}))
 
 ;;; Disable builtin plugins and language providers
 (let [disabled-plugins
