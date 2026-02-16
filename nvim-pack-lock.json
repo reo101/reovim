@@ -371,6 +371,11 @@
       "src": "https://github.com/Olical/conjure",
       "rev": "8dba456acc370ecac3f8191067f9ad43e18d7901"
     },
+    "fff.nvim": {
+      "sha256": "sha256-WhfHVbNzeNpowoLXg33R9dieATWVObG5oHuGfiAmtvE=",
+      "src": "https://github.com/dmtrKovalenko/fff.nvim",
+      "rev": "736c41ecd618980a81af51ab79ec1767ca0aa7ae"
+    },
     "videre.nvim": {
       "sha256": "sha256-CMV372A/X9+ObbqNrUu8tMX++rhvP85mNKOuIZEvvRo=",
       "src": "https://github.com/Owen-Dechow/videre.nvim",

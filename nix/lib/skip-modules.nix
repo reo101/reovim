@@ -107,6 +107,10 @@
     "repro"
     "blink.cmp.fuzzy.rust.init"
   ];
+  "fff.nvim" = [
+    # Plugin-local helper that shells out to git; fails in sandboxed require checks.
+    "empty_config"
+  ];
   "colorful-menu.nvim" = [
     "repro_cmp"
     "repro_blink"

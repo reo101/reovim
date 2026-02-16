@@ -152,6 +152,82 @@ let
             inherit blink-fuzzy-lib;
           };
         };
+
+      # fff.nvim: Build Rust backend once in Nix and link it into target/release.
+      "fff.nvim" =
+        entry:
+        let
+          inherit (entry) src;
+          fff-lib = pkgs.rustPlatform.buildRustPackage {
+            pname = "fff-nvim-lib";
+            version = builtins.substring 0 7 entry.rev;
+            inherit src;
+
+            cargoLock = {
+              lockFile = "${src}/Cargo.lock";
+            };
+
+            cargoBuildFlags = [
+              "-p"
+              "fff-nvim"
+              "--features"
+              "zlob"
+            ];
+
+            nativeBuildInputs = with pkgs; [
+              pkg-config
+              perl
+              llvmPackages.libclang.lib
+            ];
+
+            buildInputs =
+              (with pkgs; [
+                openssl
+              ])
+              ++ lib.optionals stdenv.hostPlatform.isDarwin [
+                pkgs.libiconv
+              ];
+
+            LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
+
+            # Keep zig available for zlob while avoiding zig's build hook taking over buildPhase.
+            preBuild = ''
+              export PATH=${lib.makeBinPath [ pkgs.zig ]}:$PATH
+            '';
+
+            # Defensive: make sure cargoBuildHook remains the active build phase.
+            dontUseZigBuild = true;
+
+            doCheck = false;
+
+            installPhase = ''
+              runHook preInstall
+              mkdir -p $out/lib
+
+              lib_path="$(find target -type f -name 'libfff_nvim${sharedLibExt}' | head -n1)"
+              if [ -z "$lib_path" ]; then
+                echo "Failed to find libfff_nvim${sharedLibExt} under target/"
+                exit 1
+              fi
+
+              cp "$lib_path" "$out/lib/libfff_nvim${sharedLibExt}"
+              runHook postInstall
+            '';
+          };
+        in
+        {
+          inherit src;
+          # Match fff.nvim runtime lookup path:
+          # plugin_root/target/release/libfff_nvim.{so,dylib}
+          preInstall = ''
+            mkdir -p target/release
+            ln -s ${fff-lib}/lib/libfff_nvim${sharedLibExt} target/release/libfff_nvim${sharedLibExt}
+          '';
+          passthru = {
+            inherit fff-lib;
+          };
+        };
+
       # cornelis: Haskell-based Agda mode – needs a pre-built binary so nvim-hs
       # doesn't try to compile it at runtime via stack/cabal.
       cornelis =
