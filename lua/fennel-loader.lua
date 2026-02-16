@@ -1,5 +1,5 @@
 -- [nfnl] fnl/fennel-loader.fnl
-local dev_fennel_path = (vim.env.HOME .. "/Projects/Home/Fennel/Fennel")
+local dev_fennel_path = vim.env.HOME .. "/Projects/Home/Fennel/Fennel"
 local function find_nix_fennel_path()
   local fennel_bin = vim.fn.exepath("fennel")
   if (fennel_bin and (fennel_bin ~= "")) then

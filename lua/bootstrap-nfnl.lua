@@ -1,7 +1,5 @@
 -- [nfnl] fnl/bootstrap-nfnl.fnl
-local this_file = debug.getinfo(1, "S").source:sub(2)
-local this_dir = vim.fn.fnamemodify(this_file, ":h")
-local nvim_config = vim.fn.fnamemodify(this_dir, ":h")
+local nvim_config = vim.fn.stdpath("config")
 local nvim_data = vim.fn.stdpath("data")
 local nfnl_output_dir = (nvim_data .. "/nfnl")
 local _local_1_ = require("fennel-loader")

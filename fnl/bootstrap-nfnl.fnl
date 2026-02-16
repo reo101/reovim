@@ -1,12 +1,10 @@
 ;;; nfnl bootstrap
 ;;; Loads custom Fennel, sets up `rtp`, defines `:Fnl`
 
-;; Get the actual config directory from this file's location
-;; (works for both Nix store paths and stdpath)
-(local this-file (-> (debug.getinfo 1 :S) (. :source) (: :sub 2)))
-(local this-dir (vim.fn.fnamemodify this-file ":h"))
-;; Go up one level from fnl/ to get config root
-(local nvim-config (vim.fn.fnamemodify this-dir ":h"))
+;; Always use the active runtime config root for compilation/trust paths.
+;; Deriving from this file path can be wrong when this file is loaded from a
+;; generated output location.
+(local nvim-config (vim.fn.stdpath :config))
 
 (local nvim-data (vim.fn.stdpath :data))
 (local nfnl-output-dir (.. nvim-data "/nfnl"))
