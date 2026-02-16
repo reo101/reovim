@@ -1,7 +1,7 @@
-(let [{: luasnip}
-      (require :rv-config.heirline.common)
+(local {: autoload} (require :nfnl.module))
+(local luasnip (autoload :luasnip))
 
-      ;; Snippets
+(let [;; Snippets
       Snippets
       {:condition (fn [self]
                     (luasnip.in_snippet))
@@ -9,7 +9,7 @@
                     (let [backward (if (luasnip.jumpable -1)
                                      " 󰍞"
                                      "")
-                          forward  (if (luasnip.jumpable  1)
+                          forward  (if (luasnip.jumpable 1)
                                      " 󰍟"
                                      "")
                           choice   (if (luasnip.choice_active)

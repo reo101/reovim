@@ -18,7 +18,6 @@
                            :change (. (utils.get_highlight :DiffChange) :fg)}}
       heirline-components (require :heirline-components.all)
       navic   (require :nvim-navic)
-      luasnip (require :luasnip)
       icons   (require :nvim-web-devicons)]
   {: heirline
    : conditions
@@ -26,5 +25,4 @@
    : colors
    : heirline-components
    : navic
-   : luasnip
    : icons})

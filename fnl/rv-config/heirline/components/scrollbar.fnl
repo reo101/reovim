@@ -3,7 +3,6 @@
        : utils
        : colors
        : navic
-       : luasnip
        : icons}
       (require :rv-config.heirline.common)
 

@@ -4,7 +4,6 @@
        : colors
        : heirline-components
        : navic
-       : luasnip
        : icons}
       (require :rv-config.heirline.common)
 
