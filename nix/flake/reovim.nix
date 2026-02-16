@@ -289,6 +289,10 @@ in
           config.extraPackages = [ fennelPackage ] ++ config.reovim.extraPackages;
           # Set NVIM_APPNAME to isolate reovim from user's regular neovim config
           config.env.NVIM_APPNAME = "reovim";
+          # Disable external provider hosts
+          config.hosts.python3.nvim-host.enable = false;
+          config.hosts.node.nvim-host.enable = false;
+          config.hosts.ruby.nvim-host.enable = false;
         }
       ];
     in {
