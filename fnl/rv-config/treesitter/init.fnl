@@ -61,11 +61,10 @@
     (tset (require :nvim-treesitter.install) :compilers
           [:clang "zig cc" :gcc])
 
-    ;; Grab the parser list so we can inject our grammars into it
-    (local parsers (require :nvim-treesitter.parsers))
-    (local list parsers.list)
+    ;; Grab the parser config table so we can inject our grammars into it
+    (local parser-configs (require :nvim-treesitter.parsers))
 
-    ;; My custom grammars - these get merged into nvim-treesitter's parser list
+    ;; My custom grammars - these get merged into nvim-treesitter's parser table
     ;; Also exported for the Nix lockfile generator to pick up
     (local custom-grammars
       {:move
@@ -82,71 +81,72 @@
                        :generate true}
         :filetype :fennel}
        :jj_template
-        {:install_info {:url "https://github.com/reo101/tree-sitter-jj_template"
-                         :files [:src/parser.c]
-                         :branch :master}
-         :filetype :jj_template}
-       :uci
-        {:install_info {:url "https://github.com/reo101/tree-sitter-uci"
-                        :generate true
+       {:install_info {:url "https://github.com/reo101/tree-sitter-jj_template"
+                        :files [:src/parser.c]
                         :branch :master}
-         :filetype :uci}
+        :filetype :jj_template}
+       :uci
+       {:install_info {:url "https://github.com/reo101/tree-sitter-uci"
+                       :generate true
+                       :branch :master}
+        :filetype :uci}
        :noir
-        {:install_info {:url "https://github.com/hhamud/tree-sitter-noir"
-                        :files [:src/parser.c :src/scanner.c]
-                        :branch :main}
-         :filetype :noir}
+       {:install_info {:url "https://github.com/hhamud/tree-sitter-noir"
+                       :files [:src/parser.c :src/scanner.c]
+                       :branch :main}
+        :filetype :noir}
        :crisp
-        {:install_info {:url "https://github.com/reo101/tree-sitter-crisp"
-                        :files [:src/parser.c]
-                        :branch :master}}
+       {:install_info {:url "https://github.com/reo101/tree-sitter-crisp"
+                       :files [:src/parser.c]
+                       :branch :master}}
        :xml
-        {:install_info {:url "https://github.com/dorgnarg/tree-sitter-xml"
-                        :files [:src/parser.c]
-                        :branch :main
-                        :generate true}}
+       {:install_info {:url "https://github.com/dorgnarg/tree-sitter-xml"
+                       :files [:src/parser.c]
+                       :branch :main
+                       :generate true}}
        :http
-        {:install_info {:url "https://github.com/NTBBloodbath/tree-sitter-http"
-                        :files [:src/parser.c]
-                        :branch :main}}
+       {:install_info {:url "https://github.com/NTBBloodbath/tree-sitter-http"
+                       :files [:src/parser.c]
+                       :branch :main}}
        :norg_meta
-        {:install_info {:url "https://github.com/nvim-neorg/tree-sitter-norg-meta"
-                        :files [:src/parser.c]
-                        :branch :main}}
+       {:install_info {:url "https://github.com/nvim-neorg/tree-sitter-norg-meta"
+                       :files [:src/parser.c]
+                       :branch :main}}
        :norg_table
-        {:install_info {:url "https://github.com/nvim-neorg/tree-sitter-norg-table"
-                        :files [:src/parser.c]
-                        :branch :main}}
+       {:install_info {:url "https://github.com/nvim-neorg/tree-sitter-norg-table"
+                       :files [:src/parser.c]
+                       :branch :main}}
        :brainfuck
-        {:install_info {:url "https://github.com/reo101/tree-sitter-brainfuck"
-                        :files [:src/parser.c]
-                        :branch :master}}
+       {:install_info {:url "https://github.com/reo101/tree-sitter-brainfuck"
+                       :files [:src/parser.c]
+                       :branch :master}}
        :hy
-        {:install_info {:url "https://github.com/kwshi/tree-sitter-hy"
-                        :files [:src/parser.c]
-                        :branch :main}
-         :filetype :hy}
+       {:install_info {:url "https://github.com/kwshi/tree-sitter-hy"
+                       :files [:src/parser.c]
+                       :branch :main}
+        :filetype :hy}
        :awk
-        {:install_info {:url "https://github.com/Beaglefoot/tree-sitter-awk"
-                        :files [:src/parser.c :src/scanner.c]
-                        :branch :master}}
+       {:install_info {:url "https://github.com/Beaglefoot/tree-sitter-awk"
+                       :files [:src/parser.c :src/scanner.c]
+                       :branch :master}}
        :nu
-        {:install_info {:url "https://github.com/nushell/tree-sitter-nu"
-                        :files [:src/parser.c]
-                        :branch :main}}
+       {:install_info {:url "https://github.com/nushell/tree-sitter-nu"
+                       :files [:src/parser.c]
+                       :branch :main}
+        :filetype :nu}
        :comment
-        {:install_info {:url "https://github.com/OXY2DEV/tree-sitter-comment"
-                        :files [:src/parser.c :src/scanner.c]
-                        :branch :main
-                        :revision "87bb8707b694e7d9820947f21be36d6ce769e5cc"
-                        :generate true}}})
+       {:install_info {:url "https://github.com/OXY2DEV/tree-sitter-comment"
+                       :files [:src/parser.c :src/scanner.c]
+                       :branch :main
+                       :revision "87bb8707b694e7d9820947f21be36d6ce769e5cc"
+                       :generate true}}})
 
     ;; Stash in global so the Nix updater can find it without loading the whole module
     (tset _G :reovim/treesitter-grammars custom-grammars)
 
     (fn register-custom-parsers []
       (each [lang conf (pairs custom-grammars)]
-        (tset list lang conf)
+        (tset parser-configs lang conf)
         (when conf.filetype
           (vim.treesitter.language.register lang [conf.filetype]))))
 
@@ -157,18 +157,182 @@
        :callback register-custom-parsers
        :desc "Register custom tree-sitter parsers"})
 
-    ;; nvim-treesitter handles its own autocmd registration when you call setup
-    (local configs (require :nvim-treesitter.configs))
-    (configs.setup
-      {:highlight {:enable true}
-       :indent {:enable true}})
+    ;; Setup moved to the top-level nvim-treesitter module on main
+    (let [treesitter (require :nvim-treesitter)]
+      (treesitter.setup {}))
+
+    (fn ensure-nvim-treesitter-runtimepath []
+      ;; nvim-treesitter/main ships bundled queries under runtime/queries.
+      ;; Make sure that runtime dir is on rtp so query discovery can find them.
+      (let [lua-files (vim.api.nvim_get_runtime_file "lua/nvim-treesitter/init.lua" true)
+            lua-path (. lua-files 1)]
+        (if lua-path
+            (let [plugin-root (: lua-path :gsub "/lua/nvim%-treesitter/init%.lua$" "")
+                  runtime-dir (vim.fs.joinpath plugin-root "runtime")]
+              (when (and (= 1 (vim.fn.isdirectory runtime-dir))
+                         (not (vim.tbl_contains (vim.opt.runtimepath:get) runtime-dir)))
+                (vim.opt.runtimepath:append runtime-dir))
+              plugin-root)
+            nil)))
+
+    (local nvim-treesitter-root (ensure-nvim-treesitter-runtimepath))
+
+    (fn prefer-single-parser-provider [plugin-root]
+      ;; Canonical strategy: use rtp ordering to prefer one parser provider.
+      ;; De-prioritize nvim-treesitter's bundled parser/ so core runtime parsers
+      ;; win when both exist, while still keeping nvim-treesitter available.
+      (when (and plugin-root
+                 (= 1 (vim.fn.isdirectory (vim.fs.joinpath plugin-root "parser")))
+                 (vim.tbl_contains (vim.opt.runtimepath:get) plugin-root))
+        (vim.opt.runtimepath:remove plugin-root)
+        (vim.opt.runtimepath:append plugin-root)))
+
+    (prefer-single-parser-provider nvim-treesitter-root)
+
+    (fn warn-missing-highlights-query [lang]
+      ;; Keep fallback warnings opt-in: some environments intentionally rely on regex syntax.
+      (when vim.g.reovim_treesitter_warn_missing_highlights_query
+        (vim.notify_once
+          (.. "treesitter: no usable highlights query for "
+              (tostring lang)
+              "; keeping regex syntax highlighting active")
+          vim.log.levels.WARN)))
+
+    (fn highlights-query-usable? [lang]
+      (if (not lang)
+          false
+          (let [(ok query) (pcall vim.treesitter.query.get lang :highlights)
+                capture-count (if (and query query.captures)
+                                (length query.captures)
+                                0)
+                usable? (and ok (> capture-count 0))]
+            (when (not usable?)
+              (warn-missing-highlights-query lang))
+            usable?)))
+
+    (fn notify-highlight-short-circuit [lang]
+      (vim.notify_once
+        (.. "treesitter: short-circuiting highlight attach for "
+            (tostring lang)
+            " because highlights query is unusable; keeping regex syntax active")
+        vim.log.levels.WARN))
+
+    (fn stop-buffer-treesitter-highlights [bufnr]
+      (let [highlighter (. vim.treesitter.highlighter.active bufnr)]
+        (when highlighter
+          ;; Stop TS highlights only; keep parser consumers (e.g. rainbow-delimiters) intact.
+          (pcall #(highlighter:destroy)))))
+
+    (fn normal-file-buffer? [bufnr]
+      (and bufnr
+           (vim.api.nvim_buf_is_loaded bufnr)
+           (= (. vim.bo bufnr :buftype) "")
+           (= (vim.fn.buflisted bufnr) 1)
+           (not= (vim.api.nvim_buf_get_name bufnr) "")))
+
+    (local previous-buffer-syntax {})
+    (fn set-buffer-regex-syntax [bufnr ft enabled?]
+      ;; Disable regex syntax when TS highlights are active to avoid startup flash.
+      ;; Re-enable regex syntax only for fallback/no-query buffers.
+      (let [bo (. vim.bo bufnr)
+            current-syntax (. bo :syntax)
+            previous-syntax (. previous-buffer-syntax bufnr)]
+        (if enabled?
+            (do
+              (let [syntax-to-restore (or previous-syntax ft "")]
+                (when (and (= current-syntax "")
+                           (not= syntax-to-restore ""))
+                  (tset bo :syntax syntax-to-restore)))
+              (tset previous-buffer-syntax bufnr nil))
+            (when (not= current-syntax "")
+              (tset previous-buffer-syntax bufnr current-syntax)
+              (tset bo :syntax "")))))
+
+    (local fallback-parser-refresh-tick {})
+    (fn refresh-buffer-parser-for-fallback [bufnr lang]
+      ;; With no highlights query, :edit can clear TS extmarks from parser consumers.
+      ;; Re-parse once per changedtick to restore consumers without per-enter churn.
+      (let [changedtick (vim.api.nvim_buf_get_changedtick bufnr)
+            last-tick (. fallback-parser-refresh-tick bufnr)]
+        (when (not= changedtick last-tick)
+          (tset fallback-parser-refresh-tick bufnr changedtick)
+          (let [(ok parser) (pcall vim.treesitter.get_parser bufnr lang)]
+            (when ok
+              (pcall #(parser:parse)))))))
+
+    (fn ensure-buffer-highlights [bufnr ?ft]
+      (when (normal-file-buffer? bufnr)
+        (var ft (or ?ft (. vim.bo bufnr :filetype)))
+        (when (= ft "")
+          (set ft (or (vim.filetype.match {:buf bufnr}) ""))
+          (when (not= ft "")
+            (tset (. vim.bo bufnr) :filetype ft)))
+        (when (not= ft "")
+          (let [lang (or (vim.treesitter.language.get_lang ft) ft)]
+            (if (highlights-query-usable? lang)
+                (do
+                  (set-buffer-regex-syntax bufnr ft false)
+                  ;; :edit can detach the TS highlighter for a reused buffer.
+                  ;; Reattach on demand when we notice it's missing.
+                  (when (not (. vim.treesitter.highlighter.active bufnr))
+                    (pcall vim.treesitter.start bufnr lang)))
+                ;; Keep regex syntax when no highlights query exists for this language.
+                (do
+                  (notify-highlight-short-circuit lang)
+                  (set-buffer-regex-syntax bufnr ft true)
+                  (stop-buffer-treesitter-highlights bufnr)
+                  (refresh-buffer-parser-for-fallback bufnr lang)))))))
+
+    (local pending-highlight-repair {})
+    (fn queue-buffer-highlights [bufnr ?ft]
+      ;; Run repair in the next loop tick to beat post-:edit detach timing.
+      (when bufnr
+        (tset pending-highlight-repair bufnr true)
+        (vim.schedule
+          (fn []
+            (when (. pending-highlight-repair bufnr)
+              (tset pending-highlight-repair bufnr nil)
+              (ensure-buffer-highlights bufnr ?ft))))))
+
+    (local repair-group
+      (vim.api.nvim_create_augroup :ReovimTreesitterRepair {:clear true}))
+
+    ;; Disable regex syntax as early as possible for normal file buffers.
+    ;; Fallback path will re-enable it for languages without usable TS highlights.
+    (vim.api.nvim_create_autocmd [:BufReadPre :BufNewFile]
+      {:group repair-group
+       :callback
+       (fn [ev]
+         (when (normal-file-buffer? ev.buf)
+           (let [bufname (vim.api.nvim_buf_get_name ev.buf)
+                 ft (or (. vim.bo ev.buf :filetype)
+                        (vim.filetype.match {:filename bufname})
+                        (vim.filetype.match {:buf ev.buf})
+                        "")]
+             (set-buffer-regex-syntax ev.buf ft false))))
+       :desc "Disable regex syntax early; fallback reenables when TS highlights are unavailable"})
+
+    ;; Validate highlight attach/fallback state for languages as they appear.
+    (vim.api.nvim_create_autocmd :FileType
+      {:group repair-group
+       :callback
+       (fn [ev]
+         (queue-buffer-highlights ev.buf ev.match))
+       :desc "Repair treesitter highlight state for buffers"})
+
+    ;; :edit and other read paths can drop a previously active TS highlighter.
+    ;; Re-check on buffer reads/enters so highlighting persists across reloads.
+    (vim.api.nvim_create_autocmd [:BufReadPost :BufWinEnter :BufEnter]
+      {:group repair-group
+       :callback
+       (fn [ev]
+         (queue-buffer-highlights ev.buf))
+       :desc "Repair treesitter highlight state for buffers"})
 
     ;; Catch up any buffers that opened before we loaded (for late-loaded plugins)
     (each [_ bufnr (ipairs (vim.api.nvim_list_bufs))]
-      (when (vim.api.nvim_buf_is_loaded bufnr)
-        (let [ft (. vim.bo bufnr :filetype)]
-          (when (and (not= ft "") (= (. vim.bo bufnr :buftype) ""))
-            (pcall vim.treesitter.start bufnr)))))
+      (when (normal-file-buffer? bufnr)
+        (queue-buffer-highlights bufnr)))
 
     ;; <leader>t for T**r**eesitter stuff
     (let [mappings {:t {:group :Toggle
