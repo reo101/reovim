@@ -288,6 +288,26 @@
   (each [_ provider (ipairs disabled-providers)]
     (tset vim.g (.. "loaded_" provider) 0)))
 
+;;; Concave indentation (curve-based indentexpr)
+(let [ci (require :concave-indent)]
+  (vim.api.nvim_create_user_command
+    :ConcaveIndent
+    (fn [args]
+      (let [curve-name (if (and args.args (not= args.args ""))
+                           args.args
+                           :sine)
+            curve (case curve-name
+                    :sine       (ci.sine-curve 16)
+                    :parabolic  (ci.parabolic-curve 16)
+                    :triangular (ci.triangular-curve 16)
+                    :power      (ci.power-curve 16)
+                    _           (ci.sine-curve 16))]
+        (ci.enable curve)
+        (vim.notify (.. "Concave indent enabled: " curve-name))))
+    {:nargs "?"
+     :complete #[:sine :parabolic :triangular :power]
+     :desc "Enable concave indentation for current buffer"}))
+
 ;; Default keymaps
 (local dk (require :def-keymaps))
 (dk :n
