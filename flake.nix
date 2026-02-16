@@ -15,10 +15,6 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
-    rix101 = {
-      url = "github:reo101/rix101";
-    };
-
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,6 +29,11 @@
       url = "github:reo101/nix-lib-net";
     };
 
+    fennel-src = {
+      url = "github:reo101/Fennel/feat/discard";
+      flake = false;
+    };
+
     cornelis = {
       url = "github:isovector/cornelis";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -41,11 +42,9 @@
 
   nixConfig = {
     extra-substituters = [
-      "https://rix101.cachix.org"
       "https://nix-community.cachix.org"
     ];
     extra-trusted-public-keys = [
-      "rix101.cachix.org-1:2u9ZGi93zY3hJXQyoHkNBZpJK+GiXQyYf9J5TLzCpFY="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
@@ -69,41 +68,26 @@
       systems = import inputs.systems.outPath;
 
       imports = [
-        # Use rix101's auto-things modules
-        # Use lib-custom which extends lib with kebabToCamel and other helpers
-        inputs.rix101.modules.flake.lib-custom
-        inputs.rix101.modules.flake.things
-        inputs.rix101.modules.flake.packages
-        inputs.rix101.modules.flake.overlays
-        inputs.rix101.modules.flake.shells
-        inputs.rix101.modules.flake.modules
         # Reovim-specific configuration
         ./nix/flake/reovim.nix
       ];
 
-      auto = {
-        # Configure auto-things from rix101
+      perSystem = { lib, pkgs, self', ... }: {
         packages = {
-          enable = true;
-          dir = ./nix/pkgs;
+          fennel = pkgs.callPackage ./nix/pkgs/fennel.nix {
+            lua = pkgs.luajit;
+            src = inputs.fennel-src;
+          };
         };
-        overlays = {
-          enable = true;
-          dir = ./nix/overlays;
-        };
-        devShells = {
-          enable = true;
-          dir = ./nix/shells;
-        };
-      };
 
-      perSystem = { lib, pkgs, system, ... }: {
+        devShells.default = pkgs.callPackage ./nix/shells/default/default.nix { };
+
         apps = {
           reovim = {
             type = "app";
-            program = "${inputs.self.packages.${system}.reovim}/bin/nvim";
+            program = "${self'.packages.reovim}/bin/nvim";
           };
-          default = inputs.self.apps.${system}.reovim;
+          default = self'.apps.reovim;
         };
         formatter = pkgs.nixfmt;
       };

@@ -117,12 +117,7 @@ let
             version = builtins.substring 0 7 entry.rev;
             inherit src;
 
-            cargoHash = "sha256-Qdt8O7IGj2HySb1jxsv3m33ZxJg96Ckw26oTEEyQjfs=";
-
-            # Pin frizbee to 0.6.0 to avoid nightly-only std::simd in 0.7.0
-            cargoPatches = [
-              ./blink-cmp-pin-frizbee-0.6.0.patch
-            ];
+            cargoHash = "sha256-3o2n4xwNF9Fc3VlPKf3lnvmN7FVus5jQB8gcXXwz50c=";
 
             nativeBuildInputs = with pkgs; [
               gitMinimal

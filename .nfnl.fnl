@@ -41,7 +41,8 @@
 (local bootstrap-files
   {:init true
    :fnl/fennel-loader true
-   :fnl/bootstrap-nfnl true})
+   :fnl/bootstrap-nfnl true
+   :nix/lib/compile-fennel true})
 
 (local bootstrap-patterns
   (-> bootstrap-files
@@ -76,6 +77,7 @@
    "lsp/**/*.fnl"
    "luasnippets/*.fnl"
    "after/**/*.fnl"
+   "nix/lib/*.fnl"
    "init.fnl"])
 
 (setup-fennel-paths (require :fennel))

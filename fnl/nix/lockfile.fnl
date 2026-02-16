@@ -283,10 +283,11 @@
             ;; Call callback with final results
             (callback {:added added :updated updated :built result.updated :failed result.failed}))))))
 
-(fn update-all-hashes [?mode ?concurrency ?force]
+(fn update-all-hashes [?mode ?concurrency ?force ?force-plugins]
   "Update all plugin and/or parser hashes in lockfile concurrently
    Mode: 'plugins' | 'parsers' | 'both' (default)
-   When force is true, re-fetch all hashes regardless of existing values"
+   When force is true, re-fetch all hashes regardless of existing values
+   When force-plugins is a table, force update those specific plugins"
   (let [mode (or ?mode :both)
         concurrency (or ?concurrency DEFAULT-CONCURRENCY)
         force (or ?force false)]
@@ -317,7 +318,8 @@
                   needs-prefetch (needs-prefetch? entry.src)
                   is-grammar? (plugin:match "^tree%-sitter%-")
                   should-skip-grammar? (and (= mode :both) is-grammar?)
-                  needs-update? (or force (not has-sha?))]
+                  forced-by-list? (and ?force-plugins (. ?force-plugins plugin))
+                  needs-update? (or force forced-by-list? (not has-sha?))]
               (when (and needs-update? needs-prefetch (not should-skip-grammar?))
                 (table.insert plugins-without-hash {:plugin plugin :entry entry}))))
           (tset results.plugins :total (length plugins-without-hash)))
@@ -329,7 +331,7 @@
                     (> results.parsers.added 0)
                     (> results.parsers.built 0)
                     (> results.parsers.failed 0))
-            (let [encoded (vim.json.encode lockfile {:indent "  "})
+            (let [encoded (vim.json.encode lockfile {:indent "  " :sort_keys true})
                   lines (vim.split encoded "\n")]
               (vim.fn.writefile lines lockfile-path)))
 

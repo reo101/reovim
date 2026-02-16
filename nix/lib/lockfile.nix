@@ -1,42 +1,16 @@
 { pkgs, lib }:
 
 let
+  # Import shared utilities
+  utils = import ./utils.nix { inherit lib; };
   # Import custom plugin build configurations for Rust-based plugins
   pluginBuildsLib = import ./plugin-builds.nix { inherit pkgs lib; };
-
-  parseGitHubUrl =
-    url:
-    let
-      patterns = [
-        "https://github.com/([^/]+)/([^/]+)"
-        "git@github.com:([^/]+)/([^/]+)"
-      ];
-      matches = lib.map (lib.flip builtins.match url) patterns;
-    in
-    lib.mapNullable (m: {
-      owner = builtins.elemAt m 0;
-      repo = lib.removeSuffix ".git" (builtins.elemAt m 1);
-    }) (lib.findFirst (m: m != null) null matches);
-
-  parseSourcehutUrl =
-    url:
-    let
-      patterns = [
-        "https://git.sr.ht/~([^/]+)/([^/]+)"
-        "git@git.sr.ht:~([^/]+)/([^/]+)"
-      ];
-      matches = lib.map (lib.flip builtins.match url) patterns;
-    in
-    lib.mapNullable (m: {
-      owner = builtins.elemAt m 0;
-      repo = lib.removeSuffix ".git" (builtins.elemAt m 1);
-    }) (lib.findFirst (m: m != null) null matches);
 
   buildPluginFromLockfileEntry =
     name: entry:
     let
-      githubParsed = parseGitHubUrl entry.src;
-      sourcehutParsed = parseSourcehutUrl entry.src;
+      githubParsed = utils.parseGitHubUrl entry.src;
+      sourcehutParsed = utils.parseSourcehutUrl entry.src;
       hash = entry.sha256 or "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
       src =
         if githubParsed != null then
@@ -63,10 +37,19 @@ let
       skipModules = (import ./skip-modules.nix).${name} or [ ];
       # Check for custom build configuration (e.g., for Rust-based plugins)
       hasCustomBuild = pluginBuildsLib.hasCustomBuild name;
-      customBuildConfig = if hasCustomBuild
-        then pluginBuildsLib.getBuildConfig name { inherit src hash; rev = entry.rev; }
-        else null;
-      useCustomBuild = hasCustomBuild && customBuildConfig != null && builtins.hasAttr "useCustomBuild" customBuildConfig && customBuildConfig.useCustomBuild;
+      customBuildConfig =
+        if hasCustomBuild then
+          pluginBuildsLib.getBuildConfig name {
+            inherit src hash;
+            rev = entry.rev;
+          }
+        else
+          null;
+      useCustomBuild =
+        hasCustomBuild
+        && customBuildConfig != null
+        && builtins.hasAttr "useCustomBuild" customBuildConfig
+        && customBuildConfig.useCustomBuild;
     in
     if useCustomBuild then
       # Use the fully custom build (e.g., parinfer-rust with postInstall)
@@ -74,23 +57,23 @@ let
     else if hasCustomBuild && customBuildConfig != null then
       # Use standard buildVimPlugin with custom overrides (e.g., blink.cmp, cornelis, bloat removal)
       pkgs.vimUtils.buildVimPlugin (
-       {
-         pname = name;
-         version = entry.rev;
-         inherit src;
-       }
-       // lib.optionalAttrs (skipModules != [ ]) {
-         nvimSkipModules = skipModules;
-       }
-       // lib.optionalAttrs (builtins.hasAttr "preInstall" customBuildConfig) {
-         preInstall = customBuildConfig.preInstall;
-       }
-       // lib.optionalAttrs (builtins.hasAttr "postInstall" customBuildConfig) {
-         postInstall = customBuildConfig.postInstall;
-       }
-       // lib.optionalAttrs (builtins.hasAttr "passthru" customBuildConfig) {
-         passthru = customBuildConfig.passthru;
-       }
+        {
+          pname = name;
+          version = entry.rev;
+          inherit src;
+        }
+        // lib.optionalAttrs (skipModules != [ ]) {
+          nvimSkipModules = skipModules;
+        }
+        // lib.optionalAttrs (builtins.hasAttr "preInstall" customBuildConfig) {
+          preInstall = customBuildConfig.preInstall;
+        }
+        // lib.optionalAttrs (builtins.hasAttr "postInstall" customBuildConfig) {
+          postInstall = customBuildConfig.postInstall;
+        }
+        // lib.optionalAttrs (builtins.hasAttr "passthru" customBuildConfig) {
+          passthru = customBuildConfig.passthru;
+        }
       )
     else
       # Standard build with no custom configuration
@@ -106,7 +89,7 @@ let
       );
 
   mkPluginsFromLockfile =
-    { lockfilePath, excludePlugins ? [] }:
+    { lockfilePath, excludePlugins ? [ ] }:
     let
       lockfile = lib.importJSON lockfilePath;
       # Filter out local paths (starting with / or ./ or ../)
@@ -124,5 +107,6 @@ let
 
 in
 {
-  inherit mkPluginsFromLockfile parseGitHubUrl parseSourcehutUrl;
+  inherit mkPluginsFromLockfile;
+  inherit (utils) parseGitHubUrl parseSourcehutUrl;
 }

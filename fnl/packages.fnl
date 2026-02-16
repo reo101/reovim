@@ -199,10 +199,16 @@
       {: group
        :pattern :PackChanged
        :callback #(let [p $.data
-                         build-task (?. p :spec :data :build)]
+                         spec p.spec
+                         name p.name
+                         build-task (?. spec :data :build)]
                      (when (and (not= p.kind :delete)
                                 (= (type build-task) :function))
-                       (pcall build-task p)))})
+                       (pcall build-task p))
+                     ;; Trigger NixUpdateLock for the changed plugin
+                     (when (not= p.kind :delete)
+                       (let [lockfile (require :nix.lockfile)]
+                         (lockfile.update-all-hashes :plugins 8 false {name true}))))})
     ;; Register ALL specs with lze FIRST
     ;; lze handles lazy loading (event, on_require, after hooks)
     (when (> (length lze-specs) 0)
