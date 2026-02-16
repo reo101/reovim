@@ -13,7 +13,8 @@
 
 (local {: inject-custom-fennel
         : typed-fennel-macro-path
-        : setup-fennel-paths}
+        : setup-fennel-paths
+        : inject-jp-macros}
   (require :fennel-loader))
 (inject-custom-fennel)
 
@@ -81,6 +82,9 @@
    "init.fnl"])
 
 (setup-fennel-paths (require :fennel))
+
+;;; Japanese macro aliases (globally available during nfnl compilation)
+(inject-jp-macros config-dir)
 
 (local nfnl-config (require :nfnl.config))
 (local default-config (nfnl-config.default))

@@ -1,5 +1,4 @@
--- [nfnl] fnl/fennel-loader.fnl
-local dev_fennel_path = vim.env.HOME .. "/Projects/Home/Fennel/Fennel"
+local dev_fennel_path = (vim.env.HOME .. "/Projects/Home/Fennel/Fennel")
 local function find_nix_fennel_path()
   local fennel_bin = vim.fn.exepath("fennel")
   if (fennel_bin and (fennel_bin ~= "")) then
@@ -95,4 +94,22 @@ local function setup_fennel_paths(fennel)
     return nil
   end
 end
-return {["dev-fennel-path"] = dev_fennel_path, ["find-nix-fennel-path"] = find_nix_fennel_path, ["has-discard-support?"] = has_discard_support_3f, ["find-custom-fennel"] = find_custom_fennel, ["purge-fennel-modules"] = purge_fennel_modules, ["inject-custom-fennel"] = inject_custom_fennel, ["typed-fennel-macro-path"] = typed_fennel_macro_path, ["setup-fennel-paths"] = setup_fennel_paths}
+local function inject_jp_macros(config_dir)
+  local jp_macro_path = (config_dir .. "/fnl/jp-macros.fnl")
+  local fh = io.open(jp_macro_path, "r")
+  if fh then
+    local fennel = require("fennel")
+    local compiler = require("fennel.compiler")
+    local global_macros = compiler.scopes.global.macros
+    local jp_macro_src = fh:read("*a")
+    local jp_macros = fennel.eval(jp_macro_src, {env = "_COMPILER", filename = jp_macro_path})
+    fh:close()
+    for name, func in pairs(jp_macros) do
+      global_macros[name] = func
+    end
+    return nil
+  else
+    return nil
+  end
+end
+return {["dev-fennel-path"] = dev_fennel_path, ["find-nix-fennel-path"] = find_nix_fennel_path, ["has-discard-support?"] = has_discard_support_3f, ["find-custom-fennel"] = find_custom_fennel, ["purge-fennel-modules"] = purge_fennel_modules, ["inject-custom-fennel"] = inject_custom_fennel, ["typed-fennel-macro-path"] = typed_fennel_macro_path, ["setup-fennel-paths"] = setup_fennel_paths, ["inject-jp-macros"] = inject_jp_macros}

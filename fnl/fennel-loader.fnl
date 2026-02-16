@@ -79,6 +79,21 @@
                  (not (: fennel.macro_path :match (vim.pesc macro-path))))
         (set fennel.macro_path (.. macro-path ";" fennel.macro_path))))))
 
+(fn inject-jp-macros [config-dir]
+  "Inject Japanese macro aliases into Fennel's global compiler scope"
+  (let [jp-macro-path (.. config-dir "/fnl/jp-macros.fnl")
+        fh (io.open jp-macro-path :r)]
+    (when fh
+      (let [fennel (require :fennel)
+            compiler (require :fennel.compiler)
+            global-macros compiler.scopes.global.macros
+            jp-macro-src (fh:read :*a)
+            jp-macros (fennel.eval jp-macro-src {:env :_COMPILER
+                                                 :filename jp-macro-path})]
+        (fh:close)
+        (each [name func (pairs jp-macros)]
+          (tset global-macros name func))))))
+
 {: dev-fennel-path
  : find-nix-fennel-path
  : has-discard-support?
@@ -86,4 +101,5 @@
  : purge-fennel-modules
  : inject-custom-fennel
  : typed-fennel-macro-path
- : setup-fennel-paths}
+ : setup-fennel-paths
+ : inject-jp-macros}

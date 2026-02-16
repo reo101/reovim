@@ -13,12 +13,16 @@
 
 (local {: inject-custom-fennel
         : typed-fennel-macro-path
-        : setup-fennel-paths}
+        : setup-fennel-paths
+        : inject-jp-macros}
   (require :fennel-loader))
 (inject-custom-fennel)
 
 ;; Setup typed-fennel macro path for :Fnl command
 (setup-fennel-paths (require :fennel))
+
+;;; Japanese macro aliases (globally available)
+(inject-jp-macros nvim-config)
 
 ;;; Paths
 
@@ -98,7 +102,8 @@
       :Fnl
       (fn [opts]
         (let [code opts.args
-              (ok result) (pcall fennel.eval code {:env :_COMPILER})]
+              (ok result) (pcall fennel.eval code {:compilerEnv _G
+                                                   :allowedGlobals false})]
           (if ok
               (vim.print (fennel.view result))
               (vim.notify (tostring result)
