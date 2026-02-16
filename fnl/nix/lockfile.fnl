@@ -46,13 +46,13 @@
     (when host-config
       (host-config.archive-fn owner repo rev))))
 
-(fn needs-prefetch? [src])
-"Check if source URL needs nix prefetch (remote git vs local path)"
-(let [has-src? (not= src nil)
-      not-absolute? (if src (not (src:match "^/")) false)
-      not-relative? (if src (not (src:match "^%.")) false)
-      parsed (if src (parse-url src) nil)]
-  (and has-src? not-absolute? not-relative? parsed))
+(fn needs-prefetch? [src]
+  "Check if source URL needs nix prefetch (remote git vs local path)"
+  (let [has-src? (not= src nil)
+        not-absolute? (if src (not (src:match "^/")) false)
+        not-relative? (if src (not (src:match "^%.")) false)
+        parsed (if src (parse-url src) nil)]
+    (and has-src? not-absolute? not-relative? parsed)))
 
 (fn extract-hash [output]
   "Extract sha256 hash from nix-prefetch-url output"
@@ -193,7 +193,7 @@
                        :collected-hashes collected-hashes
                        :failures failures}))))))
 
-(fn update-parsers-from-treesitter [lockfile concurrency callback]
+(fn update-parsers-from-treesitter [lockfile concurrency callback ?force]
   "Extract parsers from treesitter/init.fnl and add them to lockfile. Calls callback with results when done."
   ;; Try multiple ways to get the custom grammars
   (var custom-grammars nil)
@@ -249,10 +249,11 @@
             (when (needs-prefetch? info.url)
               (table.insert parsers-to-build {:plugin grammar-name
                                               :entry (. lockfile.grammars grammar-name)})))
-          ;; Existing parser - check if rev changed (needs update)
+          ;; Existing parser - check if rev changed or force update
           (let [rev-changed? (and existing.rev (not= existing.rev current-rev))
                 needs-hash? (not existing.sha256)
-                needs-update (and rev-changed? needs-hash? (needs-prefetch? info.url))]
+                needs-update (and (needs-prefetch? info.url)
+                                  (or ?force needs-hash? rev-changed?))]
             (when needs-update
               (set updated (+ updated 1))
               (tset existing :src info.url) ;; Update src to new URL from config
@@ -282,11 +283,13 @@
             ;; Call callback with final results
             (callback {:added added :updated updated :built result.updated :failed result.failed}))))))
 
-(fn update-all-hashes [?mode ?concurrency]
+(fn update-all-hashes [?mode ?concurrency ?force]
   "Update all plugin and/or parser hashes in lockfile concurrently
-   Mode: 'plugins' | 'parsers' | 'both' (default)"
+   Mode: 'plugins' | 'parsers' | 'both' (default)
+   When force is true, re-fetch all hashes regardless of existing values"
   (let [mode (or ?mode :both)
-        concurrency (or ?concurrency DEFAULT-CONCURRENCY)]
+        concurrency (or ?concurrency DEFAULT-CONCURRENCY)
+        force (or ?force false)]
 
       ;; Validate mode
       (when (not (or (= mode :plugins) (= mode :parsers) (= mode :both)))
@@ -313,8 +316,9 @@
             (let [has-sha? (not (not entry.sha256))
                   needs-prefetch (needs-prefetch? entry.src)
                   is-grammar? (plugin:match "^tree%-sitter%-")
-                  should-skip-grammar? (and (= mode :both) is-grammar?)]
-              (when (and (not has-sha?) needs-prefetch (not should-skip-grammar?))
+                  should-skip-grammar? (and (= mode :both) is-grammar?)
+                  needs-update? (or force (not has-sha?))]
+              (when (and needs-update? needs-prefetch (not should-skip-grammar?))
                 (table.insert plugins-without-hash {:plugin plugin :entry entry}))))
           (tset results.plugins :total (length plugins-without-hash)))
 
@@ -359,7 +363,8 @@
                   (tset results.parsers :updated parser-result.updated)
                   (tset results.parsers :built parser-result.built)
                   (tset results.parsers :failed parser-result.failed)
-                  (finalize-and-write)))
+                  (finalize-and-write))
+                force)
               ;; Skip parsers, just finalize
               (finalize-and-write)))
 
@@ -386,15 +391,17 @@
             (run-parser-update-then-finalize)))))
 
 ;; Register user command with optional what and concurrency args
-;; Usage: :NixUpdateLock [what] [concurrency]
+;; Usage: :NixUpdateLock[!] [what] [concurrency]
 ;;   what = plugins | parsers | both (default)
 ;;   concurrency = number (default 8)
+;;   ! = force re-fetch all hashes
 (vim.api.nvim_create_user_command
   :NixUpdateLock
   (fn [opts]
     (let [args (vim.split opts.args " " true)
           arg1 (. args 1)
           arg2 (. args 2)
+          force opts.bang
           ;; Check if arg1 is a mode or a number (concurrency)
           is-mode (when arg1
                     (or (= arg1 "plugins") (= arg1 "parsers") (= arg1 "both")))
@@ -407,8 +414,9 @@
                  :both)  ;; Default if arg1 is a number or nil
           concurrency (or (tonumber (if is-mode arg2 arg1))
                           DEFAULT-CONCURRENCY)]
-       (update-all-hashes mode concurrency)))
-  {:nargs "*"
+       (update-all-hashes mode concurrency force)))
+  {:bang true
+   :nargs "*"
    :complete (fn [arglead cmdline _]
                ;; Count how many arguments we already have (excluding the command)
                (local args-before (->> (vim.split cmdline " " true)
@@ -430,7 +438,7 @@
                      (if (or (= first-arg "plugins") (= first-arg "parsers") (= first-arg "both"))
                          ["8" "16" "32"]
                          []))))
-   :desc "Update nix hashes. Args: [plugins|parsers|both] [concurrency]"})
+   :desc "Update nix hashes. Use ! to force re-fetch all. Args: [plugins|parsers|both] [concurrency]"})
 
 {: update-all-hashes
  : run-nix-prefetch
