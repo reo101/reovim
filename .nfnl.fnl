@@ -19,14 +19,10 @@
 
 ;;; Nix detection
 
-;; Check if we're in Nix build mode (REOVIM_NIX_BUILD set at build time)
 (local nix-build? (= "1" vim.env.REOVIM_NIX_BUILD))
-
-;; Check if we're running under Nix (nix-wrapper-modules sets nix_info_plugin_name)
 (local nix-runtime? (not= vim.g.nix_info_plugin_name nil))
 
-;; Foreign config is when this file's directory differs from running config
-;; Short-circuit to false during Nix (both build and runtime) to avoid read-only errors
+;; False during Nix (both build and runtime) to avoid read-only errors
 (local foreign-config?
   (and (not nix-build?)
        (not nix-runtime?)
@@ -57,19 +53,12 @@
 
 (fn fnl-path->lua-path [fnl-abs-path]
   "Routes fnl files to appropriate lua output locations:
-   - Nix build: all files go to `config-dir/lua/` (for derivation)
-   - Regular bootstrap files go to `config-dir/lua/` (tracked with git)
-   - Nix runtime (foreign config): all files go to `stdpath('data')/nfnl/` (writable)
-   - Everything else goes to `stdpath('data')/nfnl/`"
-  (let [;; Handle both files in subdirs (config-dir/fnl/foo.fnl) and at root (config-dir/init.fnl)
-        rel-path (fnl-abs-path:gsub (.. "^" (vim.pesc config-dir)) "")
-        rel-path (if (= (rel-path:sub 1 1) "/")
-                     (rel-path:sub 2)
-                     rel-path)
+   - Nix build: all files → `config-dir/lua/`
+   - Bootstrap files (non-Nix runtime) → `config-dir/lua/` (tracked)
+   - Everything else → `stdpath('data')/nfnl/`"
+  (let [rel-path (fnl-abs-path:gsub (.. "^" (vim.pesc config-dir) "/?") "")
         rel-path-no-ext (vim.fn.fnamemodify rel-path ":r")
-        to-lua-path #(.. ($:gsub "^fnl/" "lua/") ".lua")
-        lua-path (to-lua-path rel-path-no-ext)
-        ;; Use nfnl-output-dir at Nix runtime (foreign config) to avoid read-only store
+        lua-path (.. (rel-path-no-ext:gsub "^fnl/" "lua/") ".lua")
         is-bootstrap? (. bootstrap-files rel-path-no-ext)
         output-dir (if (or nix-build?
                            (and is-bootstrap? (not nix-runtime?)))
@@ -79,39 +68,28 @@
 
 ;;; Config
 
-;; Only compile Fennel files in these directories (exclude nix result/)
-;; Note: need both *.fnl (root level) and **/*.fnl (nested)
+;; Need both `*.fnl` (root level) and `**/*.fnl` (nested)
 (local source-patterns
   ["fnl/*.fnl"
    "fnl/**/*.fnl"
    "lsp/*.fnl"
    "lsp/**/*.fnl"
    "luasnippets/*.fnl"
-   "luasnippets/**/*.fnl"
-   "after/*.fnl"
    "after/**/*.fnl"
-   "init.fnl"]) ; Root init.fnl for bootstrap
+   "init.fnl"])
 
-;; Setup fennel paths for typed-fennel macro support
 (setup-fennel-paths (require :fennel))
 
-;; Get nfnl default config to extend it
 (local nfnl-config (require :nfnl.config))
 (local default-config (nfnl-config.default))
 
-;; Merge with default config, extending macro path
-;; When nix-build? is true, compile ALL files (ignore foreign-config check)
+;; Foreign config only compiles bootstrap files
 (vim.tbl_extend
   :force
   default-config
-  {:source-file-patterns (if nix-build?
-                              source-patterns
-                              (if foreign-config?
-                                  bootstrap-patterns
-                                  source-patterns))
+  {:source-file-patterns (if foreign-config? bootstrap-patterns source-patterns)
    : fnl-path->lua-path
    :orphan-detection {:auto? false}
-   ;; Prepend typed-fennel to default macro path
    :fennel-macro-path (.. (typed-fennel-macro-path) ";" default-config.fennel-macro-path)
    :compiler-options {:compilerEnv _G
                       :allowedGlobals false}})
