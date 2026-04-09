@@ -50,37 +50,45 @@
 
 # Installation
 
-- Firstly get a `nvim` binary:
-
-  - [Installing NeoVim](https://github.com/neovim/neovim/wiki/Installing-Neovim) (Official Wiki)
+- Get a recent `nvim` binary:
+  - [Installing NeoVim](https://github.com/neovim/neovim/wiki/Installing-Neovim)
 
 ```bash
-git clone https://www.github.com/reo101/reovim "~/.config/reovim"
+git clone https://www.github.com/reo101/reovim ~/.config/reovim
 NVIM_APPNAME=reovim nvim
 ```
 
-- Run `nvim`. On the first run, it will bootstrap the `tangerine` Fennel Loader and then the rest of the packages.
+- First startup bootstraps `nfnl`, the custom Fennel loader, and the plugin set.
+- To precompile everything manually, run `:NfnlCompileAll`.
+- Nix users can build or run the wrapped package directly:
 
-> NOTE: (hopefully) soon with Nix
+```bash
+nix build .#reovim
+nix run .#reovim
+```
 
 # Directory overview
 
-<!-- TODO: update -->
-
 - [`init.lua`](./init.lua) - Entry point for Neovim
-- [`lua/`](./lua/) - Lua config files
-    - [`bootstrap-tangerine.lua`](./lua/bootstrap-tangerine.lua) - `tangerine` bootstrapper
-    - `rv-*package*/init.lua` - Package configurations (in `lua`)
+- [`.nfnl.fnl`](./.nfnl.fnl) - `nfnl` compile routing and output placement
+- [`lua/`](./lua/) - Tracked bootstrap Lua plus Nix build outputs
+    - [`bootstrap-nfnl.lua`](./lua/bootstrap-nfnl.lua) - compiled bootstrap copy of [`fnl/bootstrap-nfnl.fnl`](./fnl/bootstrap-nfnl.fnl)
+    - [`fennel-loader.lua`](./lua/fennel-loader.lua) - compiled bootstrap copy of [`fnl/fennel-loader.fnl`](./fnl/fennel-loader.fnl)
 - [`fnl/`](./fnl/) - Fennel config files
-    - [`initialize.fnl`](./fnl/initialize.fnl) - Entry point for Fennel config
-    - [`init-macros.fnl`](./fnl/init-macros.fnl) - Fennel macros used throughout the Fennel config
-    - [`packages.fnl`](./fnl/packages.fnl) - Packages' definition location
-    - `rv-*package*/init.fnl` - Package configurations (in `fennel`)
-    - [`autocommands.fnl`](./fnl/autocommands.fnl) - Autocommands
-    - [`settings.fnl`](./fnl/settings.fnl) - `vim` settings
-    - [`def-keymaps`](./fnl/def-keymaps.fnl) - `which-key`-esque utility function for easily defining keymaps using nested tables
-    - [`fp`](./fnl/fp) - Functional programming utils (`List`, `Option`, `Result` and their `Functor` and `Monad` instances)
+    - [`initialize.fnl`](./fnl/initialize.fnl) - main Fennel entrypoint after bootstrap
+    - [`bootstrap-nfnl.fnl`](./fnl/bootstrap-nfnl.fnl) - startup/bootstrap logic
+    - [`fennel-loader.fnl`](./fnl/fennel-loader.fnl) - custom Fennel and macro injection
+    - [`packages.fnl`](./fnl/packages.fnl) - plugin loading through `lze` / `vim.pack`
+    - [`packages/specs.fnl`](./fnl/packages/specs.fnl) - side-effect-free plugin spec discovery shared by runtime loading and lockfile sync
+    - [`settings.fnl`](./fnl/settings.fnl) - global `vim.opt` and UI setup
+    - [`autocommands.fnl`](./fnl/autocommands.fnl) - global autocommands and navigation helpers
+    - [`def-keymaps.fnl`](./fnl/def-keymaps.fnl) - nested keymap DSL wrapper
+    - [`rv-config/`](./fnl/rv-config/) - plugin and feature modules grouped by domain
+    - [`macros/`](./fnl/macros/) - injected Fennel aliases and typed-fennel bootstrap
+    - [`fp/`](./fnl/fp/) - local functional programming utilities and experiments
+- [`after/`](./after/) - ftplugins, filetype detection, and treesitter query overrides
 - [`luasnippets/`](./luasnippets/) - LuaSnip snippets
-- [`queries/`](./after/queries/) - Custom Treesitter queries
+- [`nix/`](./nix/) - flake module, lockfile builders, treesitter grammar packaging, and helper derivations
+- [`nvim-pack-lock.json`](./nvim-pack-lock.json) - pinned plugin and grammar lockfile used by Nix
 
 ---

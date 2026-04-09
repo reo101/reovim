@@ -54,6 +54,79 @@
         parsed (if src (parse-url src) nil)]
     (and has-src? not-absolute? not-relative? parsed)))
 
+(fn remote-src? [src]
+  (and src
+       (not (src:match "^/"))
+       (not (src:match "^%."))))
+
+(fn spec-version-string [value]
+  (when (not= value nil)
+    (tostring value)))
+
+(fn spec-rev [spec]
+  (or (and spec.rev (spec-version-string spec.rev))
+      (and spec.branch
+           (.. "refs/heads/" (spec-version-string spec.branch)))
+      (and spec.version (spec-version-string spec.version))))
+
+(fn sync-plugin-entry! [entry spec]
+  (var changed? false)
+  (let [desired-src spec.src
+        desired-version (spec-version-string spec.version)
+        desired-rev (spec-rev spec)]
+    (when (not= entry.src desired-src)
+      (tset entry :src desired-src)
+      (tset entry :sha256 nil)
+      (set changed? true))
+    (if desired-version
+        (when (not= entry.version desired-version)
+          (tset entry :version desired-version)
+          (set changed? true))
+        (when (not= entry.version nil)
+          (tset entry :version nil)
+          (set changed? true)))
+    (when (and desired-rev
+               (not= entry.rev desired-rev))
+      (tset entry :rev desired-rev)
+      (tset entry :sha256 nil)
+      (set changed? true)))
+  changed?)
+
+(fn sync-plugins-from-specs [lockfile]
+  "Sync lockfile plugin inventory from the same runtime specs used by `packages.fnl`."
+  (local package-specs (require :packages.specs))
+  (when (not lockfile.plugins)
+    (tset lockfile :plugins {}))
+
+  (local seen {})
+  (var added 0)
+  (var updated 0)
+  (var removed 0)
+
+  (each [_ spec (ipairs (package-specs.collect-specs))]
+    (when (and spec.src (remote-src? spec.src))
+      (let [name (or spec.name (package-specs.src->name spec.src))]
+        (when name
+          (tset seen name true)
+          (let [existing (. lockfile.plugins name)
+                entry (or existing {})]
+            (when (not existing)
+              (tset lockfile.plugins name entry)
+              (set added (+ added 1)))
+            (when (sync-plugin-entry! entry spec)
+              (when existing
+                (set updated (+ updated 1)))))))))
+
+  (each [name _ (pairs lockfile.plugins)]
+    (when (and (not (. seen name))
+               (not (name:match "^tree%-sitter%-")))
+      (tset lockfile.plugins name nil)
+      (set removed (+ removed 1))))
+
+  {:added added
+   :updated updated
+   :removed removed})
+
 (fn extract-hash [output]
   "Extract sha256 hash from nix-prefetch-url output"
   ;; nix-prefetch-url outputs the base32 hash on stdout, but there may be
@@ -195,32 +268,16 @@
 
 (fn update-parsers-from-treesitter [lockfile concurrency callback ?force]
   "Extract parsers from treesitter/init.fnl and add them to lockfile. Calls callback with results when done."
-  ;; Try multiple ways to get the custom grammars
-  (var custom-grammars nil)
-
-  ;; Method 1: Try the global set by treesitter's after() function
-  (when _G.reovim/treesitter-grammars
-    (set custom-grammars _G.reovim/treesitter-grammars))
-
-  ;; Method 2: Try _G.custom-grammars (alternate export)
-  (when (and (not custom-grammars) _G.custom-grammars)
-    (set custom-grammars _G.custom-grammars))
-
-  ;; Method 3: Try to get from module return (if it exports them)
-  (when (not custom-grammars)
-    (let [(ok ts-module) (pcall require :rv-config.treesitter)]
-      (when ok
-        (when ts-module.custom-grammars
-          (set custom-grammars ts-module.custom-grammars))
-        ;; Module returns a list, check if any item has the grammars
-        (when (and (not custom-grammars) (vim.islist ts-module))
-          (each [_ item (ipairs ts-module)]
-            (when (and (not custom-grammars) item.custom-grammars)
-              (set custom-grammars item.custom-grammars)))))))
-
-  ;; Default to empty if nothing found
-  (when (not custom-grammars)
-    (set custom-grammars {}))
+  (local custom-grammars
+    (let [(ok grammar-module) (pcall require :rv-config.treesitter.grammars)]
+      (if ok
+          (or grammar-module.custom-grammars {})
+          (do
+            (vim.notify
+              (.. "NixUpdateLock: failed to load treesitter grammars: "
+                  (tostring grammar-module))
+              vim.log.levels.WARN)
+            {}))))
 
   (var added 0)
   (var updated 0)
@@ -308,8 +365,12 @@
             lockfile (vim.json.decode lockfile-content)
             plugins-without-hash []
             ;; Track overall results
-            results {:plugins {:updated 0 :failed 0 :total 0}
+            results {:specs {:added 0 :updated 0 :removed 0}
+                     :plugins {:updated 0 :failed 0 :total 0}
                      :parsers {:added 0 :updated 0 :built 0 :failed 0}}]
+
+        (let [spec-sync (sync-plugins-from-specs lockfile)]
+          (tset results :specs spec-sync))
 
         ;; Collect plugins that need updating (synchronous prep)
         (when (or (= mode :plugins) (= mode :both))
@@ -327,7 +388,10 @@
         ;; Helper to finalize and write results
         (fn finalize-and-write []
           ;; Write lockfile if changes were made
-          (when (or (> results.plugins.updated 0)
+          (when (or (> results.specs.added 0)
+                    (> results.specs.updated 0)
+                    (> results.specs.removed 0)
+                    (> results.plugins.updated 0)
                     (> results.parsers.added 0)
                     (> results.parsers.built 0)
                     (> results.parsers.failed 0))
@@ -336,7 +400,18 @@
               (vim.fn.writefile lines lockfile-path)))
 
           ;; Final notification
-          (let [plugin-msg (if (or (= mode :plugins) (= mode :both))
+          (let [spec-msg (if (or (> results.specs.added 0)
+                                 (> results.specs.updated 0)
+                                 (> results.specs.removed 0))
+                             (.. "Specs: "
+                                 results.specs.added
+                                 " added, "
+                                 results.specs.updated
+                                 " updated, "
+                                 results.specs.removed
+                                 " removed")
+                             "")
+                plugin-msg (if (or (= mode :plugins) (= mode :both))
                               (if (> (or results.plugins.total 0) 0)
                                   (.. "Plugins: " results.plugins.updated "/" results.plugins.total " updated"
                                       (if (> results.plugins.failed 0) (.. ", " results.plugins.failed " failed") ""))
@@ -348,8 +423,9 @@
                                       (if (> results.parsers.failed 0) (.. ", " results.parsers.failed " failed") ""))
                                   "Parsers: all up to date")
                               "")
-                sep (if (and (not= plugin-msg "") (not= parser-msg "")) " | " "")
-                msg (.. plugin-msg sep parser-msg)]
+                parts (icollect [_ part (ipairs [spec-msg plugin-msg parser-msg])]
+                        (when (not= part "") part))
+                msg (table.concat parts " | ")]
             (vim.notify msg (if (and (= results.plugins.failed 0) (= results.parsers.failed 0))
                               vim.log.levels.INFO
                               vim.log.levels.WARN))))

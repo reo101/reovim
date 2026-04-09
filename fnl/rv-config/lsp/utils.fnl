@@ -52,23 +52,28 @@
 (fn lsp-on-attach [client bufnr]
   (lsp-mappings)
 
+  (fn buffer-augroup [base]
+    (vim.api.nvim_create_augroup
+      (.. "Reovim" base bufnr)
+      {:clear true}))
+
   (when (?. client :server_capabilities :codeLensProvider)
-    (vim.api.nvim_create_augroup :LspCodeLens {:clear true})
+    (local group (buffer-augroup :LspCodeLens))
     (vim.api.nvim_create_autocmd [:InsertEnter
                                   :InsertLeave]
-                                 {:buffer   0
-                                  :group    :LspCodeLens
+                                 {:buffer   bufnr
+                                  :group    group
                                   :callback vim.lsp.codelens.refresh}))
 
   (when client.server_capabilities.documentHighlightProvider
-    (vim.api.nvim_create_augroup :LspDocumentHighlight {:clear true})
+    (local group (buffer-augroup :LspDocumentHighlight))
     (vim.api.nvim_create_autocmd [:CursorHold]
-                                 {:buffer   0
-                                  :group    :LspDocumentHighlight
+                                 {:buffer   bufnr
+                                  :group    group
                                   :callback vim.lsp.buf.document_highlight})
     (vim.api.nvim_create_autocmd [:CursorMoved]
-                                 {:buffer   0
-                                  :group    :LspDocumentHighlight
+                                 {:buffer   bufnr
+                                  :group    group
                                   :callback vim.lsp.buf.clear_references}))
 
   (when (?. client :server_capabilities :documentSymbolProvider)
