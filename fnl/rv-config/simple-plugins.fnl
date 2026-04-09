@@ -17,9 +17,7 @@
   :data {:event :DeferredUIEnter
          :on_require [:keymap_amend]}}
  {:src "https://github.com/nvimtools/hydra.nvim"
-  :data {:event :DeferredUIEnter
-         :version :v1.0.3
-         :on_require [:hydra]}}
+  :version :v1.0.3}
  ;; Filetype plugins
  {:src "https://github.com/mlochbaum/BQN"
   :data {:ft  ["bqn"]

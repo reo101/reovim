@@ -6,9 +6,8 @@
        : icons}
       (require :rv-config.heirline.common)
 
-      ;; DAP-Messages - only shows when dap is loaded and active
-      ;; NOTE: Do NOT call (require :dap) here - that would trigger
-      ;; lze on_require and load dap before hydra is ready!
+      ;; DAP-Messages - only shows when dap is loaded and active.
+      ;; Do not require `dap` here just to probe state; keep it passive.
       DAP-Messages
       {:condition (fn [self]
                    ;; Only check if dap is already loaded - don't trigger require

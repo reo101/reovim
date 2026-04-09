@@ -1,3 +1,4 @@
+;; Lazily load generic-lisp-extension to avoid loading during preload
 (fn get-generic-lisp-extension []
   (require :rv-config.paredit.generic-lisp-extension))
 

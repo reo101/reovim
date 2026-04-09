@@ -2,7 +2,7 @@
   (let [dk                  (require :def-keymaps)
         luasnip             (require :luasnip)
         luasnip-types       (require :luasnip.util.types)
-        luasnip-from-vscode (require :luasnip.loaders.from_vscode)
+        ;; luasnip-from-vscode (require :luasnip.loaders.from_vscode)
         luasnip-from-lua    (require :luasnip.loaders.from_lua)
         luasnip-filetype    (require :luasnip.extras.filetype_functions)
         opt {:keep_roots
@@ -33,10 +33,11 @@
              ;; :ft_func #(vim.split vim.bo.filetype "." true)
              :ft_func luasnip-filetype.from_cursor}]
     (luasnip.config.setup opt)
-    (luasnip-from-vscode.lazy_load)
-    (luasnip-from-lua.lazy_load
-      {:paths (.. (vim.fn.stdpath "config")
-                  :/luasnippets)})
+    ;; (luasnip-from-vscode.lazy_load)
+    (vim.schedule
+      #(luasnip-from-lua.lazy_load
+          {:paths (.. (vim.fn.stdpath "config")
+                      :/luasnippets)}))
 
     (dk :n
         {:t {:group :Toggle

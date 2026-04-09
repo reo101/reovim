@@ -1,5 +1,6 @@
 (fn after []
   (let [paredit (require :nvim-paredit)
+        native-indent (require :nvim-paredit.indentation.native)
         opt {;; should plugin use default keybindings? (= default true)
              :use_default_keys false
              ;; sometimes user wants to restrict plugin to certain file types only
@@ -39,8 +40,7 @@
                 ;; A function that will be called after a slurp/barf
                 ;; if you want to provide a custom indentation implementation.
                 :indentor
-                  (. (require :nvim-paredit.indentation.native)
-                     :indentor)}
+                  native-indent.indentor}
              ;; list of keybindings
              :keys
                {"<localleader>@" [paredit.unwrap.unwrap_form_under_cursor "Splice sexp"]
@@ -115,7 +115,7 @@
                       :mode [:o :v]}}}]
     (paredit.setup opt)))
 
-{:src :https://github.com/julienvincent/nvim-paredit
+{:src "https://github.com/julienvincent/nvim-paredit"
  :version :v1.1.1
  :data {:ft ["fennel"
              "scheme"
