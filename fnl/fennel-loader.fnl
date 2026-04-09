@@ -129,10 +129,13 @@
 (fn merge-registry! [registry defs]
   (when (= (type defs) :table)
     (each [name value (pairs defs)]
-      (tset registry name
-            (if (and (= (type value) :table) (not= (. value :clone) nil))
-                (or (. value :value) (. value :clone))
-                value)))))
+      (let [structured? (and (= (type value) :table)
+                             (or (not= (. value :value) nil)
+                                 (not= (. value :clone) nil)))]
+        (tset registry name
+              (if structured?
+                  (or (. value :value) (. value :clone))
+                  value))))))
 
 (fn registry-snapshot [registry]
   (let [copy {}]

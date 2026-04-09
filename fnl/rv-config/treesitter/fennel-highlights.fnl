@@ -5,18 +5,6 @@
 (local default-capture-by-kind
   {:specials :keyword
    :macros :function.macro})
-(local ignorable-captures
-  {:variable true
-   :function.call true
-   :function.method.call true})
-(local capture-cache {})
-(local sample-templates
-  ["(%s [] 1)"
-   "(%s foo [] 1)"
-   "(%s true 1)"
-   "(%s x 1)"
-   "(%s 1)"
-   "(%s)"])
 
 (fn sorted-copy [xs]
   (let [copy (vim.deepcopy xs)]
@@ -27,50 +15,15 @@
   (fennel-loader.inject-all-global-macros)
   (require :macros.init))
 
-(fn clone-target [entry]
-  (when (and (= (type entry) :table) (not= (. entry :clone) nil))
-    (. entry :clone)))
-
-(fn with-fennel-query-buffer [src f]
-  (let [bufnr (vim.api.nvim_create_buf false true)]
-    (vim.api.nvim_buf_set_lines bufnr 0 -1 false [src])
-    (tset (. vim.bo bufnr) :filetype :fennel)
-    (let [parser (vim.treesitter.get_parser bufnr :fennel {})
-          tree (. (parser:parse) 1)
-          root (tree:root)
-          query (vim.treesitter.query.get :fennel :highlights)
-          result (f bufnr query root)]
-      (vim.api.nvim_buf_delete bufnr {:force true})
-      result)))
-
-(fn infer-target-capture [target]
-  (let [cached (. capture-cache target)]
-    (if (not= cached nil)
-        cached
-        (let [capture
-              (accumulate [found nil
-                           _ template (ipairs sample-templates)]
-                (or found
-                    (with-fennel-query-buffer
-                      (string.format template target)
-                      (fn [bufnr query root]
-                        (accumulate [capture nil
-                                     id node (query:iter_captures root bufnr 0 -1)]
-                          (let [capture-name (. query.captures id)
-                                text (vim.treesitter.get_node_text node bufnr)]
-                            (if (and (= (node:type) :symbol)
-                                     (= text target)
-                                     (not (. ignorable-captures capture-name)))
-                                capture-name
-                                capture)))))))]
-          (tset capture-cache target capture)
-          capture))))
+(fn configured-capture [entry]
+  (when (= (type entry) :table)
+    (let [capture (. entry :capture)]
+      (when (= (type capture) :string)
+        (capture:gsub "^@" "")))))
 
 (fn alias-highlight-capture [kind entry]
-  (let [target (or (clone-target entry) entry)]
-    (or (and (= (type target) :string)
-             (infer-target-capture target))
-        (. default-capture-by-kind kind))))
+  (or (configured-capture entry)
+      (. default-capture-by-kind kind)))
 
 (fn add-highlight! [buckets capture name]
   (when (and capture (= (type name) :string))

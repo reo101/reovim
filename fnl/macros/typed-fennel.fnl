@@ -62,11 +62,29 @@
 (fn typed-fennel-runtime-path []
   (typed-fennel-path "init.fnl"))
 
+(local macro-captures
+  {"fn>" :keyword.function
+   "let>" :keyword
+   "local>" :keyword
+   "var>" :keyword})
+
+(fn annotate-macros [defs]
+  (let [annotated {}]
+    (each [name value (pairs (or defs {}))]
+      (let [capture (. macro-captures name)]
+        (tset annotated name
+              (if capture
+                  {:value value
+                   :capture capture}
+                  value))))
+    annotated))
+
 (let [cached-defs (. package.loaded cache-key)]
   (if cached-defs
       cached-defs
       (do
         (preload-fennel-module! "typed-fennel" (typed-fennel-runtime-path))
-        (let [defs {:macros (eval-macro-file (typed-fennel-init-macros-path))}]
+        (let [defs {:macros (annotate-macros
+                              (eval-macro-file (typed-fennel-init-macros-path)))}]
           (tset package.loaded cache-key defs)
           defs))))

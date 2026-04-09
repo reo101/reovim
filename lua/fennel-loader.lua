@@ -193,8 +193,9 @@ end
 local function merge_registry_21(registry, defs)
   if (type(defs) == "table") then
     for name, value in pairs(defs) do
+      local structured_3f = ((type(value) == "table") and ((value.value ~= nil) or (value.clone ~= nil)))
       local _32_
-      if ((type(value) == "table") and (value.clone ~= nil)) then
+      if structured_3f then
         _32_ = (value.value or value.clone)
       else
         _32_ = value
