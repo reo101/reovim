@@ -83,7 +83,7 @@
 (setup-fennel-paths (require :fennel))
 
 ;;; Global macro aliases (available during nfnl compilation)
-(inject-all-global-macros)
+(inject-all-global-macros config-dir)
 
 (local nfnl-config (require :nfnl.config))
 (local default-config (nfnl-config.default))

@@ -22,7 +22,7 @@
 (setup-fennel-paths (require :fennel))
 
 ;;; Global macro aliases (JP and typed-fennel)
-(inject-all-global-macros)
+(inject-all-global-macros nvim-config)
 
 ;;; Paths
 

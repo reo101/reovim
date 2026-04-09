@@ -158,11 +158,12 @@
   (when (not (: package.path :match (vim.pesc path-prefix)))
     (set package.path (.. path-prefix ";" package.path))))
 
-(fn maybe-packadd! [plugin-name]
+(fn ensure-runtime-plugin! [plugin-name]
+  "Bootstrap-time helper for opt plugins needed before `packages.fnl` runs."
   (pcall vim.cmd.packadd {:args [plugin-name]}))
 
 (fn runtime-file [plugin-name file-name]
-  (maybe-packadd! plugin-name)
+  (ensure-runtime-plugin! plugin-name)
   (let [candidates (vim.api.nvim_get_runtime_file file-name true)
         preferred-pattern (.. "/" (vim.pesc plugin-name) "/" (vim.pesc file-name) "$")]
     (or (accumulate [found-path nil
@@ -172,23 +173,90 @@
                    path)))
         (. candidates 1))))
 
-(fn register-macros-from-module [module-name]
+(fn module-name->source-path [module-name ?config-dir]
+  (let [rel-path (.. "fnl/" (module-name:gsub "%." "/") ".fnl")
+        runtime-paths (vim.api.nvim_get_runtime_file rel-path true)]
+    (or (let [config-dir ?config-dir]
+          (when config-dir
+            (let [config-path (.. config-dir "/" rel-path)]
+              (when (= 1 (vim.fn.filereadable config-path))
+                config-path))))
+        (. runtime-paths 1)
+        (let [config-path (.. (vim.fn.stdpath :config) "/" rel-path)]
+          (when (= 1 (vim.fn.filereadable config-path))
+            config-path)))))
+
+(fn macro-defs? [defs]
+  (and (= (type defs) :table)
+       (or (= (type defs.specials) :table)
+           (= (type defs.macros) :table))))
+
+(fn ensure-source-preload! [module-name ?config-dir]
+  (when (not (package.searchpath module-name package.path))
+    (let [source-path (module-name->source-path module-name ?config-dir)]
+      (when source-path
+        (tset package.preload module-name
+              (fn []
+                (let [fennel (require :fennel)
+                      (ok defs) (pcall fennel.dofile source-path)]
+                  (if ok
+                      defs
+                      (error (.. "fennel-loader: Failed to preload "
+                                 module-name
+                                 " from "
+                                 source-path
+                                 ": "
+                                 defs)
+                             0)))))))))
+
+(fn load-macro-module-from-source [module-name ?config-dir]
+  (let [source-path (module-name->source-path module-name ?config-dir)]
+    (when source-path
+      (let [fennel (require :fennel)
+            (ok defs) (pcall fennel.dofile source-path)]
+        (when (and ok (macro-defs? defs))
+          (tset package.loaded module-name defs)
+          defs)))))
+
+(fn register-macros-from-module [module-name ?config-dir]
   (tset package.loaded module-name nil)
   (let [(ok defs) (pcall require module-name)]
-    (if ok
-        (register-macro-defs defs)
-        (vim.notify (.. "fennel-loader: Failed to load macros from module "
-                        module-name
-                        ": "
-                        (tostring defs))
-                    vim.log.levels.WARN))))
+    (let [resolved-defs (if (and ok (macro-defs? defs))
+                            defs
+                            (load-macro-module-from-source module-name ?config-dir))]
+      (if resolved-defs
+          (register-macro-defs resolved-defs)
+          (vim.notify (.. "fennel-loader: Failed to load macros from module "
+                          module-name
+                          ": "
+                          (tostring defs))
+                      vim.log.levels.WARN)))))
 
-(fn inject-all-global-macros []
+(fn fallback-macro-modules-available [?config-dir]
+  (let [modules ["macros.jp" "macros.typed-fennel"]]
+    (each [_ module-name (ipairs modules)]
+      (ensure-source-preload! module-name ?config-dir))
+    modules))
+
+(fn inject-all-global-macros [?config-dir]
   "Inject the compiled config macro hub universally"
   (prepend-package-path! (nfnl-output-lua-path))
-  (each [_ module-name (ipairs ["macros.init" "macros.jp"])]
-    (tset package.loaded module-name nil))
-  (register-macros-from-module "macros.init"))
+  (let [fallback? (not (package.searchpath "macros.init" package.path))
+        modules (if fallback?
+                    (fallback-macro-modules-available ?config-dir)
+                    ["macros.init" "macros.jp"])]
+    (when (not fallback?)
+      (ensure-source-preload! "macros.init" ?config-dir))
+    (ensure-source-preload! "macros.typed-fennel" ?config-dir)
+    (each [_ module-name (ipairs modules)]
+      (when (or (= module-name "macros.init")
+                (= module-name "macros.jp")
+                (= module-name "macros.typed-fennel"))
+        (tset package.loaded module-name nil)))
+    (if fallback?
+        (each [_ module-name (ipairs modules)]
+          (register-macros-from-module module-name ?config-dir))
+        (register-macros-from-module "macros.init" ?config-dir))))
 
 ;;; Path Setup
 

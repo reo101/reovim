@@ -2,12 +2,14 @@
 ;;; Loads typed-fennel's macro entrypoint and preloads its runtime module.
 
 (local fennel (require :fennel))
+(local cache-key "reovim.macros.typed-fennel-defs")
 
-(fn maybe-packadd! [plugin-name]
+(fn ensure-runtime-plugin! [plugin-name]
+  "Bootstrap-time helper for the opt `typed-fennel` plugin."
   (pcall vim.cmd.packadd {:args [plugin-name]}))
 
 (fn runtime-file [plugin-name file-name]
-  (maybe-packadd! plugin-name)
+  (ensure-runtime-plugin! plugin-name)
   (let [candidates (vim.api.nvim_get_runtime_file file-name true)
         preferred-pattern (.. "/" (vim.pesc plugin-name) "/" (vim.pesc file-name) "$")]
     (or (accumulate [found-path nil
@@ -60,6 +62,11 @@
 (fn typed-fennel-runtime-path []
   (typed-fennel-path "init.fnl"))
 
-(preload-fennel-module! "typed-fennel" (typed-fennel-runtime-path))
-
-{:macros (eval-macro-file (typed-fennel-init-macros-path))}
+(let [cached-defs (. package.loaded cache-key)]
+  (if cached-defs
+      cached-defs
+      (do
+        (preload-fennel-module! "typed-fennel" (typed-fennel-runtime-path))
+        (let [defs {:macros (eval-macro-file (typed-fennel-init-macros-path))}]
+          (tset package.loaded cache-key defs)
+          defs))))

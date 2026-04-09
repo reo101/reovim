@@ -233,11 +233,11 @@ local function prepend_package_path_21(path_prefix)
     return nil
   end
 end
-local function maybe_packadd_21(plugin_name)
+local function ensure_runtime_plugin_21(plugin_name)
   return pcall(vim.cmd.packadd, {args = {plugin_name}})
 end
 local function runtime_file(plugin_name, file_name)
-  maybe_packadd_21(plugin_name)
+  ensure_runtime_plugin_21(plugin_name)
   local candidates = vim.api.nvim_get_runtime_file(file_name, true)
   local preferred_pattern = ("/" .. vim.pesc(plugin_name) .. "/" .. vim.pesc(file_name) .. "$")
   local _36_
@@ -250,21 +250,124 @@ local function runtime_file(plugin_name, file_name)
   end
   return (_36_ or candidates[1])
 end
-local function register_macros_from_module(module_name)
+local function module_name__3esource_path(module_name, _3fconfig_dir)
+  local rel_path = ("fnl/" .. module_name:gsub("%.", "/") .. ".fnl")
+  local runtime_paths = vim.api.nvim_get_runtime_file(rel_path, true)
+  local _37_
+  do
+    local config_dir = _3fconfig_dir
+    if config_dir then
+      local config_path = (config_dir .. "/" .. rel_path)
+      if (1 == vim.fn.filereadable(config_path)) then
+        _37_ = config_path
+      else
+        _37_ = nil
+      end
+    else
+      _37_ = nil
+    end
+  end
+  local or_41_ = _37_ or runtime_paths[1]
+  if not or_41_ then
+    local config_path = (vim.fn.stdpath("config") .. "/" .. rel_path)
+    if (1 == vim.fn.filereadable(config_path)) then
+      or_41_ = config_path
+    else
+      or_41_ = nil
+    end
+  end
+  return or_41_
+end
+local function macro_defs_3f(defs)
+  return ((type(defs) == "table") and ((type(defs.specials) == "table") or (type(defs.macros) == "table")))
+end
+local function ensure_source_preload_21(module_name, _3fconfig_dir)
+  if not package.searchpath(module_name, package.path) then
+    local source_path = module_name__3esource_path(module_name, _3fconfig_dir)
+    if source_path then
+      local function _44_()
+        local fennel = require("fennel")
+        local ok, defs = pcall(fennel.dofile, source_path)
+        if ok then
+          return defs
+        else
+          return error(("fennel-loader: Failed to preload " .. module_name .. " from " .. source_path .. ": " .. defs), 0)
+        end
+      end
+      package.preload[module_name] = _44_
+      return nil
+    else
+      return nil
+    end
+  else
+    return nil
+  end
+end
+local function load_macro_module_from_source(module_name, _3fconfig_dir)
+  local source_path = module_name__3esource_path(module_name, _3fconfig_dir)
+  if source_path then
+    local fennel = require("fennel")
+    local ok, defs = pcall(fennel.dofile, source_path)
+    if (ok and macro_defs_3f(defs)) then
+      package.loaded[module_name] = defs
+      return defs
+    else
+      return nil
+    end
+  else
+    return nil
+  end
+end
+local function register_macros_from_module(module_name, _3fconfig_dir)
   package.loaded[module_name] = nil
   local ok, defs = pcall(require, module_name)
-  if ok then
-    return register_macro_defs(defs)
+  local resolved_defs
+  if (ok and macro_defs_3f(defs)) then
+    resolved_defs = defs
+  else
+    resolved_defs = load_macro_module_from_source(module_name, _3fconfig_dir)
+  end
+  if resolved_defs then
+    return register_macro_defs(resolved_defs)
   else
     return vim.notify(("fennel-loader: Failed to load macros from module " .. module_name .. ": " .. tostring(defs)), vim.log.levels.WARN)
   end
 end
-local function inject_all_global_macros()
-  prepend_package_path_21(nfnl_output_lua_path())
-  for _, module_name in ipairs({"macros.init", "macros.jp"}) do
-    package.loaded[module_name] = nil
+local function fallback_macro_modules_available(_3fconfig_dir)
+  local modules = {"macros.jp", "macros.typed-fennel"}
+  for _, module_name in ipairs(modules) do
+    ensure_source_preload_21(module_name, _3fconfig_dir)
   end
-  return register_macros_from_module("macros.init")
+  return modules
+end
+local function inject_all_global_macros(_3fconfig_dir)
+  prepend_package_path_21(nfnl_output_lua_path())
+  local fallback_3f = not package.searchpath("macros.init", package.path)
+  local modules
+  if fallback_3f then
+    modules = fallback_macro_modules_available(_3fconfig_dir)
+  else
+    modules = {"macros.init", "macros.jp"}
+  end
+  if not fallback_3f then
+    ensure_source_preload_21("macros.init", _3fconfig_dir)
+  else
+  end
+  ensure_source_preload_21("macros.typed-fennel", _3fconfig_dir)
+  for _, module_name in ipairs(modules) do
+    if ((module_name == "macros.init") or (module_name == "macros.jp") or (module_name == "macros.typed-fennel")) then
+      package.loaded[module_name] = nil
+    else
+    end
+  end
+  if fallback_3f then
+    for _, module_name in ipairs(modules) do
+      register_macros_from_module(module_name, _3fconfig_dir)
+    end
+    return nil
+  else
+    return register_macros_from_module("macros.init", _3fconfig_dir)
+  end
 end
 local function typed_fennel_plugin_parent()
   local init_macros_path = runtime_file("typed-fennel", "init-macros.fnl")

@@ -8,8 +8,9 @@
   to)
 
 (fn merge-defs! [acc defs]
-  (merge-into! acc.specials defs.specials)
-  (merge-into! acc.macros defs.macros)
+  (when (= (type defs) :table)
+    (merge-into! acc.specials defs.specials)
+    (merge-into! acc.macros defs.macros))
   acc)
 
 (let [defs {:specials {} :macros {}}]

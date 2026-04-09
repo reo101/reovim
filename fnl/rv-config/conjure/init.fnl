@@ -181,7 +181,7 @@
   ;; Use neovim's fennel
   (let [fl (require :fennel-loader)]
     (fl.sync-fennel-modules)
-    (fl.inject-all-global-macros))
+    (fl.inject-all-global-macros (vim.fn.stdpath :config)))
 
   (let [conjure-main (require :conjure.main)
         conjure-mapping (require :conjure.mapping)]
