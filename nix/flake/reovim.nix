@@ -415,6 +415,11 @@ in
         packageWithProfile =
           argsOrProfile:
           mkWrappedPackage argsOrProfile;
+        availableProfiles = builtins.attrNames profileCategoryFlags;
+        profileMetadata = {
+          inherit availableProfiles categoryNames profileCategoryFlags pluginGroups grammarGroups;
+          availableCategories = categoryNames;
+        };
         reovimPackage =
           devPackage
           // {
@@ -422,9 +427,10 @@ in
             full = fullPackage;
             lite = litePackage;
             writing = writingPackage;
+            inherit (profileMetadata) availableProfiles availableCategories categoryNames profileCategoryFlags pluginGroups grammarGroups;
             withProfile = packageWithProfile;
             overrideProfile = packageWithProfile;
-            passthru = (devPackage.passthru or { }) // {
+            passthru = (devPackage.passthru or { }) // profileMetadata // {
               dev = devPackage;
               full = fullPackage;
               lite = litePackage;
