@@ -98,6 +98,192 @@ in
           lockfilePath = config.reovim.lockfilePath;
         };
         typedFennelBuildPlugin = allLockfilePlugins."typed-fennel";
+        allTreesitterGrammars = treesitterLib.mkTreesitterGrammarsFromLockfile {
+          lockfilePath = config.reovim.lockfilePath;
+        };
+
+        pluginGroups = {
+          ai = [
+            "amp.nvim"
+            "blink-cmp-avante"
+            "sidekick.nvim"
+          ];
+          writing = [
+            "follow-md-links.nvim"
+            "headlines.nvim"
+            "markview.nvim"
+            "mind.nvim"
+            "nabla.nvim"
+            "neorg"
+            "neorg-telescope"
+            "texmagic.nvim"
+            "true-zen.nvim"
+            "typst-preview.nvim"
+            "typst.nvim"
+          ];
+          github = [
+            "octo.nvim"
+            "telescope-github.nvim"
+          ];
+          dap = [
+            "nvim-dap"
+            "nvim-dap-ui"
+            "nvim-dap-virtual-text"
+          ];
+          testing = [
+            "neotest"
+            "neotest-busted"
+            "neotest-foundry"
+            "neotest-haskell"
+            "neotest-zig"
+          ];
+          agda = [ "cornelis" ];
+          native = [
+            "fff.nvim"
+            "parinfer-rust"
+          ];
+          treesitter_extra = [
+            "tree-sitter-hy"
+            "tree-sitter-jj_template"
+            "tree-sitter-nu"
+            "tree-sitter-uci"
+          ];
+        };
+
+        grammarGroups = {
+          writing = [
+            "tree-sitter-norg_meta"
+            "tree-sitter-norg_table"
+          ];
+          treesitter_extra = [
+            "tree-sitter-awk"
+            "tree-sitter-brainfuck"
+            "tree-sitter-crisp"
+            "tree-sitter-http"
+            "tree-sitter-hy"
+            "tree-sitter-jj_template"
+            "tree-sitter-move"
+            "tree-sitter-noir"
+            "tree-sitter-nu"
+            "tree-sitter-uci"
+            "tree-sitter-xml"
+          ];
+        };
+
+        profileCategoryFlags = rec {
+          full = {
+            ai = true;
+            writing = true;
+            github = true;
+            dap = true;
+            testing = true;
+            agda = true;
+            native = true;
+            treesitter_extra = true;
+          };
+          dev = full // {
+            writing = false;
+          };
+          lite = dev // {
+            ai = false;
+            github = false;
+            dap = false;
+            testing = false;
+            agda = false;
+            native = false;
+            treesitter_extra = false;
+          };
+          writing = full // {
+            ai = false;
+            github = false;
+            dap = false;
+            testing = false;
+            agda = false;
+            native = false;
+            treesitter_extra = false;
+          };
+        };
+
+        categoryNames = lib.unique ((lib.attrNames pluginGroups) ++ (lib.attrNames grammarGroups));
+
+        assertKnownCategories =
+          names:
+          let
+            unknown = lib.filter (name: !(builtins.elem name categoryNames)) names;
+          in
+          if unknown != [ ] then
+            throw "Unknown reovim categories: ${lib.concatStringsSep ", " unknown}"
+          else
+            names;
+
+        categoryFlagsFromNames =
+          names:
+          let
+            enabledNames = assertKnownCategories names;
+          in
+          lib.genAttrs categoryNames (name: builtins.elem name enabledNames);
+
+        resolveProfileInput =
+          argsOrProfile:
+          if builtins.isString argsOrProfile then
+            {
+              profileLabel = argsOrProfile;
+              enabledCategoryFlags =
+                profileCategoryFlags.${argsOrProfile}
+                or (throw "Unknown reovim profile: ${argsOrProfile}");
+            }
+          else if builtins.isList argsOrProfile then
+            {
+              profileLabel = "custom";
+              enabledCategoryFlags = categoryFlagsFromNames argsOrProfile;
+            }
+          else
+            let
+              hasProfile = argsOrProfile ? profile;
+              hasCategories = argsOrProfile ? categories;
+              _ =
+                if hasProfile && hasCategories then
+                  throw "Use either `profile` or `categories`, not both"
+                else
+                  null;
+              baseCategoryFlags =
+                if hasCategories then
+                  categoryFlagsFromNames argsOrProfile.categories
+                else if hasProfile then
+                  profileCategoryFlags.${argsOrProfile.profile}
+                  or (throw "Unknown reovim profile: ${argsOrProfile.profile}")
+                else
+                  categoryFlagsFromNames [ ];
+              enabledCategories = assertKnownCategories (argsOrProfile.enable or [ ]);
+              disabledCategories = assertKnownCategories (argsOrProfile.disable or [ ]);
+              enabledCategoryFlags = lib.mapAttrs
+                (name: enabled:
+                  if builtins.elem name enabledCategories then
+                    true
+                  else if builtins.elem name disabledCategories then
+                    false
+                  else
+                    enabled)
+                baseCategoryFlags;
+            in
+            {
+              profileLabel =
+                if hasCategories then
+                  "custom"
+                else
+                  (argsOrProfile.profile or "custom");
+              inherit enabledCategoryFlags;
+            };
+
+        disabledMembers =
+          groups: enabledCategoryFlags:
+          lib.unique (
+            lib.flatten (
+              lib.mapAttrsToList (
+                group: members: lib.optionals (!(enabledCategoryFlags.${group} or false)) members
+              ) groups
+            )
+          );
 
         neovimPackage = config.reovim.package neovimPkgs;
 
@@ -106,7 +292,6 @@ in
           fileset = configFiles;
         };
 
-        # Pre-compile Fennel files at build time using external script
         configSource = pkgs.stdenv.mkDerivation {
           name = "reovim-config-with-compiled-lua";
           src = rawConfigSource;
@@ -153,76 +338,110 @@ in
           '';
         };
 
-        # Build treesitter grammars from lockfile
-        treesitterGrammars = treesitterLib.mkTreesitterGrammarsFromLockfile {
-          lockfilePath = config.reovim.lockfilePath;
-        };
-
-        # Create unified parser directory for all grammars
-        parserDir = treesitterLib.mkParserDir {
-          grammars = treesitterGrammars;
-        };
-
-        # Build regular plugins, excluding treesitter grammars
-        lockfilePlugins =
+        mkWrappedPackage =
+          argsOrProfile:
           let
-            grammarNames = map (g: g.name) treesitterGrammars;
-            plugins = lib.filterAttrs (name: _: !(builtins.elem name grammarNames)) allLockfilePlugins;
-          in
-          lib.attrValues plugins;
-
-        # Convert list of plugins to individual specs
-        lockfilePluginSpecs = lib.listToAttrs (
-          map (plugin: {
-            name = plugin.pname or plugin.name or "unknown-plugin";
-            value = {
-              data = plugin;
-              lazy = true;
+            resolved = resolveProfileInput argsOrProfile;
+            profileLabel = resolved.profileLabel;
+            enabledCategoryFlags = resolved.enabledCategoryFlags;
+            excludedPlugins = disabledMembers pluginGroups enabledCategoryFlags;
+            excludedGrammars = disabledMembers grammarGroups enabledCategoryFlags;
+            selectedLockfilePlugins = lib.filterAttrs
+              (name: _: !(builtins.elem name excludedPlugins))
+              allLockfilePlugins;
+            typedFennelBuildPlugin = selectedLockfilePlugins."typed-fennel";
+            treesitterGrammars = lib.filter
+              (grammar: !(builtins.elem grammar.name excludedGrammars))
+              allTreesitterGrammars;
+            parserDir = treesitterLib.mkParserDir {
+              grammars = treesitterGrammars;
             };
-          }) lockfilePlugins
-        );
-
-        # Create spec for the parser plugin
-        parserPlugin = pkgs.runCommand "treesitter-parser-plugin" { } ''
-          mkdir -p $out
-          ln -s ${parserDir}/parser $out/parser
-          if [ -d "${parserDir}/queries" ]; then
-            ln -s ${parserDir}/queries $out/queries
-          fi
-        '';
-
-        parserPluginSpec = {
-          "treesitter-parsers" = {
-            data = parserPlugin;
-            lazy = false;
-          };
-        };
-
-        wrapperModule = inputs.nix-wrapper-modules.lib.evalModule [
-          { pkgs = lib.mkForce neovimPkgs; }
-          inputs.nix-wrapper-modules.lib.wrapperModules.neovim
-          {
-            config = {
-              package = neovimPackage;
-              settings = {
-                config_directory = "${configSource}";
-                viAlias = true;
-                vimAlias = true;
-                vimdiffAlias = true;
-                infoPluginName = "nix-info-plugin-name";
+            lockfilePlugins =
+              let
+                grammarNames = map (g: g.name) treesitterGrammars;
+                plugins = lib.filterAttrs (name: _: !(builtins.elem name grammarNames)) selectedLockfilePlugins;
+              in
+              lib.attrValues plugins;
+            lockfilePluginSpecs = lib.listToAttrs (
+              map (plugin: {
+                name = plugin.pname or plugin.name or "unknown-plugin";
+                value = {
+                  data = plugin;
+                  lazy = true;
+                };
+              }) lockfilePlugins
+            );
+            parserPlugin = pkgs.runCommand "treesitter-parser-plugin-${profileLabel}" { } ''
+              mkdir -p $out
+              ln -s ${parserDir}/parser $out/parser
+              if [ -d "${parserDir}/queries" ]; then
+                ln -s ${parserDir}/queries $out/queries
+              fi
+            '';
+            parserPluginSpec = lib.optionalAttrs (treesitterGrammars != [ ]) {
+              "treesitter-parsers" = {
+                data = parserPlugin;
+                lazy = false;
               };
-              specs = lockfilePluginSpecs // parserPluginSpec;
-              extraPackages = [ fennelPackage ] ++ config.reovim.extraPackages;
-              env.NVIM_APPNAME = "reovim";
-              hosts = lib.genAttrs [ "python3" "node" "ruby" ] (lib.const { nvim-host.enable = false; });
             };
-          }
-        ];
+            wrapperModule = inputs.nix-wrapper-modules.lib.evalModule [
+              { pkgs = lib.mkForce neovimPkgs; }
+              inputs.nix-wrapper-modules.lib.wrapperModules.neovim
+              {
+                config = {
+                  package = neovimPackage;
+                  settings = {
+                    config_directory = "${configSource}";
+                    viAlias = true;
+                    vimAlias = true;
+                    vimdiffAlias = true;
+                    infoPluginName = "nix-info-plugin-name";
+                    profile = profileLabel;
+                  };
+                  specs = lockfilePluginSpecs // parserPluginSpec;
+                  extraPackages = [ fennelPackage ] ++ config.reovim.extraPackages;
+                  env.NVIM_APPNAME = "reovim";
+                  hosts = lib.genAttrs [ "python3" "node" "ruby" ] (lib.const { nvim-host.enable = false; });
+                };
+              }
+            ];
+          in
+          wrapperModule.config.wrap { pkgs = neovimPkgs; };
+
+        devPackage = mkWrappedPackage "dev";
+        fullPackage = mkWrappedPackage "full";
+        litePackage = mkWrappedPackage "lite";
+        writingPackage = mkWrappedPackage "writing";
+        packageWithProfile =
+          argsOrProfile:
+          mkWrappedPackage argsOrProfile;
+        reovimPackage =
+          devPackage
+          // {
+            dev = devPackage;
+            full = fullPackage;
+            lite = litePackage;
+            writing = writingPackage;
+            withProfile = packageWithProfile;
+            overrideProfile = packageWithProfile;
+            passthru = (devPackage.passthru or { }) // {
+              dev = devPackage;
+              full = fullPackage;
+              lite = litePackage;
+              writing = writingPackage;
+              withProfile = packageWithProfile;
+              overrideProfile = packageWithProfile;
+            };
+          };
       in
       {
         packages = {
-          reovim = wrapperModule.config.wrap { pkgs = neovimPkgs; };
-          default = wrapperModule.config.wrap { pkgs = neovimPkgs; };
+          reovim = reovimPackage;
+          default = reovimPackage;
+          dev = devPackage;
+          full = fullPackage;
+          lite = litePackage;
+          writing = writingPackage;
         };
       };
 

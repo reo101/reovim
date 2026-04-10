@@ -67,6 +67,15 @@ nix build .#reovim
 nix run .#reovim
 ```
 
+- Profile variants are exposed as passthroughs and top-level packages:
+
+```bash
+nix build .#reovim.full
+nix build .#reovim.dev
+nix build .#reovim.lite
+nix build .#reovim.writing
+```
+
 # Directory overview
 
 - [`init.lua`](./init.lua) - Entry point for Neovim

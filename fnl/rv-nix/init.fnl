@@ -43,37 +43,4 @@
       ;; Set a simple global function that returns the default
       (tset _G :nix-config #default-value))))
 
-;; Check if a spec is enabled (via nix-wrapper-modules settings)
-(fn M.enabled? [spec-name default]
-  (if M.is-nix
-      (let [enabled (M.get :settings :cats spec-name)]
-        (if (= enabled nil) false enabled))
-      (or default false)))
-
-;; lze handler for conditional plugin loading based on nix specs
-(set M.for-spec
-     {:spec_field :for-spec
-      :set_lazy false
-      :modify (fn [plugin]
-                (let [spec plugin.for-spec]
-                  (if (and (= (type spec) :table)
-                           (not= spec.name nil))
-                      ;; Table format: {:name :spec-name :default true}
-                      (tset plugin :enabled (M.enabled? spec.name spec.default))
-                      ;; Simple string format: :spec-name
-                      (tset plugin :enabled (M.enabled? spec false)))
-                  plugin))})
-
-(fn M.register-lze-handler []
-  (local lze (require :lze))
-  (lze.register_handlers M.for-spec))
-
-;; Load plugin via lze with spec from vim.pack
-(fn M.load [p]
-  ;; Merge spec.data fields into the root of the spec for lze consumption
-  (local spec (or (?. p :spec :data) {}))
-  (tset spec :name p.spec.name)
-  (local lze (require :lze))
-  (lze.load spec))
-
 M

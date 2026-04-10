@@ -1,8 +1,6 @@
-;; Load rv-nix and register lze handler BEFORE loading plugin specs
-;; This ensures autoload proxies can find plugins via lze's on_require
+;; Load rv-nix before loading plugin specs.
 (local rv-nix (require :rv-nix))
 (rv-nix.setup {:non-nix-value true})
-(rv-nix.register-lze-handler)
 
 (local package-specs (require :packages.specs))
 (local specs (package-specs.collect-specs))
@@ -16,21 +14,28 @@
   (let [lze (require :lze)
         ;; Get nix plugin list to filter specs
         nix-plugins (or (rv-nix.get {} :plugins :lazy) {})]
-    ;; Transform specs: flatten data fields to root for lze consumption
-    ;; lze needs on_require, event, after, etc. at the root level
-    (each [_ spec (ipairs specs)]
-      (when spec.src
-        (let [name (package-specs.src->name spec.src)]
-          (when (and name (. nix-plugins name))
-            ;; Replace src with name for lze and flatten data fields
-            (tset spec :name name)
-            (tset spec :src nil)
-            ;; Merge data fields into root level so lze can see them
-            (when spec.data
-              (each [k v (pairs spec.data)]
-                (tset spec k v)))))))
+    ;; Only keep specs for plugins actually present in this wrapped package,
+    ;; then flatten data fields to root level for lze consumption.
+    (let [specs
+           (-> specs
+               vim.iter
+               (: :map (fn [spec]
+                         (if spec.src
+                             (let [name (package-specs.src->name spec.src)]
+                               (when (and name (. nix-plugins name))
+                                 ;; Replace src with name for lze and flatten data fields
+                                 (tset spec :name name)
+                                 (tset spec :src nil)
+                                 ;; Merge data fields into root level so lze can see them
+                                 (when spec.data
+                                   (each [k v (pairs spec.data)]
+                                     (tset spec k v)))
+                                 spec))
+                             spec)))
+               (: :filter #$1)
+               (: :totable))]
     ;; Load via lze which will use :packadd for plugins in opt/
-    (lze.load specs))
+    (lze.load specs)))
   ;; Non-Nix: use vim.pack.add to download plugins
   ;; lze handles ALL lazy loading (event, on_require, after, etc.)
   ;; vim.pack.add just downloads and makes plugins available via :packadd
