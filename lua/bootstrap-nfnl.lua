@@ -8,8 +8,6 @@ local typed_fennel_macro_path = _local_1_["typed-fennel-macro-path"]
 local setup_fennel_paths = _local_1_["setup-fennel-paths"]
 local inject_all_global_macros = _local_1_["inject-all-global-macros"]
 inject_custom_fennel()
-setup_fennel_paths(require("fennel"))
-inject_all_global_macros(nvim_config)
 local function setup_paths()
   local nfnl_lua_dir = (nfnl_output_dir .. "/lua")
   local nfnl_after_dir = (nfnl_output_dir .. "/after")
@@ -145,10 +143,12 @@ local function bootstrap_plugins()
 end
 local nix_runtime_3f = (vim.g.nix_info_plugin_name ~= nil)
 setup_paths()
-create_fnl_command()
-create_nfnl_compile_command()
 bootstrap_nfnl()
 bootstrap_plugins()
+setup_fennel_paths(require("fennel"))
+inject_all_global_macros(nvim_config)
+create_fnl_command()
+create_nfnl_compile_command()
 if (needs_initial_compilation_3f() and not nix_runtime_3f) then
   compile_all_fennel()
   setup_paths()

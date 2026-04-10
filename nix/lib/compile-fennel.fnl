@@ -3,6 +3,11 @@
   (when nfnl-path
     (set package.path (.. nfnl-path "/lua/?.lua;" package.path))))
 
+;; Expose build-time opt plugins on `packpath` for macro/runtime preloads.
+(let [build-packpath (os.getenv :REOVIM_BUILD_PACKPATH)]
+  (when build-packpath
+    (vim.opt.packpath:append build-packpath)))
+
 ;; Trust `.nfnl.fnl`
 (let [nfnl-config-path (.. (vim.fn.getcwd) :/.nfnl.fnl)]
   (when (= (vim.fn.filereadable nfnl-config-path) 1)

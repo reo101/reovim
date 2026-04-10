@@ -94,6 +94,10 @@ in
           pkgs = neovimPkgs;
           inherit lib;
         };
+        allLockfilePlugins = lockfileLib.mkPluginsFromLockfile {
+          lockfilePath = config.reovim.lockfilePath;
+        };
+        typedFennelBuildPlugin = allLockfilePlugins."typed-fennel";
 
         neovimPackage = config.reovim.package neovimPkgs;
 
@@ -118,6 +122,9 @@ in
             # Enable nix build mode - `.nfnl.fnl` checks this to output to `lua/` instead of `data/nfnl/`
             export REOVIM_NIX_BUILD=1
             export NFNL_PATH="${neovimPkgs.vimPlugins.nfnl}"
+            export REOVIM_BUILD_PACKPATH="$TMPDIR/reovim-pack"
+            mkdir -p "$REOVIM_BUILD_PACKPATH/pack/reovim/opt"
+            ln -s ${typedFennelBuildPlugin} "$REOVIM_BUILD_PACKPATH/pack/reovim/opt/typed-fennel"
 
             # Run the Fennel compilation script
             nvim --headless -u ${../lib/compile-fennel.lua} -c 'qall!'
@@ -160,10 +167,7 @@ in
         lockfilePlugins =
           let
             grammarNames = map (g: g.name) treesitterGrammars;
-            plugins = lockfileLib.mkPluginsFromLockfile {
-              lockfilePath = config.reovim.lockfilePath;
-              excludePlugins = grammarNames;
-            };
+            plugins = lib.filterAttrs (name: _: !(builtins.elem name grammarNames)) allLockfilePlugins;
           in
           lib.attrValues plugins;
 

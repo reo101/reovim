@@ -18,12 +18,6 @@
   (require :fennel-loader))
 (inject-custom-fennel)
 
-;; Setup typed-fennel macro path for :Fnl command
-(setup-fennel-paths (require :fennel))
-
-;;; Global macro aliases (JP and typed-fennel)
-(inject-all-global-macros nvim-config)
-
 ;;; Paths
 
 (fn setup-paths []
@@ -185,10 +179,13 @@
 ;;; Main
 
 (setup-paths)
-(create-fnl-command)
-(create-nfnl-compile-command)
 (bootstrap-nfnl)
 (bootstrap-plugins)
+;; Setup typed-fennel paths and global aliases after the plugin is available.
+(setup-fennel-paths (require :fennel))
+(inject-all-global-macros nvim-config)
+(create-fnl-command)
+(create-nfnl-compile-command)
 ;; Skip initial compilation at Nix runtime - bootstrap files are pre-compiled in the store
 (when (and (needs-initial-compilation?) (not nix-runtime?))
   (compile-all-fennel)

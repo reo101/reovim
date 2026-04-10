@@ -7,6 +7,13 @@ do
   end
 end
 do
+  local build_packpath = os.getenv("REOVIM_BUILD_PACKPATH")
+  if build_packpath then
+    vim.opt.packpath:append(build_packpath)
+  else
+  end
+end
+do
   local nfnl_config_path = (vim.fn.getcwd() .. "/.nfnl.fnl")
   if (vim.fn.filereadable(nfnl_config_path) == 1) then
     local bufnr = vim.fn.bufadd(nfnl_config_path)
