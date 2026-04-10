@@ -484,7 +484,7 @@
     },
     "nfnl": {
       "rev": "f39a7ec6fe0ace2b2ea108ce04d954549e36c76d",
-      "sha256": "sha256-g8YfvFPvIXQoaT9g7Hsvr9W4XRuLoGMi5psp4awfQhQ=",
+      "sha256": "sha256-YDsZDvqaERON7K74p/uHdIKebiaC+Etz84GKvm0oYw0=",
       "src": "https://github.com/Olical/nfnl"
     },
     "nix-update.nvim": {
