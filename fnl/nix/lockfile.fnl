@@ -35,7 +35,9 @@
                       (: :map (fn [pattern]
                                 (let [(owner repo) (src:match (. pattern 1))]
                                   (when owner
-                                    {:host host-name : owner : repo}))))
+                                    {:host host-name
+                                     : owner
+                                     :repo (repo:gsub "%.git$" "")}))))
                       (: :find #$1))))
         (: :find #$1))))
 
@@ -63,17 +65,16 @@
   (when (not= value nil)
     (tostring value)))
 
-(fn spec-rev [spec]
+(fn explicit-spec-rev [spec]
   (or (and spec.rev (spec-version-string spec.rev))
       (and spec.branch
-           (.. "refs/heads/" (spec-version-string spec.branch)))
-      (and spec.version (spec-version-string spec.version))))
+           (.. "refs/heads/" (spec-version-string spec.branch)))))
 
 (fn sync-plugin-entry! [entry spec]
   (var changed? false)
   (let [desired-src spec.src
         desired-version (spec-version-string spec.version)
-        desired-rev (spec-rev spec)]
+        desired-rev (explicit-spec-rev spec)]
     (when (not= entry.src desired-src)
       (tset entry :src desired-src)
       (tset entry :sha256 nil)
@@ -95,6 +96,9 @@
 (fn sync-plugins-from-specs [lockfile]
   "Sync lockfile plugin inventory from the same runtime specs used by `packages.fnl`."
   (local package-specs (require :packages.specs))
+  (local preserved-plugin-names
+    {"lze" true
+     "typed-fennel" true})
   (when (not lockfile.plugins)
     (tset lockfile :plugins {}))
 
@@ -102,30 +106,40 @@
   (var added 0)
   (var updated 0)
   (var removed 0)
+  (local skipped-additions [])
 
-  (each [_ spec (ipairs (package-specs.collect-specs))]
+  (each [_ spec (ipairs (package-specs.collect-specs true))]
     (when (and spec.src (remote-src? spec.src))
       (let [name (or spec.name (package-specs.src->name spec.src))]
         (when name
           (tset seen name true)
           (let [existing (. lockfile.plugins name)
+                desired-rev (explicit-spec-rev spec)
                 entry (or existing {})]
-            (when (not existing)
-              (tset lockfile.plugins name entry)
-              (set added (+ added 1)))
-            (when (sync-plugin-entry! entry spec)
-              (when existing
-                (set updated (+ updated 1)))))))))
+            (if (or existing desired-rev)
+                (do
+                  (when (not existing)
+                    (tset lockfile.plugins name entry)
+                    (set added (+ added 1)))
+                  (when (sync-plugin-entry! entry spec)
+                    (when existing
+                      (set updated (+ updated 1)))))
+                (table.insert skipped-additions
+                              {:plugin name
+                               :src spec.src
+                               :version (spec-version-string spec.version)})))))))
 
   (each [name _ (pairs lockfile.plugins)]
     (when (and (not (. seen name))
+               (not (. preserved-plugin-names name))
                (not (name:match "^tree%-sitter%-")))
       (tset lockfile.plugins name nil)
       (set removed (+ removed 1))))
 
   {:added added
    :updated updated
-   :removed removed})
+   :removed removed
+   :skipped-additions skipped-additions})
 
 (fn extract-hash [output]
   "Extract sha256 hash from nix-prefetch-url output"
@@ -372,13 +386,24 @@
         (let [spec-sync (sync-plugins-from-specs lockfile)]
           (tset results :specs spec-sync))
 
+        (when (> (length (or results.specs.skipped-additions {})) 0)
+          (vim.notify
+            (.. "Skipped unpinned plugin additions: "
+                (table.concat
+                  (vim.tbl_map #(. $1 :plugin) results.specs.skipped-additions)
+                  ", "))
+            vim.log.levels.WARN))
+
         ;; Collect plugins that need updating (synchronous prep)
         (when (or (= mode :plugins) (= mode :both))
           (each [plugin entry (pairs lockfile.plugins)]
             (let [has-sha? (not (not entry.sha256))
                   needs-prefetch (needs-prefetch? entry.src)
                   is-grammar? (plugin:match "^tree%-sitter%-")
-                  should-skip-grammar? (and (= mode :both) is-grammar?)
+                  ;; In normal `both` mode, let the parser path own tree-sitter entries.
+                  ;; In force mode, refresh every lockfile entry, including duplicated plugin
+                  ;; entries for grammars, so stale archive hashes are corrected everywhere.
+                  should-skip-grammar? (and (= mode :both) (not force) is-grammar?)
                   forced-by-list? (and ?force-plugins (. ?force-plugins plugin))
                   needs-update? (or force forced-by-list? (not has-sha?))]
               (when (and needs-update? needs-prefetch (not should-skip-grammar?))

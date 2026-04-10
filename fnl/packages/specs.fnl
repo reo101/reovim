@@ -88,13 +88,14 @@
       (tset res (+ (length res) 1) seq))
   res)
 
-(fn collect-specs []
+(fn collect-specs [?include-disabled]
   (-> :rv-config
       load-modules
       flatten
       vim.iter
       (: :filter #(and (= (type $1) :table)
-                       (not= (?. $1 :data :enabled) false)))
+                       (or ?include-disabled
+                           (not= (?. $1 :data :enabled) false))))
       (: :totable)
       flatten))
 
