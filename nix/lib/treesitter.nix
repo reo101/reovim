@@ -6,8 +6,16 @@
 let
   inherit (pkgs) stdenv tree-sitter;
 
-  # Import shared utilities
-  utils = import ./utils.nix { inherit lib; };
+  matchUrlPatterns =
+    patterns: url:
+    lib.findFirst (match: match != null) null (
+      builtins.map (pattern: builtins.match pattern url) patterns
+    );
+
+  ownerRepoFromMatch = match: {
+    owner = builtins.elemAt match 0;
+    repo = lib.removeSuffix ".git" (builtins.elemAt match 1);
+  };
 
   # Build a single treesitter grammar from lockfile entry
   # Returns { name = <entry-name>; lang = <language_name>; drv = <derivation>; }
@@ -18,11 +26,17 @@ let
       # Neovim expects parser/<language>.so where language uses underscores
       grammarName = lib.replaceStrings [ "-" ] [ "_" ] language;
 
-      githubParsed = utils.parseGitHubUrl entry.src;
       hash = entry.sha256 or "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+      githubMatch = matchUrlPatterns [
+        "https://github.com/([^/]+)/([^/]+)"
+        "git@github.com:([^/]+)/([^/]+)"
+      ] entry.src;
 
       src =
-        if githubParsed != null then
+        if githubMatch != null then
+          let
+            githubParsed = ownerRepoFromMatch githubMatch;
+          in
           pkgs.fetchFromGitHub {
             owner = githubParsed.owner;
             repo = githubParsed.repo;
@@ -118,5 +132,4 @@ in
     isTreesitterGrammar
     buildGrammarFromLockfile
     ;
-  inherit (utils) parseGitHubUrl;
 }

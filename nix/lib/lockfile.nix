@@ -1,26 +1,47 @@
 { pkgs, lib }:
 
 let
-  # Import shared utilities
-  utils = import ./utils.nix { inherit lib; };
   # Import custom plugin build configurations for Rust-based plugins
   pluginBuildsLib = import ./plugin-builds.nix { inherit pkgs lib; };
+
+  matchUrlPatterns =
+    patterns: url:
+    lib.findFirst (match: match != null) null (
+      builtins.map (pattern: builtins.match pattern url) patterns
+    );
+
+  ownerRepoFromMatch = match: {
+    owner = builtins.elemAt match 0;
+    repo = lib.removeSuffix ".git" (builtins.elemAt match 1);
+  };
 
   buildPluginFromLockfileEntry =
     name: entry:
     let
-      githubParsed = utils.parseGitHubUrl entry.src;
-      sourcehutParsed = utils.parseSourcehutUrl entry.src;
       hash = entry.sha256 or "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+      githubMatch = matchUrlPatterns [
+        "https://github.com/([^/]+)/([^/]+)"
+        "git@github.com:([^/]+)/([^/]+)"
+      ] entry.src;
+      sourcehutMatch = matchUrlPatterns [
+        "https://git.sr.ht/~([^/]+)/([^/]+)"
+        "git@git.sr.ht:~([^/]+)/([^/]+)"
+      ] entry.src;
       src =
-        if githubParsed != null then
+        if githubMatch != null then
+          let
+            githubParsed = ownerRepoFromMatch githubMatch;
+          in
           pkgs.fetchFromGitHub {
             owner = githubParsed.owner;
             repo = githubParsed.repo;
             rev = entry.rev;
             inherit hash;
           }
-        else if sourcehutParsed != null then
+        else if sourcehutMatch != null then
+          let
+            sourcehutParsed = ownerRepoFromMatch sourcehutMatch;
+          in
           pkgs.fetchFromSourcehut {
             owner = sourcehutParsed.owner;
             repo = sourcehutParsed.repo;
@@ -108,5 +129,4 @@ let
 in
 {
   inherit mkPluginsFromLockfile;
-  inherit (utils) parseGitHubUrl parseSourcehutUrl;
 }
