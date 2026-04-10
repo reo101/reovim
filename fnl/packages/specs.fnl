@@ -19,15 +19,22 @@
                   (table.insert results (.. mod-prefix "." mod-name)))))))))
   results)
 
+(fn find-config-root [dir]
+  (when (and dir (not= dir ""))
+    (if (= 1 (vim.fn.isdirectory (vim.fs.joinpath dir :fnl)))
+        dir
+        (let [parent (vim.fs.dirname dir)]
+          (when (and parent (not= parent dir))
+            (find-config-root parent))))))
+
 (fn config-dir []
   ;; Prefer the packaged config root when this module is loaded from compiled Lua.
+  ;; Walk upward until we find a sibling `fnl/` tree so store paths like
+  ;; `/nix/store/.../lua/packages/specs.lua` resolve back to the packaged root.
   ;; Fall back to stdpath("config") for the local nfnl cache under data/nfnl/.
   (let [this-file (-> (debug.getinfo 1 :S) (. :source) (: :sub 2))
-        candidate-root (vim.fn.fnamemodify this-file ":h:h")
-        packaged-fnl-dir (vim.fs.joinpath candidate-root :fnl)]
-    (if (= 1 (vim.fn.isdirectory packaged-fnl-dir))
-        candidate-root
-        (vim.fn.stdpath :config))))
+        config-root (find-config-root (vim.fn.fnamemodify this-file ":h"))]
+    (or config-root (vim.fn.stdpath :config))))
 
 (fn fennel-module-paths [path]
   (local config-root (config-dir))
