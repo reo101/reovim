@@ -1,3 +1,9 @@
+(fn toggle-buffer-inlay-hints [?bufnr ?state]
+  (local bufnr (or ?bufnr 0))
+  (-> (vim.lsp.inlay_hint.is_enabled {: bufnr})
+      not
+      (vim.lsp.inlay_hint.enable {: bufnr})))
+
 (fn lsp-mappings []
   (let [dk (require :def-keymaps)
         mappings {:l {:group :LSP
@@ -27,9 +33,7 @@
                           :q [vim.diagnostic.setloclist  "Send to loclist"]}
                       :f [#(vim.lsp.buf.format {:async true}) :Format]
                       :r [vim.lsp.buf.rename                  :Rename]
-                      ;; TODO: make buffer local?
-                      :i [#(vim.lsp.inlay_hint.enable (not (vim.lsp.inlay_hint.is_enabled {})) {})
-                          "Toggle inlay hints"]}}
+                      :i [#(toggle-buffer-inlay-hints 0) "Toggle inlay hints"]}}
         direct-mappings {:K [vim.lsp.buf.hover :Hover]
                          :g {:d [vim.lsp.buf.definition      :Definition]
                              :i [vim.lsp.buf.implementation  :Implementation]
@@ -80,8 +84,8 @@
     ((. (require :nvim-navic) :attach) client bufnr))
 
   (when (?. client :server_capabilities :inlayHintProvider)
-    (when (not (vim.lsp.inlay_hint.is_enabled {}))
-      (vim.lsp.inlay_hint.enable true {}))))
+    (when (not (vim.lsp.inlay_hint.is_enabled {: bufnr}))
+      (vim.lsp.inlay_hint.enable true {: bufnr}))))
 
 (fn lsp-on-init [client]
   (vim.notify "Language Server Client successfully started!"
