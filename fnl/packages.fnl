@@ -5,6 +5,16 @@
 (local package-specs (require :packages.specs))
 (local specs (package-specs.collect-specs))
 
+(fn spec->lze-spec [spec name ?drop-src]
+  (let [copy (vim.deepcopy spec)
+        lze-spec (vim.tbl_extend :force
+                                 {:name name}
+                                 copy
+                                 (or copy.data {}))]
+    (when ?drop-src
+      (tset lze-spec :src nil))
+    lze-spec))
+
 ;; Helper to extract plugin name from src URL
 ;; Matches vim.pack's algorithm: strip .git suffix, then take last path component
 ;; e.g. "https://github.com/nvim-lua/plenary.nvim" -> "plenary.nvim"
@@ -23,15 +33,8 @@
                          (if spec.src
                              (let [name (package-specs.src->name spec.src)]
                                (when (and name (. nix-plugins name))
-                                 ;; Replace src with name for lze and flatten data fields
-                                 (tset spec :name name)
-                                 (tset spec :src nil)
-                                 ;; Merge data fields into root level so lze can see them
-                                 (when spec.data
-                                   (each [k v (pairs spec.data)]
-                                     (tset spec k v)))
-                                 spec))
-                             spec)))
+                                 (spec->lze-spec spec name true)))
+                             (vim.deepcopy spec))))
                (: :filter #$1)
                (: :totable))]
     ;; Load via lze which will use :packadd for plugins in opt/
@@ -49,12 +52,7 @@
                        vim.iter
                        (: :filter #(. $1 :src))  ; Only specs with src
                        (: :map #(let [name (package-specs.src->name $1.src)]
-                                  ;; Preserve root-level fields (version/rev/branch/build)
-                                  ;; while still exposing data fields at the top-level for lze.
-                                  (vim.tbl_extend :force
-                                    {:name name}
-                                    $1
-                                    (or $1.data {}))))
+                                  (spec->lze-spec $1 name)))
                        (: :totable))
         ;; All plugin specs for vim.pack.add (just for downloading)
         ;; Use same transformed specs but lze will handle loading
