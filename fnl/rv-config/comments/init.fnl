@@ -1,7 +1,6 @@
 (fn after []
   (let [dk (require :def-keymaps)
         ts-context-commentstring (require :ts_context_commentstring)
-        ts-context-commentstring-internal (require :ts_context_commentstring.internal)
         opt {:enable_autocmd false}
         group (vim.api.nvim_create_augroup
                 :reovim-commentstring-space
@@ -25,7 +24,14 @@
     (set vim.filetype.get_option
          (fn [filetype option]
            (case option
-             :commentstring (ts-context-commentstring-internal.calculate_commentstring)
+             :commentstring
+             (let [bufnr (vim.api.nvim_get_current_buf)
+                   current-filetype (. vim.bo bufnr :filetype)]
+               (if (not= filetype current-filetype)
+                   (get-option filetype option)
+                   (or (ts-context-commentstring.calculate_commentstring {:key :__default})
+                       (. vim.bo bufnr :commentstring)
+                       (get-option filetype option))))
              _ (get-option filetype option))))))
 
 {:src "https://github.com/JoosepAlviste/nvim-ts-context-commentstring"
