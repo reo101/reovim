@@ -107,16 +107,34 @@
           (tset t name val))))
     true))
 
+(fn clear-table [t registry]
+  "Remove registry aliases from a table by alias name."
+  (when (and (= (type t) :table) (= (type registry) :table))
+    (each [name _ (pairs registry)]
+      (tset t name nil))
+    true))
+
 (fn patch-scope [scope]
   (when (= (type scope) :table)
     (patch-table (?. scope :specials) specials-registry)
     (patch-table (?. scope :macros) macro-registry)
     scope))
 
+(fn clear-scope [scope specials macro-aliases]
+  (when (= (type scope) :table)
+    (clear-table (?. scope :specials) specials)
+    (clear-table (?. scope :macros) macro-aliases)
+    scope))
+
 (fn patch-specials-module []
   (let [(ok specials) (pcall require :fennel.specials)]
     (when (and ok (= (type specials) :table))
       (patch-table specials specials-registry))))
+
+(fn clear-specials-module [specials-registry-snapshot]
+  (let [(ok specials) (pcall require :fennel.specials)]
+    (when (and ok (= (type specials) :table))
+      (clear-table specials specials-registry-snapshot))))
 
 (fn apply-registries []
   "Patch the canonical compiler/specials tables in place"
@@ -142,6 +160,26 @@
     (each [name value (pairs (or registry {}))]
       (tset copy name value))
     copy))
+
+(fn clear-registry! [registry]
+  (each [name _ (pairs (or registry {}))]
+    (tset registry name nil))
+  registry)
+
+(fn reset-registries! []
+  (let [previous-specials (registry-snapshot specials-registry)
+        previous-macros (registry-snapshot macro-registry)]
+    (let [(ok-compiler compiler) (pcall require :fennel.compiler)]
+      (when ok-compiler
+        (clear-scope (?. compiler :scopes :global)
+                     previous-specials
+                     previous-macros)
+        (clear-scope (?. compiler :scopes :compiler)
+                     previous-specials
+                     previous-macros)))
+    (clear-specials-module previous-specials)
+    (clear-registry! specials-registry)
+    (clear-registry! macro-registry)))
 
 (fn register-macro-defs [defs]
   "Register one normalized defs table: `{:specials {...} :macros {...}}`"
@@ -244,6 +282,7 @@
 (fn inject-all-global-macros [?config-dir]
   "Inject the compiled config macro hub universally"
   (prepend-package-path! (nfnl-output-lua-path))
+  (reset-registries!)
   (let [fallback? (not (package.searchpath "macros.init" package.path))
         modules (if fallback?
                     (fallback-macro-modules-available ?config-dir)

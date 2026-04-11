@@ -120,28 +120,65 @@ local function patch_table(t, registry)
     return nil
   end
 end
+local function clear_table(t, registry)
+  if ((type(t) == "table") and (type(registry) == "table")) then
+    for name, _ in pairs(registry) do
+      t[name] = nil
+    end
+    return true
+  else
+    return nil
+  end
+end
 local function patch_scope(scope)
   if (type(scope) == "table") then
-    local _16_
+    local _17_
     do
-      local t_15_ = scope
-      if (nil ~= t_15_) then
-        t_15_ = t_15_.specials
+      local t_16_ = scope
+      if (nil ~= t_16_) then
+        t_16_ = t_16_.specials
       else
       end
-      _16_ = t_15_
+      _17_ = t_16_
     end
-    patch_table(_16_, specials_registry)
-    local _19_
+    patch_table(_17_, specials_registry)
+    local _20_
     do
-      local t_18_ = scope
-      if (nil ~= t_18_) then
-        t_18_ = t_18_.macros
+      local t_19_ = scope
+      if (nil ~= t_19_) then
+        t_19_ = t_19_.macros
       else
       end
-      _19_ = t_18_
+      _20_ = t_19_
     end
-    patch_table(_19_, macro_registry)
+    patch_table(_20_, macro_registry)
+    return scope
+  else
+    return nil
+  end
+end
+local function clear_scope(scope, specials, macro_aliases)
+  if (type(scope) == "table") then
+    local _24_
+    do
+      local t_23_ = scope
+      if (nil ~= t_23_) then
+        t_23_ = t_23_.specials
+      else
+      end
+      _24_ = t_23_
+    end
+    clear_table(_24_, specials)
+    local _27_
+    do
+      local t_26_ = scope
+      if (nil ~= t_26_) then
+        t_26_ = t_26_.macros
+      else
+      end
+      _27_ = t_26_
+    end
+    clear_table(_27_, macro_aliases)
     return scope
   else
     return nil
@@ -155,36 +192,44 @@ local function patch_specials_module()
     return nil
   end
 end
+local function clear_specials_module(specials_registry_snapshot)
+  local ok, specials = pcall(require, "fennel.specials")
+  if (ok and (type(specials) == "table")) then
+    return clear_table(specials, specials_registry_snapshot)
+  else
+    return nil
+  end
+end
 local function apply_registries()
   do
     local ok_compiler, compiler = pcall(require, "fennel.compiler")
     if ok_compiler then
-      local function _24_()
-        local t_23_ = compiler
-        if (nil ~= t_23_) then
-          t_23_ = t_23_.scopes
+      local function _33_()
+        local t_32_ = compiler
+        if (nil ~= t_32_) then
+          t_32_ = t_32_.scopes
         else
         end
-        if (nil ~= t_23_) then
-          t_23_ = t_23_.global
+        if (nil ~= t_32_) then
+          t_32_ = t_32_.global
         else
         end
-        return t_23_
+        return t_32_
       end
-      patch_scope(_24_())
-      local function _28_()
-        local t_27_ = compiler
-        if (nil ~= t_27_) then
-          t_27_ = t_27_.scopes
+      patch_scope(_33_())
+      local function _37_()
+        local t_36_ = compiler
+        if (nil ~= t_36_) then
+          t_36_ = t_36_.scopes
         else
         end
-        if (nil ~= t_27_) then
-          t_27_ = t_27_.compiler
+        if (nil ~= t_36_) then
+          t_36_ = t_36_.compiler
         else
         end
-        return t_27_
+        return t_36_
       end
-      patch_scope(_28_())
+      patch_scope(_37_())
     else
     end
   end
@@ -194,13 +239,13 @@ local function merge_registry_21(registry, defs)
   if (type(defs) == "table") then
     for name, value in pairs(defs) do
       local structured_3f = ((type(value) == "table") and ((value.value ~= nil) or (value.clone ~= nil)))
-      local _32_
+      local _41_
       if structured_3f then
-        _32_ = (value.value or value.clone)
+        _41_ = (value.value or value.clone)
       else
-        _32_ = value
+        _41_ = value
       end
-      registry[name] = _32_
+      registry[name] = _41_
     end
     return nil
   else
@@ -213,6 +258,53 @@ local function registry_snapshot(registry)
     copy[name] = value
   end
   return copy
+end
+local function clear_registry_21(registry)
+  for name, _ in pairs((registry or {})) do
+    registry[name] = nil
+  end
+  return registry
+end
+local function reset_registries_21()
+  local previous_specials = registry_snapshot(specials_registry)
+  local previous_macros = registry_snapshot(macro_registry)
+  do
+    local ok_compiler, compiler = pcall(require, "fennel.compiler")
+    if ok_compiler then
+      local _45_
+      do
+        local t_44_ = compiler
+        if (nil ~= t_44_) then
+          t_44_ = t_44_.scopes
+        else
+        end
+        if (nil ~= t_44_) then
+          t_44_ = t_44_.global
+        else
+        end
+        _45_ = t_44_
+      end
+      clear_scope(_45_, previous_specials, previous_macros)
+      local _49_
+      do
+        local t_48_ = compiler
+        if (nil ~= t_48_) then
+          t_48_ = t_48_.scopes
+        else
+        end
+        if (nil ~= t_48_) then
+          t_48_ = t_48_.compiler
+        else
+        end
+        _49_ = t_48_
+      end
+      clear_scope(_49_, previous_specials, previous_macros)
+    else
+    end
+  end
+  clear_specials_module(previous_specials)
+  clear_registry_21(specials_registry)
+  return clear_registry_21(macro_registry)
 end
 local function register_macro_defs(defs)
   merge_registry_21(specials_registry, defs.specials)
@@ -241,43 +333,43 @@ local function runtime_file(plugin_name, file_name)
   ensure_runtime_plugin_21(plugin_name)
   local candidates = vim.api.nvim_get_runtime_file(file_name, true)
   local preferred_pattern = ("/" .. vim.pesc(plugin_name) .. "/" .. vim.pesc(file_name) .. "$")
-  local _36_
+  local _54_
   do
     local found_path = nil
     for _, path in ipairs(candidates) do
       found_path = (found_path or (path:match(preferred_pattern) and path))
     end
-    _36_ = found_path
+    _54_ = found_path
   end
-  return (_36_ or candidates[1])
+  return (_54_ or candidates[1])
 end
 local function module_name__3esource_path(module_name, _3fconfig_dir)
   local rel_path = ("fnl/" .. module_name:gsub("%.", "/") .. ".fnl")
   local runtime_paths = vim.api.nvim_get_runtime_file(rel_path, true)
-  local _37_
+  local _55_
   do
     local config_dir = _3fconfig_dir
     if config_dir then
       local config_path = (config_dir .. "/" .. rel_path)
       if (1 == vim.fn.filereadable(config_path)) then
-        _37_ = config_path
+        _55_ = config_path
       else
-        _37_ = nil
+        _55_ = nil
       end
     else
-      _37_ = nil
+      _55_ = nil
     end
   end
-  local or_41_ = _37_ or runtime_paths[1]
-  if not or_41_ then
+  local or_59_ = _55_ or runtime_paths[1]
+  if not or_59_ then
     local config_path = (vim.fn.stdpath("config") .. "/" .. rel_path)
     if (1 == vim.fn.filereadable(config_path)) then
-      or_41_ = config_path
+      or_59_ = config_path
     else
-      or_41_ = nil
+      or_59_ = nil
     end
   end
-  return or_41_
+  return or_59_
 end
 local function macro_defs_3f(defs)
   return ((type(defs) == "table") and ((type(defs.specials) == "table") or (type(defs.macros) == "table")))
@@ -286,7 +378,7 @@ local function ensure_source_preload_21(module_name, _3fconfig_dir)
   if not package.searchpath(module_name, package.path) then
     local source_path = module_name__3esource_path(module_name, _3fconfig_dir)
     if source_path then
-      local function _44_()
+      local function _62_()
         local fennel = require("fennel")
         local ok, defs = pcall(fennel.dofile, source_path)
         if ok then
@@ -295,7 +387,7 @@ local function ensure_source_preload_21(module_name, _3fconfig_dir)
           return error(("fennel-loader: Failed to preload " .. module_name .. " from " .. source_path .. ": " .. defs), 0)
         end
       end
-      package.preload[module_name] = _44_
+      package.preload[module_name] = _62_
       return nil
     else
       return nil
@@ -343,6 +435,7 @@ local function fallback_macro_modules_available(_3fconfig_dir)
 end
 local function inject_all_global_macros(_3fconfig_dir)
   prepend_package_path_21(nfnl_output_lua_path())
+  reset_registries_21()
   local fallback_3f = not package.searchpath("macros.init", package.path)
   local modules
   if fallback_3f then
