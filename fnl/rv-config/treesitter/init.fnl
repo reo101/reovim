@@ -7,6 +7,7 @@
         {: register-custom-parsers}
         (require :rv-config.treesitter.grammars)
         query-ext (require :rv-config.treesitter.query-ext)
+        ts-folds (require :rv-config.treesitter.folds)
         ts-runtime (require :rv-config.treesitter.runtime)
         highlight-repair (require :rv-config.treesitter.highlight-repair)
         fennel-highlights (require :rv-config.treesitter.fennel-highlights)]
@@ -21,6 +22,7 @@
 
     (ts-runtime.setup)
     (fennel-highlights.setup)
+    (ts-folds.setup)
     (highlight-repair.setup)
 
     ;; <leader>t for T**r**eesitter stuff
@@ -30,8 +32,6 @@
       (dk :n mappings {:prefix :<leader>}))))
 
 [{:src "https://github.com/mfussenegger/nvim-ts-hint-textobject"
-  :data {:dep_of [:nvim-treesitter]}}
- {:src "https://github.com/OXY2DEV/tree-sitter-comment"
   :data {:dep_of [:nvim-treesitter]}}
  {:src "https://github.com/nvim-treesitter/nvim-treesitter"
   :data {:build ":TSUpdate"

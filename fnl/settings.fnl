@@ -239,9 +239,7 @@
 (tset vim.opt :writebackup false)
 
 ;; (tset vim.wo :fillchars "fold: ")
-(tset vim.wo :foldexpr "nvim_treesitter#foldexpr()")
 ;; (tset vim.wo :foldtext "nvim_treesitter#foldtext()")
-(tset vim.wo :foldmethod "expr")
 ;; (tset vim.wo :foldminlines 1)
 ;; (tset vim.wo :foldnestmax 3)
 ;; (tset vim.wo :foldtext "substitute(getline(v:foldstart),'\\t',repeat('\\ ',&tabstop),'g').'...'.trim(getline(v:foldend))")

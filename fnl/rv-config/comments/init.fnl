@@ -1,5 +1,6 @@
 (fn after []
   (let [dk (require :def-keymaps)
+        ts-capabilities (require :rv-config.treesitter.capabilities)
         ts-context-commentstring (require :ts_context_commentstring)
         opt {:enable_autocmd false}
         group (vim.api.nvim_create_augroup
@@ -26,10 +27,12 @@
            (case option
              :commentstring
              (let [bufnr (vim.api.nvim_get_current_buf)
-                   current-filetype (. vim.bo bufnr :filetype)]
+                   current-filetype (. vim.bo bufnr :filetype)
+                   state (ts-capabilities.buffer-state bufnr)]
                (if (not= filetype current-filetype)
                    (get-option filetype option)
-                   (or (ts-context-commentstring.calculate_commentstring {:key :__default})
+                   (or (and state.parser?
+                            (ts-context-commentstring.calculate_commentstring {:key :__default}))
                        (. vim.bo bufnr :commentstring)
                        (get-option filetype option))))
              _ (get-option filetype option))))))

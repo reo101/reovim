@@ -14,29 +14,15 @@
           plugin-root)
         nil)))
 
-(fn prefer-single-parser-provider [plugin-root]
-  ;; Canonical strategy: use rtp ordering to prefer one parser provider.
-  ;; De-prioritize nvim-treesitter's bundled parser/ so core runtime parsers
-  ;; win when both exist, while still keeping nvim-treesitter available.
-  (when (and plugin-root
-             (= 1 (vim.fn.isdirectory (vim.fs.joinpath plugin-root "parser")))
-             (vim.tbl_contains (vim.opt.runtimepath:get) plugin-root))
-    (vim.opt.runtimepath:remove plugin-root)
-    (vim.opt.runtimepath:append plugin-root)))
-
 (fn setup []
   ;; Prefer these compilers for building parsers
   (tset (require :nvim-treesitter.install) :compilers
         [:clang "zig cc" :gcc])
 
-  ;; Setup moved to the top-level nvim-treesitter module on main
-  (let [treesitter (require :nvim-treesitter)]
-    (treesitter.setup {}))
-
-  (let [nvim-treesitter-root (ensure-nvim-treesitter-runtimepath)]
-    (prefer-single-parser-provider nvim-treesitter-root)
-    nvim-treesitter-root))
+  ;; nvim-treesitter/main only needs its runtime queries on rtp.
+  ;; Parser ownership is chosen by packaging: TSInstall outside Nix, `treesitter-parsers`
+  ;; inside Nix.
+  (ensure-nvim-treesitter-runtimepath))
 
 {:ensure-nvim-treesitter-runtimepath ensure-nvim-treesitter-runtimepath
- :prefer-single-parser-provider prefer-single-parser-provider
  :setup setup}
