@@ -1,7 +1,7 @@
 ;;; Side-effect-free plugin spec discovery shared by `packages.fnl` and `nix.lockfile`.
 
 (fn scan-modules [dir-path mod-prefix results]
-  "Scan one level of compiled Lua modules under `dir-path`."
+  "Scan one level of Fennel modules under `dir-path`."
   (each [entry (vim.fs.dir dir-path)]
     ;; Skip hidden/template entries.
     (when (not (entry:match "^__"))
@@ -10,22 +10,30 @@
             full-mod-name (.. mod-prefix "." entry)]
         (when entry-type
           (if (= entry-type.type :directory)
-              (let [init-path (vim.fs.joinpath entry-path :init.lua)
+              (let [init-path (vim.fs.joinpath entry-path :init.fnl)
                     init-stat (vim.uv.fs_stat init-path)]
                 (when (and init-stat (= init-stat.type :file))
                   (table.insert results full-mod-name)))
-              (let [mod-name (entry:match "^(.*)%.lua$")]
+              (let [mod-name (entry:match "^(.*)%.fnl$")]
                 (when mod-name
                   (table.insert results (.. mod-prefix "." mod-name)))))))))
   results)
 
 (fn config-dir []
-  ;; `debug.getinfo` returns source as `@/path/to/file.lua`, strip the `@`.
+  ;; Prefer the packaged config root when this module is loaded from compiled Lua.
+  ;; Fall back to stdpath("config") for the local nfnl cache under data/nfnl/.
   (let [this-file (-> (debug.getinfo 1 :S) (. :source) (: :sub 2))
-        this-dir (vim.fn.fnamemodify this-file ":h")]
-    (vim.fn.fnamemodify this-dir ":h:h")))
+        candidate-root (vim.fn.fnamemodify this-file ":h:h")
+        packaged-fnl-dir (vim.fs.joinpath candidate-root :fnl)]
+    (if (= 1 (vim.fn.isdirectory packaged-fnl-dir))
+        candidate-root
+        (vim.fn.stdpath :config))))
 
-(fn search-paths [path]
+(fn fennel-module-paths [path]
+  (local config-root (config-dir))
+  [(vim.fs.joinpath config-root :fnl path)])
+
+(fn require-paths [path]
   (local rv-nix (require :rv-nix))
   (local config-root (config-dir))
   (local nfnl-dir (vim.fs.joinpath (vim.fn.stdpath :data) :nfnl :lua))
@@ -55,13 +63,14 @@
         (set package.path (.. init-path ";" package.path))))))
 
 (fn load-modules [path]
-  "Require all modules under a compiled Lua module prefix."
-  (local base-paths (search-paths path))
+  "Require all modules discovered from Fennel source under a module prefix."
+  (local source-paths (fennel-module-paths path))
+  (local base-paths (require-paths path))
   (var module-names [])
 
-  (each [_ base-path (ipairs base-paths)]
-    (when (= 1 (vim.fn.isdirectory base-path))
-      (scan-modules base-path path module-names)))
+  (each [_ source-path (ipairs source-paths)]
+    (when (= 1 (vim.fn.isdirectory source-path))
+      (scan-modules source-path path module-names)))
 
   (set module-names (unique-module-names module-names))
   (ensure-package-paths! base-paths)
