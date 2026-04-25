@@ -51,6 +51,8 @@
                                     :string
                                     :raw_string]
                          :p 60}
+                ;; Keep TS-node checks disabled until the custom parser set proves stable.
+                :tsnode false
                 :cond {:filter true
                        :p 40}
                 :alpha {:filter false
