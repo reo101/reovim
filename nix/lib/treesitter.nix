@@ -70,9 +70,6 @@ let
       lang = grammarName;
     };
 
-  # Check if an entry is a treesitter grammar
-  isTreesitterGrammar = name: entry: lib.hasPrefix "tree-sitter-" name;
-
   # Build all treesitter grammars from lockfile
   # Grammars are stored under a "grammars" key in nvim-pack-lock.json
   # Returns list of { name = <name>; lang = <language_name>; drv = <derivation>; }
@@ -80,14 +77,8 @@ let
     { lockfilePath }:
     let
       lockfile = lib.importJSON lockfilePath;
-      # Get grammars from the dedicated "grammars" section (if it exists)
-      grammarEntries = lockfile.grammars or { };
-      # Also check legacy location in plugins (for backwards compatibility)
-      pluginGrammarEntries = lib.filterAttrs isTreesitterGrammar (lockfile.plugins or { });
-      # Merge: dedicated grammars section takes precedence
-      allGrammarEntries = pluginGrammarEntries // grammarEntries;
       # Build all grammars - returns list of attrsets
-      grammarList = lib.mapAttrsToList buildGrammarFromLockfile allGrammarEntries;
+      grammarList = lib.mapAttrsToList buildGrammarFromLockfile (lockfile.grammars or { });
     in
     grammarList;
 
@@ -129,7 +120,6 @@ in
   inherit
     mkTreesitterGrammarsFromLockfile
     mkParserDir
-    isTreesitterGrammar
     buildGrammarFromLockfile
     ;
 }

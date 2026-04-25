@@ -131,8 +131,7 @@
 
   (each [name _ (pairs lockfile.plugins)]
     (when (and (not (. seen name))
-               (not (. preserved-plugin-names name))
-               (not (name:match "^tree%-sitter%-")))
+               (not (. preserved-plugin-names name)))
       (tset lockfile.plugins name nil)
       (set removed (+ removed 1))))
 
@@ -280,18 +279,47 @@
                        :collected-hashes collected-hashes
                        :failures failures}))))))
 
+
+(fn sync-treesitter-registry-export! []
+  (let [(ok registry-sync) (pcall require :rv-config.treesitter.registry-sync)]
+    (if ok
+        (pcall registry-sync.sync!)
+        (vim.notify
+          (.. "NixUpdateLock: failed to load treesitter registry export: "
+              (tostring registry-sync))
+          vim.log.levels.WARN))))
+
+(fn sync-grammar-entry! [entry desired-entry]
+  (var changed? false)
+  (when (not= entry.src desired-entry.src)
+    (tset entry :src desired-entry.src)
+    (tset entry :sha256 nil)
+    (set changed? true))
+  (when (not= entry.rev desired-entry.rev)
+    (tset entry :rev desired-entry.rev)
+    (tset entry :sha256 nil)
+    (set changed? true))
+  (when (not (vim.deep_equal entry.files desired-entry.files))
+    (tset entry :files desired-entry.files)
+    (set changed? true))
+  changed?)
+
 (fn update-parsers-from-treesitter [lockfile concurrency callback ?force]
-  "Extract parsers from treesitter/init.fnl and add them to lockfile. Calls callback with results when done."
-  (local custom-grammars
-    (let [(ok grammar-module) (pcall require :rv-config.treesitter.grammars)]
+  "Sync parser lockfile entries from the central tree-sitter registry."
+  (local registry
+    (let [(ok registry-module) (pcall require :rv-config.treesitter.registry)]
       (if ok
-          (or grammar-module.custom-grammars {})
+          registry-module
           (do
             (vim.notify
-              (.. "NixUpdateLock: failed to load treesitter grammars: "
-                  (tostring grammar-module))
+              (.. "NixUpdateLock: failed to load treesitter registry: "
+                  (tostring registry-module))
               vim.log.levels.WARN)
-            {}))))
+            nil))))
+
+  (when (not registry)
+    (callback {:added 0 :updated 0 :built 0 :failed 0})
+    (lua :return))
 
   (var added 0)
   (var updated 0)
@@ -302,35 +330,31 @@
     (tset lockfile :grammars {}))
 
   ;; Find parsers that need to be added or updated
-  (each [lang cfg (pairs custom-grammars)]
-    (let [info (or cfg.install_info {})
-          grammar-name (.. "tree-sitter-" lang)
+  (each [lang grammar (pairs registry.grammars)]
+    (let [grammar-name (registry.grammar-plugin-name lang)
+          desired-entry (registry.grammar-lockfile-entry lang grammar)
           existing (?. lockfile :grammars grammar-name)
-          current-rev (or info.revision (.. "refs/heads/" (or info.branch "master")))]
+          needs-prefetch (needs-prefetch? desired-entry.src)]
 
       (if (not existing)
           ;; New parser - add to lockfile grammars section
           (do
             (set added (+ added 1))
-            (tset lockfile.grammars grammar-name
-                  {:src info.url
-                   :rev current-rev
-                   :files info.files})
+            (tset lockfile.grammars grammar-name desired-entry)
             ;; Only add to parsers-to-build if it can be prefetched (not local path)
-            (when (needs-prefetch? info.url)
+            (when needs-prefetch
               (table.insert parsers-to-build {:plugin grammar-name
                                               :entry (. lockfile.grammars grammar-name)})))
-          ;; Existing parser - check if rev changed or force update
-          (let [rev-changed? (and existing.rev (not= existing.rev current-rev))
+          ;; Existing parser - keep metadata in sync and refresh hashes as needed.
+          (let [metadata-changed? (sync-grammar-entry! existing desired-entry)
                 needs-hash? (not existing.sha256)
-                needs-update (and (needs-prefetch? info.url)
-                                  (or ?force needs-hash? rev-changed?))]
+                needs-update (and needs-prefetch
+                                  (or ?force needs-hash? metadata-changed?))]
+            (when metadata-changed?
+              (set updated (+ updated 1)))
             (when needs-update
-              (set updated (+ updated 1))
-              (tset existing :src info.url) ;; Update src to new URL from config
-              (tset existing :rev current-rev)
-              (tset existing :sha256 nil) ;; Clear hash to trigger re-fetch
-              (tset existing :files info.files) ;; Update files from config
+              (when ?force
+                (tset existing :sha256 nil))
               (table.insert parsers-to-build {:plugin grammar-name
                                               :entry existing}))))))
 
@@ -373,6 +397,8 @@
         (vim.notify "nix-prefetch-url not found in PATH. It should be available in any Nix installation." vim.log.levels.ERROR)
         (lua :return))
 
+      (sync-treesitter-registry-export!)
+
       (let [config-dir (vim.fn.stdpath :config)
             lockfile-path (.. config-dir :/nvim-pack-lock.json)
             lockfile-content (table.concat (vim.fn.readfile lockfile-path) "\n")
@@ -399,14 +425,9 @@
           (each [plugin entry (pairs lockfile.plugins)]
             (let [has-sha? (not (not entry.sha256))
                   needs-prefetch (needs-prefetch? entry.src)
-                  is-grammar? (plugin:match "^tree%-sitter%-")
-                  ;; In normal `both` mode, let the parser path own tree-sitter entries.
-                  ;; In force mode, refresh every lockfile entry, including duplicated plugin
-                  ;; entries for grammars, so stale archive hashes are corrected everywhere.
-                  should-skip-grammar? (and (= mode :both) (not force) is-grammar?)
                   forced-by-list? (and ?force-plugins (. ?force-plugins plugin))
                   needs-update? (or force forced-by-list? (not has-sha?))]
-              (when (and needs-update? needs-prefetch (not should-skip-grammar?))
+              (when (and needs-update? needs-prefetch)
                 (table.insert plugins-without-hash {:plugin plugin :entry entry}))))
           (tset results.plugins :total (length plugins-without-hash)))
 

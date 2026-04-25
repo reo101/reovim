@@ -214,8 +214,6 @@
                {:projects_v2 true}}]
     (octo.setup opt)
 
-    (vim.treesitter.language.register :markdown :octo)
-
     (dk :n
         {}
         {:prefix :<localleader>})))

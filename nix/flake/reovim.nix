@@ -101,6 +101,7 @@ in
         allTreesitterGrammars = treesitterLib.mkTreesitterGrammarsFromLockfile {
           lockfilePath = config.reovim.lockfilePath;
         };
+        treesitterRegistry = lib.importJSON ../generated/treesitter-registry.json;
 
         pluginGroups = {
           ai = [
@@ -142,33 +143,19 @@ in
             "fff.nvim"
             "parinfer-rust"
           ];
-          treesitter_extra = [
-            "tree-sitter-hy"
-            "tree-sitter-jj_template"
-            "tree-sitter-nu"
-            "tree-sitter-uci"
-          ];
         };
 
-        grammarGroups = {
-          writing = [
-            "tree-sitter-norg_meta"
-            "tree-sitter-norg_table"
-          ];
-          treesitter_extra = [
-            "tree-sitter-awk"
-            "tree-sitter-brainfuck"
-            "tree-sitter-crisp"
-            "tree-sitter-http"
-            "tree-sitter-hy"
-            "tree-sitter-jj_template"
-            "tree-sitter-move"
-            "tree-sitter-noir"
-            "tree-sitter-nu"
-            "tree-sitter-uci"
-            "tree-sitter-xml"
-          ];
-        };
+        grammarGroups = treesitterRegistry.grammarGroups;
+        _ =
+          let
+            knownGrammarNames = map (grammar: grammar.name) allTreesitterGrammars;
+            groupedGrammarNames = lib.unique (lib.flatten (lib.attrValues grammarGroups));
+            unknownGrammarNames = lib.filter (name: !(builtins.elem name knownGrammarNames)) groupedGrammarNames;
+          in
+          if unknownGrammarNames != [ ] then
+            throw "Tree-sitter registry references grammars missing from the lockfile: ${lib.concatStringsSep ", " unknownGrammarNames}"
+          else
+            null;
 
         profileCategoryFlags = rec {
           full = {

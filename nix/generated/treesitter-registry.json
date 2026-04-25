@@ -1,0 +1,131 @@
+{
+  "grammarGroups": {
+    "treesitter_extra": [
+      "tree-sitter-awk",
+      "tree-sitter-brainfuck",
+      "tree-sitter-crisp",
+      "tree-sitter-http",
+      "tree-sitter-hy",
+      "tree-sitter-jj_template",
+      "tree-sitter-move",
+      "tree-sitter-noir",
+      "tree-sitter-nu",
+      "tree-sitter-uci",
+      "tree-sitter-xml"
+    ],
+    "writing": [
+      "tree-sitter-norg_meta",
+      "tree-sitter-norg_table"
+    ]
+  },
+  "grammars": {
+    "awk": {
+      "categories": [
+        "treesitter_extra"
+      ],
+      "filetypes": []
+    },
+    "brainfuck": {
+      "categories": [
+        "treesitter_extra"
+      ],
+      "filetypes": []
+    },
+    "comment": {
+      "categories": [],
+      "filetypes": []
+    },
+    "crisp": {
+      "categories": [
+        "treesitter_extra"
+      ],
+      "filetypes": []
+    },
+    "fennel": {
+      "categories": [],
+      "filetypes": [
+        "fennel"
+      ]
+    },
+    "http": {
+      "categories": [
+        "treesitter_extra"
+      ],
+      "filetypes": []
+    },
+    "hy": {
+      "categories": [
+        "treesitter_extra"
+      ],
+      "filetypes": [
+        "hy"
+      ]
+    },
+    "jj_template": {
+      "categories": [
+        "treesitter_extra"
+      ],
+      "filetypes": [
+        "jj_template"
+      ]
+    },
+    "move": {
+      "categories": [
+        "treesitter_extra"
+      ],
+      "filetypes": [
+        "move"
+      ]
+    },
+    "noir": {
+      "categories": [
+        "treesitter_extra"
+      ],
+      "filetypes": [
+        "noir"
+      ]
+    },
+    "norg_meta": {
+      "categories": [
+        "writing"
+      ],
+      "filetypes": []
+    },
+    "norg_table": {
+      "categories": [
+        "writing"
+      ],
+      "filetypes": []
+    },
+    "nu": {
+      "categories": [
+        "treesitter_extra"
+      ],
+      "filetypes": [
+        "nu"
+      ]
+    },
+    "uci": {
+      "categories": [
+        "treesitter_extra"
+      ],
+      "filetypes": [
+        "uci"
+      ]
+    },
+    "xml": {
+      "categories": [
+        "treesitter_extra"
+      ],
+      "filetypes": []
+    }
+  },
+  "languageAliases": {
+    "markdown": [
+      "octo"
+    ],
+    "typst": [
+      "typc"
+    ]
+  }
+}
