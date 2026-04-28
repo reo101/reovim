@@ -11,7 +11,7 @@
                ;; to wait before a redraw occurs(after an event is triggered)
                :debounce 50
                ;; Filetypes where the plugin is enabled
-               :filetypes ["markdown" "quarto" "rmd"]
+               :filetypes ["markdown" "typst"]
                ;; Modes where preview is shown
                :modes ["n" "c"]
                ;; Modes where hybrid mode is enabled
@@ -48,7 +48,23 @@
                :links {}
                :list_items {:indent_size 1
                             :shift_width 1}
-               :tables {}}}]
+               :tables {}}
+             :typst
+              {:enable true
+               :list_items
+                {:enable true
+                 :indent_size 2
+                 :shift_width 2
+                 :marker_minus
+                  {:add_padding false}
+                 :marker_plus
+                  {:add_padding false}
+                 :marker_dot
+                  {:add_padding false}}
+               :code_blocks
+                {:enable false}
+               :code_spans
+                {:enable true}}}]
     (markdown.setup opt)
 
     (dk :n
@@ -57,5 +73,5 @@
 
 {:src "https://github.com/OXY2DEV/markview.nvim"
  :version :25
- :data {:ft [:markdown]
+ :data {;; :ft [:markdown]
         : after}}
