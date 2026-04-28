@@ -1,16 +1,46 @@
+(local cornelis-opts
+  {:use-global-binary true
+   :max-size          30
+   :max-width         40
+   :split-location    :vertical
+   :agda-prefix       ","
+   :no-agda-input     1})
+
+(fn apply-cornelis-opts []
+  (each [k v (pairs cornelis-opts)]
+    (tset vim.g
+          (.. :cornelis_ (k:gsub "-" "_"))
+          v)))
+
+;; `lze` may load the plugin spec before the Agda ftplugin runs, but its `before`
+;; hook is still too late for Cornelis's unconditional `runtime agda-input.vim`.
+;; Apply the globals as soon as this module is loaded so the ftplugin sees them.
+(apply-cornelis-opts)
+
+(fn before []
+  (apply-cornelis-opts))
+
 (fn after []
-  (let [dk (require :def-keymaps)
-        opts {:use-global-binary true
-              :max-size          30
-              :max-width         40
-              :split-location    :vertical
-              :agda-prefix       ","
-              :no-agda-input     1}]
-    ;;; Set options
-    (each [k v (pairs opts)]
-      (tset vim.g
-            (.. :cornelis_ (k:gsub "-" "_"))
-            v))
+  (let [dk (require :def-keymaps)]
+    ;; Cornelis installs Agda input maps during ftplugin startup. Remove them
+    ;; here so Blink remains the only Unicode completion path in Agda buffers.
+    ;; Cornelis sometimes binds them before our configured prefix takes effect,
+    ;; so remove both the configured-prefix and <localleader> variants.
+    (let [unbind-input (. vim.fn "cornelis#unbind_input")
+          agda-input    (or vim.g.agda_input {})
+          saved-prefix  vim.g.cornelis_agda_prefix
+          remove-inputs (fn []
+                          (each [first more (pairs agda-input)]
+                            (each [rest _ (pairs more)]
+                              (unbind-input
+                                (.. first
+                                    (if (= rest "<CR>")
+                                        ""
+                                        rest))))))]
+      (remove-inputs)
+      (set vim.g.cornelis_agda_prefix nil)
+      (remove-inputs)
+      (set vim.g.cornelis_agda_prefix saved-prefix))
 
     ;;; Set easy-align options
     (tset vim.g :easy_align_delimiters
@@ -55,7 +85,8 @@
            "[/" [#(vim.cmd.CornelisPrevGoal) "Previous goal"]
            "]/" [#(vim.cmd.CornelisNextGoal) "Next goal"]}
           {:buffer false})
-      (vim.cmd "TSBufDisable highlight"))
+      (when (= 2 (vim.fn.exists ":TSBufDisable"))
+        (vim.cmd "TSBufDisable highlight")))
 
     (vim.api.nvim_create_autocmd
       [:BufRead
@@ -85,14 +116,14 @@
     ;;          [{:name :cmdline}
     ;;           {:name :agda}])})
 
-    (local blink-cmp (require :blink-cmp))
-    (local agda-source (require :rv-config.lsp.langs.agda.blink-source))
-    (blink-cmp.setup
-      {:sources
-       {:agda-symbols
-        {:name :agda-symbols
-         :source (agda-source.new)
-         :group_index 1}}})))
+    (let [blink-cmp   (require :blink-cmp)
+          agda-source (require :rv-config.lsp.langs.agda.blink-source)]
+      (blink-cmp.setup
+        {:sources
+         {:agda-symbols
+          {:name :agda-symbols
+           :source (agda-source.new)
+           :group_index 1}}}))))
 
 [{:src "https://github.com/kana/vim-textobj-user"
   :data {:dep_of [:cornelis]}}
@@ -100,4 +131,5 @@
   :data {:dep_of [:cornelis]}}
  {:src "https://github.com/isovector/cornelis"
   :data {:ft [:agda]
+         : before
          : after}}]

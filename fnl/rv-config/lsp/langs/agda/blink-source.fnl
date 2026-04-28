@@ -42,6 +42,7 @@
    ;; "~"
    "\\"])
 
+;; FIXME: like <./cmp-source.fnl>
 (fn source.get_keyword_pattern [self]
   "\\\\S*")
 
