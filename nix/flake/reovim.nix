@@ -85,6 +85,14 @@ in
             patchedNeovimOverlay
           ]
         );
+        sharedLibrary = neovimPkgs.stdenv.hostPlatform.extensions.sharedLibrary;
+        bundledParserNames =
+          let
+            parserEntries = builtins.readDir "${neovimPkgs.neovim-unwrapped}/lib/nvim/parser";
+          in
+          map
+            (name: lib.removeSuffix sharedLibrary name)
+            (lib.filter (name: lib.hasSuffix sharedLibrary name) (builtins.attrNames parserEntries));
 
         lockfileLib = import ../lib/lockfile.nix {
           pkgs = neovimPkgs;
@@ -340,6 +348,14 @@ in
             treesitterGrammars = lib.filter
               (grammar: !(builtins.elem grammar.name excludedGrammars))
               allTreesitterGrammars;
+            customParserLangs = map (grammar: grammar.lang) treesitterGrammars;
+            defaultTreesitterParsers = lib.mapAttrsToList
+              (lang: drv: {
+                inherit drv lang;
+              })
+              (lib.filterAttrs
+                (lang: _: !(builtins.elem lang bundledParserNames) && !(builtins.elem lang customParserLangs))
+                neovimPkgs.vimPlugins.nvim-treesitter.parsers);
             parserDir = treesitterLib.mkParserDir {
               grammars = treesitterGrammars;
             };
@@ -360,12 +376,31 @@ in
             );
             parserPlugin = pkgs.runCommand "treesitter-parser-plugin-${profileLabel}" { } ''
               mkdir -p $out
-              ln -s ${parserDir}/parser $out/parser
+              mkdir -p $out/parser
+              ${lib.concatStrings (map (parserInfo: ''
+                # Link nixpkgs parser for ${parserInfo.lang}
+                if [ -d "${parserInfo.drv}/parser" ]; then
+                  for parser in ${parserInfo.drv}/parser/*; do
+                    if [ -f "$parser" ]; then
+                      ln -sf "$parser" $out/parser/
+                    fi
+                  done
+                fi
+              '') defaultTreesitterParsers)}
+
+              if [ -d "${parserDir}/parser" ]; then
+                for parser in ${parserDir}/parser/*; do
+                  if [ -f "$parser" ]; then
+                    ln -sf "$parser" $out/parser/
+                  fi
+                done
+              fi
+
               if [ -d "${parserDir}/queries" ]; then
                 ln -s ${parserDir}/queries $out/queries
               fi
             '';
-            parserPluginSpec = lib.optionalAttrs (treesitterGrammars != [ ]) {
+            parserPluginSpec = lib.optionalAttrs (defaultTreesitterParsers != [ ] || treesitterGrammars != [ ]) {
               "treesitter-parsers" = {
                 data = parserPlugin;
                 lazy = false;

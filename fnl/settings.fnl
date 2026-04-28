@@ -249,10 +249,12 @@
 (tset vim.opt :foldenable     true)
 
 ;;; External UI
-(let [extui (require :vim._core.ui2)]
-  (extui.enable {:enable true
-                 :msg {:target :cmd
-                       :timeout 4000}}))
+(let [ts-runtime (require :rv-config.treesitter.runtime)]
+  (ts-runtime.ensure-neovim-parser-ownership)
+  (let [extui (require :vim._core.ui2)]
+    (extui.enable {:enable true
+                   :msg {:target :cmd
+                         :timeout 4000}})))
 
 ;;; Disable builtin plugins and language providers
 (let [disabled-plugins

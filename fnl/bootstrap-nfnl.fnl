@@ -176,9 +176,43 @@
 ;; Check if we're running under Nix (nix-wrapper-modules sets nix_info_plugin_name)
 (local nix-runtime? (not= vim.g.nix_info_plugin_name nil))
 
+(fn neovim-runtime-dir []
+  (let [runtime-file (. (vim.api.nvim_get_runtime_file "lua/vim/treesitter/language.lua" false) 1)]
+    (or (and runtime-file
+             (: runtime-file :gsub "/lua/vim/treesitter/language%.lua$" ""))
+        vim.env.VIMRUNTIME
+        (vim.fn.expand "$VIMRUNTIME"))))
+
+(fn neovim-parser-dir []
+  (let [runtime-root (neovim-runtime-dir)]
+    (when (and runtime-root (not= runtime-root ""))
+      (-> runtime-root
+          vim.fs.dirname
+          vim.fs.dirname
+          vim.fs.dirname
+          (vim.fs.joinpath :lib :nvim :parser)))))
+
+(fn parser-entry-path [parser-dir name]
+  (let [path (vim.fs.joinpath parser-dir name)
+        stat (vim.uv.fs_stat path)]
+    (when (and stat (= stat.type :file))
+      path)))
+
+(fn pin-neovim-parsers-early []
+  ;; Pin Neovim's bundled parsers before package/plugin startup can load stale ones
+  ;; from plugin parser dirs such as nvim-treesitter/parser/.
+  (let [parser-dir (neovim-parser-dir)]
+    (when parser-dir
+      (each [name _ (vim.fs.dir parser-dir)]
+        (let [parser-path (parser-entry-path parser-dir name)
+              lang (and parser-path (name:match "^(.*)%.[^.]+$"))]
+          (when (and lang (not= lang ""))
+            (vim.treesitter.language.add lang {:path parser-path})))))))
+
 ;;; Main
 
 (setup-paths)
+(pin-neovim-parsers-early)
 (bootstrap-nfnl)
 (bootstrap-plugins)
 ;; Setup typed-fennel paths and global aliases after the plugin is available.

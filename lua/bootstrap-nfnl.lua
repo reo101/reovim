@@ -142,7 +142,45 @@ local function bootstrap_plugins()
   return ensure_plugin("typed-fennel", "https://github.com/reo101/typed-fennel", "subdirectories")
 end
 local nix_runtime_3f = (vim.g.nix_info_plugin_name ~= nil)
+local function neovim_runtime_dir()
+  local runtime_file = vim.api.nvim_get_runtime_file("lua/vim/treesitter/language.lua", false)[1]
+  return ((runtime_file and runtime_file:gsub("/lua/vim/treesitter/language%.lua$", "")) or vim.env.VIMRUNTIME or vim.fn.expand("$VIMRUNTIME"))
+end
+local function neovim_parser_dir()
+  local runtime_root = neovim_runtime_dir()
+  if (runtime_root and (runtime_root ~= "")) then
+    return vim.fs.joinpath(vim.fs.dirname(vim.fs.dirname(vim.fs.dirname(runtime_root))), "lib", "nvim", "parser")
+  else
+    return nil
+  end
+end
+local function parser_entry_path(parser_dir, name)
+  local path = vim.fs.joinpath(parser_dir, name)
+  local stat = vim.uv.fs_stat(path)
+  if (stat and (stat.type == "file")) then
+    return path
+  else
+    return nil
+  end
+end
+local function pin_neovim_parsers_early()
+  local parser_dir = neovim_parser_dir()
+  if parser_dir then
+    for name, _ in vim.fs.dir(parser_dir) do
+      local parser_path = parser_entry_path(parser_dir, name)
+      local lang = (parser_path and name:match("^(.*)%.[^.]+$"))
+      if (lang and (lang ~= "")) then
+        vim.treesitter.language.add(lang, {path = parser_path})
+      else
+      end
+    end
+    return nil
+  else
+    return nil
+  end
+end
 setup_paths()
+pin_neovim_parsers_early()
 bootstrap_nfnl()
 bootstrap_plugins()
 setup_fennel_paths(require("fennel"))
@@ -155,7 +193,7 @@ if (needs_initial_compilation_3f() and not nix_runtime_3f) then
 else
 end
 setup_fnl_autocommand()
-local function _19_()
+local function _23_()
   local ft = vim.bo[vim.fn.bufnr()].filetype
   if (ft == "") then
     return vim.cmd("filetype detect")
@@ -163,4 +201,4 @@ local function _19_()
     return nil
   end
 end
-return vim.api.nvim_create_autocmd("VimEnter", {once = true, callback = _19_})
+return vim.api.nvim_create_autocmd("VimEnter", {once = true, callback = _23_})
