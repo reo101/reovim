@@ -17,6 +17,7 @@
 
 {:src "https://github.com/MrcJkb/haskell-tools.nvim"
  :version :v6.2.0
- :data {;; :dependencies ["https://github.com/akinsho/toggleterm"]
+ :data {:ft [:haskell]
+        ;; :dependencies ["https://github.com/akinsho/toggleterm"]
         : after}}
         ;; :enabled false}}
