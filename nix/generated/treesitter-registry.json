@@ -11,6 +11,7 @@
       "tree-sitter-noir",
       "tree-sitter-nu",
       "tree-sitter-uci",
+      "tree-sitter-uiua",
       "tree-sitter-xml"
     ],
     "writing": [
@@ -111,6 +112,14 @@
       ],
       "filetypes": [
         "uci"
+      ]
+    },
+    "uiua": {
+      "categories": [
+        "treesitter_extra"
+      ],
+      "filetypes": [
+        "uiua"
       ]
     },
     "xml": {

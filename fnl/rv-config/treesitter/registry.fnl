@@ -88,6 +88,12 @@
                    :branch :main}
     :filetypes [:hy]
     :categories [:treesitter_extra]}
+   :uiua
+   {:install_info {:url "https://github.com/shnarazk/tree-sitter-uiua"
+                   :files [:src/parser.c]
+                   :branch :main}
+    :filetypes [:uiua]
+    :categories [:treesitter_extra]}
    :awk
    {:install_info {:url "https://github.com/Beaglefoot/tree-sitter-awk"
                    :files [:src/parser.c :src/scanner.c]

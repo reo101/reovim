@@ -40,8 +40,9 @@
                  :wgsl
                  :d
                  :typst
-                 :copilot]]
+                 :copilot
                  ;; :hyls]]
+                 :uiua]]
 
     (each [_ name (ipairs servers)]
       ;; All defined in `../../../lsp/${name}.json`

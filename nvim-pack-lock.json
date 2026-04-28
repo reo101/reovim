@@ -113,6 +113,14 @@
       "sha256": "sha256-SxMwFChWxus/SdWXT7NPwPNqPPB60p6pYGNRyq0t/Y4=",
       "src": "https://github.com/reo101/tree-sitter-uci"
     },
+    "tree-sitter-uiua": {
+      "files": [
+        "src/parser.c"
+      ],
+      "rev": "refs/heads/main",
+      "sha256": "sha256-LzMKUE4cXQXFValabbkLO3rz0A/+3Sm1Fc/OH0Ag4qI=",
+      "src": "https://github.com/shnarazk/tree-sitter-uiua"
+    },
     "tree-sitter-xml": {
       "files": [
         "src/parser.c"
@@ -828,6 +836,11 @@
       "rev": "d7480653ea08847f144393d115a0dab8198fd817",
       "sha256": "sha256-tgNsqvyu2nHudv9xdtZXXVUoqB0SgGt4b5hr18ZmwKk=",
       "src": "https://github.com/SeniorMars/typst.nvim"
+    },
+    "uiua.vim": {
+      "rev": "5071e4a22fd2952617ae995cd3fab737c77753ae",
+      "sha256": "sha256-ppTyUS1MZbmZavluI61SsnbzyMrZNEpjVpPrunFFK84=",
+      "src": "https://github.com/Apeiros-46B/uiua.vim"
     },
     "ultimate-autopair.nvim": {
       "rev": "72e160cb1ce8c0db2ac4315f77d97420a2f4223d",

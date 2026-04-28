@@ -37,6 +37,9 @@
   :data {:ft ["kmonad"]}}
  {:src "https://github.com/vim-scripts/bnf.vim"
   :data {:ft ["bnf"]}}
+ #_
+ {:src "https://github.com/Apeiros-46B/uiua.vim"
+  :data {:before #(doto vim.g (tset :uiua_format_on_save false))}}
  {:src "https://github.com/vim-scripts/applescript.vim"
   :data {:ft ["applescript"]}}
  ;; {:src :LhKipp/nvim-nu
