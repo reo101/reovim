@@ -743,6 +743,11 @@
       "sha256": "sha256-5T/nefCPCR2K1vySTG0vzh5+6weHinBLahPBL37+VtY=",
       "src": "https://github.com/abecodes/tabout.nvim"
     },
+    "teamtype-nvim": {
+      "rev": "799402fc3c49118e4703bc48f379ea6930824dab",
+      "sha256": "sha256-3E7exXQdTLRkJ3tOrDMJA+nwcKyVqhfcJIdVbZQxm0I=",
+      "src": "https://github.com/teamtype/teamtype-nvim"
+    },
     "telescope-file-browser.nvim": {
       "rev": "3610dc7dc91f06aa98b11dca5cc30dfa98626b7e",
       "sha256": "sha256-FlJ7w5Ywwq03E0oYdnFJFb+MMUMQMa+5QhDMy2O9tGQ=",
