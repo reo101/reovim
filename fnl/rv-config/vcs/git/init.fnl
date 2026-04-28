@@ -4,4 +4,5 @@
  ;; TODO: `git-worktree`
  (require (.. ... :.gitlinker))
  (require (.. ... :.conflict))
- (require (.. ... :.octo))]
+ (require (.. ... :.octo))
+ (require (.. ... :.guh))]
