@@ -132,6 +132,6 @@
              :o [#(vim.cmd :Oil) :Oil]}}
         {:prefix :<leader>})))
 
-{:src "https://github.com/stevearc/oil.nvim"
+{:src "https://github.com/barrettruth/canola.nvim"
  :data {;; :keys [:<leader>to]
         : after}}

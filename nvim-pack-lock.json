@@ -189,6 +189,11 @@
       "sha256": "sha256-ljUNfmpImtxFCS19HC9kFlaLlqaPDltKtnx1+/6Y33U=",
       "src": "https://github.com/famiu/bufdelete.nvim"
     },
+    "canola.nvim": {
+      "rev": "b904468fc8d4f79fe4b4dbbdcccb0e4f44e64857",
+      "sha256": "sha256-0+8hhnpkVccYXzExiqJaoRXx+NmstUiecS2kWo/PgGk=",
+      "src": "https://github.com/barrettruth/canola.nvim"
+    },
     "cmp-calc": {
       "rev": "5947b412da67306c5b68698a02a846760059be2e",
       "sha256": "sha256-TI1FR0EjzPcjsFdJQ9vXVleQwyXkmqs4TvYyZ8A6cS0=",
