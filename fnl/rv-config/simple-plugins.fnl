@@ -13,6 +13,9 @@
  {:src "https://github.com/nvim-mini/mini.icons"
   :data {:event :DeferredUIEnter
          :on_require [:mini.icons]}}
+ {:src "https://github.com/atusy/budoux.lua"
+  :data {:event :DeferredUIEnter
+         :on_require [:budoux]}}
  {:src "https://github.com/anuvyklack/nvim-keymap-amend"
   :data {:event :DeferredUIEnter
          :on_require [:keymap_amend]}}
