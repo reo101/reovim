@@ -33,4 +33,5 @@
 
 {:src "https://github.com/folke/sidekick.nvim"
  :data {:event :DeferredUIEnter
-        : after}}
+        : after
+        :enabled false}}
