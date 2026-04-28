@@ -110,11 +110,12 @@
 ;;; Ignore case in search patterns
 (tset vim.opt :ignorecase true)
 
-; Make cyrillic work in NORMAL mode (mostly)
+;; Make Cyrillic work in NORMAL mode. `langmap` treats `\` as an escape,
+;; so the backslash target needs two literal backslashes in the option value.
 (let [bg-pho
        {;; Lowercase mappings
         :а "a" :б "b" :в "w" :г "g" :д "d" :е "e" :ж "v" :з "z" :и "i" :й "j" :к "k" :л "l" :м "m" :н "n"
-        :о "o" :п "p" :р "r" :с "s" :т "t" :у "u" :ф "f" :х "h" :ц "c" :ч "`" :ш "[" :щ "]" :ъ "y" :ь "x" :ю "\\" :я "q"
+        :о "o" :п "p" :р "r" :с "s" :т "t" :у "u" :ф "f" :х "h" :ц "c" :ч "`" :ш "[" :щ "]" :ъ "y" :ь "x" :ю "\\\\" :я "q"
 
         ;; Uppercase mappings
         :А "A" :Б "B" :В "W" :Г "G" :Д "D" :Е "E" :Ж "V" :З "Z" :И "I" :Й "J" :К "K" :Л "L" :М "M" :Н "N"
