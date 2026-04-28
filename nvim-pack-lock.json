@@ -39,8 +39,8 @@
         "src/parser.c",
         "src/scanner.c"
       ],
-      "rev": "refs/heads/feat/discard",
-      "sha256": "sha256-AKNwDm3+zGkP34CK5JXSHhggff70XMpYVSUyTr2jBFk=",
+      "rev": "refs/heads/kitchen-sink",
+      "sha256": "sha256-UiGfnae2h0sca0HMfIhBVNVq4mRksmVqlJicgR14SeQ=",
       "src": "https://github.com/reo101/tree-sitter-fennel"
     },
     "tree-sitter-http": {

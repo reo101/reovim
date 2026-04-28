@@ -30,7 +30,7 @@
                           (vim.fn.expand "~/Projects/Home/Fennel/tree-sitter-fennel")
                           "https://github.com/reo101/tree-sitter-fennel")
                    :files [:src/parser.c :src/scanner.c]
-                   :branch :feat/discard
+                   :branch :kitchen-sink
                    :generate true}
     :filetypes [:fennel]}
    :jj_template
