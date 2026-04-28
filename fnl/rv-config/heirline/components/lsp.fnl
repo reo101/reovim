@@ -8,7 +8,7 @@
        :update    [:LspAttach
                    :LspDetach]
        :provider  (fn [self]
-                    (let [servers (vim.lsp.buf_get_clients 0)
+                    (let [servers (vim.lsp.get_clients {:bufnr 0})
                           names (icollect [_ server (ipairs servers)]
                                   server.name)]
                       (.. " [" (table.concat names ", ") "]")))

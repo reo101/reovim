@@ -123,19 +123,23 @@
                 :relative_pattern_support true}}}}))
     capabilities))
 
+(fn with-lsp-handler [handler opts]
+  (fn [err result ctx config]
+    (handler err result ctx (vim.tbl_deep_extend :force {} (or config {}) opts))))
+
 (fn lsp-override-handlers []
   (let [border :single]
     ;; NOTE: now done in `../../settings.fnl` with the `winborder` option
     ;; (tset vim.lsp.handlers :textDocument/hover
-    ;;       (vim.lsp.with vim.lsp.handlers.hover {: border}))
+    ;;       (with-lsp-handler vim.lsp.handlers.hover {: border}))
     (tset vim.lsp.handlers :textDocument/signatureHelp
-          (vim.lsp.with vim.lsp.handlers.signature_help {: border}))
+          (with-lsp-handler vim.lsp.handlers.signature_help {: border}))
     (tset vim.lsp.handlers :textDocument/publishDiagnostics
-          (vim.lsp.with vim.lsp.diagnostic.on_publish_diagnostics
-                        {:underline true
-                         :update_in_insert false
-                         :severity_sort false
-                         :signs true}))
+          (with-lsp-handler vim.lsp.diagnostic.on_publish_diagnostics
+                            {:underline true
+                             :update_in_insert false
+                             :severity_sort false
+                             :signs true}))
                          ;; :virtual_text {:spacing 0
                          ;;                :source :always
                          ;;                :prefix ""}}))
