@@ -41,6 +41,28 @@
         (vim.cmd ":startinsert")
         (vim.cmd "setlocal listchars= nonumber norelativenumber"))})
 
+;; Display LSP progress in the terminal
+#_
+(vim.api.nvim_create_autocmd
+  :LspProgress
+  {:callback
+    (fn [ev]
+      (local value (or ev.data.params.value {}))
+      (var msg (or value.message :done))
+      (when (> (length msg) 40)
+        (set msg (.. (msg:sub 1 37) "...")))
+      (local client (and ev.data.client_id
+                         (vim.lsp.get_client_by_id ev.data.client_id)))
+      (vim.api.nvim_echo
+        [[msg]]
+        false
+        {:id :lsp
+         :kind :progress
+         :source (or (?. client :name) :lsp)
+         :percent value.percentage
+         :status (if (= value.kind :end) :success :running)
+         :title value.title}))})
+
 ;;; Turn off hlsearch in Insert Mode
 (vim.api.nvim_create_autocmd
   :InsertEnter
