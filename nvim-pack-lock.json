@@ -531,11 +531,6 @@
       "sha256": "sha256-41slmnvt1z7sCxvpiVuFmQ9g7eCaxQi1dDCL3AxSL1A=",
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
-    "nvim-FeMaco.lua": {
-      "rev": "96bbf843595dbe865838b3f2484b73557f34700c",
-      "sha256": "sha256-eDPdCU1ZBoSiMkdreExsW3AzynQjSfFFCbZQ7f+XGFM=",
-      "src": "https://github.com/AckslD/nvim-FeMaco.lua"
-    },
     "nvim-bqf": {
       "rev": "c282a62bec6c0621a1ef5132aa3f4c9fc4dcc2c7",
       "sha256": "sha256-jm6xyNel7rmyQHijP9JBBk1ZiUY7+CvCEZVO4W5R21c=",
