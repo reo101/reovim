@@ -8,10 +8,10 @@
   `(hashfn
      ((. (require ,(.. :rv-config :. path)) :config))))
 
-(fn dbg! [expr]
+(fn dbg! [expr ?p]
   `(do
      (let [expr# ,expr]
-       (vim.print expr#)
+       ((or ,?p vim.print) expr#)
        expr#)))
 
 (fn assert-tbl [tbl]
@@ -78,6 +78,12 @@
       ;; Target symbol
       (where {1 "SYMBOL"} (= (tostring ast) target))
       res
+      ;; Target symbol with method call
+      (where {1 "SYMBOL"} (vim.startswith
+                            (tostring ast)
+                            (.. target ":")))
+      (let [method (string.match (tostring ast) "^[^:]*:(.*)$")]
+        `(: ,res ,method))
       ;; Another symbol
       {1 "SYMBOL"}
       ast
@@ -262,8 +268,7 @@
         (: :map (fn [sym] (-?> sym in-scope? (#[$ sym]))))
         (: :fold {}
            (fn [res [k v]]
-             (tset res k v)
-             res)))
+             (tset res k v))))
     _ (if error-msg
           (assert-compile false
                           error-msg
@@ -271,8 +276,6 @@
           ;; else
           (assert-compile false
                           "Invalid arguments"))))
-
-
 
 {: rv
  : dbg!
