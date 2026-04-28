@@ -33,6 +33,8 @@
 
 (require :autocommands)
 
+(require :term-make)
+
 ;; Load nix lockfile helper (provides :NixUpdateLock command)
 (require :nix.lockfile)
 
