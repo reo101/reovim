@@ -190,5 +190,5 @@
   (tset vim.g :nvim_surround opt)))
 
 {:src "https://github.com/kylechui/nvim-surround"
- :version :4.0.0
+ :version :v4.0.5
  :data {: after}}

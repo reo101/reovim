@@ -72,6 +72,6 @@
         {:prefix :<leader>})))
 
 {:src "https://github.com/OXY2DEV/markview.nvim"
- :version :25
+ :version :v28.3.0
  :data {;; :ft [:markdown]
         : after}}
