@@ -1,5 +1,3 @@
-(local capabilities (require :rv-config.treesitter.capabilities))
-
 (fn get-effective-bufnr [bufnr]
   (let [mode (vim.api.nvim_get_mode)
         mode-name (or (. mode :mode) "")]
@@ -15,12 +13,25 @@
               bufnr))
         bufnr)))
 
-fn rainbow-buffer-allowed? [bufnr]
- (let [effective-bufnr (get-effective-bufnr bufnr)]
-   (and effective-bufnr
-        (capabilities.normal-file-buffer? effective-bufnr)
-        (not= (. vim.bo effective-bufnr :filetype) "cmd")
-        (capabilities.buffer-has-parser? effective-bufnr))))
+(fn treesitter-parser-ready? [bufnr]
+  (if (not bufnr)
+      false
+      (let [ft (. vim.bo bufnr :filetype)]
+        (if (= ft "")
+            false
+            (let [lang (or (vim.treesitter.language.get_lang ft) ft)
+                  (ok? parser-or-err) (pcall vim.treesitter.get_parser bufnr lang)]
+              (and ok? parser-or-err))))))
+
+(fn rainbow-buffer-allowed? [bufnr]
+  (let [effective-bufnr (get-effective-bufnr bufnr)]
+    (and effective-bufnr
+         (vim.api.nvim_buf_is_valid effective-bufnr)
+         ;; Keep rainbow on normal file buffers only.
+         (= (. vim.bo effective-bufnr :buftype) "")
+         (not= (. vim.bo effective-bufnr :filetype) "cmd")
+         ;; Avoid plugin crashes when parser creation races or is unavailable.
+         (treesitter-parser-ready? effective-bufnr))))
 
 ;; Seed a safe default early so plugin FileType autocmds never touch ui2 `cmd`.
 (let [conf (or (. vim.g :rainbow_delimiters) {})]
@@ -36,6 +47,7 @@ fn rainbow-buffer-allowed? [bufnr]
                         :lua :rainbow-blocks}
              :priority {:agda 500
                         :fsharp 200}
+             :condition rainbow-buffer-allowed?
              :highlight [:RainbowDelimiterRed
                          :RainbowDelimiterYellow
                          :RainbowDelimiterBlue
@@ -54,5 +66,4 @@ fn rainbow-buffer-allowed? [bufnr]
 
 {:src "https://github.com/HiPhish/rainbow-delimiters.nvim"
  :data {:dep_of [:indent-blankline.nvim]
-        :event :BufRead
         : after}}
