@@ -107,6 +107,26 @@
     "repro"
     "blink.cmp.fuzzy.rust.init"
   ];
+  # nvim-cmp sources are loaded through blink.compat in this config. Their
+  # after/plugin files eagerly require `cmp`, so standalone nix require checks
+  # fail unless the source modules are skipped.
+  "cmp-calc" = [
+    "cmp_calc"
+  ];
+  "cmp-digraphs" = [
+    "cmp_digraphs"
+  ];
+  "cmp-latex-symbols" = [
+    "cmp_latex_symbols"
+    "cmp_latex_symbols.items_julia"
+    "cmp_latex_symbols.items_latex"
+    "cmp_latex_symbols.items_mixed"
+  ];
+  "cmp-tmux" = [
+    "cmp_tmux"
+    "cmp_tmux.source"
+    "cmp_tmux.tmux"
+  ];
   "fff.nvim" = [
     # Plugin-local helper that shells out to git; fails in sandboxed require checks.
     "empty_config"

@@ -421,7 +421,7 @@ in
                     profile = profileLabel;
                   };
                   specs = lockfilePluginSpecs // parserPluginSpec;
-                  extraPackages = [ fennelPackage ] ++ config.reovim.extraPackages;
+                  runtimePkgs = [ fennelPackage ] ++ config.reovim.extraPackages;
                   env.NVIM_APPNAME = "reovim";
                   hosts = lib.genAttrs [ "python3" "node" "ruby" ] (lib.const { nvim-host.enable = false; });
                 };

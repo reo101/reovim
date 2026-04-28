@@ -185,9 +185,11 @@ let
 
             LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
 
-            # Keep zig available for zlob while avoiding zig's build hook taking over buildPhase.
+            # Keep a zlob-compatible Zig available while avoiding zig's build hook
+            # taking over buildPhase. zlob 1.3.0 still calls `linkLibC()`, which
+            # was removed in Zig 0.16.
             preBuild = ''
-              export PATH=${lib.makeBinPath [ pkgs.zig ]}:$PATH
+              export PATH=${lib.makeBinPath [ pkgs.zig_0_15 ]}:$PATH
             '';
 
             # Defensive: make sure cargoBuildHook remains the active build phase.
