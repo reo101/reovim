@@ -1,13 +1,6 @@
 (fn after []
-   (let [{: lsp-on-init
-          : lsp-on-attach
-          : lsp-capabilities
-          : lsp-root-dir} (require :rv-config.lsp.utils)
-         opt {:lsp {:on-init      lsp-on-init
-                    :on-attach    lsp-on-attach
-                    :capabilities lsp-capabilities
-                    :root-dir     lsp-root-dir}
-              :ft  {:default :lean}
+   (let [lean (require :lean)
+         opt {:ft  {:default :lean}
               :abbreviations {:enable false} ;; Using cmp-latex-symbols
               :infoview {:autoopen     true
                          :separate_tab false}
@@ -16,9 +9,10 @@
               :stderr {:enable   true
                        :height   5
                        :on_lines nil}}]
-        ((. (require :lean) :setup) opt)))
+        (lean.setup opt)))
 
 {:src "https://github.com/Julian/lean.nvim"
+ :version :v2026.4.1
  :data {;; :ft ["lean"]
         :event ["BufReadPre *.lean"
                 "BufNewFile *.lean"]
