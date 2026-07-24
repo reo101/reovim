@@ -22,7 +22,11 @@
     {:patterns
       [["^git@git.sr.ht:~([^/]+)/([^/]+)$" 1 2]
        ["^https://git.sr.ht/~([^/]+)/([^/]+)" 1 2]]
-     :archive-fn #(.. "https://git.sr.ht/~" $1 "/" $2 "/archive/" $3 ".tar.gz")}})
+     :archive-fn #(.. "https://git.sr.ht/~" $1 "/" $2 "/archive/" $3 ".tar.gz")}
+   :tangled.org
+    {:patterns
+      [["^https://tangled.org/([^/]+)/([^/]+)" 1 2]]
+     :archive-fn #(.. "https://tangled.org/" $1 "/" $2 "/archive/" $3 ".tar.gz")}})
 
 (fn parse-url [src]
   "Parse git URL into {:host :owner :repo} or nil if not a supported remote"
@@ -276,8 +280,9 @@
           (fn []
             ;; Apply all collected hashes to lockfile
             (each [plugin hash (pairs collected-hashes)]
-              (when (?. lockfile :plugins plugin)
-                (tset (. lockfile.plugins plugin) :sha256 hash)))
+              (let [entry (?. lockfile :plugins plugin)]
+                (when entry
+                  (tset entry :sha256 hash))))
             ;; Call callback with results
             (callback {:updated updated
                        :failed failed
@@ -438,12 +443,10 @@
         ;; Collect plugins that need updating (synchronous prep)
         (when (or (= mode :plugins) (= mode :both))
           (each [plugin entry (pairs lockfile.plugins)]
-            (let [has-sha? (not (not entry.sha256))
-                  needs-prefetch (needs-prefetch? entry.src)
-                  forced-by-list? (and ?force-plugins (. ?force-plugins plugin))
-                  needs-update? (or force forced-by-list? (not has-sha?))]
-              (when (and needs-update? needs-prefetch)
-                (table.insert plugins-without-hash {:plugin plugin :entry entry}))))
+            ;; `vim.pack.update()` changes `rev` without knowing about Nix hashes.
+            ;; Rehash remote plugins so each hash is derived from the current `rev`.
+            (when (needs-prefetch? entry.src)
+              (table.insert plugins-without-hash {:plugin plugin :entry entry})))
           (tset results.plugins :total (length plugins-without-hash)))
 
         ;; Helper to finalize and write results

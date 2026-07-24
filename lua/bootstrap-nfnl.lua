@@ -31,9 +31,38 @@ local function setup_paths()
   package.path = (config_path_pattern .. nfnl_path_pattern .. package.path)
   return nil
 end
-local function needs_initial_compilation_3f()
-  local nfnl_lua_dir = (nfnl_output_dir .. "/lua")
-  return (1 ~= vim.fn.isdirectory(nfnl_lua_dir))
+local bootstrap_files = {init = true, ["fnl/fennel-loader"] = true, ["fnl/bootstrap-nfnl"] = true, ["nix/lib/compile-fennel"] = true}
+local function fnl_output_path(source_path)
+  local relative_path = source_path:gsub(("^" .. vim.pesc(nvim_config) .. "/?"), "")
+  local relative_path_no_ext = vim.fn.fnamemodify(relative_path, ":r")
+  local lua_path = (relative_path_no_ext:gsub("^fnl/", "lua/") .. ".lua")
+  local output_dir
+  if bootstrap_files[relative_path_no_ext] then
+    output_dir = nvim_config
+  else
+    output_dir = nfnl_output_dir
+  end
+  return (output_dir .. "/" .. lua_path)
+end
+local function newer_mtime_3f(source_mtime, output_mtime)
+  return ((source_mtime.sec > output_mtime.sec) or ((source_mtime.sec == output_mtime.sec) and ((source_mtime.nsec or 0) > (output_mtime.nsec or 0))))
+end
+local function needs_compilation_3f()
+  local sources = vim.fn.globpath(nvim_config, "**/*.fnl", false, true)
+  table.insert(sources, (nvim_config .. "/init.fnl"))
+  local stale_3f = false
+  for _, source_path in ipairs(sources) do
+    if not stale_3f then
+      local source_stat = vim.uv.fs_stat(source_path)
+      local output_stat = vim.uv.fs_stat(fnl_output_path(source_path))
+      if (not output_stat or (source_stat and newer_mtime_3f(source_stat.mtime, output_stat.mtime))) then
+        stale_3f = true
+      else
+      end
+    else
+    end
+  end
+  return stale_3f
 end
 local function compile_all_fennel()
   local ok, nfnl_api = pcall(require, "nfnl.api")
@@ -45,7 +74,7 @@ local function compile_all_fennel()
 end
 local function setup_fnl_autocommand()
   vim.api.nvim_create_augroup("nfnl_compile", {clear = true})
-  local function _6_(ev)
+  local function _9_(ev)
     local path = vim.api.nvim_buf_get_name(ev.buf)
     local dir = vim.fn.fnamemodify(path, ":h")
     local ok, nfnl_api = pcall(require, "nfnl.api")
@@ -62,11 +91,11 @@ local function setup_fnl_autocommand()
     end
     return nil
   end
-  return vim.api.nvim_create_autocmd("BufWritePost", {group = "nfnl_compile", pattern = "*.fnl", callback = _6_})
+  return vim.api.nvim_create_autocmd("BufWritePost", {group = "nfnl_compile", pattern = "*.fnl", callback = _9_})
 end
 local function create_fnl_command()
   local fennel = require("fennel")
-  local function _9_(opts)
+  local function _12_(opts)
     local code = opts.args
     local ok, result = pcall(fennel.eval, code, {compilerEnv = _G, allowedGlobals = false})
     if ok then
@@ -75,14 +104,14 @@ local function create_fnl_command()
       return vim.notify(tostring(result), vim.log.levels.ERROR)
     end
   end
-  return vim.api.nvim_create_user_command("Fnl", _9_, {nargs = "+", desc = "Evaluate Fennel code using custom Fennel fork"})
+  return vim.api.nvim_create_user_command("Fnl", _12_, {nargs = "+", desc = "Evaluate Fennel code using custom Fennel fork"})
 end
 local function create_nfnl_compile_command()
-  local function _11_()
+  local function _14_()
     compile_all_fennel()
     return vim.notify("nfnl: Compiled all Fennel files", vim.log.levels.INFO)
   end
-  return vim.api.nvim_create_user_command("NfnlCompileAll", _11_, {desc = "Compile all Fennel files via nfnl"})
+  return vim.api.nvim_create_user_command("NfnlCompileAll", _14_, {desc = "Compile all Fennel files via nfnl"})
 end
 local function trust_nfnl_config()
   local nfnl_config_path = (nvim_config .. "/.nfnl.fnl")
@@ -187,13 +216,13 @@ setup_fennel_paths(require("fennel"))
 inject_all_global_macros(nvim_config)
 create_fnl_command()
 create_nfnl_compile_command()
-if (needs_initial_compilation_3f() and not nix_runtime_3f) then
+if (needs_compilation_3f() and not nix_runtime_3f) then
   compile_all_fennel()
   setup_paths()
 else
 end
 setup_fnl_autocommand()
-local function _23_()
+local function _26_()
   local ft = vim.bo[vim.fn.bufnr()].filetype
   if (ft == "") then
     return vim.cmd("filetype detect")
@@ -201,4 +230,4 @@ local function _23_()
     return nil
   end
 end
-return vim.api.nvim_create_autocmd("VimEnter", {once = true, callback = _23_})
+return vim.api.nvim_create_autocmd("VimEnter", {once = true, callback = _26_})

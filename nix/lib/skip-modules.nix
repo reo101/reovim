@@ -134,6 +134,7 @@
   "colorful-menu.nvim" = [
     "repro_cmp"
     "repro_blink"
+    "repro_native_completion"
   ];
   "conjure" = [
     "conjure-spec.linked-list_spec"
@@ -948,7 +949,9 @@
   ];
   "videre.nvim" = [
     "videre.langs.init"
+    "videre.langs.toml"
     "videre.langs.xml"
+    "videre.langs.yaml"
   ];
   "which-key.nvim" = [ "which-key.docs" ];
 }

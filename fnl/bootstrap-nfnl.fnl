@@ -51,10 +51,39 @@
 
 ;;; Compilation
 
-(fn needs-initial-compilation? []
-  "Check if nfnl `lua/` output dir exists"
-  (let [nfnl-lua-dir (.. nfnl-output-dir "/lua")]
-    (not= 1 (vim.fn.isdirectory nfnl-lua-dir))))
+(local bootstrap-files
+  {:init true
+   :fnl/fennel-loader true
+   :fnl/bootstrap-nfnl true
+   :nix/lib/compile-fennel true})
+
+(fn fnl-output-path [source-path]
+  (let [relative-path (source-path:gsub (.. "^" (vim.pesc nvim-config) "/?") "")
+        relative-path-no-ext (vim.fn.fnamemodify relative-path ":r")
+        lua-path (.. (relative-path-no-ext:gsub "^fnl/" "lua/") ".lua")
+        output-dir (if (. bootstrap-files relative-path-no-ext)
+                       nvim-config
+                       nfnl-output-dir)]
+    (.. output-dir "/" lua-path)))
+
+(fn newer-mtime? [source-mtime output-mtime]
+  (or (> source-mtime.sec output-mtime.sec)
+      (and (= source-mtime.sec output-mtime.sec)
+           (> (or source-mtime.nsec 0) (or output-mtime.nsec 0)))))
+
+(fn needs-compilation? []
+  "Check for a missing or stale nfnl output file."
+  (let [sources (vim.fn.globpath nvim-config "**/*.fnl" false true)]
+    (table.insert sources (.. nvim-config "/init.fnl"))
+    (var stale? false)
+    (each [_ source-path (ipairs sources)]
+      (when (not stale?)
+        (let [source-stat (vim.uv.fs_stat source-path)
+              output-stat (vim.uv.fs_stat (fnl-output-path source-path))]
+          (when (or (not output-stat)
+                    (and source-stat (newer-mtime? source-stat.mtime output-stat.mtime)))
+            (set stale? true)))))
+    stale?))
 
 (fn compile-all-fennel []
   "Compile all Fennel files via `nfnl.api`"
@@ -221,7 +250,7 @@
 (create-fnl-command)
 (create-nfnl-compile-command)
 ;; Skip initial compilation at Nix runtime - bootstrap files are pre-compiled in the store
-(when (and (needs-initial-compilation?) (not nix-runtime?))
+(when (and (needs-compilation?) (not nix-runtime?))
   (compile-all-fennel)
   (setup-paths))
 (setup-fnl-autocommand)
