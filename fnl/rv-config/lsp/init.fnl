@@ -40,6 +40,7 @@
                  :wgsl
                  :d
                  :typst
+                 :jails
                  :copilot
                  ;; :hyls]]
                  :uiua]]
