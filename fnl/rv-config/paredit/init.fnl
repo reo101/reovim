@@ -116,7 +116,7 @@
     (paredit.setup opt)))
 
 {:src "https://github.com/julienvincent/nvim-paredit"
- :version :v1.1.1
+ :version :v1.2.0
  :data {:ft ["fennel"
              "scheme"
              "racket"

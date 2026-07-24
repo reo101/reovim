@@ -98,6 +98,6 @@
   :data {:lazy true
          :dep_of [:neorg]}}
  {:src "https://github.com/nvim-neorg/neorg"
-  :version :v9.1.1
+  :version :v9.6.4
   :data {:ft [:norg]
          : after}}]

@@ -16,7 +16,7 @@
     (tset vim.g :haskell_tools opt)))
 
 {:src "https://github.com/MrcJkb/haskell-tools.nvim"
- :version :v6.2.0
+ :version :v10.0.0
  :data {:ft [:haskell]
         ;; :dependencies ["https://github.com/akinsho/toggleterm"]
         : after}}
