@@ -1,178 +1,178 @@
 (aggregate_body
   "{" @delimiter
-  "}" @delimiter @sentinel) @container
+  "}" @delimiter) @container
 
 (aggregate_initializer
   "{" @delimiter
-  "}" @delimiter @sentinel) @container
+  "}" @delimiter) @container
 
 (block_statement
   "{" @delimiter
-  "}" @delimiter @sentinel) @container
+  "}" @delimiter) @container
 
 (conditional_declaration
   "{" @delimiter
-  "}" @delimiter @sentinel) @container
+  "}" @delimiter) @container
 
 (static_foreach_declaration
   "{" @delimiter
-  "}" @delimiter @sentinel) @container
+  "}" @delimiter) @container
 
 (template_declaration
   "{" @delimiter
-  "}" @delimiter @sentinel) @container
+  "}" @delimiter) @container
 
 (align_attribute
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (arguments
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (assert_expression
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (at_attribute
   "@" @delimiter
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (cast_expression
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (constraint
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (deprecated_attribute
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (do_statement
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (for_statement
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (foreach_statement
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (function_literal
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (if_condition
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (import_expression
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (in_contract_expression
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (is_expression
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (linkage_attribute
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (mixin_expression
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (named_arguments
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (out_contract_expression
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (out_statement
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (parameters
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (postblit
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (pragma_expression
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (primary_expression
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (static_foreach_declaration
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (static_if_condition
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (switch_statement
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (synchronized_statement
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (template_parameters
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (traits_expression
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (typeid_expression
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (typeof_expression
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (with_statement
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (array_literal
   "[" @delimiter
-  "]" @delimiter @sentinel) @container
+  "]" @delimiter) @container
 
 (index_expression
   "[" @delimiter
-  "]" @delimiter @sentinel) @container
+  "]" @delimiter) @container
 
 (type
   "[" @delimiter
-  "]" @delimiter @sentinel) @container
+  "]" @delimiter) @container
 
 (template_arguments
   "!" @delimiter
   "(" @delimiter
-  ")" @delimiter @sentinel) @container
+  ")" @delimiter) @container
 
 (template_arguments
   "!" @delimiter
   .
-  (_) @sentinel) @container
+  (_)) @container

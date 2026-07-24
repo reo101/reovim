@@ -1,7 +1,7 @@
-; ((shortcut_link) @conceal (#set! conceal "󰄱") (eq? @conceal "[ ]"))
-; ((shortcut_link) @conceal (#set! conceal "☒") (eq? @conceal "[x]"))
+;; ((shortcut_link) @conceal (#set! conceal "󰄱") (eq? @conceal "[ ]"))
+;; ((shortcut_link) @conceal (#set! conceal "☒") (eq? @conceal "[x]"))
 
-; Code blocks (conceal backticks and language annotation)
+;; Code blocks (conceal backticks and language annotation)
 (indented_code_block) @markup.raw.block
 
 ((fenced_code_block) @markup.raw.block
@@ -84,7 +84,7 @@
 ] @string.escape
 
 ([
-  ; (info_string)
+  ;; (info_string)
   (fenced_code_block_delimiter)
  ] @conceal
  (#set! conceal "†"))
