@@ -76,6 +76,10 @@
                    :module :blink.compat.source
                    :opts {:cache_digraphs_on_start true}
                    :score_offset (- 3)}}}
+             :fuzzy
+              ;; ponytail: Blink v1.6 needs an older nightly toolchain; use Lua
+              ;; until the pinned release builds with Nix's Rust.
+              {:implementation :lua}
              :signature
               {:enabled true}}]
     (blink-cmp.setup opt)

@@ -281,6 +281,7 @@
   ];
   "haskell-tools.nvim" = [ "haskell-tools.hoogle.helpers" ];
   "hunk.nvim" = [
+    "hunk.ui.layout"
     "hunk.ui.tree"
     "hunk.ui.help"
     "hunk.ui.init"
@@ -884,6 +885,7 @@
     "telescope.algos.fzy"
     "telescope.algos.linked_list"
     "telescope.algos.string_distance"
+    "telescope.async_job"
     "telescope.builtin.__diagnostics"
     "telescope.builtin.__files"
     "telescope.builtin.__git"
@@ -905,6 +907,8 @@
     "telescope.pickers"
     "telescope.pickers.entry_display"
     "telescope.pickers.highlights"
+    "telescope.pickers.layout_strategies"
+    "telescope.pickers.window"
     "telescope.previewers.buffer_previewer"
     "telescope.previewers.init"
     "telescope.previewers.previewer"
@@ -941,6 +945,10 @@
     "trouble.view.indent"
     "trouble.view.section"
     "trouble.view.treesitter"
+  ];
+  "videre.nvim" = [
+    "videre.langs.init"
+    "videre.langs.xml"
   ];
   "which-key.nvim" = [ "which-key.docs" ];
 }

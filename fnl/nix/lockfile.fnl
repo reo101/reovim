@@ -61,14 +61,19 @@
        (not (src:match "^/"))
        (not (src:match "^%."))))
 
-(fn spec-version-string [value]
+(fn spec-value-string [value]
   (when (not= value nil)
     (tostring value)))
 
+(fn spec-version-string [value]
+  (let [value (spec-value-string value)]
+    (when value
+      (.. "'" value "'"))))
+
 (fn explicit-spec-rev [spec]
-  (or (and spec.rev (spec-version-string spec.rev))
+  (or (and spec.rev (spec-value-string spec.rev))
       (and spec.branch
-           (.. "refs/heads/" (spec-version-string spec.branch)))))
+           (.. "refs/heads/" (spec-value-string spec.branch)))))
 
 (fn sync-plugin-entry! [entry spec]
   (var changed? false)
@@ -108,7 +113,7 @@
   (var removed 0)
   (local skipped-additions [])
 
-  (each [_ spec (ipairs (package-specs.collect-specs true))]
+  (each [_ spec (ipairs (package-specs.collect-specs))]
     (when (and spec.src (remote-src? spec.src))
       (let [name (or spec.name (package-specs.src->name spec.src))]
         (when name

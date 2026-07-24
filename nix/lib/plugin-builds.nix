@@ -106,48 +106,6 @@ let
           useCustomBuild = true;
         };
 
-      # blink.cmp: Needs Rust compilation for the fuzzy matcher library
-      "blink.cmp" =
-        entry:
-        let
-          inherit (entry) src;
-          # Build the Rust fuzzy library separately
-          blink-fuzzy-lib = pkgs.rustPlatform.buildRustPackage {
-            pname = "blink-fuzzy-lib";
-            version = builtins.substring 0 7 entry.rev;
-            inherit src;
-
-            cargoHash = "sha256-3o2n4xwNF9Fc3VlPKf3lnvmN7FVus5jQB8gcXXwz50c=";
-
-            nativeBuildInputs = with pkgs; [
-              gitMinimal
-            ];
-
-            env = {
-              RUSTC_BOOTSTRAP = true;
-              # Darwin needs special linking flags for LuaJIT compatibility
-              RUSTFLAGS = lib.optionalString stdenv.hostPlatform.isDarwin "-C link-arg=-undefined -C link-arg=dynamic_lookup";
-            };
-
-            # Disable tests in the build
-            doCheck = false;
-          };
-        in
-        {
-          inherit src;
-          # Pre-install hook to link the compiled library into the build directory
-          # `blink.cmp` looks for the library at: `plugin_root/target/release/libblink_cmp_fuzzy.{so,dylib}`
-          # `preInstall` runs before `cp -r . $target`, so `target/` gets copied into the output
-          preInstall = ''
-            mkdir -p target/release
-            ln -s ${blink-fuzzy-lib}/lib/libblink_cmp_fuzzy${sharedLibExt} target/release/libblink_cmp_fuzzy${sharedLibExt}
-          '';
-          # Additional passthru for debugging
-          passthru = {
-            inherit blink-fuzzy-lib;
-          };
-        };
-
       # fff.nvim: Build Rust backend once in Nix and link it into target/release.
       "fff.nvim" =
         entry:
@@ -185,11 +143,12 @@ let
 
             LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
 
-            # Keep a zlob-compatible Zig available while avoiding zig's build hook
-            # taking over buildPhase. zlob 1.3.0 still calls `linkLibC()`, which
-            # was removed in Zig 0.16.
+            # fff's zlob dependency requires Zig 0.16.
             preBuild = ''
-              export PATH=${lib.makeBinPath [ pkgs.zig_0_15 ]}:$PATH
+              export PATH=${lib.makeBinPath [ pkgs.zig_0_16 ]}:$PATH
+              export ZIG_GLOBAL_CACHE_DIR="$TMPDIR/zig-global-cache"
+              export ZIG_LOCAL_CACHE_DIR="$TMPDIR/zig-local-cache"
+              mkdir -p "$ZIG_GLOBAL_CACHE_DIR" "$ZIG_LOCAL_CACHE_DIR"
             '';
 
             # Defensive: make sure cargoBuildHook remains the active build phase.

@@ -110,6 +110,12 @@
                    :files [:src/parser.c :src/scanner.c]
                    :branch :main
                    :revision "87bb8707b694e7d9820947f21be36d6ce769e5cc"
+                   :generate true}}
+   :jai
+   {:install_info {:url "https://github.com/constantitus/tree-sitter-jai"
+                   :files [:src/parser.c :src/scanner.c]
+                   :branch :master
+                   :revision "c61176d276761e6ee44a86b018446a1608b47b99"
                    :generate true}}})
 
 (local extra-language-aliases

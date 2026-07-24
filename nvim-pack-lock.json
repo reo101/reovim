@@ -59,6 +59,15 @@
       "sha256": "sha256-AtB/tEPmJraVTGxdkFMC3pO1+MwPyutnFkjIMyL7KSw=",
       "src": "https://github.com/kwshi/tree-sitter-hy"
     },
+    "tree-sitter-jai": {
+      "files": [
+        "src/parser.c",
+        "src/scanner.c"
+      ],
+      "rev": "c61176d276761e6ee44a86b018446a1608b47b99",
+      "sha256": "sha256-uJYZ9Amx3G82g1LVYd5+1E0oUPiPZYgTxtzQNJUKo3Q=",
+      "src": "https://github.com/constantitus/tree-sitter-jai"
+    },
     "tree-sitter-jj_template": {
       "files": [
         "src/parser.c"
@@ -398,6 +407,11 @@
       "rev": "a2aa9a247b56d2c1a6f6be81bcf41c5450cc82ff",
       "sha256": "sha256-MjacjGlBRwActBBGeBZDHz8jz5J3Mt6KoDsf8WKgUDA=",
       "src": "https://github.com/rafikdraoui/jj-diffconflicts"
+    },
+    "jjannotate.nvim": {
+      "rev": "5589a60dc0b8043cbdb89b2fecd05d6c9c8340c1",
+      "sha256": "sha256-FPCz1+obob1AUUBHCHz6ipxjsyVMYpxh1HgT5ZxUfjs=",
+      "src": "https://tangled.org/ronshavit.com/jjannotate.nvim"
     },
     "jujutsu.nvim": {
       "rev": "17ab008d71cbcd31f8c2891e11cb758579f597c0",

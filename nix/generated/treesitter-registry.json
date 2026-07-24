@@ -62,6 +62,10 @@
         "hy"
       ]
     },
+    "jai": {
+      "categories": [],
+      "filetypes": []
+    },
     "jj_template": {
       "categories": [
         "treesitter_extra"
