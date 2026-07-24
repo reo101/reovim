@@ -1,7 +1,7 @@
 <div align="center">
     <p>
         <a href="https://github.com/neovim/neovim">
-            <img src="https://img.shields.io/badge/requires-neovim%200.9%2B-green?style=flat-square&logo=neovim" alt="Neovim Requirement"/>
+            <img src="https://img.shields.io/badge/requires-neovim%20nightly-green?style=flat-square&logo=neovim" alt="Neovim Requirement"/>
         </a>
         <a href="https://github.com/reo101/reovim/pulse">
             <img alt="Last Commit" src="https://img.shields.io/github/last-commit/reo101/reovim"/>
@@ -40,34 +40,42 @@
 
 ![scrot](./media/tokyonight_haskell.png)
 
-# Dependencies
-
-- `git`
-- A `C/C++` compiler for the treesitter parsers (`gcc/g++`, `clang/clang++`, `zig`)
-- (Optional) `cargo` for `parinfer-rust`
-- (Optional) `fzf` and `rg` for `Telescope`
-- (Optional) any of the required Language Servers for the languages mentioned [here](./fnl/rv-config/lsp/init.fnl)
-
 # Installation
 
-- Get a recent `nvim` binary:
-  - [Installing NeoVim](https://github.com/neovim/neovim/wiki/Installing-Neovim)
+## Nix
+
+The flake provides the required Neovim nightly and custom Fennel fork:
 
 ```bash
+nix run github:reo101/reovim
+# or, from a checkout:
+nix build .#reovim
+nix run .#reovim
+```
+
+## Without Nix
+
+This config requires current Neovim nightly; it uses `vim.pack`,
+`vim.lsp.enable`, `vim.secure.trust`, and internal `vim._core.ui2` APIs.
+It also requires [reo101/Fennel](https://github.com/reo101/Fennel), branch
+`feat/discard`, which implements the `#_` reader macro.
+
+```bash
+git clone --branch feat/discard https://github.com/reo101/Fennel ~/src/Fennel
+make -C ~/src/Fennel install PREFIX="$HOME/.local"
+export PATH="$HOME/.local/bin:$PATH"
+
 git clone https://www.github.com/reo101/reovim ~/.config/reovim
 NVIM_APPNAME=reovim nvim
 ```
 
 - First startup bootstraps `nfnl`, the custom Fennel loader, and the plugin set.
 - To precompile everything manually, run `:NfnlCompileAll`.
-- Nix users can build or run the wrapped package directly:
+- Optional tools: a `C/C++` compiler for parsers, `cargo` for
+  `parinfer-rust`, and `fzf`/`rg` for Telescope.
+- Language servers are listed [here](./fnl/rv-config/lsp/init.fnl).
 
-```bash
-nix build .#reovim
-nix run .#reovim
-```
-
-- Profile variants are exposed as passthroughs and top-level packages:
+Profile variants are exposed as passthroughs and top-level packages:
 
 ```bash
 nix build .#reovim.full
