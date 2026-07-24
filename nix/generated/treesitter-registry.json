@@ -13,10 +13,6 @@
       "tree-sitter-uci",
       "tree-sitter-uiua",
       "tree-sitter-xml"
-    ],
-    "writing": [
-      "tree-sitter-norg_meta",
-      "tree-sitter-norg_table"
     ]
   },
   "grammars": {
@@ -89,18 +85,6 @@
       "filetypes": [
         "noir"
       ]
-    },
-    "norg_meta": {
-      "categories": [
-        "writing"
-      ],
-      "filetypes": []
-    },
-    "norg_table": {
-      "categories": [
-        "writing"
-      ],
-      "filetypes": []
     },
     "nu": {
       "categories": [

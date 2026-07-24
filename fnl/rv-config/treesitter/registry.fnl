@@ -67,16 +67,6 @@
                    :files [:src/parser.c]
                    :branch :main}
     :categories [:treesitter_extra]}
-   :norg_meta
-   {:install_info {:url "https://github.com/nvim-neorg/tree-sitter-norg-meta"
-                   :files [:src/parser.c]
-                   :branch :main}
-    :categories [:writing]}
-   :norg_table
-   {:install_info {:url "https://github.com/nvim-neorg/tree-sitter-norg-table"
-                   :files [:src/parser.c]
-                   :branch :main}
-    :categories [:writing]}
    :brainfuck
    {:install_info {:url "https://github.com/reo101/tree-sitter-brainfuck"
                    :files [:src/parser.c]
