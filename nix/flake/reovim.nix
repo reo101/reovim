@@ -102,7 +102,18 @@ in
           pkgs = neovimPkgs;
           inherit lib;
         };
-        allLockfilePlugins = lockfileLib.mkPluginsFromLockfile {
+        lockfile = lib.importJSON config.reovim.lockfilePath;
+        missingLockfileHashes =
+          entries:
+          lib.filter (name: !(entries.${name} ? sha256)) (builtins.attrNames entries);
+        missingPluginHashes = missingLockfileHashes lockfile.plugins;
+        missingGrammarHashes = missingLockfileHashes lockfile.grammars;
+        lockfileHashCheck =
+          if missingPluginHashes != [ ] || missingGrammarHashes != [ ] then
+            throw "Lockfile entries missing sha256: plugins (${lib.concatStringsSep ", " missingPluginHashes}); grammars (${lib.concatStringsSep ", " missingGrammarHashes})"
+          else
+            null;
+        allLockfilePlugins = assert lockfileHashCheck == null; lockfileLib.mkPluginsFromLockfile {
           lockfilePath = config.reovim.lockfilePath;
         };
         activePluginNames = (lib.importJSON ../generated/plugins.json).plugins;
@@ -452,6 +463,21 @@ in
         fullPackage = mkWrappedPackage "full";
         litePackage = mkWrappedPackage "lite";
         writingPackage = mkWrappedPackage "writing";
+        smokeCheck = pkgs.runCommand "reovim-smoke" { nativeBuildInputs = [ pkgs.coreutils ]; } ''
+          export HOME="$TMPDIR/home"
+          export XDG_CONFIG_HOME="$TMPDIR/config"
+          export XDG_DATA_HOME="$TMPDIR/data"
+          export XDG_STATE_HOME="$TMPDIR/state"
+          export XDG_CACHE_HOME="$TMPDIR/cache"
+          mkdir -p "$HOME" "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$XDG_CACHE_HOME"
+
+          for nvim in ${lib.getExe devPackage} ${lib.getExe fullPackage} ${lib.getExe litePackage} ${lib.getExe writingPackage}; do
+            for _ in $(seq 1 10); do
+              timeout 30s "$nvim" --headless '+lua vim.wait(100); vim.cmd(vim.v.errmsg == "" and "qall!" or "cquit 1")'
+            done
+          done
+          touch "$out"
+        '';
         packageWithProfile =
           argsOrProfile:
           mkWrappedPackage argsOrProfile;
@@ -489,6 +515,7 @@ in
           lite = litePackage;
           writing = writingPackage;
         };
+        checks.reovim-smoke = smokeCheck;
       };
 
     flake.overlays.reovim = final: prev: {
