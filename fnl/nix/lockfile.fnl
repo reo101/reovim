@@ -289,6 +289,15 @@
               (tostring registry-sync))
           vim.log.levels.WARN))))
 
+(fn sync-plugin-manifest-export! []
+  (let [(ok manifest) (pcall require :nix.plugin-manifest)]
+    (if ok
+        (pcall manifest.sync!)
+        (vim.notify
+          (.. "NixUpdateLock: failed to load plugin manifest: "
+              (tostring manifest))
+          vim.log.levels.WARN))))
+
 (fn sync-grammar-entry! [entry desired-entry]
   (var changed? false)
   (when (not= entry.src desired-entry.src)
@@ -398,6 +407,7 @@
         (lua :return))
 
       (sync-treesitter-registry-export!)
+      (sync-plugin-manifest-export!)
 
       (let [config-dir (vim.fn.stdpath :config)
             lockfile-path (.. config-dir :/nvim-pack-lock.json)

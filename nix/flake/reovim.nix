@@ -105,7 +105,16 @@ in
         allLockfilePlugins = lockfileLib.mkPluginsFromLockfile {
           lockfilePath = config.reovim.lockfilePath;
         };
-        typedFennelBuildPlugin = allLockfilePlugins."typed-fennel";
+        activePluginNames = (lib.importJSON ../generated/plugins.json).plugins;
+        pluginManifestCheck =
+          let
+            unknownPluginNames = lib.filter (name: !(builtins.hasAttr name allLockfilePlugins)) activePluginNames;
+          in
+          if unknownPluginNames != [ ] then
+            throw "Plugin manifest references plugins missing from the lockfile: ${lib.concatStringsSep ", " unknownPluginNames}"
+          else
+            null;
+        typedFennelBuildPlugin = assert pluginManifestCheck == null; allLockfilePlugins."typed-fennel";
         allTreesitterGrammars = treesitterLib.mkTreesitterGrammarsFromLockfile {
           lockfilePath = config.reovim.lockfilePath;
         };
@@ -341,20 +350,29 @@ in
             enabledCategoryFlags = resolved.enabledCategoryFlags;
             excludedPlugins = disabledMembers pluginGroups enabledCategoryFlags;
             excludedGrammars = disabledMembers grammarGroups enabledCategoryFlags;
+            activeLockfilePlugins = lib.filterAttrs
+              (name: _: builtins.elem name activePluginNames)
+              allLockfilePlugins;
             selectedLockfilePlugins = lib.filterAttrs
               (name: _: !(builtins.elem name excludedPlugins))
-              allLockfilePlugins;
+              activeLockfilePlugins;
             typedFennelBuildPlugin = selectedLockfilePlugins."typed-fennel";
             treesitterGrammars = lib.filter
               (grammar: !(builtins.elem grammar.name excludedGrammars))
               allTreesitterGrammars;
             customParserLangs = map (grammar: grammar.lang) treesitterGrammars;
+            excludedParserLangs = map
+              (grammar: grammar.lang)
+              (lib.filter (grammar: builtins.elem grammar.name excludedGrammars) allTreesitterGrammars);
             defaultTreesitterParsers = lib.mapAttrsToList
               (lang: drv: {
                 inherit drv lang;
               })
               (lib.filterAttrs
-                (lang: _: !(builtins.elem lang bundledParserNames) && !(builtins.elem lang customParserLangs))
+                (lang: _:
+                  !(builtins.elem lang bundledParserNames)
+                  && !(builtins.elem lang customParserLangs)
+                  && !(builtins.elem lang excludedParserLangs))
                 neovimPkgs.vimPlugins.nvim-treesitter.parsers);
             parserDir = treesitterLib.mkParserDir {
               grammars = treesitterGrammars;
